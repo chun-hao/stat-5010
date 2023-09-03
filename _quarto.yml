@@ -10,7 +10,8 @@ website:
     contents:
       - section: "Slides"
         contents:
-        - slides/01-intro.qmd
+          - text: "Lecture 1"
+            href: slides/01-intro.qmd
   navbar:
     left:
       - href: index.qmd
