@@ -6,6 +6,5 @@
 
 /.quarto/
 *cache/
-*files/
 .DS_Store
 _freeze/
