@@ -3,11 +3,17 @@ project:
   output-dir: docs
   
 website:
-  title: "STAT 5010: Bayesian Statistical Methods"
+  title: "STAT 5010"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - text: Slides
+        menu:
+          - href: slides/01-intro.qmd
+            text: "Lecture 1"
+      - href: resources.qmd
+        text: Resources
     tools:
       - icon: github
         href: https://github.com/chun-hao/stat-5010

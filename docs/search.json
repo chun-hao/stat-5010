@@ -1,33 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Course Materials",
-    "section": "",
-    "text": "Lecture 01"
-  },
-  {
-    "objectID": "index.html#slides",
-    "href": "index.html#slides",
-    "title": "Course Materials",
-    "section": "",
-    "text": "Lecture 01"
-  },
-  {
-    "objectID": "index.html#homework",
-    "href": "index.html#homework",
-    "title": "Course Materials",
-    "section": "Homework",
-    "text": "Homework"
-  },
-  {
-    "objectID": "index.html#links",
-    "href": "index.html#links",
-    "title": "Course Materials",
-    "section": "Links",
-    "text": "Links\n\nBDA Book Website\nStan"
-  },
-  {
     "objectID": "slides/01-intro.html#course-description",
     "href": "slides/01-intro.html#course-description",
     "title": "Lecture 01: Course Introduction and Review",
@@ -324,8 +296,22 @@
   {
     "objectID": "slides/macro.html",
     "href": "slides/macro.html",
-    "title": "STAT 5010: Bayesian Statistical Methods",
+    "title": "STAT 5010",
     "section": "",
     "text": "\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]"
+  },
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Resources",
+    "section": "",
+    "text": "BDA Book Website\nStan"
+  },
+  {
+    "objectID": "resources.html#links",
+    "href": "resources.html#links",
+    "title": "Resources",
+    "section": "",
+    "text": "BDA Book Website\nStan"
   }
 ]

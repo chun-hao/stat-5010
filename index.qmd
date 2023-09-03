@@ -1,13 +1,4 @@
 ---
-title: "Course Materials"
+title: "Bayesian Statistical Methods (Fall 2023)"
 ---
 
-## Slides
-- [Lecture 01](slides/01-intro.qmd)
-
-## Homework
-
-
-## Links
-- [BDA Book Website](http://www.stat.columbia.edu/~gelman/book/)
-- [Stan](https://mc-stan.org/)

@@ -1,0 +1,7 @@
+---
+title: "Resources"
+---
+
+## Links
+- [BDA Book Website](http://www.stat.columbia.edu/~gelman/book/)
+- [Stan](https://mc-stan.org/)
