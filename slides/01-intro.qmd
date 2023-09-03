@@ -12,6 +12,7 @@ execute:
   echo: false
   warning: false
   cache: true
+  freeze: true
 ---
 
 # Syllabus

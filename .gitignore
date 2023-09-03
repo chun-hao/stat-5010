@@ -2,7 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.Rproj
 
 /.quarto/
 *cache/
 *files/
+.DS_Store
+_freeze/
