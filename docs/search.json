@@ -319,7 +319,7 @@
     "href": "slides/01-intro.html#monte-carlo-approximationestimation",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Monte Carlo Approximation/Estimation",
-    "text": "Monte Carlo Approximation/Estimation\n\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\)."
+    "text": "Monte Carlo Approximation/Estimation\n\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\).\n\n\n\n\n\nHome"
   },
   {
     "objectID": "slides/macro.html",
