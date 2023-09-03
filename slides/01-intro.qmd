@@ -390,11 +390,12 @@ Some important statisticians:
 -   Bayesian: Probability reflects one's belief.
 -   However, it doesn't matter how you interpret probability because
 :::
-
+::: {.fragment}
 ![](images/George_Box.jpeg){fig-align="center" width="40%"}
 
 ::: aside
 Image source: <https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/>
+:::
 :::
 
 ## The Theory That Would Not Die
