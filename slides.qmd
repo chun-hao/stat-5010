@@ -1,5 +1,0 @@
----
-title: "Slides"
----
-
-[Lecture 01](01-intro.qmd)

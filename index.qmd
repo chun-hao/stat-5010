@@ -3,6 +3,6 @@ title: "Course Materials"
 ---
 
 ## Slides
-[Lecture 01](01-intro.qmd)
+[Lecture 01](slides/01-intro.qmd)
 
 ## Homework
