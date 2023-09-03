@@ -8,7 +8,6 @@ format:
         chalkboard: true
         slide-number: true
         html-math-method: mathjax
-    html: default
 execute:
   echo: false
   warning: false
