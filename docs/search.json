@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "slides.html",
+    "href": "slides.html",
+    "title": "Slides",
+    "section": "",
+    "text": "Lecture 01"
+  },
+  {
     "objectID": "projects.html#project-2",
     "href": "projects.html#project-2",
     "title": "Projects",
@@ -14,10 +21,325 @@
     "text": "Project 3"
   },
   {
+    "objectID": "01-intro.html#course-description",
+    "href": "01-intro.html#course-description",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Course Description",
+    "text": "Course Description\n\n\nStatistical analysis is an inversion process: retrieving the causes (models/parameters) from the effects (observations/sample/data)\nBayes’ Theorem: If \\(A\\) and \\(E\\) are events such that \\(\\P(E) \\neq 0\\), \\[\\P(A \\mid E)=\\frac{\\P(E \\mid A) \\P(A)}{\\P(E \\mid A) \\P(A)+\\P\\left(E \\mid\nA^c\\right) \\P\\left(A^c\\right)}.\\]\nLet \\(A\\) be causes and \\(E\\) be effects. Bayes’ Theorem gives the relationship between \\(\\P(A\\mid E)\\) (statistical inference) and \\(\\P(E\\mid A)\\) (phenomenon).\nThis course will focus on statistical analysis under the Bayesian paradigm."
+  },
+  {
+    "objectID": "01-intro.html#course-description-1",
+    "href": "01-intro.html#course-description-1",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Course Description",
+    "text": "Course Description\n\nAdapting Bayes’ Theorem to a parametric problem,\n\n\\[\\pi(\\theta|x) = \\frac{p(x|\\theta)\\pi(\\theta)}{\\int\n    p(x|\\theta^{\\prime})\\pi(\\theta^{\\prime})d\\theta^{\\prime}}.\\]\n\\[\\begin{align*}\n\\theta        & \\longleftrightarrow \\text{parameter}\\\\\nx             & \\longleftrightarrow \\text{data}\\\\\n\\pi(\\theta)   & \\longleftrightarrow \\textcolor{magenta}{\\text{prior distribution}}\\\\\np(x|\\theta)   & \\longleftrightarrow \\text{likelihood/model}\\\\\n\\pi(\\theta|x) & \\longleftrightarrow \\textcolor{magenta}{\\text{posterior distribution}}\\\\\n\\end{align*}\\]\n\nKey components: priors and posteriors"
+  },
+  {
+    "objectID": "01-intro.html#course-description-2",
+    "href": "01-intro.html#course-description-2",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Course Description",
+    "text": "Course Description\nA general procedure for Bayesian statistical analysis:\n\n\nChoose a class \\(\\mc{M}\\) of models for the sample \\(x\\);\nChoose a prior distribution over \\(\\mc{M}\\);\nUse Bayes Theorem to compute the posterior distribution of models given the sample;\nPick a “good” model based on the posterior distribution."
+  },
+  {
+    "objectID": "01-intro.html#topics",
+    "href": "01-intro.html#topics",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Topics",
+    "text": "Topics\n\nPrinciples for the choice of priors\nInference based on the posterior\nBayesian analysis for different problems:\n\nestimation\nhypothesis testing\nregression\nprediction\nnonparametric model\nmodel comparison"
+  },
+  {
+    "objectID": "01-intro.html#course-materials",
+    "href": "01-intro.html#course-materials",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Course Materials",
+    "text": "Course Materials\n\nHoff, P. D. (2009). A First Course in Bayesian Statistical Methods.\nRobert, C. P. (2007). The Bayesian Choice, 2nd Edition.\nGelman, A. et al. (2020). Bayesian Data Analysis, 3rd Edition.\nRobert, C. P., & Casella, G. (2004). Monte Carlo Statistical Methods, 2nd Edition.\nProf. Rebecca Steorts at Duke. Lecture notes\nSlides will be posted on NTU Cool."
+  },
+  {
+    "objectID": "01-intro.html#course-schedule",
+    "href": "01-intro.html#course-schedule",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Course Schedule",
+    "text": "Course Schedule\n\n\n\n\n\n\n\n\n\n\nWeek\nDate\nTopics\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\n\n\n\n2\n9/12\nBackbones of Bayesian Analysis; One-parameter Models; Conjugate Priors\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n7\n10/17\nTesting and Model Comparison\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n16\n12/19\nFinal Project Presentation"
+  },
+  {
+    "objectID": "01-intro.html#grading",
+    "href": "01-intro.html#grading",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Grading",
+    "text": "Grading\n\nHomework (3 - 4 homeworks): 30%\nOral Presentation (project proposal and final presentation): 40%\nWritten Report: 30%\n\nContact information\n\nOffice: Room 602, Cosmology Hall\nE-mail: chunhaoy@ntu.edu.tw\nOffice Hours: Tue. 3-5pm or by appointment"
+  },
+  {
+    "objectID": "01-intro.html#final-project",
+    "href": "01-intro.html#final-project",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Final Project",
+    "text": "Final Project\n\nA group of 2-3 students\nChoose a dataset and find a problem which you can answer with your dataset.\nFigure out how to perform legitimate statistical analysis based on (but not limited to) what we learn in this course.\nAn oral presentation of your results (20 mins per group)\nA written report (8 pages) including:\n\ndescription of the dataset\nstatistical problem\nmodel and inference\nresults and conclusion\nreference\n\nMore details will be announced after midterm exam."
+  },
+  {
+    "objectID": "01-intro.html#prerequisites",
+    "href": "01-intro.html#prerequisites",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\nBasic calculus and linear algebra\nMathematical statistics (undergrad level is fine)\nFamiliarity with some data analytic programming language (R/Python/MATLAB)\nExperiences with data analysis is not required but will be helpful"
+  },
+  {
+    "objectID": "01-intro.html#example-8-school-dataset",
+    "href": "01-intro.html#example-8-school-dataset",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Example: 8-school dataset",
+    "text": "Example: 8-school dataset\nA study was performed for the ETS to analyze the effects of special coaching programs on SAT scores. Eight schools with their own coaching programs were involved in this study.\n\n\n\n\n\nSchool\nEffect\nStd\n\n\n\n\nA\n28.39\n14.9\n\n\nB\n7.94\n10.2\n\n\nC\n-2.75\n16.3\n\n\nD\n6.82\n11.0\n\n\nE\n-0.64\n9.4\n\n\nF\n0.63\n11.4\n\n\nG\n18.01\n10.4\n\n\nH\n12.16\n17.6\n\n\n\n\n\n\n\n\n\nSee Ch 5.5 of BDA3."
+  },
+  {
+    "objectID": "01-intro.html#example-8-school-dataset-1",
+    "href": "01-intro.html#example-8-school-dataset-1",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Example: 8-school dataset",
+    "text": "Example: 8-school dataset\nWhat can we ask about this dataset?\n\nIs there any difference between the coaching programs?\nWhich program is considered effective?\nWhich program is the most effective?\nHow much can we expect to improve on the SAT scores after taking the coaching programs?"
+  },
+  {
+    "objectID": "01-intro.html#step-1-2-determine-the-likelihood-and-prior",
+    "href": "01-intro.html#step-1-2-determine-the-likelihood-and-prior",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Step 1 & 2: Determine the likelihood and prior",
+    "text": "Step 1 & 2: Determine the likelihood and prior\n\n\nConsider \\[\\begin{align*}\nY_{i} \\mid \\theta_i, \\sigma_i^2 & \\ind N(\\theta_i, \\sigma_i^2), i = 1,\\ldots, 8\\\\\n\\theta_i \\mid \\mu, \\tau & \\ind N(\\mu, \\tau^2)\n\\end{align*}\\] where \\(Y_i\\)’s are the observed average treatment effect and \\(\\sigma_i^2\\)’s are the variance of the treatment effects.\nWe are interested in estimating the \\(\\theta_i\\)’s, which are the effects of the coaching programs."
+  },
+  {
+    "objectID": "01-intro.html#step-4-inference-based-on-the-posterior",
+    "href": "01-intro.html#step-4-inference-based-on-the-posterior",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Step 4: Inference based on the posterior",
+    "text": "Step 4: Inference based on the posterior\n\ndata {\n  int&lt;lower=0&gt; J;         \n  real y[J];              \n  real&lt;lower=0&gt; sigma[J];\n}\nparameters {\n  real mu;                \n  real&lt;lower=0&gt; tau;      \n  real theta[J];\n}\nmodel {\n  theta ~ normal(mu, tau); // prior\n  y ~ normal(theta, sigma); // likelihood\n}"
+  },
+  {
+    "objectID": "01-intro.html#step-4-inference-based-on-the-posterior-1",
+    "href": "01-intro.html#step-4-inference-based-on-the-posterior-1",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Step 4: Inference based on the posterior",
+    "text": "Step 4: Inference based on the posterior\n\nlibrary(rstan)\nschools_dat &lt;- list(J = 8,\n    y = c(28, 8, -3, 7, -1, 1, 18, 12),\n    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)) \nfit &lt;- rstan::sampling(school_model, data = schools_dat,\n    chains = 4, iter = 11000, warmup = 1000, thin = 10)"
+  },
+  {
+    "objectID": "01-intro.html#step-4-inference-based-on-the-posterior-2",
+    "href": "01-intro.html#step-4-inference-based-on-the-posterior-2",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Step 4: Inference based on the posterior",
+    "text": "Step 4: Inference based on the posterior"
+  },
+  {
+    "objectID": "01-intro.html#stan-statistical-computing-platform",
+    "href": "01-intro.html#stan-statistical-computing-platform",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Stan: Statistical Computing Platform",
+    "text": "Stan: Statistical Computing Platform\n\n\n\n\n\n\nProvide automated Bayesian computation\nInterface with R/Python/MATLAB/…"
+  },
+  {
+    "objectID": "01-intro.html#who-is-the-father-of-statistics",
+    "href": "01-intro.html#who-is-the-father-of-statistics",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Who is the father of statistics?",
+    "text": "Who is the father of statistics?\nSome important statisticians:\n\n\nCarl Friedrich Gauss (1777 - 1855): Gaussian distribution, …\nRonald A. Fisher (1890 - 1962): likelihood based inference, …\nKarl Pearson (1857 - 1936): Pearson’s correlation coefficient, …\nWilliam Sealy Gosset (1876 - 1937): \\(t\\)-test and \\(t\\) distribution\nJerzy Neyman (1894 - 1981): Neyman-Pearson Lemma, …\nPierre-Simon Laplace (1749 - 1827): Central Limit Theorem, …\nThomas Bayes (1702 - 1761): Bayes Theorem, …"
+  },
+  {
+    "objectID": "01-intro.html#thomas-bayes",
+    "href": "01-intro.html#thomas-bayes",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Thomas Bayes",
+    "text": "Thomas Bayes\n\n\n\nBritish Reverend Thomas Bayes (1702 - 1761)\nWork on inverse probability problem\nDiscover a relationship between causes and observations (1746 - 1749), which is later called Bayes Theorem\nWrite “An Essay towards solving a Problem in the Doctrine of Chances”\nHis philosopher friend, Richard Price, edited and published his result."
+  },
+  {
+    "objectID": "01-intro.html#bayes-thought-experiment",
+    "href": "01-intro.html#bayes-thought-experiment",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Bayes’ Thought Experiment",
+    "text": "Bayes’ Thought Experiment"
+  },
+  {
+    "objectID": "01-intro.html#pierre-simon-laplace",
+    "href": "01-intro.html#pierre-simon-laplace",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Pierre-Simon Laplace",
+    "text": "Pierre-Simon Laplace\n\n\n\nA French mathematician (1749 - 1827)\nDiscover the same rule in 1774, independent of Bayes\nUsing conditional probability, write down the rule as \\[\\begin{align*}\n\\P(A \\mid E)=\\frac{\\P(E \\mid A) \\P(A)}{\\P(E \\mid A) \\P(A)+\\P\\left(E \\mid\nA^c\\right) \\P\\left(A^c\\right)}.\n\\end{align*}\\]\nPropose to use equi-probability as the prior, i.e., the uniform prior"
+  },
+  {
+    "objectID": "01-intro.html#laplaces-rule-of-succession",
+    "href": "01-intro.html#laplaces-rule-of-succession",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Laplace’s Rule of Succession",
+    "text": "Laplace’s Rule of Succession\n\n\nIf we repeat an experiment that we know can result in a success or failure, \\(n\\) times independently, and get \\(s\\) successes, and \\(n-s\\) failures, then what is the probability that the next repetition will succeed?\nLaplace’s Answer: \\[\\P\\left(X_{n+1}=1 \\mid X_1+\\cdots+X_n=s\\right)=\\frac{s+1}{n+2}\\]\nThis answer is obtained from the Beta-Binomial model."
+  },
+  {
+    "objectID": "01-intro.html#pierre-simon-laplace-1",
+    "href": "01-intro.html#pierre-simon-laplace-1",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Pierre-Simon Laplace",
+    "text": "Pierre-Simon Laplace\n\n\nLaplace was not satisfied with the uniform prior, neither did other mathematicians.\nHowever, he still applied Bayes Theorem to solve many practical problems:\n\nEstimating the French population\nBirth and census study\nCredibility of witnesses in the court\n\nIn 1810, he announced the Central Limit Theorem.\nAt the age of 62, he turned to frequentist-based approach. Why?"
+  },
+  {
+    "objectID": "01-intro.html#decline-of-bayesian-statistics",
+    "href": "01-intro.html#decline-of-bayesian-statistics",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Decline of Bayesian Statistics",
+    "text": "Decline of Bayesian Statistics\n\n\nThe subjective component, prior distribution, is heavily criticized by mathematicians and theorists.\nFor large dataset, Bayesian and frequentist produced almost the same result.\nDataset became more reliable, and frequentist approaches are easier to implement.\nBayesian approaches are computationally challenging, even for simple models.\nResearchers tend to design their own experiments to answer industrial/scientific questions."
+  },
+  {
+    "objectID": "01-intro.html#sir-ronald-a.-fisher",
+    "href": "01-intro.html#sir-ronald-a.-fisher",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Sir Ronald A. Fisher",
+    "text": "Sir Ronald A. Fisher\n\n\n\nBritish Statistician/Mathematician (1890 - 1962)\nTea and milk experiment\nFather of modern statistics and experimental design\nProblem –&gt; Experiment –&gt; Data –&gt; Analysis\nDevelop a collection of statistical methods, e.g., MLE, ANOVA, Fisher information, sufficient statistics, etc."
+  },
+  {
+    "objectID": "01-intro.html#revival-of-bayesian-statistics",
+    "href": "01-intro.html#revival-of-bayesian-statistics",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Revival of Bayesian Statistics",
+    "text": "Revival of Bayesian Statistics\n\n\nClean, reliable data -&gt; Frequentist\nThrough the use of prior information, Bayesian approaches are actually more powerful and flexible when handling complex datasets.\nAdvances in computing technologies\nReadings:\n\nLindley, D. V. (1975). The future of statistics: A Bayesian 21st century. Advances in Applied Probability, 7, 106-115.\nEfron, B. (1986). Why isn’t everyone a Bayesian? The American Statistician, 40(1), 1-5.\nEfron, B. (1998). R. A. Fisher in the 21st century. Statistical Science, 95-114."
+  },
+  {
+    "objectID": "01-intro.html#what-is-probability",
+    "href": "01-intro.html#what-is-probability",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "What is probability?",
+    "text": "What is probability?\n\n\nFrequentist: Probability is the limit of relative frequency as the experiment repeats infinitely.\nBayesian: Probability reflects one’s belief.\nHowever, it doesn’t matter how you interpret probability because\n\n\n\n\n\n\n\n\n\nImage source: https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/"
+  },
+  {
+    "objectID": "01-intro.html#the-theory-that-would-not-die",
+    "href": "01-intro.html#the-theory-that-would-not-die",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "The Theory That Would Not Die",
+    "text": "The Theory That Would Not Die\n\nFor more interesting stories about Bayesian statistics, check\n\n\n\n\n\n\n\nThere is a talk at Google given by the author Sharon McGrayne.\nhttps://www.lesswrong.com/posts/RTt59BtFLqQbsSiqd/a-history-of-bayes-theorem"
+  },
+  {
+    "objectID": "01-intro.html#probability",
+    "href": "01-intro.html#probability",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Probability",
+    "text": "Probability\n\n\nThe value \\(\\P(E)\\) is the probability of the occurrence of event \\(E\\).\nLet \\(\\Omega\\) be the sample space, i.e., the space containing all possible outcomes.\nA probability \\(\\P\\) on \\(\\Omega\\) satisfies:\n\n\\(\\P(\\Omega) = 1\\)\n\\(\\P(E) \\geq 0\\) for any \\(E \\subset \\Omega\\)\n(countable additivity) \\(\\P(\\cup_{i=1}^{\\infty} E_i) = \\sum_{i=1}^\\infty \\P(E_i)\\) for pairwise disjoint \\(E_i\\)’s"
+  },
+  {
+    "objectID": "01-intro.html#conditional-probability",
+    "href": "01-intro.html#conditional-probability",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Conditional Probability",
+    "text": "Conditional Probability\n\nThe conditional probability of \\(A\\) given \\(B\\) is\n\n\\[\\P(A \\mid B) \\coloneqq \\frac{\\P(A \\cap B)}{\\P(B)}, \\quad \\text{if}\\;\\;\\P(B) &gt; 0.\\]\n\nOne-line proof of Bayes Theorem: If \\(\\P(A)\\) and \\(\\P(B)\\) are both non-zero,\n\n\\[\\P(A \\mid B) = \\frac{\\P(A \\cap B)}{\\P(B)} = \\frac{\\P(B \\mid A)\\P(A)}{\\P(B)}.\\]"
+  },
+  {
+    "objectID": "01-intro.html#random-variables",
+    "href": "01-intro.html#random-variables",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Random Variables",
+    "text": "Random Variables\n\n\nA random variable is\n\na measurable function\nan outcome from a random experiment\n\nThe information about a random variable is given by it probability density function (pdf) or probability mass function (pmf).\npdf: \\(f(x) \\geq 0\\) and \\(\\int f(x) dx = 1\\)\npmf: \\(f(x) = \\P(X = x)\\) and \\(\\sum f(x) = 1\\)\nExpectation: \\(\\E(X) = \\int xf(x)dx\\) or \\(\\E(X) = \\sum x\\P(X = x)\\)\nVariance: \\(\\var(X) = \\E[(X - \\mu)^2] = \\E(X^2) - \\mu^2\\) where \\(\\mu = \\E(X)\\).\nCovariance: \\(\\cov(X, Y) = \\E[(X - \\mu_X)(Y - \\mu_Y)] = \\E(XY) - \\mu_X\\mu_Y\\)"
+  },
+  {
+    "objectID": "01-intro.html#independence",
+    "href": "01-intro.html#independence",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Independence",
+    "text": "Independence\n\n\nIndependence of events: \\(\\P(A \\cap B) = \\P(A)\\P(B)\\)\nIndependent random variables:\n\n\\(\\Leftrightarrow\\) \\(f_{X,Y}(x, y) = f_X(x)f_Y(y)\\)\n\\(\\Rightarrow\\) \\(\\E(XY) = \\E(X) \\E(Y)\\) (the reverse is not true)\n\\(\\Leftrightarrow\\) \\(f_{X|Y}(x|y) = f_X(x)\\)\n\nConditional independence\n\n\\(X \\perp Y \\mid Z\\): given \\(Z\\), \\(X\\) and \\(Y\\) are independent\nEquivalently, \\(X \\mid Z\\) and \\(Y \\mid Z\\) are independent.\n\nRemark: (mutual) independence DOES NOT imply conditional independence\nExample: \\(X, Z \\iid \\text{Ber}(1/2)\\) and \\(Y = I(X \\neq Z)\\). Check that \\(X\\) and \\(Y\\) are independent, but they are not conditionally independent given \\(Z\\)."
+  },
+  {
+    "objectID": "01-intro.html#law-of-total-probabilityexpectationvariance",
+    "href": "01-intro.html#law-of-total-probabilityexpectationvariance",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Law of Total Probability/Expectation/Variance",
+    "text": "Law of Total Probability/Expectation/Variance\n\n\nLaw of Total Probability: For \\(B_i \\cap B_j = \\emptyset\\) and \\(\\cup_{i=1}^k B_i = \\Omega\\), \\[\\P(A) = \\sum_{i=1}^k \\P(A \\mid B_i).\\]\nLaw of Total Expectation (tower property/double expectation): \\[\\E(X) = \\E_Y(\\E_{X|Y}(X|Y)).\\]\nLaw of Total Variance: \\[\\var(X) = \\var(\\E(X|Y)) + \\E(\\var(X|Y)).\\]"
+  },
+  {
+    "objectID": "01-intro.html#important-univariate-distributions",
+    "href": "01-intro.html#important-univariate-distributions",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Important univariate distributions",
+    "text": "Important univariate distributions\n\nContinuous univariate distribution:\n\nNormal distribution (on \\(\\R\\))\nGamma distribution (on \\(\\R_+\\))\nBeta distribution (on \\([0, 1]\\))\n\nDiscrete univariate distribution:\n\nBinomial distribution (on \\(\\{0, 1, \\ldots, n\\}\\))\nPoisson distribution (on \\(\\{0, 1, 2, \\ldots\\}\\))\nNegative Binomial distribution (on \\(\\{0, 1, 2, \\ldots\\}\\))"
+  },
+  {
+    "objectID": "01-intro.html#normal-distribution",
+    "href": "01-intro.html#normal-distribution",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Normal Distribution",
+    "text": "Normal Distribution\n\n\\(N(\\mu, \\sigma^2)\\), \\(\\mu \\in \\R\\), \\(\\sigma &gt; 0\\)\nDensity function:\n\n\\[f(x;\\mu,\\sigma^2) = \\frac{1}{\\sqrt{2\\pi}\\sigma} \\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right), \\quad x \\in \\R\\]\n\n\\(\\E(X) = \\mu\\) and \\(\\var(X) = \\sigma^2\\)"
+  },
+  {
+    "objectID": "01-intro.html#gamma-distribution",
+    "href": "01-intro.html#gamma-distribution",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Gamma Distribution",
+    "text": "Gamma Distribution\n\n\\(\\text{Gamma}(\\alpha, \\beta)\\), \\(\\alpha, \\beta &gt; 0\\)\nDensity function:\n\n\\[f(x;\\alpha, \\beta) = \\frac{\\beta^{\\alpha}}{\\Gamma(\\alpha)}x^{\\alpha-1}\\exp(-\\beta x), \\quad x &gt; 0\\]\n\n\\(\\E(X) = \\frac{\\alpha}{\\beta}\\) and \\(\\var(X) = \\frac{\\alpha}{\\beta^2}\\).\nSpecial Case: Exponential distribution (\\(\\alpha = 1\\)) and \\(\\chi^2\\) distribution (\\(\\alpha = k/2\\) and \\(\\beta = \\frac{1}{2}\\), where \\(k\\) is the degree of freedom)"
+  },
+  {
+    "objectID": "01-intro.html#beta-distribution",
+    "href": "01-intro.html#beta-distribution",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Beta Distribution",
+    "text": "Beta Distribution\n\n\\(\\text{Beta}(\\alpha, \\beta)\\), \\(\\alpha, \\beta &gt; 0\\)\nDensity function:\n\n\\[f(x;\\alpha, \\beta) = \\frac{1}{B(\\alpha, \\beta)}x^{\\alpha-1}(1-x)^{\\beta-1}, \\quad 0 \\leq x \\leq 1\\]\n\n\\(B(\\alpha, \\beta) = \\frac{\\Gamma(\\alpha)\\Gamma(\\beta)}{\\Gamma(\\alpha+\\beta)}\\) is the Beta function\n\\(\\E(X) = \\frac{\\alpha}{\\alpha+\\beta}\\)\nSpecial case: Uniform distribution (\\(\\alpha = \\beta = 1\\))"
+  },
+  {
+    "objectID": "01-intro.html#binomial-distribution",
+    "href": "01-intro.html#binomial-distribution",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Binomial Distribution",
+    "text": "Binomial Distribution\n\n\\(\\text{Bin}(n, p)\\), \\(n \\in \\mathbb{N}\\), \\(0 &lt; p &lt; 1\\)\nNumber of positive outcomes out of \\(n\\) binary trials\nMass function: \\[f(x; n, p) = \\choose{n}{x}p^x(1-p)^{n-x}, \\quad x = 0, 1,\\ldots, n\\]\n\\(\\E(X) = np\\) and \\(\\var(X) = np(1-p)\\)\nSpecial case: Bernoulli distribution (\\(n = 1\\))"
+  },
+  {
+    "objectID": "01-intro.html#poisson-distribution",
+    "href": "01-intro.html#poisson-distribution",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Poisson Distribution",
+    "text": "Poisson Distribution\n\n\\(\\text{Poi}(\\lambda)\\), \\(\\lambda &gt; 0\\)\nMass function: \\[f(x;\\lambda) = \\frac{e^{-\\lambda}\\lambda^x}{x!}, \\quad x = 0, 1, 2, \\ldots\\]\n\\(\\E(X) = \\var(X) = \\lambda\\)."
+  },
+  {
+    "objectID": "01-intro.html#negative-binomial-distribution",
+    "href": "01-intro.html#negative-binomial-distribution",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Negative Binomial Distribution",
+    "text": "Negative Binomial Distribution\n\n\\(\\text{NB}(r, p)\\), \\(r = 1,2,\\ldots\\), \\(0 &lt; p &lt; 1\\)\nNumber of failures before the \\(r\\)th success\nMass function: \\[f(x;r,p) = \\choose{x+r-1}{x}p^r(1-p)^x, \\quad x = 0, 1, \\ldots\\]\n\\(\\E(X) = \\frac{r(1-p)}{p}\\) and \\(\\var(X) = \\frac{r(1-p)}{p^2}\\).\nSpecial case: Geometric distribution (\\(r=1\\), number of failures before the first success)"
+  },
+  {
+    "objectID": "01-intro.html#maximum-likelihood-estimation",
+    "href": "01-intro.html#maximum-likelihood-estimation",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Maximum Likelihood Estimation",
+    "text": "Maximum Likelihood Estimation\n\n\nSuppose \\(X_1, \\ldots, X_n \\iid f(x|\\theta)\\).\nThe likelihood function is \\[L(\\theta) = \\prod_{i=1}^n f(x_i|\\theta).\\]\nThe MLE of \\(\\theta\\) is \\(\\hat{\\theta} = \\argmax_{\\theta}L(\\theta)\\).\nUnder some regularity conditions on \\(f(x|\\theta)\\), the MLE is efficient (has the smallest variance) and its distribution is approximately normal (when \\(n\\) is large enough)."
+  },
+  {
+    "objectID": "01-intro.html#law-of-large-numbers-central-limit-theorem",
+    "href": "01-intro.html#law-of-large-numbers-central-limit-theorem",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Law of Large Numbers & Central Limit Theorem",
+    "text": "Law of Large Numbers & Central Limit Theorem\nSuppose \\(X_1, \\ldots, X_n\\) are iid (independent and identically distributed) from some distribution \\(F\\) with \\(\\E(X) = \\mu\\) and \\(\\var(X) = \\sigma^2 &lt; \\infty\\). Let \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i\\). Then\n\n\nLaw of Large Numbers (LLN): \\(\\bar{X}_n\\) will be very closed to \\(\\mu\\) for large \\(n\\) \\[ \\bar{X}_n \\cas \\mu\\]\nCentral Limit Theorem (CLT): the distribution of \\(\\bar{X}_n\\) will be approximately normal for large \\(n\\) \\[\\sqrt{n}(\\bar{X}_n - \\mu) \\cd N(0, \\sigma^2)\\]"
+  },
+  {
+    "objectID": "01-intro.html#monte-carlo-approximationestimation",
+    "href": "01-intro.html#monte-carlo-approximationestimation",
+    "title": "Lecture 01: Course Introduction and Review",
+    "section": "Monte Carlo Approximation/Estimation",
+    "text": "Monte Carlo Approximation/Estimation\n\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\)."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "About Me",
+    "title": "Course Materials",
     "section": "",
-    "text": "Thanks for checking out my web site!"
+    "text": "Lecture 01"
+  },
+  {
+    "objectID": "index.html#slides",
+    "href": "index.html#slides",
+    "title": "Course Materials",
+    "section": "",
+    "text": "Lecture 01"
+  },
+  {
+    "objectID": "index.html#homework",
+    "href": "index.html#homework",
+    "title": "Course Materials",
+    "section": "Homework",
+    "text": "Homework"
+  },
+  {
+    "objectID": "macro.html",
+    "href": "macro.html",
+    "title": "STAT 5010: Bayesian Statistical Methods",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]"
   }
 ]
