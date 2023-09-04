@@ -2,3 +2,8 @@
 title: "Bayesian Statistical Methods (Fall 2023)"
 ---
 
+## Important Dates:
+
+-   10/10: No class (National Holiday)
+-   10/24: Project proposal: you need to prepare a 10-min presentation for your project proposal
+-   12/12,19: Final project presentation: a 20-min presentation for your final project
