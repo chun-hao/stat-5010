@@ -487,7 +487,7 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 </section>
 <section id="posterior-distribution" class="slide level2">
 <h2>Posterior Distribution</h2>
-<div class="cell" data-hash="02-intro-bayes_cache/html/unnamed-chunk-1_5fa6316346acb6984adf7089301c26a0">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-1_e4d8fad009df232df76cc994df3f31a3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>n <span class="ot">&lt;-</span> <span class="dv">15</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>p <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
@@ -499,7 +499,7 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 <pre><code> [1] 0 0 0 0 0 0 0 0 0 0 1 0 0 1 1</code></pre>
 </div>
 </div>
-<div class="cell" data-layout-align="center" data-hash="02-intro-bayes_cache/html/unnamed-chunk-2_476716bcba19644498f46007b7c258f3">
+<div class="cell" data-layout-align="center" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-2_a720502226602e26b5c26ee0bd9f9592">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">p =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)), <span class="fu">aes</span>(p)) <span class="sc">+</span> </span>
 <span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)) <span class="sc">+</span> </span>
@@ -515,11 +515,11 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 </div>
 
 </section>
-<section id="posterior-distribution-output" class="slide level2 output-location-slide"><h2>Posterior Distribution</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="02-intro-bayes_cache/html/unnamed-chunk-2_476716bcba19644498f46007b7c258f3">
+<section id="posterior-distribution-output" class="slide level2 output-location-slide"><h2>Posterior Distribution</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-2_a720502226602e26b5c26ee0bd9f9592">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="02-intro-bayes_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img data-src="02-intro-bayes_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -608,7 +608,7 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 <section id="binomial-example" class="slide level2">
 <h2>Binomial Example</h2>
 <p>Suppose we observed <span class="math inline">\(X=2\)</span> from a <span class="math inline">\(\bin(10, p)\)</span>. Assume the uniform prior <span class="math inline">\(p\)</span>.</p>
-<div class="cell" data-hash="02-intro-bayes_cache/html/unnamed-chunk-3_6f13b936ca43dfc524ab01143ec2eabf">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-3_1fb30197a02e737fdbb5fa703648a154">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span>;  beta <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># uniform prior</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># data</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
@@ -618,7 +618,7 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 </div>
 </div>
 
-<img data-src="02-intro-bayes_files/figure-html/unnamed-chunk-4-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="02-intro-bayes_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="highest-posterior-density-hpd-region" class="slide level2">
 <h2>Highest posterior density (HPD) region</h2>
 <div id="def-hpd" class="theorem definition">
@@ -635,7 +635,7 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 <section id="binomial-example-1" class="slide level2">
 <h2>Binomial Example</h2>
 <p>Let’s compute the HPD for the previous example: <span class="math inline">\(\theta \mid X = 2 \sim \text{Beta}(3, 9)\)</span>.</p>
-<div class="cell" data-hash="02-intro-bayes_cache/html/unnamed-chunk-5_7f672e19e0a7442e4c27612c7d11ca94">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-5_876fead292c5ef4f37546e4a7766bd38">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(HDInterval)</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="fu">hdi</span>(qbeta, <span class="fl">0.95</span>, <span class="at">shape1 =</span> <span class="dv">3</span>, <span class="at">shape2=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -688,7 +688,7 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 </section>
 <section id="catalog-for-conjugate-priors" class="slide level2">
 <h2>Catalog for conjugate priors</h2>
-<div class="cell" data-hash="02-intro-bayes_cache/html/unnamed-chunk-6_bea511187cc511479493ad18c834bc74">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-6_ef42a0c6104275183e06ea9d418d40ae">
 
 <style type="text/css">
 .reveal table {
@@ -769,7 +769,7 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.gender.ey.gov.tw/gecdb/Stat_Statistics_DetailData.aspx?sn=XGXgzan!6JtvV7D5uGZISg%40%40&amp;d=m9ww9odNZAz2Rc5Ooj%24wIQ%40%40">行政院資料庫</a></p></li><li id="fn2"><p><a href="https://ourworldindata.org/gender-ratio#sex-ratio-at-birth">Our World in Data</a></p></li></ol></aside></section>
 <section id="real-data-example-1" class="slide level2">
 <h2>Real Data Example</h2>
-<div class="cell" data-hash="02-intro-bayes_cache/html/unnamed-chunk-7_7e5914fc7dae716022e4bfe372fbd9dc">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-7_80f0daafc7fc041eff204716cc755319">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb8-3"><a href="#cb8-3"></a>m <span class="ot">&lt;-</span> <span class="dv">856</span>; f <span class="ot">&lt;-</span> <span class="dv">731</span></span>
@@ -792,7 +792,7 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 </div>
 
 </section>
-<section id="real-data-example-1-output" class="slide level2 output-location-slide"><h2>Real Data Example</h2><div class="cell output-location-slide" data-hash="02-intro-bayes_cache/html/unnamed-chunk-7_7e5914fc7dae716022e4bfe372fbd9dc">
+<section id="real-data-example-1-output" class="slide level2 output-location-slide"><h2>Real Data Example</h2><div class="cell output-location-slide" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-7_80f0daafc7fc041eff204716cc755319">
 <div class="cell-output-display">
 <table style="width:90%;">
 <colgroup>
@@ -1249,6 +1249,44 @@ p(x \mid \theta) \propto \theta^5(1-\theta) .
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

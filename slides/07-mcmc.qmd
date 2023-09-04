@@ -1,0 +1,3 @@
+---
+title: "Lecture 07: Markov Chain Monte Carlo"
+---

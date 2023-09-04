@@ -1,0 +1,3 @@
+---
+title: "Lecture 10: Generalized Linear Model and Latent Variable Model"
+---

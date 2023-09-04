@@ -1,0 +1,3 @@
+---
+title: "Lecture 08: Hamiltonian Monte Carlo and Variational Inference"
+---

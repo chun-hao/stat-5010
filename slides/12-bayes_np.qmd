@@ -1,0 +1,3 @@
+---
+title: "Lecture 12: Bayesian Nonparametrics"
+---

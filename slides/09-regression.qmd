@@ -1,0 +1,3 @@
+---
+title: "Lecture 09: Bayesian Regression"
+---

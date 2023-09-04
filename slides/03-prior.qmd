@@ -1,0 +1,3 @@
+---
+title: "Lecture 03: Prior Information and Prior Distribution"
+---
