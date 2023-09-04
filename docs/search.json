@@ -294,13 +294,6 @@
     "text": "Monte Carlo Approximation/Estimation\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\).\n\n\n\n\nHome"
   },
   {
-    "objectID": "slides/macro.html",
-    "href": "slides/macro.html",
-    "title": "STAT 5010",
-    "section": "",
-    "text": "\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]"
-  },
-  {
     "objectID": "resources.html",
     "href": "resources.html",
     "title": "Resources",
