@@ -2,6 +2,28 @@
 title: "Bayesian Statistical Methods (Fall 2023)"
 ---
 
+## Course Schedule 
+
+| Week  | Date     | Topics                                                                    | Reading                   |
+|:-----------:|-------------|---------------------------------|-------------|
+|   1   | 9/5      | Introduction & History of Bayes Theorem                                   |                           |
+|   2   | 9/12     | Backbones of Bayesian Analysis; One-parameter Models; Conjugate Priors    | Hoff Ch. 1-3, BC Ch. 1    |
+|   3   | 9/19     | Prior Information and Prior Distribution                                  | BC Ch. 3                  |
+|   4   | 9/26     | Decision Theory and Bayesian Estimation                                   | BC Ch. 2, 4               |
+|   5   | 10/3     | Connections to non-Bayesian Analysis; Hierarchical Models                 | BDA Ch. 4, 5              |
+|   6   | 10/10    | No class (National Holiday)                                               |                           |
+|   7   | 10/17    | Testing and Model Comparison                                              | BC Ch. 5, 7, BDA Ch. 6, 7 |
+|   8   | 10/24    | Project Proposal                                                          |                           |
+|   9   | 10/31    | Metropolis-Hastings algorithms; Gibbs sampler                             | BDA Ch. 10-11             |
+|  10   | 11/7     | Hamiltonian Monte Carlo; Variational Inference                            | BDA Ch. 12-13             |
+|  11   | 11/14    | Bayesian regression                                                       | BDA Ch. 14                |
+|  12   | 11/21    | Generalized Linear Models; Latent Variable Model                          | BDA Ch. 16, 18            |
+|  13   | 11/28    | Empirical Bayes                                                           | BC Ch. 10                 |
+|  14   | 12/5     | Bayesian Nonparametrics                                                   | BDA Ch. 21, 23            |
+|  15   | 12/12    | Final Project Presentation                                                |                           |
+|  16   | 12/19    | Final Project Presentation                                                |                           |
+: {tbl-colwidths="[5, 10, 60, 25]" .striped}
+
 ## Important Dates:
 
 -   10/10: No class (National Holiday)
