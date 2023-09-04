@@ -230,7 +230,7 @@ plot(fit)
 
 ## Stan: Statistical Computing Platform
 
-![](images/stan_logo.png){fig-align="center" width="20%" height="20%"}
+![](images/lec01/stan_logo.png){fig-align="center" width="20%" height="20%"}
 
 ::: {.nonincremental}
 -   Provide automated Bayesian computation
@@ -268,7 +268,7 @@ Some important statisticians:
 :::
 
 ::: {.column width="40%"}
-![](images/Thomas_Bayes.jpeg){fig-align="center" width="100%"}
+![](images/lec01/Thomas_Bayes.jpeg){fig-align="center" width="100%"}
 :::
 :::
 
@@ -295,7 +295,7 @@ Some important statisticians:
 :::
 
 ::: {.column width="40%"}
-![](images/LAplace.jpeg){fig-align="center" width="75%"}
+![](images/lec01/Laplace.jpeg){fig-align="center" width="75%"}
 :::
 :::
 
@@ -347,7 +347,7 @@ Some important statisticians:
 :::
 
 ::: {.column width="40%"}
-![](images/Fisher.jpeg){fig-align="center" width="100%"}
+![](images/lec01/Fisher.jpeg){fig-align="center" width="100%"}
 :::
 :::
 
@@ -373,7 +373,7 @@ Some important statisticians:
 -   However, it doesn't matter how you interpret probability because
 
 ::: {.fragment}
-![](images/George_Box.jpeg){fig-align="center" width="40%"}
+![](images/lec01/George_Box.jpeg){fig-align="center" width="40%"}
 :::
 
 ::: aside
@@ -385,7 +385,7 @@ Image source: <https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-
 ::: {.nonincremental}
 -   For more interesting stories about Bayesian statistics, check
 
-![](images/book.jpg){fig-align="center" width="20%" height="10%"}
+![](images/lec01/book.jpg){fig-align="center" width="20%" height="10%"}
 
 -   There is a [talk at
     Google](https://www.youtube.com/watch?v=8oD6eBkjF9o) given by the
