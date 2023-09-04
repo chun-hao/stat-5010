@@ -8,11 +8,12 @@ format:
         chalkboard: true
         slide-number: true
         html-math-method: mathjax
+        incremental: true
 execute:
   echo: false
   warning: false
   cache: true
-  freeze: true
+  freeze: auto
 ---
 
 # Syllabus
@@ -21,7 +22,6 @@ execute:
 
 ## Course Description
 
-::: incremental
 -   Statistical analysis is an [inversion]{.underline} process:
     retrieving the **causes** (models/parameters) from the **effects**
     (observations/sample/data)
@@ -33,18 +33,16 @@ execute:
     $\P(E\mid A)$ (phenomenon).
 -   This course will focus on statistical analysis under the Bayesian
     paradigm.
-:::
 
 ## Course Description
 
+::: {.nonincremental}
 -   Adapting Bayes' Theorem to a parametric problem,
 
 $$\pi(\theta|x) = \frac{p(x|\theta)\pi(\theta)}{\int
     p(x|\theta^{\prime})\pi(\theta^{\prime})d\theta^{\prime}}.$$
 
 \vspace{-5mm}
-
-```{=tex}
 \begin{align*}
 \theta        & \longleftrightarrow \text{parameter}\\
 x             & \longleftrightarrow \text{data}\\
@@ -52,26 +50,25 @@ x             & \longleftrightarrow \text{data}\\
 p(x|\theta)   & \longleftrightarrow \text{likelihood/model}\\
 \pi(\theta|x) & \longleftrightarrow \textcolor{magenta}{\text{posterior distribution}}\\
 \end{align*}
-```
 \vspace{-5mm}
 
 -   Key components: **priors** and **posteriors**
+:::
 
 ## Course Description
 
 A general procedure for Bayesian statistical analysis: 
 
-::: {.incremental}
 1.  Choose a class $\mc{M}$ of models for the sample $x$;
 2.  Choose a prior distribution over $\mc{M}$;
 3.  Use Bayes Theorem to compute the posterior distribution of models
     given the sample;
 4.  Pick a "good" model based on the posterior distribution.
-:::
 
 
 ## Topics
 
+::: {.nonincremental}
 1.  Principles for the choice of priors
 2.  Inference based on the posterior
 3.  Bayesian analysis for different problems:
@@ -81,9 +78,11 @@ A general procedure for Bayesian statistical analysis:
     -   prediction
     -   nonparametric model
     -   model comparison
+:::
 
 ## Course Materials
 
+::: {.nonincremental}
 -   Hoff, P. D. (2009). [*A First Course in Bayesian Statistical
     Methods*](https://link.springer.com/book/10.1007/978-0-387-92407-6).
 -   Robert, C. P. (2007). [*The Bayesian
@@ -97,6 +96,7 @@ A general procedure for Bayesian statistical analysis:
 -   Prof. Rebecca Steorts at Duke. [Lecture
     notes](https://github.com/resteorts/modern-bayes)
 -   Slides will be posted on NTU Cool.
+:::
 
 ## Course Schedule {.smaller}
 
@@ -123,19 +123,23 @@ A general procedure for Bayesian statistical analysis:
 
 ## Grading
 
+::: {.nonincremental}
 -   Homework (3 - 4 homeworks): 30%
 -   Oral Presentation (project proposal and final presentation): 40%
 -   Written Report: 30%
+:::
 
 **Contact information**
 
+::: {.nonincremental}
 - Office: Room 602, Cosmology Hall
 - E-mail: <chunhaoy@ntu.edu.tw>
 - Office Hours: Tue. 3-5pm or by appointment
-
+:::
 
 ## Final Project
 
+::: {.nonincremental}
 -   A group of 2-3 students
 -   Choose a dataset and find a problem which you can answer with your
     dataset.
@@ -149,14 +153,17 @@ A general procedure for Bayesian statistical analysis:
     -   results and conclusion
     -   reference
 -   More details will be announced after midterm exam.
+:::
 
 ## Prerequisites
 
+::: {.nonincremental}
 -   Basic calculus and linear algebra
 -   Mathematical statistics (undergrad level is fine)
 -   Familiarity with some data analytic programming language
     (R/Python/MATLAB)
 -   Experiences with data analysis is not required but will be helpful
+:::
 
 ## Example: 8-school dataset
 
@@ -191,7 +198,6 @@ What can we ask about this dataset?
 
 ## Step 1 & 2: Determine the likelihood and prior
 
-::: incremental
 -   Consider \begin{align*}
     Y_{i} \mid \theta_i, \sigma_i^2 & \ind N(\theta_i, \sigma_i^2), i = 1,\ldots, 8\\
     \theta_i \mid \mu, \tau & \ind N(\mu, \tau^2)
@@ -199,7 +205,6 @@ What can we ask about this dataset?
     and $\sigma_i^2$'s are the variance of the treatment effects.
 -   We are interested in estimating the $\theta_i$'s, which are the
     effects of the coaching programs.
-:::
 
 ## Step 4: Inference based on the posterior
 
@@ -241,9 +246,10 @@ plot(fit)
 
 ![](images/stan_logo.png){fig-align="center" width="20%" height="20%"}
 
+::: {.nonincremental}
 -   Provide automated Bayesian computation
 -   Interface with R/Python/MATLAB/...
-
+:::
 
 # A brief history of Bayesian statistics
 
@@ -252,7 +258,6 @@ plot(fit)
 
 Some important statisticians:
 
-::: incremental
 -   Carl Friedrich Gauss (1777 - 1855): Gaussian distribution, ...
 -   Ronald A. Fisher (1890 - 1962): likelihood based inference, ...
 -   Karl Pearson (1857 - 1936): Pearson's correlation coefficient, ...
@@ -265,7 +270,7 @@ Some important statisticians:
 ## Thomas Bayes
 
 ::: columns
-::: {.incremental .column width="60%"}
+::: {.column width="60%"}
 -   British Reverend Thomas Bayes (1702 - 1761)
 -   Work on [inverse probability problem]{.underline}
 -   Discover a relationship between causes and observations (1746 -
@@ -288,7 +293,7 @@ Some important statisticians:
 ## Pierre-Simon Laplace
 
 ::: columns
-::: {.incremental .column width="55%"}
+::: {.column width="55%"}
 -   A French mathematician (1749 - 1827)
 -   Discover the same rule in 1774, independent of Bayes
 -   Using conditional probability, write down the rule as \begin{align*}
@@ -310,7 +315,6 @@ Some important statisticians:
 
 ## Laplace's Rule of Succession
 
-::: incremental
 -   If we repeat an experiment that we know can result in a success or
     failure, $n$ times independently, and get $s$ successes, and $n-s$
     failures, then what is the probability that the next repetition will
@@ -318,11 +322,9 @@ Some important statisticians:
 -   Laplace's Answer:
     $$\P\left(X_{n+1}=1 \mid X_1+\cdots+X_n=s\right)=\frac{s+1}{n+2}$$
 -   This answer is obtained from the Beta-Binomial model.
-:::
 
 ## Pierre-Simon Laplace
 
-::: incremental
 -   Laplace was not satisfied with the uniform prior, neither did other
     mathematicians.
 -   However, he still applied Bayes Theorem to solve many practical
@@ -332,11 +334,9 @@ Some important statisticians:
     -   Credibility of witnesses in the court
 -   In 1810, he announced the Central Limit Theorem.
 -   At the age of 62, he turned to frequentist-based approach. Why?
-:::
 
 ## Decline of Bayesian Statistics
 
-::: incremental
 -   The subjective component, prior distribution, is heavily criticized
     by mathematicians and theorists.
 -   For large dataset, Bayesian and frequentist produced almost the same
@@ -347,12 +347,11 @@ Some important statisticians:
     models.
 -   Researchers tend to design their own experiments to answer
     industrial/scientific questions.
-:::
 
 ## Sir Ronald A. Fisher
 
 ::: columns
-::: {.incremental .column width="60%"}
+::: {.column width="60%"}
 -   British Statistician/Mathematician (1890 - 1962)
 -   Tea and milk experiment
 -   Father of modern statistics and experimental design
@@ -368,7 +367,6 @@ Some important statisticians:
 
 ## Revival of Bayesian Statistics 
 
-:::{.incremental}
 -   Clean, reliable data -\> Frequentist
 -   Through the use of prior information, Bayesian approaches are
     actually more powerful and flexible when handling complex datasets.
@@ -380,26 +378,25 @@ Some important statisticians:
         Statistician*, 40(1), 1-5.
     -   Efron, B. (1998). R. A. Fisher in the 21st century. *Statistical
         Science*, 95-114.
-:::
 
 ## What is probability?
 
-::: incremental
 -   Frequentist: Probability is the limit of relative frequency as the
     experiment repeats infinitely.
 -   Bayesian: Probability reflects one's belief.
 -   However, it doesn't matter how you interpret probability because
-:::
+
 ::: {.fragment}
 ![](images/George_Box.jpeg){fig-align="center" width="40%"}
+:::
 
 ::: aside
 Image source: <https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/>
 :::
-:::
 
 ## The Theory That Would Not Die
 
+::: {.nonincremental}
 -   For more interesting stories about Bayesian statistics, check
 
 ![](images/book.jpg){fig-align="center" width="20%" height="10%"}
@@ -408,12 +405,12 @@ Image source: <https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-
     Google](https://www.youtube.com/watch?v=8oD6eBkjF9o) given by the
     author Sharon McGrayne.
 -   <https://www.lesswrong.com/posts/RTt59BtFLqQbsSiqd/a-history-of-bayes-theorem>
+:::
 
 # Review
 
 ## Probability
 
-::: incremental
 -   The value $\P(E)$ is the probability of the
     occurrence of event $E$.
 -   Let $\Omega$ be the sample space, i.e., the space containing all
@@ -424,21 +421,23 @@ Image source: <https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-
     -   (countable additivity)
         $\P(\cup_{i=1}^{\infty} E_i) = \sum_{i=1}^\infty \P(E_i)$ for
         pairwise disjoint $E_i$'s
-:::
 
 ## Conditional Probability
 
+:::{.fragment .nonincremental}
 -   The conditional probability of $A$ given $B$ is
 
 $$\P(A \mid B) \coloneqq \frac{\P(A \cap B)}{\P(B)}, \quad \text{if}\;\;\P(B) > 0.$$ 
+:::
 
+:::{.fragment .nonincremental}
 -   One-line proof of Bayes Theorem: If $\P(A)$ and $\P(B)$ are both non-zero,
     
 $$\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)} = \frac{\P(B \mid A)\P(A)}{\P(B)}.$$
+:::
 
 ## Random Variables
 
-::: incremental
 -   A random variable is
     -   a measurable function
     -   an outcome from a random experiment
@@ -451,11 +450,9 @@ $$\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)} = \frac{\P(B \mid A)\P(A)}{\P(B)}.$$
     $\mu = \E(X)$.
 -   Covariance:
     $\cov(X, Y) = \E[(X - \mu_X)(Y - \mu_Y)] = \E(XY) - \mu_X\mu_Y$
-:::
 
 ## Independence
 
-::: incremental
 -   Independence of events: $\P(A \cap B) = \P(A)\P(B)$
 -   Independent random variables:
     -   $\Leftrightarrow$ $f_{X,Y}(x, y) = f_X(x)f_Y(y)$
@@ -469,21 +466,32 @@ $$\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)} = \frac{\P(B \mid A)\P(A)}{\P(B)}.$$
 -   Example: $X, Z \iid \text{Ber}(1/2)$ and $Y = I(X \neq Z)$. Check
     that $X$ and $Y$ are independent, but they are not conditionally
     independent given $Z$.
-:::
 
 ## Law of Total Probability/Expectation/Variance
 
-::: incremental
+
+:::{.fragment .nonincremental}
 -   Law of Total Probability: For $B_i \cap B_j = \emptyset$ and
     $\cup_{i=1}^k B_i = \Omega$,
-    $$\P(A) = \sum_{i=1}^k \P(A \mid B_i).$$
+
+$$\P(A) = \sum_{i=1}^k \P(A \mid B_i).$$
+:::
+
+:::{.fragment .nonincremental}    
 -   Law of Total Expectation (tower property/double expectation):
-    $$\E(X) = \E_Y(\E_{X|Y}(X|Y)).$$
--   Law of Total Variance: $$\var(X) = \var(\E(X|Y)) + \E(\var(X|Y)).$$
+    
+$$\E(X) = \E_Y(\E_{X|Y}(X|Y)).$$
+:::
+
+:::{.fragment .nonincremental}    
+-   Law of Total Variance: 
+
+$$\var(X) = \var(\E(X|Y)) + \E(\var(X|Y)).$$
 :::
 
 ## Important univariate distributions
 
+:::{.nonincremental}
 -   Continuous univariate distribution:
     -   Normal distribution (on $\R$)
     -   Gamma distribution (on $\R_+$)
@@ -492,18 +500,22 @@ $$\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)} = \frac{\P(B \mid A)\P(A)}{\P(B)}.$$
     -   Binomial distribution (on $\{0, 1, \ldots, n\}$)
     -   Poisson distribution (on $\{0, 1, 2, \ldots\}$)
     -   Negative Binomial distribution (on $\{0, 1, 2, \ldots\}$)
+:::
 
 ## Normal Distribution
 
+:::{.nonincremental}
 -   $N(\mu, \sigma^2)$, $\mu \in \R$, $\sigma > 0$
 -   Density function:
     
 $$f(x;\mu,\sigma^2) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right), \quad x \in \R$$
 
 -   $\E(X) = \mu$ and $\var(X) = \sigma^2$
+:::
 
 ## Gamma Distribution
 
+:::{.nonincremental}
 -   $\text{Gamma}(\alpha, \beta)$, $\alpha, \beta > 0$
 -   Density function:
     
@@ -514,9 +526,11 @@ $$f(x;\alpha, \beta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}x^{\alpha-1}\exp(-\b
 -   Special Case: Exponential distribution ($\alpha = 1$) and $\chi^2$
     distribution ($\alpha = k/2$ and $\beta = \frac{1}{2}$, where $k$ is
     the degree of freedom)
+:::
 
 ## Beta Distribution
 
+:::{.nonincremental}
 -   $\text{Beta}(\alpha, \beta)$, $\alpha, \beta > 0$
 -   Density function:
     
@@ -526,39 +540,48 @@ $$f(x;\alpha, \beta) = \frac{1}{B(\alpha, \beta)}x^{\alpha-1}(1-x)^{\beta-1}, \q
     is the Beta function
 -   $\E(X) = \frac{\alpha}{\alpha+\beta}$
 -   Special case: Uniform distribution ($\alpha = \beta = 1$)
+:::
 
 ## Binomial Distribution
 
+:::{.nonincremental}
 -   $\text{Bin}(n, p)$, $n \in \mathbb{N}$, $0 < p < 1$
 -   Number of positive outcomes out of $n$ binary trials
 -   Mass function:
-    $$f(x; n, p) = \choose{n}{x}p^x(1-p)^{n-x}, \quad x = 0, 1,\ldots, n$$
+    
+$$f(x; n, p) = \choose{n}{x}p^x(1-p)^{n-x}, \quad x = 0, 1,\ldots, n$$
 
 -   $\E(X) = np$ and $\var(X) = np(1-p)$
 -   Special case: Bernoulli distribution ($n = 1$)
+:::
 
 ## Poisson Distribution
 
+:::{.nonincremental}
 -   $\text{Poi}(\lambda)$, $\lambda > 0$
 -   Mass function:
-    $$f(x;\lambda) = \frac{e^{-\lambda}\lambda^x}{x!}, \quad x = 0, 1, 2, \ldots$$
+
+$$f(x;\lambda) = \frac{e^{-\lambda}\lambda^x}{x!}, \quad x = 0, 1, 2, \ldots$$
 
 -   $\E(X) = \var(X) = \lambda$.
+:::
 
 ## Negative Binomial Distribution
 
+:::{.nonincremental}
 -   $\text{NB}(r, p)$, $r = 1,2,\ldots$, $0 < p < 1$
 -   Number of failures before the $r$th success
 -   Mass function:
-    $$f(x;r,p) = \choose{x+r-1}{x}p^r(1-p)^x, \quad x = 0, 1, \ldots$$
+
+$$f(x;r,p) = \choose{x+r-1}{x}p^r(1-p)^x, \quad x = 0, 1, \ldots$$
 
 -   $\E(X) = \frac{r(1-p)}{p}$ and $\var(X) = \frac{r(1-p)}{p^2}$.
 -   Special case: Geometric distribution ($r=1$, number of failures
     before the first success)
+:::
 
 ## Maximum Likelihood Estimation
 
-::: incremental
 -   Suppose $X_1, \ldots, X_n \iid f(x|\theta)$.
 -   The **likelihood** function is
     $$L(\theta) = \prod_{i=1}^n f(x_i|\theta).$$
@@ -566,7 +589,6 @@ $$f(x;\alpha, \beta) = \frac{1}{B(\alpha, \beta)}x^{\alpha-1}(1-x)^{\beta-1}, \q
 -   Under some regularity conditions on $f(x|\theta)$, the MLE is
     efficient (has the smallest variance) and its distribution is
     approximately normal (when $n$ is large enough).
-:::
 
 ## Law of Large Numbers & Central Limit Theorem
 
@@ -575,17 +597,14 @@ distributed) from some distribution $F$ with $\E(X) = \mu$ and
 $\var(X) = \sigma^2 < \infty$. Let
 $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$. Then
 
-::: incremental
 -   Law of Large Numbers (LLN): $\bar{X}_n$ will be very closed to $\mu$
     for large $n$ $$ \bar{X}_n \cas \mu$$
 -   Central Limit Theorem (CLT): the distribution of $\bar{X}_n$ will be
     approximately normal for large $n$
     $$\sqrt{n}(\bar{X}_n - \mu) \cd N(0, \sigma^2)$$
-:::
 
 ## Monte Carlo Approximation/Estimation
 
-::: incremental
 -   Suppose we have function $f: [a, b] \to \R$ and we want to compute
     $I = \int_a^b f(x)dx$.
 -   Write
@@ -596,4 +615,3 @@ $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$. Then
     -   By LLN and CLT,
         $$\hat{I}_n \cas I \quad \text{and} \quad \sqrt{n}(\hat{I}_n - I) \cd N(0, (b-a)^2\sigma^2)$$
         if $\sigma^2 = \var(f(X)) < \infty$.
-:::

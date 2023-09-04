@@ -432,7 +432,6 @@ Chun-Hao Yang
 </section>
 <section id="course-description" class="slide level2">
 <h2>Course Description</h2>
-<div>
 <ul>
 <li class="fragment">Statistical analysis is an <u>inversion</u> process: retrieving the <strong>causes</strong> (models/parameters) from the <strong>effects</strong> (observations/sample/data)</li>
 <li class="fragment">Bayes’ Theorem: If <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> are events such that <span class="math inline">\(\P(E) \neq 0\)</span>, <span class="math display">\[\P(A \mid E)=\frac{\P(E \mid A) \P(A)}{\P(E \mid A) \P(A)+\P\left(E \mid
@@ -440,40 +439,40 @@ A^c\right) \P\left(A^c\right)}.\]</span></li>
 <li class="fragment">Let <span class="math inline">\(A\)</span> be causes and <span class="math inline">\(E\)</span> be effects. Bayes’ Theorem gives the relationship between <span class="math inline">\(\P(A\mid E)\)</span> (statistical inference) and <span class="math inline">\(\P(E\mid A)\)</span> (phenomenon).</li>
 <li class="fragment">This course will focus on statistical analysis under the Bayesian paradigm.</li>
 </ul>
-</div>
 </section>
 <section id="course-description-1" class="slide level2">
 <h2>Course Description</h2>
+<div>
 <ul>
 <li>Adapting Bayes’ Theorem to a parametric problem,</li>
 </ul>
 <p><span class="math display">\[\pi(\theta|x) = \frac{p(x|\theta)\pi(\theta)}{\int
     p(x|\theta^{\prime})\pi(\theta^{\prime})d\theta^{\prime}}.\]</span></p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 \theta        &amp; \longleftrightarrow \text{parameter}\\
 x             &amp; \longleftrightarrow \text{data}\\
 \pi(\theta)   &amp; \longleftrightarrow \textcolor{magenta}{\text{prior distribution}}\\
 p(x|\theta)   &amp; \longleftrightarrow \text{likelihood/model}\\
 \pi(\theta|x) &amp; \longleftrightarrow \textcolor{magenta}{\text{posterior distribution}}\\
-\end{align*}\]</span>
+\end{align*}\]</span> </p>
 <ul>
 <li>Key components: <strong>priors</strong> and <strong>posteriors</strong></li>
 </ul>
+</div>
 </section>
 <section id="course-description-2" class="slide level2">
 <h2>Course Description</h2>
 <p>A general procedure for Bayesian statistical analysis:</p>
-<div>
 <ol type="1">
 <li class="fragment">Choose a class <span class="math inline">\(\mc{M}\)</span> of models for the sample <span class="math inline">\(x\)</span>;</li>
 <li class="fragment">Choose a prior distribution over <span class="math inline">\(\mc{M}\)</span>;</li>
 <li class="fragment">Use Bayes Theorem to compute the posterior distribution of models given the sample;</li>
 <li class="fragment">Pick a “good” model based on the posterior distribution.</li>
 </ol>
-</div>
 </section>
 <section id="topics" class="slide level2">
 <h2>Topics</h2>
+<div>
 <ol type="1">
 <li>Principles for the choice of priors</li>
 <li>Inference based on the posterior</li>
@@ -487,9 +486,11 @@ p(x|\theta)   &amp; \longleftrightarrow \text{likelihood/model}\\
 <li>model comparison</li>
 </ul></li>
 </ol>
+</div>
 </section>
 <section id="course-materials" class="slide level2">
 <h2>Course Materials</h2>
+<div>
 <ul>
 <li>Hoff, P. D. (2009). <a href="https://link.springer.com/book/10.1007/978-0-387-92407-6"><em>A First Course in Bayesian Statistical Methods</em></a>.</li>
 <li>Robert, C. P. (2007). <a href="https://link.springer.com/book/10.1007/0-387-71599-1"><em>The Bayesian Choice</em></a>, 2nd Edition.</li>
@@ -498,6 +499,7 @@ p(x|\theta)   &amp; \longleftrightarrow \text{likelihood/model}\\
 <li>Prof.&nbsp;Rebecca Steorts at Duke. <a href="https://github.com/resteorts/modern-bayes">Lecture notes</a></li>
 <li>Slides will be posted on NTU Cool.</li>
 </ul>
+</div>
 </section>
 <section id="course-schedule" class="slide level2 smaller">
 <h2>Course Schedule</h2>
@@ -619,20 +621,25 @@ p(x|\theta)   &amp; \longleftrightarrow \text{likelihood/model}\\
 </section>
 <section id="grading" class="slide level2">
 <h2>Grading</h2>
+<div>
 <ul>
 <li>Homework (3 - 4 homeworks): 30%</li>
 <li>Oral Presentation (project proposal and final presentation): 40%</li>
 <li>Written Report: 30%</li>
 </ul>
+</div>
 <p><strong>Contact information</strong></p>
+<div>
 <ul>
 <li>Office: Room 602, Cosmology Hall</li>
 <li>E-mail: <a href="mailto:chunhaoy@ntu.edu.tw" class="email">chunhaoy@ntu.edu.tw</a></li>
 <li>Office Hours: Tue. 3-5pm or by appointment</li>
 </ul>
+</div>
 </section>
 <section id="final-project" class="slide level2">
 <h2>Final Project</h2>
+<div>
 <ul>
 <li>A group of 2-3 students</li>
 <li>Choose a dataset and find a problem which you can answer with your dataset.</li>
@@ -648,15 +655,18 @@ p(x|\theta)   &amp; \longleftrightarrow \text{likelihood/model}\\
 </ul></li>
 <li>More details will be announced after midterm exam.</li>
 </ul>
+</div>
 </section>
 <section id="prerequisites" class="slide level2">
 <h2>Prerequisites</h2>
+<div>
 <ul>
 <li>Basic calculus and linear algebra</li>
 <li>Mathematical statistics (undergrad level is fine)</li>
 <li>Familiarity with some data analytic programming language (R/Python/MATLAB)</li>
 <li>Experiences with data analysis is not required but will be helpful</li>
 </ul>
+</div>
 </section>
 <section id="example-8-school-dataset" class="slide level2">
 <h2>Example: 8-school dataset</h2>
@@ -726,15 +736,14 @@ p(x|\theta)   &amp; \longleftrightarrow \text{likelihood/model}\\
 <h2>Example: 8-school dataset</h2>
 <p>What can we ask about this dataset?</p>
 <ul>
-<li>Is there any difference between the coaching programs?</li>
-<li>Which program is considered effective?</li>
-<li>Which program is the most effective?</li>
-<li>How much can we expect to improve on the SAT scores after taking the coaching programs?</li>
+<li class="fragment">Is there any difference between the coaching programs?</li>
+<li class="fragment">Which program is considered effective?</li>
+<li class="fragment">Which program is the most effective?</li>
+<li class="fragment">How much can we expect to improve on the SAT scores after taking the coaching programs?</li>
 </ul>
 </section>
 <section id="step-1-2-determine-the-likelihood-and-prior" class="slide level2">
 <h2>Step 1 &amp; 2: Determine the likelihood and prior</h2>
-<div>
 <ul>
 <li class="fragment">Consider <span class="math display">\[\begin{align*}
 Y_{i} \mid \theta_i, \sigma_i^2 &amp; \ind N(\theta_i, \sigma_i^2), i = 1,\ldots, 8\\
@@ -742,7 +751,6 @@ Y_{i} \mid \theta_i, \sigma_i^2 &amp; \ind N(\theta_i, \sigma_i^2), i = 1,\ldots
 \end{align*}\]</span> where <span class="math inline">\(Y_i\)</span>’s are the observed average treatment effect and <span class="math inline">\(\sigma_i^2\)</span>’s are the variance of the treatment effects.</li>
 <li class="fragment">We are interested in estimating the <span class="math inline">\(\theta_i\)</span>’s, which are the effects of the coaching programs.</li>
 </ul>
-</div>
 </section>
 <section id="step-4-inference-based-on-the-posterior" class="slide level2">
 <h2>Step 4: Inference based on the posterior</h2>
@@ -785,10 +793,12 @@ Y_{i} \mid \theta_i, \sigma_i^2 &amp; \ind N(\theta_i, \sigma_i^2), i = 1,\ldots
 <p><img data-src="images/stan_logo.png" style="width:20.0%;height:20.0%"></p>
 </figure>
 </div>
+<div>
 <ul>
 <li>Provide automated Bayesian computation</li>
 <li>Interface with R/Python/MATLAB/…</li>
 </ul>
+</div>
 </section></section>
 <section>
 <section id="a-brief-history-of-bayesian-statistics" class="title-slide slide level1 center">
@@ -798,7 +808,6 @@ Y_{i} \mid \theta_i, \sigma_i^2 &amp; \ind N(\theta_i, \sigma_i^2), i = 1,\ldots
 <section id="who-is-the-father-of-statistics" class="slide level2">
 <h2>Who is the father of statistics?</h2>
 <p>Some important statisticians:</p>
-<div>
 <ul>
 <li class="fragment">Carl Friedrich Gauss (1777 - 1855): Gaussian distribution, …</li>
 <li class="fragment">Ronald A. Fisher (1890 - 1962): likelihood based inference, …</li>
@@ -806,9 +815,8 @@ Y_{i} \mid \theta_i, \sigma_i^2 &amp; \ind N(\theta_i, \sigma_i^2), i = 1,\ldots
 <li class="fragment">William Sealy Gosset (1876 - 1937): <span class="math inline">\(t\)</span>-test and <span class="math inline">\(t\)</span> distribution</li>
 <li class="fragment">Jerzy Neyman (1894 - 1981): Neyman-Pearson Lemma, …</li>
 <li class="fragment">Pierre-Simon Laplace (1749 - 1827): Central Limit Theorem, …</li>
-<li class="fragment">Thomas Bayes (1702 - 1761): Bayes Theorem, …</li>
+<li class="fragment">Thomas Bayes (1702 - 1761): Bayes Theorem, … :::</li>
 </ul>
-</div>
 </section>
 <section id="thomas-bayes" class="slide level2">
 <h2>Thomas Bayes</h2>
@@ -860,17 +868,14 @@ A^c\right) \P\left(A^c\right)}.
 </section>
 <section id="laplaces-rule-of-succession" class="slide level2">
 <h2>Laplace’s Rule of Succession</h2>
-<div>
 <ul>
 <li class="fragment">If we repeat an experiment that we know can result in a success or failure, <span class="math inline">\(n\)</span> times independently, and get <span class="math inline">\(s\)</span> successes, and <span class="math inline">\(n-s\)</span> failures, then what is the probability that the next repetition will succeed?</li>
 <li class="fragment">Laplace’s Answer: <span class="math display">\[\P\left(X_{n+1}=1 \mid X_1+\cdots+X_n=s\right)=\frac{s+1}{n+2}\]</span></li>
 <li class="fragment">This answer is obtained from the Beta-Binomial model.</li>
 </ul>
-</div>
 </section>
 <section id="pierre-simon-laplace-1" class="slide level2">
 <h2>Pierre-Simon Laplace</h2>
-<div>
 <ul>
 <li class="fragment">Laplace was not satisfied with the uniform prior, neither did other mathematicians.</li>
 <li class="fragment">However, he still applied Bayes Theorem to solve many practical problems:
@@ -882,11 +887,9 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">In 1810, he announced the Central Limit Theorem.</li>
 <li class="fragment">At the age of 62, he turned to frequentist-based approach. Why?</li>
 </ul>
-</div>
 </section>
 <section id="decline-of-bayesian-statistics" class="slide level2">
 <h2>Decline of Bayesian Statistics</h2>
-<div>
 <ul>
 <li class="fragment">The subjective component, prior distribution, is heavily criticized by mathematicians and theorists.</li>
 <li class="fragment">For large dataset, Bayesian and frequentist produced almost the same result.</li>
@@ -894,7 +897,6 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">Bayesian approaches are computationally challenging, even for simple models.</li>
 <li class="fragment">Researchers tend to design their own experiments to answer industrial/scientific questions.</li>
 </ul>
-</div>
 </section>
 <section id="sir-ronald-a.-fisher" class="slide level2">
 <h2>Sir Ronald A. Fisher</h2>
@@ -918,7 +920,6 @@ A^c\right) \P\left(A^c\right)}.
 </section>
 <section id="revival-of-bayesian-statistics" class="slide level2">
 <h2>Revival of Bayesian Statistics</h2>
-<div>
 <ul>
 <li class="fragment">Clean, reliable data -&gt; Frequentist</li>
 <li class="fragment">Through the use of prior information, Bayesian approaches are actually more powerful and flexible when handling complex datasets.</li>
@@ -930,30 +931,28 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">Efron, B. (1998). R. A. Fisher in the 21st century. <em>Statistical Science</em>, 95-114.</li>
 </ul></li>
 </ul>
-</div>
 </section>
 <section id="what-is-probability" class="slide level2">
 <h2>What is probability?</h2>
-<div>
 <ul>
 <li class="fragment">Frequentist: Probability is the limit of relative frequency as the experiment repeats infinitely.</li>
 <li class="fragment">Bayesian: Probability reflects one’s belief.</li>
 <li class="fragment">However, it doesn’t matter how you interpret probability because</li>
 </ul>
-</div>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/George_Box.jpeg" style="width:40.0%"></p>
 </figure>
 </div>
-
 </div>
+
 <aside><div>
 <p>Image source: <a href="https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/" class="uri">https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/</a></p>
 </div></aside></section>
 <section id="the-theory-that-would-not-die" class="slide level2">
 <h2>The Theory That Would Not Die</h2>
+<div>
 <ul>
 <li>For more interesting stories about Bayesian statistics, check</li>
 </ul>
@@ -966,6 +965,7 @@ A^c\right) \P\left(A^c\right)}.
 <li>There is a <a href="https://www.youtube.com/watch?v=8oD6eBkjF9o">talk at Google</a> given by the author Sharon McGrayne.</li>
 <li><a href="https://www.lesswrong.com/posts/RTt59BtFLqQbsSiqd/a-history-of-bayes-theorem" class="uri">https://www.lesswrong.com/posts/RTt59BtFLqQbsSiqd/a-history-of-bayes-theorem</a></li>
 </ul>
+</div>
 </section></section>
 <section>
 <section id="review" class="title-slide slide level1 center">
@@ -974,7 +974,6 @@ A^c\right) \P\left(A^c\right)}.
 </section>
 <section id="probability" class="slide level2">
 <h2>Probability</h2>
-<div>
 <ul>
 <li class="fragment">The value <span class="math inline">\(\P(E)\)</span> is the probability of the occurrence of event <span class="math inline">\(E\)</span>.</li>
 <li class="fragment">Let <span class="math inline">\(\Omega\)</span> be the sample space, i.e., the space containing all possible outcomes.</li>
@@ -985,22 +984,24 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">(countable additivity) <span class="math inline">\(\P(\cup_{i=1}^{\infty} E_i) = \sum_{i=1}^\infty \P(E_i)\)</span> for pairwise disjoint <span class="math inline">\(E_i\)</span>’s</li>
 </ul></li>
 </ul>
-</div>
 </section>
 <section id="conditional-probability" class="slide level2">
 <h2>Conditional Probability</h2>
+<div class="fragment">
 <ul>
 <li>The conditional probability of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> is</li>
 </ul>
 <p><span class="math display">\[\P(A \mid B) \coloneqq \frac{\P(A \cap B)}{\P(B)}, \quad \text{if}\;\;\P(B) &gt; 0.\]</span></p>
+</div>
+<div class="fragment">
 <ul>
 <li>One-line proof of Bayes Theorem: If <span class="math inline">\(\P(A)\)</span> and <span class="math inline">\(\P(B)\)</span> are both non-zero,</li>
 </ul>
 <p><span class="math display">\[\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)} = \frac{\P(B \mid A)\P(A)}{\P(B)}.\]</span></p>
+</div>
 </section>
 <section id="random-variables" class="slide level2">
 <h2>Random Variables</h2>
-<div>
 <ul>
 <li class="fragment">A random variable is
 <ul>
@@ -1014,11 +1015,9 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">Variance: <span class="math inline">\(\var(X) = \E[(X - \mu)^2] = \E(X^2) - \mu^2\)</span> where <span class="math inline">\(\mu = \E(X)\)</span>.</li>
 <li class="fragment">Covariance: <span class="math inline">\(\cov(X, Y) = \E[(X - \mu_X)(Y - \mu_Y)] = \E(XY) - \mu_X\mu_Y\)</span></li>
 </ul>
-</div>
 </section>
 <section id="independence" class="slide level2">
 <h2>Independence</h2>
-<div>
 <ul>
 <li class="fragment">Independence of events: <span class="math inline">\(\P(A \cap B) = \P(A)\P(B)\)</span></li>
 <li class="fragment">Independent random variables:
@@ -1035,20 +1034,31 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">Remark: (mutual) independence <strong>DOES NOT</strong> imply conditional independence</li>
 <li class="fragment">Example: <span class="math inline">\(X, Z \iid \text{Ber}(1/2)\)</span> and <span class="math inline">\(Y = I(X \neq Z)\)</span>. Check that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, but they are not conditionally independent given <span class="math inline">\(Z\)</span>.</li>
 </ul>
-</div>
 </section>
 <section id="law-of-total-probabilityexpectationvariance" class="slide level2">
 <h2>Law of Total Probability/Expectation/Variance</h2>
-<div>
+<div class="fragment">
 <ul>
-<li class="fragment">Law of Total Probability: For <span class="math inline">\(B_i \cap B_j = \emptyset\)</span> and <span class="math inline">\(\cup_{i=1}^k B_i = \Omega\)</span>, <span class="math display">\[\P(A) = \sum_{i=1}^k \P(A \mid B_i).\]</span></li>
-<li class="fragment">Law of Total Expectation (tower property/double expectation): <span class="math display">\[\E(X) = \E_Y(\E_{X|Y}(X|Y)).\]</span></li>
-<li class="fragment">Law of Total Variance: <span class="math display">\[\var(X) = \var(\E(X|Y)) + \E(\var(X|Y)).\]</span></li>
+<li>Law of Total Probability: For <span class="math inline">\(B_i \cap B_j = \emptyset\)</span> and <span class="math inline">\(\cup_{i=1}^k B_i = \Omega\)</span>,</li>
 </ul>
+<p><span class="math display">\[\P(A) = \sum_{i=1}^k \P(A \mid B_i).\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>Law of Total Expectation (tower property/double expectation):</li>
+</ul>
+<p><span class="math display">\[\E(X) = \E_Y(\E_{X|Y}(X|Y)).\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>Law of Total Variance:</li>
+</ul>
+<p><span class="math display">\[\var(X) = \var(\E(X|Y)) + \E(\var(X|Y)).\]</span></p>
 </div>
 </section>
 <section id="important-univariate-distributions" class="slide level2">
 <h2>Important univariate distributions</h2>
+<div>
 <ul>
 <li>Continuous univariate distribution:
 <ul>
@@ -1063,9 +1073,11 @@ A^c\right) \P\left(A^c\right)}.
 <li>Negative Binomial distribution (on <span class="math inline">\(\{0, 1, 2, \ldots\}\)</span>)</li>
 </ul></li>
 </ul>
+</div>
 </section>
 <section id="normal-distribution" class="slide level2">
 <h2>Normal Distribution</h2>
+<div>
 <ul>
 <li><span class="math inline">\(N(\mu, \sigma^2)\)</span>, <span class="math inline">\(\mu \in \R\)</span>, <span class="math inline">\(\sigma &gt; 0\)</span></li>
 <li>Density function:</li>
@@ -1074,9 +1086,11 @@ A^c\right) \P\left(A^c\right)}.
 <ul>
 <li><span class="math inline">\(\E(X) = \mu\)</span> and <span class="math inline">\(\var(X) = \sigma^2\)</span></li>
 </ul>
+</div>
 </section>
 <section id="gamma-distribution" class="slide level2">
 <h2>Gamma Distribution</h2>
+<div>
 <ul>
 <li><span class="math inline">\(\text{Gamma}(\alpha, \beta)\)</span>, <span class="math inline">\(\alpha, \beta &gt; 0\)</span></li>
 <li>Density function:</li>
@@ -1086,9 +1100,11 @@ A^c\right) \P\left(A^c\right)}.
 <li><span class="math inline">\(\E(X) = \frac{\alpha}{\beta}\)</span> and <span class="math inline">\(\var(X) = \frac{\alpha}{\beta^2}\)</span>.</li>
 <li>Special Case: Exponential distribution (<span class="math inline">\(\alpha = 1\)</span>) and <span class="math inline">\(\chi^2\)</span> distribution (<span class="math inline">\(\alpha = k/2\)</span> and <span class="math inline">\(\beta = \frac{1}{2}\)</span>, where <span class="math inline">\(k\)</span> is the degree of freedom)</li>
 </ul>
+</div>
 </section>
 <section id="beta-distribution" class="slide level2">
 <h2>Beta Distribution</h2>
+<div>
 <ul>
 <li><span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span>, <span class="math inline">\(\alpha, \beta &gt; 0\)</span></li>
 <li>Density function:</li>
@@ -1099,59 +1115,70 @@ A^c\right) \P\left(A^c\right)}.
 <li><span class="math inline">\(\E(X) = \frac{\alpha}{\alpha+\beta}\)</span></li>
 <li>Special case: Uniform distribution (<span class="math inline">\(\alpha = \beta = 1\)</span>)</li>
 </ul>
+</div>
 </section>
 <section id="binomial-distribution" class="slide level2">
 <h2>Binomial Distribution</h2>
+<div>
 <ul>
-<li><p><span class="math inline">\(\text{Bin}(n, p)\)</span>, <span class="math inline">\(n \in \mathbb{N}\)</span>, <span class="math inline">\(0 &lt; p &lt; 1\)</span></p></li>
-<li><p>Number of positive outcomes out of <span class="math inline">\(n\)</span> binary trials</p></li>
-<li><p>Mass function: <span class="math display">\[f(x; n, p) = \choose{n}{x}p^x(1-p)^{n-x}, \quad x = 0, 1,\ldots, n\]</span></p></li>
-<li><p><span class="math inline">\(\E(X) = np\)</span> and <span class="math inline">\(\var(X) = np(1-p)\)</span></p></li>
-<li><p>Special case: Bernoulli distribution (<span class="math inline">\(n = 1\)</span>)</p></li>
+<li><span class="math inline">\(\text{Bin}(n, p)\)</span>, <span class="math inline">\(n \in \mathbb{N}\)</span>, <span class="math inline">\(0 &lt; p &lt; 1\)</span></li>
+<li>Number of positive outcomes out of <span class="math inline">\(n\)</span> binary trials</li>
+<li>Mass function:</li>
 </ul>
+<p><span class="math display">\[f(x; n, p) = \choose{n}{x}p^x(1-p)^{n-x}, \quad x = 0, 1,\ldots, n\]</span></p>
+<ul>
+<li><span class="math inline">\(\E(X) = np\)</span> and <span class="math inline">\(\var(X) = np(1-p)\)</span></li>
+<li>Special case: Bernoulli distribution (<span class="math inline">\(n = 1\)</span>)</li>
+</ul>
+</div>
 </section>
 <section id="poisson-distribution" class="slide level2">
 <h2>Poisson Distribution</h2>
+<div>
 <ul>
-<li><p><span class="math inline">\(\text{Poi}(\lambda)\)</span>, <span class="math inline">\(\lambda &gt; 0\)</span></p></li>
-<li><p>Mass function: <span class="math display">\[f(x;\lambda) = \frac{e^{-\lambda}\lambda^x}{x!}, \quad x = 0, 1, 2, \ldots\]</span></p></li>
-<li><p><span class="math inline">\(\E(X) = \var(X) = \lambda\)</span>.</p></li>
+<li><span class="math inline">\(\text{Poi}(\lambda)\)</span>, <span class="math inline">\(\lambda &gt; 0\)</span></li>
+<li>Mass function:</li>
 </ul>
+<p><span class="math display">\[f(x;\lambda) = \frac{e^{-\lambda}\lambda^x}{x!}, \quad x = 0, 1, 2, \ldots\]</span></p>
+<ul>
+<li><span class="math inline">\(\E(X) = \var(X) = \lambda\)</span>.</li>
+</ul>
+</div>
 </section>
 <section id="negative-binomial-distribution" class="slide level2">
 <h2>Negative Binomial Distribution</h2>
+<div>
 <ul>
-<li><p><span class="math inline">\(\text{NB}(r, p)\)</span>, <span class="math inline">\(r = 1,2,\ldots\)</span>, <span class="math inline">\(0 &lt; p &lt; 1\)</span></p></li>
-<li><p>Number of failures before the <span class="math inline">\(r\)</span>th success</p></li>
-<li><p>Mass function: <span class="math display">\[f(x;r,p) = \choose{x+r-1}{x}p^r(1-p)^x, \quad x = 0, 1, \ldots\]</span></p></li>
-<li><p><span class="math inline">\(\E(X) = \frac{r(1-p)}{p}\)</span> and <span class="math inline">\(\var(X) = \frac{r(1-p)}{p^2}\)</span>.</p></li>
-<li><p>Special case: Geometric distribution (<span class="math inline">\(r=1\)</span>, number of failures before the first success)</p></li>
+<li><span class="math inline">\(\text{NB}(r, p)\)</span>, <span class="math inline">\(r = 1,2,\ldots\)</span>, <span class="math inline">\(0 &lt; p &lt; 1\)</span></li>
+<li>Number of failures before the <span class="math inline">\(r\)</span>th success</li>
+<li>Mass function:</li>
 </ul>
+<p><span class="math display">\[f(x;r,p) = \choose{x+r-1}{x}p^r(1-p)^x, \quad x = 0, 1, \ldots\]</span></p>
+<ul>
+<li><span class="math inline">\(\E(X) = \frac{r(1-p)}{p}\)</span> and <span class="math inline">\(\var(X) = \frac{r(1-p)}{p^2}\)</span>.</li>
+<li>Special case: Geometric distribution (<span class="math inline">\(r=1\)</span>, number of failures before the first success)</li>
+</ul>
+</div>
 </section>
 <section id="maximum-likelihood-estimation" class="slide level2">
 <h2>Maximum Likelihood Estimation</h2>
-<div>
 <ul>
 <li class="fragment">Suppose <span class="math inline">\(X_1, \ldots, X_n \iid f(x|\theta)\)</span>.</li>
 <li class="fragment">The <strong>likelihood</strong> function is <span class="math display">\[L(\theta) = \prod_{i=1}^n f(x_i|\theta).\]</span></li>
 <li class="fragment">The MLE of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\hat{\theta} = \argmax_{\theta}L(\theta)\)</span>.</li>
 <li class="fragment">Under some regularity conditions on <span class="math inline">\(f(x|\theta)\)</span>, the MLE is efficient (has the smallest variance) and its distribution is approximately normal (when <span class="math inline">\(n\)</span> is large enough).</li>
 </ul>
-</div>
 </section>
 <section id="law-of-large-numbers-central-limit-theorem" class="slide level2">
 <h2>Law of Large Numbers &amp; Central Limit Theorem</h2>
 <p>Suppose <span class="math inline">\(X_1, \ldots, X_n\)</span> are iid (independent and identically distributed) from some distribution <span class="math inline">\(F\)</span> with <span class="math inline">\(\E(X) = \mu\)</span> and <span class="math inline">\(\var(X) = \sigma^2 &lt; \infty\)</span>. Let <span class="math inline">\(\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i\)</span>. Then</p>
-<div>
 <ul>
 <li class="fragment">Law of Large Numbers (LLN): <span class="math inline">\(\bar{X}_n\)</span> will be very closed to <span class="math inline">\(\mu\)</span> for large <span class="math inline">\(n\)</span> <span class="math display">\[ \bar{X}_n \cas \mu\]</span></li>
 <li class="fragment">Central Limit Theorem (CLT): the distribution of <span class="math inline">\(\bar{X}_n\)</span> will be approximately normal for large <span class="math inline">\(n\)</span> <span class="math display">\[\sqrt{n}(\bar{X}_n - \mu) \cd N(0, \sigma^2)\]</span></li>
 </ul>
-</div>
 </section>
 <section id="monte-carlo-approximationestimation" class="slide level2">
 <h2>Monte Carlo Approximation/Estimation</h2>
-<div>
 <ul>
 <li class="fragment">Suppose we have function <span class="math inline">\(f: [a, b] \to \R\)</span> and we want to compute <span class="math inline">\(I = \int_a^b f(x)dx\)</span>.</li>
 <li class="fragment">Write <span class="math display">\[I = (b-a)\int_a^b f(x)\frac{1}{b-a}dx = (b-a)\E(f(X)), \quad X \sim \text{Unif}(a,b).\]</span></li>
@@ -1162,7 +1189,6 @@ A^c\right) \P\left(A^c\right)}.
 <li class="fragment">By LLN and CLT, <span class="math display">\[\hat{I}_n \cas I \quad \text{and} \quad \sqrt{n}(\hat{I}_n - I) \cd N(0, (b-a)^2\sigma^2)\]</span> if <span class="math inline">\(\sigma^2 = \var(f(X)) &lt; \infty\)</span>.</li>
 </ul></li>
 </ul>
-</div>
 
 <div class="footer footer-default">
 <p><a href="https://chun-hao.github.io/stat-5010/">Home</a></p>

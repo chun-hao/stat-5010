@@ -4,35 +4,35 @@
     "href": "slides/01-intro.html#course-description",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Course Description",
-    "text": "Course Description\n\n\nStatistical analysis is an inversion process: retrieving the causes (models/parameters) from the effects (observations/sample/data)\nBayes’ Theorem: If \\(A\\) and \\(E\\) are events such that \\(\\P(E) \\neq 0\\), \\[\\P(A \\mid E)=\\frac{\\P(E \\mid A) \\P(A)}{\\P(E \\mid A) \\P(A)+\\P\\left(E \\mid\nA^c\\right) \\P\\left(A^c\\right)}.\\]\nLet \\(A\\) be causes and \\(E\\) be effects. Bayes’ Theorem gives the relationship between \\(\\P(A\\mid E)\\) (statistical inference) and \\(\\P(E\\mid A)\\) (phenomenon).\nThis course will focus on statistical analysis under the Bayesian paradigm."
+    "text": "Course Description\n\nStatistical analysis is an inversion process: retrieving the causes (models/parameters) from the effects (observations/sample/data)\nBayes’ Theorem: If \\(A\\) and \\(E\\) are events such that \\(\\P(E) \\neq 0\\), \\[\\P(A \\mid E)=\\frac{\\P(E \\mid A) \\P(A)}{\\P(E \\mid A) \\P(A)+\\P\\left(E \\mid\nA^c\\right) \\P\\left(A^c\\right)}.\\]\nLet \\(A\\) be causes and \\(E\\) be effects. Bayes’ Theorem gives the relationship between \\(\\P(A\\mid E)\\) (statistical inference) and \\(\\P(E\\mid A)\\) (phenomenon).\nThis course will focus on statistical analysis under the Bayesian paradigm."
   },
   {
     "objectID": "slides/01-intro.html#course-description-1",
     "href": "slides/01-intro.html#course-description-1",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Course Description",
-    "text": "Course Description\n\nAdapting Bayes’ Theorem to a parametric problem,\n\n\\[\\pi(\\theta|x) = \\frac{p(x|\\theta)\\pi(\\theta)}{\\int\n    p(x|\\theta^{\\prime})\\pi(\\theta^{\\prime})d\\theta^{\\prime}}.\\]\n\\[\\begin{align*}\n\\theta        & \\longleftrightarrow \\text{parameter}\\\\\nx             & \\longleftrightarrow \\text{data}\\\\\n\\pi(\\theta)   & \\longleftrightarrow \\textcolor{magenta}{\\text{prior distribution}}\\\\\np(x|\\theta)   & \\longleftrightarrow \\text{likelihood/model}\\\\\n\\pi(\\theta|x) & \\longleftrightarrow \\textcolor{magenta}{\\text{posterior distribution}}\\\\\n\\end{align*}\\]\n\nKey components: priors and posteriors"
+    "text": "Course Description\n\n\nAdapting Bayes’ Theorem to a parametric problem,\n\n\\[\\pi(\\theta|x) = \\frac{p(x|\\theta)\\pi(\\theta)}{\\int\n    p(x|\\theta^{\\prime})\\pi(\\theta^{\\prime})d\\theta^{\\prime}}.\\]\n\\[\\begin{align*}\n\\theta        & \\longleftrightarrow \\text{parameter}\\\\\nx             & \\longleftrightarrow \\text{data}\\\\\n\\pi(\\theta)   & \\longleftrightarrow \\textcolor{magenta}{\\text{prior distribution}}\\\\\np(x|\\theta)   & \\longleftrightarrow \\text{likelihood/model}\\\\\n\\pi(\\theta|x) & \\longleftrightarrow \\textcolor{magenta}{\\text{posterior distribution}}\\\\\n\\end{align*}\\] \n\nKey components: priors and posteriors"
   },
   {
     "objectID": "slides/01-intro.html#course-description-2",
     "href": "slides/01-intro.html#course-description-2",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Course Description",
-    "text": "Course Description\nA general procedure for Bayesian statistical analysis:\n\n\nChoose a class \\(\\mc{M}\\) of models for the sample \\(x\\);\nChoose a prior distribution over \\(\\mc{M}\\);\nUse Bayes Theorem to compute the posterior distribution of models given the sample;\nPick a “good” model based on the posterior distribution."
+    "text": "Course Description\nA general procedure for Bayesian statistical analysis:\n\nChoose a class \\(\\mc{M}\\) of models for the sample \\(x\\);\nChoose a prior distribution over \\(\\mc{M}\\);\nUse Bayes Theorem to compute the posterior distribution of models given the sample;\nPick a “good” model based on the posterior distribution."
   },
   {
     "objectID": "slides/01-intro.html#topics",
     "href": "slides/01-intro.html#topics",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Topics",
-    "text": "Topics\n\nPrinciples for the choice of priors\nInference based on the posterior\nBayesian analysis for different problems:\n\nestimation\nhypothesis testing\nregression\nprediction\nnonparametric model\nmodel comparison"
+    "text": "Topics\n\n\nPrinciples for the choice of priors\nInference based on the posterior\nBayesian analysis for different problems:\n\nestimation\nhypothesis testing\nregression\nprediction\nnonparametric model\nmodel comparison"
   },
   {
     "objectID": "slides/01-intro.html#course-materials",
     "href": "slides/01-intro.html#course-materials",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Course Materials",
-    "text": "Course Materials\n\nHoff, P. D. (2009). A First Course in Bayesian Statistical Methods.\nRobert, C. P. (2007). The Bayesian Choice, 2nd Edition.\nGelman, A. et al. (2020). Bayesian Data Analysis, 3rd Edition.\nRobert, C. P., & Casella, G. (2004). Monte Carlo Statistical Methods, 2nd Edition.\nProf. Rebecca Steorts at Duke. Lecture notes\nSlides will be posted on NTU Cool."
+    "text": "Course Materials\n\n\nHoff, P. D. (2009). A First Course in Bayesian Statistical Methods.\nRobert, C. P. (2007). The Bayesian Choice, 2nd Edition.\nGelman, A. et al. (2020). Bayesian Data Analysis, 3rd Edition.\nRobert, C. P., & Casella, G. (2004). Monte Carlo Statistical Methods, 2nd Edition.\nProf. Rebecca Steorts at Duke. Lecture notes\nSlides will be posted on NTU Cool."
   },
   {
     "objectID": "slides/01-intro.html#course-schedule",
@@ -46,21 +46,21 @@
     "href": "slides/01-intro.html#grading",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Grading",
-    "text": "Grading\n\nHomework (3 - 4 homeworks): 30%\nOral Presentation (project proposal and final presentation): 40%\nWritten Report: 30%\n\nContact information\n\nOffice: Room 602, Cosmology Hall\nE-mail: chunhaoy@ntu.edu.tw\nOffice Hours: Tue. 3-5pm or by appointment"
+    "text": "Grading\n\n\nHomework (3 - 4 homeworks): 30%\nOral Presentation (project proposal and final presentation): 40%\nWritten Report: 30%\n\n\nContact information\n\n\nOffice: Room 602, Cosmology Hall\nE-mail: chunhaoy@ntu.edu.tw\nOffice Hours: Tue. 3-5pm or by appointment"
   },
   {
     "objectID": "slides/01-intro.html#final-project",
     "href": "slides/01-intro.html#final-project",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Final Project",
-    "text": "Final Project\n\nA group of 2-3 students\nChoose a dataset and find a problem which you can answer with your dataset.\nFigure out how to perform legitimate statistical analysis based on (but not limited to) what we learn in this course.\nAn oral presentation of your results (20 mins per group)\nA written report (8 pages) including:\n\ndescription of the dataset\nstatistical problem\nmodel and inference\nresults and conclusion\nreference\n\nMore details will be announced after midterm exam."
+    "text": "Final Project\n\n\nA group of 2-3 students\nChoose a dataset and find a problem which you can answer with your dataset.\nFigure out how to perform legitimate statistical analysis based on (but not limited to) what we learn in this course.\nAn oral presentation of your results (20 mins per group)\nA written report (8 pages) including:\n\ndescription of the dataset\nstatistical problem\nmodel and inference\nresults and conclusion\nreference\n\nMore details will be announced after midterm exam."
   },
   {
     "objectID": "slides/01-intro.html#prerequisites",
     "href": "slides/01-intro.html#prerequisites",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Prerequisites",
-    "text": "Prerequisites\n\nBasic calculus and linear algebra\nMathematical statistics (undergrad level is fine)\nFamiliarity with some data analytic programming language (R/Python/MATLAB)\nExperiences with data analysis is not required but will be helpful"
+    "text": "Prerequisites\n\n\nBasic calculus and linear algebra\nMathematical statistics (undergrad level is fine)\nFamiliarity with some data analytic programming language (R/Python/MATLAB)\nExperiences with data analysis is not required but will be helpful"
   },
   {
     "objectID": "slides/01-intro.html#example-8-school-dataset",
@@ -81,7 +81,7 @@
     "href": "slides/01-intro.html#step-1-2-determine-the-likelihood-and-prior",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Step 1 & 2: Determine the likelihood and prior",
-    "text": "Step 1 & 2: Determine the likelihood and prior\n\n\nConsider \\[\\begin{align*}\nY_{i} \\mid \\theta_i, \\sigma_i^2 & \\ind N(\\theta_i, \\sigma_i^2), i = 1,\\ldots, 8\\\\\n\\theta_i \\mid \\mu, \\tau & \\ind N(\\mu, \\tau^2)\n\\end{align*}\\] where \\(Y_i\\)’s are the observed average treatment effect and \\(\\sigma_i^2\\)’s are the variance of the treatment effects.\nWe are interested in estimating the \\(\\theta_i\\)’s, which are the effects of the coaching programs."
+    "text": "Step 1 & 2: Determine the likelihood and prior\n\nConsider \\[\\begin{align*}\nY_{i} \\mid \\theta_i, \\sigma_i^2 & \\ind N(\\theta_i, \\sigma_i^2), i = 1,\\ldots, 8\\\\\n\\theta_i \\mid \\mu, \\tau & \\ind N(\\mu, \\tau^2)\n\\end{align*}\\] where \\(Y_i\\)’s are the observed average treatment effect and \\(\\sigma_i^2\\)’s are the variance of the treatment effects.\nWe are interested in estimating the \\(\\theta_i\\)’s, which are the effects of the coaching programs."
   },
   {
     "objectID": "slides/01-intro.html#step-4-inference-based-on-the-posterior",
@@ -109,14 +109,14 @@
     "href": "slides/01-intro.html#stan-statistical-computing-platform",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Stan: Statistical Computing Platform",
-    "text": "Stan: Statistical Computing Platform\n\n\n\n\n\n\nProvide automated Bayesian computation\nInterface with R/Python/MATLAB/…"
+    "text": "Stan: Statistical Computing Platform\n\n\n\n\n\n\n\nProvide automated Bayesian computation\nInterface with R/Python/MATLAB/…"
   },
   {
     "objectID": "slides/01-intro.html#who-is-the-father-of-statistics",
     "href": "slides/01-intro.html#who-is-the-father-of-statistics",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Who is the father of statistics?",
-    "text": "Who is the father of statistics?\nSome important statisticians:\n\n\nCarl Friedrich Gauss (1777 - 1855): Gaussian distribution, …\nRonald A. Fisher (1890 - 1962): likelihood based inference, …\nKarl Pearson (1857 - 1936): Pearson’s correlation coefficient, …\nWilliam Sealy Gosset (1876 - 1937): \\(t\\)-test and \\(t\\) distribution\nJerzy Neyman (1894 - 1981): Neyman-Pearson Lemma, …\nPierre-Simon Laplace (1749 - 1827): Central Limit Theorem, …\nThomas Bayes (1702 - 1761): Bayes Theorem, …"
+    "text": "Who is the father of statistics?\nSome important statisticians:\n\nCarl Friedrich Gauss (1777 - 1855): Gaussian distribution, …\nRonald A. Fisher (1890 - 1962): likelihood based inference, …\nKarl Pearson (1857 - 1936): Pearson’s correlation coefficient, …\nWilliam Sealy Gosset (1876 - 1937): \\(t\\)-test and \\(t\\) distribution\nJerzy Neyman (1894 - 1981): Neyman-Pearson Lemma, …\nPierre-Simon Laplace (1749 - 1827): Central Limit Theorem, …\nThomas Bayes (1702 - 1761): Bayes Theorem, … :::"
   },
   {
     "objectID": "slides/01-intro.html#thomas-bayes",
@@ -144,21 +144,21 @@
     "href": "slides/01-intro.html#laplaces-rule-of-succession",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Laplace’s Rule of Succession",
-    "text": "Laplace’s Rule of Succession\n\n\nIf we repeat an experiment that we know can result in a success or failure, \\(n\\) times independently, and get \\(s\\) successes, and \\(n-s\\) failures, then what is the probability that the next repetition will succeed?\nLaplace’s Answer: \\[\\P\\left(X_{n+1}=1 \\mid X_1+\\cdots+X_n=s\\right)=\\frac{s+1}{n+2}\\]\nThis answer is obtained from the Beta-Binomial model."
+    "text": "Laplace’s Rule of Succession\n\nIf we repeat an experiment that we know can result in a success or failure, \\(n\\) times independently, and get \\(s\\) successes, and \\(n-s\\) failures, then what is the probability that the next repetition will succeed?\nLaplace’s Answer: \\[\\P\\left(X_{n+1}=1 \\mid X_1+\\cdots+X_n=s\\right)=\\frac{s+1}{n+2}\\]\nThis answer is obtained from the Beta-Binomial model."
   },
   {
     "objectID": "slides/01-intro.html#pierre-simon-laplace-1",
     "href": "slides/01-intro.html#pierre-simon-laplace-1",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Pierre-Simon Laplace",
-    "text": "Pierre-Simon Laplace\n\n\nLaplace was not satisfied with the uniform prior, neither did other mathematicians.\nHowever, he still applied Bayes Theorem to solve many practical problems:\n\nEstimating the French population\nBirth and census study\nCredibility of witnesses in the court\n\nIn 1810, he announced the Central Limit Theorem.\nAt the age of 62, he turned to frequentist-based approach. Why?"
+    "text": "Pierre-Simon Laplace\n\nLaplace was not satisfied with the uniform prior, neither did other mathematicians.\nHowever, he still applied Bayes Theorem to solve many practical problems:\n\nEstimating the French population\nBirth and census study\nCredibility of witnesses in the court\n\nIn 1810, he announced the Central Limit Theorem.\nAt the age of 62, he turned to frequentist-based approach. Why?"
   },
   {
     "objectID": "slides/01-intro.html#decline-of-bayesian-statistics",
     "href": "slides/01-intro.html#decline-of-bayesian-statistics",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Decline of Bayesian Statistics",
-    "text": "Decline of Bayesian Statistics\n\n\nThe subjective component, prior distribution, is heavily criticized by mathematicians and theorists.\nFor large dataset, Bayesian and frequentist produced almost the same result.\nDataset became more reliable, and frequentist approaches are easier to implement.\nBayesian approaches are computationally challenging, even for simple models.\nResearchers tend to design their own experiments to answer industrial/scientific questions."
+    "text": "Decline of Bayesian Statistics\n\nThe subjective component, prior distribution, is heavily criticized by mathematicians and theorists.\nFor large dataset, Bayesian and frequentist produced almost the same result.\nDataset became more reliable, and frequentist approaches are easier to implement.\nBayesian approaches are computationally challenging, even for simple models.\nResearchers tend to design their own experiments to answer industrial/scientific questions."
   },
   {
     "objectID": "slides/01-intro.html#sir-ronald-a.-fisher",
@@ -172,126 +172,126 @@
     "href": "slides/01-intro.html#revival-of-bayesian-statistics",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Revival of Bayesian Statistics",
-    "text": "Revival of Bayesian Statistics\n\n\nClean, reliable data -&gt; Frequentist\nThrough the use of prior information, Bayesian approaches are actually more powerful and flexible when handling complex datasets.\nAdvances in computing technologies\nReadings:\n\nLindley, D. V. (1975). The future of statistics: A Bayesian 21st century. Advances in Applied Probability, 7, 106-115.\nEfron, B. (1986). Why isn’t everyone a Bayesian? The American Statistician, 40(1), 1-5.\nEfron, B. (1998). R. A. Fisher in the 21st century. Statistical Science, 95-114."
+    "text": "Revival of Bayesian Statistics\n\nClean, reliable data -&gt; Frequentist\nThrough the use of prior information, Bayesian approaches are actually more powerful and flexible when handling complex datasets.\nAdvances in computing technologies\nReadings:\n\nLindley, D. V. (1975). The future of statistics: A Bayesian 21st century. Advances in Applied Probability, 7, 106-115.\nEfron, B. (1986). Why isn’t everyone a Bayesian? The American Statistician, 40(1), 1-5.\nEfron, B. (1998). R. A. Fisher in the 21st century. Statistical Science, 95-114."
   },
   {
     "objectID": "slides/01-intro.html#what-is-probability",
     "href": "slides/01-intro.html#what-is-probability",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "What is probability?",
-    "text": "What is probability?\n\n\nFrequentist: Probability is the limit of relative frequency as the experiment repeats infinitely.\nBayesian: Probability reflects one’s belief.\nHowever, it doesn’t matter how you interpret probability because\n\n\n\n\n\n\n\n\n\n\n\nImage source: https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/"
+    "text": "What is probability?\n\nFrequentist: Probability is the limit of relative frequency as the experiment repeats infinitely.\nBayesian: Probability reflects one’s belief.\nHowever, it doesn’t matter how you interpret probability because\n\n\n\n\n\n\n\n\n\n\nImage source: https://www.lacan.upc.edu/admoreWeb/2018/05/all-models-are-wrong-but-some-are-useful-george-e-p-box/"
   },
   {
     "objectID": "slides/01-intro.html#the-theory-that-would-not-die",
     "href": "slides/01-intro.html#the-theory-that-would-not-die",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "The Theory That Would Not Die",
-    "text": "The Theory That Would Not Die\n\nFor more interesting stories about Bayesian statistics, check\n\n\n\n\n\n\n\nThere is a talk at Google given by the author Sharon McGrayne.\nhttps://www.lesswrong.com/posts/RTt59BtFLqQbsSiqd/a-history-of-bayes-theorem"
+    "text": "The Theory That Would Not Die\n\n\nFor more interesting stories about Bayesian statistics, check\n\n\n\n\n\n\n\nThere is a talk at Google given by the author Sharon McGrayne.\nhttps://www.lesswrong.com/posts/RTt59BtFLqQbsSiqd/a-history-of-bayes-theorem"
   },
   {
     "objectID": "slides/01-intro.html#probability",
     "href": "slides/01-intro.html#probability",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Probability",
-    "text": "Probability\n\n\nThe value \\(\\P(E)\\) is the probability of the occurrence of event \\(E\\).\nLet \\(\\Omega\\) be the sample space, i.e., the space containing all possible outcomes.\nA probability \\(\\P\\) on \\(\\Omega\\) satisfies:\n\n\\(\\P(\\Omega) = 1\\)\n\\(\\P(E) \\geq 0\\) for any \\(E \\subset \\Omega\\)\n(countable additivity) \\(\\P(\\cup_{i=1}^{\\infty} E_i) = \\sum_{i=1}^\\infty \\P(E_i)\\) for pairwise disjoint \\(E_i\\)’s"
+    "text": "Probability\n\nThe value \\(\\P(E)\\) is the probability of the occurrence of event \\(E\\).\nLet \\(\\Omega\\) be the sample space, i.e., the space containing all possible outcomes.\nA probability \\(\\P\\) on \\(\\Omega\\) satisfies:\n\n\\(\\P(\\Omega) = 1\\)\n\\(\\P(E) \\geq 0\\) for any \\(E \\subset \\Omega\\)\n(countable additivity) \\(\\P(\\cup_{i=1}^{\\infty} E_i) = \\sum_{i=1}^\\infty \\P(E_i)\\) for pairwise disjoint \\(E_i\\)’s"
   },
   {
     "objectID": "slides/01-intro.html#conditional-probability",
     "href": "slides/01-intro.html#conditional-probability",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Conditional Probability",
-    "text": "Conditional Probability\n\nThe conditional probability of \\(A\\) given \\(B\\) is\n\n\\[\\P(A \\mid B) \\coloneqq \\frac{\\P(A \\cap B)}{\\P(B)}, \\quad \\text{if}\\;\\;\\P(B) &gt; 0.\\]\n\nOne-line proof of Bayes Theorem: If \\(\\P(A)\\) and \\(\\P(B)\\) are both non-zero,\n\n\\[\\P(A \\mid B) = \\frac{\\P(A \\cap B)}{\\P(B)} = \\frac{\\P(B \\mid A)\\P(A)}{\\P(B)}.\\]"
+    "text": "Conditional Probability\n\n\nThe conditional probability of \\(A\\) given \\(B\\) is\n\n\\[\\P(A \\mid B) \\coloneqq \\frac{\\P(A \\cap B)}{\\P(B)}, \\quad \\text{if}\\;\\;\\P(B) &gt; 0.\\]\n\n\n\nOne-line proof of Bayes Theorem: If \\(\\P(A)\\) and \\(\\P(B)\\) are both non-zero,\n\n\\[\\P(A \\mid B) = \\frac{\\P(A \\cap B)}{\\P(B)} = \\frac{\\P(B \\mid A)\\P(A)}{\\P(B)}.\\]"
   },
   {
     "objectID": "slides/01-intro.html#random-variables",
     "href": "slides/01-intro.html#random-variables",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Random Variables",
-    "text": "Random Variables\n\n\nA random variable is\n\na measurable function\nan outcome from a random experiment\n\nThe information about a random variable is given by it probability density function (pdf) or probability mass function (pmf).\npdf: \\(f(x) \\geq 0\\) and \\(\\int f(x) dx = 1\\)\npmf: \\(f(x) = \\P(X = x)\\) and \\(\\sum f(x) = 1\\)\nExpectation: \\(\\E(X) = \\int xf(x)dx\\) or \\(\\E(X) = \\sum x\\P(X = x)\\)\nVariance: \\(\\var(X) = \\E[(X - \\mu)^2] = \\E(X^2) - \\mu^2\\) where \\(\\mu = \\E(X)\\).\nCovariance: \\(\\cov(X, Y) = \\E[(X - \\mu_X)(Y - \\mu_Y)] = \\E(XY) - \\mu_X\\mu_Y\\)"
+    "text": "Random Variables\n\nA random variable is\n\na measurable function\nan outcome from a random experiment\n\nThe information about a random variable is given by it probability density function (pdf) or probability mass function (pmf).\npdf: \\(f(x) \\geq 0\\) and \\(\\int f(x) dx = 1\\)\npmf: \\(f(x) = \\P(X = x)\\) and \\(\\sum f(x) = 1\\)\nExpectation: \\(\\E(X) = \\int xf(x)dx\\) or \\(\\E(X) = \\sum x\\P(X = x)\\)\nVariance: \\(\\var(X) = \\E[(X - \\mu)^2] = \\E(X^2) - \\mu^2\\) where \\(\\mu = \\E(X)\\).\nCovariance: \\(\\cov(X, Y) = \\E[(X - \\mu_X)(Y - \\mu_Y)] = \\E(XY) - \\mu_X\\mu_Y\\)"
   },
   {
     "objectID": "slides/01-intro.html#independence",
     "href": "slides/01-intro.html#independence",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Independence",
-    "text": "Independence\n\n\nIndependence of events: \\(\\P(A \\cap B) = \\P(A)\\P(B)\\)\nIndependent random variables:\n\n\\(\\Leftrightarrow\\) \\(f_{X,Y}(x, y) = f_X(x)f_Y(y)\\)\n\\(\\Rightarrow\\) \\(\\E(XY) = \\E(X) \\E(Y)\\) (the reverse is not true)\n\\(\\Leftrightarrow\\) \\(f_{X|Y}(x|y) = f_X(x)\\)\n\nConditional independence\n\n\\(X \\perp Y \\mid Z\\): given \\(Z\\), \\(X\\) and \\(Y\\) are independent\nEquivalently, \\(X \\mid Z\\) and \\(Y \\mid Z\\) are independent.\n\nRemark: (mutual) independence DOES NOT imply conditional independence\nExample: \\(X, Z \\iid \\text{Ber}(1/2)\\) and \\(Y = I(X \\neq Z)\\). Check that \\(X\\) and \\(Y\\) are independent, but they are not conditionally independent given \\(Z\\)."
+    "text": "Independence\n\nIndependence of events: \\(\\P(A \\cap B) = \\P(A)\\P(B)\\)\nIndependent random variables:\n\n\\(\\Leftrightarrow\\) \\(f_{X,Y}(x, y) = f_X(x)f_Y(y)\\)\n\\(\\Rightarrow\\) \\(\\E(XY) = \\E(X) \\E(Y)\\) (the reverse is not true)\n\\(\\Leftrightarrow\\) \\(f_{X|Y}(x|y) = f_X(x)\\)\n\nConditional independence\n\n\\(X \\perp Y \\mid Z\\): given \\(Z\\), \\(X\\) and \\(Y\\) are independent\nEquivalently, \\(X \\mid Z\\) and \\(Y \\mid Z\\) are independent.\n\nRemark: (mutual) independence DOES NOT imply conditional independence\nExample: \\(X, Z \\iid \\text{Ber}(1/2)\\) and \\(Y = I(X \\neq Z)\\). Check that \\(X\\) and \\(Y\\) are independent, but they are not conditionally independent given \\(Z\\)."
   },
   {
     "objectID": "slides/01-intro.html#law-of-total-probabilityexpectationvariance",
     "href": "slides/01-intro.html#law-of-total-probabilityexpectationvariance",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Law of Total Probability/Expectation/Variance",
-    "text": "Law of Total Probability/Expectation/Variance\n\n\nLaw of Total Probability: For \\(B_i \\cap B_j = \\emptyset\\) and \\(\\cup_{i=1}^k B_i = \\Omega\\), \\[\\P(A) = \\sum_{i=1}^k \\P(A \\mid B_i).\\]\nLaw of Total Expectation (tower property/double expectation): \\[\\E(X) = \\E_Y(\\E_{X|Y}(X|Y)).\\]\nLaw of Total Variance: \\[\\var(X) = \\var(\\E(X|Y)) + \\E(\\var(X|Y)).\\]"
+    "text": "Law of Total Probability/Expectation/Variance\n\n\nLaw of Total Probability: For \\(B_i \\cap B_j = \\emptyset\\) and \\(\\cup_{i=1}^k B_i = \\Omega\\),\n\n\\[\\P(A) = \\sum_{i=1}^k \\P(A \\mid B_i).\\]\n\n\n\nLaw of Total Expectation (tower property/double expectation):\n\n\\[\\E(X) = \\E_Y(\\E_{X|Y}(X|Y)).\\]\n\n\n\nLaw of Total Variance:\n\n\\[\\var(X) = \\var(\\E(X|Y)) + \\E(\\var(X|Y)).\\]"
   },
   {
     "objectID": "slides/01-intro.html#important-univariate-distributions",
     "href": "slides/01-intro.html#important-univariate-distributions",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Important univariate distributions",
-    "text": "Important univariate distributions\n\nContinuous univariate distribution:\n\nNormal distribution (on \\(\\R\\))\nGamma distribution (on \\(\\R_+\\))\nBeta distribution (on \\([0, 1]\\))\n\nDiscrete univariate distribution:\n\nBinomial distribution (on \\(\\{0, 1, \\ldots, n\\}\\))\nPoisson distribution (on \\(\\{0, 1, 2, \\ldots\\}\\))\nNegative Binomial distribution (on \\(\\{0, 1, 2, \\ldots\\}\\))"
+    "text": "Important univariate distributions\n\n\nContinuous univariate distribution:\n\nNormal distribution (on \\(\\R\\))\nGamma distribution (on \\(\\R_+\\))\nBeta distribution (on \\([0, 1]\\))\n\nDiscrete univariate distribution:\n\nBinomial distribution (on \\(\\{0, 1, \\ldots, n\\}\\))\nPoisson distribution (on \\(\\{0, 1, 2, \\ldots\\}\\))\nNegative Binomial distribution (on \\(\\{0, 1, 2, \\ldots\\}\\))"
   },
   {
     "objectID": "slides/01-intro.html#normal-distribution",
     "href": "slides/01-intro.html#normal-distribution",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Normal Distribution",
-    "text": "Normal Distribution\n\n\\(N(\\mu, \\sigma^2)\\), \\(\\mu \\in \\R\\), \\(\\sigma &gt; 0\\)\nDensity function:\n\n\\[f(x;\\mu,\\sigma^2) = \\frac{1}{\\sqrt{2\\pi}\\sigma} \\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right), \\quad x \\in \\R\\]\n\n\\(\\E(X) = \\mu\\) and \\(\\var(X) = \\sigma^2\\)"
+    "text": "Normal Distribution\n\n\n\\(N(\\mu, \\sigma^2)\\), \\(\\mu \\in \\R\\), \\(\\sigma &gt; 0\\)\nDensity function:\n\n\\[f(x;\\mu,\\sigma^2) = \\frac{1}{\\sqrt{2\\pi}\\sigma} \\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right), \\quad x \\in \\R\\]\n\n\\(\\E(X) = \\mu\\) and \\(\\var(X) = \\sigma^2\\)"
   },
   {
     "objectID": "slides/01-intro.html#gamma-distribution",
     "href": "slides/01-intro.html#gamma-distribution",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Gamma Distribution",
-    "text": "Gamma Distribution\n\n\\(\\text{Gamma}(\\alpha, \\beta)\\), \\(\\alpha, \\beta &gt; 0\\)\nDensity function:\n\n\\[f(x;\\alpha, \\beta) = \\frac{\\beta^{\\alpha}}{\\Gamma(\\alpha)}x^{\\alpha-1}\\exp(-\\beta x), \\quad x &gt; 0\\]\n\n\\(\\E(X) = \\frac{\\alpha}{\\beta}\\) and \\(\\var(X) = \\frac{\\alpha}{\\beta^2}\\).\nSpecial Case: Exponential distribution (\\(\\alpha = 1\\)) and \\(\\chi^2\\) distribution (\\(\\alpha = k/2\\) and \\(\\beta = \\frac{1}{2}\\), where \\(k\\) is the degree of freedom)"
+    "text": "Gamma Distribution\n\n\n\\(\\text{Gamma}(\\alpha, \\beta)\\), \\(\\alpha, \\beta &gt; 0\\)\nDensity function:\n\n\\[f(x;\\alpha, \\beta) = \\frac{\\beta^{\\alpha}}{\\Gamma(\\alpha)}x^{\\alpha-1}\\exp(-\\beta x), \\quad x &gt; 0\\]\n\n\\(\\E(X) = \\frac{\\alpha}{\\beta}\\) and \\(\\var(X) = \\frac{\\alpha}{\\beta^2}\\).\nSpecial Case: Exponential distribution (\\(\\alpha = 1\\)) and \\(\\chi^2\\) distribution (\\(\\alpha = k/2\\) and \\(\\beta = \\frac{1}{2}\\), where \\(k\\) is the degree of freedom)"
   },
   {
     "objectID": "slides/01-intro.html#beta-distribution",
     "href": "slides/01-intro.html#beta-distribution",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Beta Distribution",
-    "text": "Beta Distribution\n\n\\(\\text{Beta}(\\alpha, \\beta)\\), \\(\\alpha, \\beta &gt; 0\\)\nDensity function:\n\n\\[f(x;\\alpha, \\beta) = \\frac{1}{B(\\alpha, \\beta)}x^{\\alpha-1}(1-x)^{\\beta-1}, \\quad 0 \\leq x \\leq 1\\]\n\n\\(B(\\alpha, \\beta) = \\frac{\\Gamma(\\alpha)\\Gamma(\\beta)}{\\Gamma(\\alpha+\\beta)}\\) is the Beta function\n\\(\\E(X) = \\frac{\\alpha}{\\alpha+\\beta}\\)\nSpecial case: Uniform distribution (\\(\\alpha = \\beta = 1\\))"
+    "text": "Beta Distribution\n\n\n\\(\\text{Beta}(\\alpha, \\beta)\\), \\(\\alpha, \\beta &gt; 0\\)\nDensity function:\n\n\\[f(x;\\alpha, \\beta) = \\frac{1}{B(\\alpha, \\beta)}x^{\\alpha-1}(1-x)^{\\beta-1}, \\quad 0 \\leq x \\leq 1\\]\n\n\\(B(\\alpha, \\beta) = \\frac{\\Gamma(\\alpha)\\Gamma(\\beta)}{\\Gamma(\\alpha+\\beta)}\\) is the Beta function\n\\(\\E(X) = \\frac{\\alpha}{\\alpha+\\beta}\\)\nSpecial case: Uniform distribution (\\(\\alpha = \\beta = 1\\))"
   },
   {
     "objectID": "slides/01-intro.html#binomial-distribution",
     "href": "slides/01-intro.html#binomial-distribution",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Binomial Distribution",
-    "text": "Binomial Distribution\n\n\\(\\text{Bin}(n, p)\\), \\(n \\in \\mathbb{N}\\), \\(0 &lt; p &lt; 1\\)\nNumber of positive outcomes out of \\(n\\) binary trials\nMass function: \\[f(x; n, p) = \\choose{n}{x}p^x(1-p)^{n-x}, \\quad x = 0, 1,\\ldots, n\\]\n\\(\\E(X) = np\\) and \\(\\var(X) = np(1-p)\\)\nSpecial case: Bernoulli distribution (\\(n = 1\\))"
+    "text": "Binomial Distribution\n\n\n\\(\\text{Bin}(n, p)\\), \\(n \\in \\mathbb{N}\\), \\(0 &lt; p &lt; 1\\)\nNumber of positive outcomes out of \\(n\\) binary trials\nMass function:\n\n\\[f(x; n, p) = \\choose{n}{x}p^x(1-p)^{n-x}, \\quad x = 0, 1,\\ldots, n\\]\n\n\\(\\E(X) = np\\) and \\(\\var(X) = np(1-p)\\)\nSpecial case: Bernoulli distribution (\\(n = 1\\))"
   },
   {
     "objectID": "slides/01-intro.html#poisson-distribution",
     "href": "slides/01-intro.html#poisson-distribution",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Poisson Distribution",
-    "text": "Poisson Distribution\n\n\\(\\text{Poi}(\\lambda)\\), \\(\\lambda &gt; 0\\)\nMass function: \\[f(x;\\lambda) = \\frac{e^{-\\lambda}\\lambda^x}{x!}, \\quad x = 0, 1, 2, \\ldots\\]\n\\(\\E(X) = \\var(X) = \\lambda\\)."
+    "text": "Poisson Distribution\n\n\n\\(\\text{Poi}(\\lambda)\\), \\(\\lambda &gt; 0\\)\nMass function:\n\n\\[f(x;\\lambda) = \\frac{e^{-\\lambda}\\lambda^x}{x!}, \\quad x = 0, 1, 2, \\ldots\\]\n\n\\(\\E(X) = \\var(X) = \\lambda\\)."
   },
   {
     "objectID": "slides/01-intro.html#negative-binomial-distribution",
     "href": "slides/01-intro.html#negative-binomial-distribution",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Negative Binomial Distribution",
-    "text": "Negative Binomial Distribution\n\n\\(\\text{NB}(r, p)\\), \\(r = 1,2,\\ldots\\), \\(0 &lt; p &lt; 1\\)\nNumber of failures before the \\(r\\)th success\nMass function: \\[f(x;r,p) = \\choose{x+r-1}{x}p^r(1-p)^x, \\quad x = 0, 1, \\ldots\\]\n\\(\\E(X) = \\frac{r(1-p)}{p}\\) and \\(\\var(X) = \\frac{r(1-p)}{p^2}\\).\nSpecial case: Geometric distribution (\\(r=1\\), number of failures before the first success)"
+    "text": "Negative Binomial Distribution\n\n\n\\(\\text{NB}(r, p)\\), \\(r = 1,2,\\ldots\\), \\(0 &lt; p &lt; 1\\)\nNumber of failures before the \\(r\\)th success\nMass function:\n\n\\[f(x;r,p) = \\choose{x+r-1}{x}p^r(1-p)^x, \\quad x = 0, 1, \\ldots\\]\n\n\\(\\E(X) = \\frac{r(1-p)}{p}\\) and \\(\\var(X) = \\frac{r(1-p)}{p^2}\\).\nSpecial case: Geometric distribution (\\(r=1\\), number of failures before the first success)"
   },
   {
     "objectID": "slides/01-intro.html#maximum-likelihood-estimation",
     "href": "slides/01-intro.html#maximum-likelihood-estimation",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Maximum Likelihood Estimation",
-    "text": "Maximum Likelihood Estimation\n\n\nSuppose \\(X_1, \\ldots, X_n \\iid f(x|\\theta)\\).\nThe likelihood function is \\[L(\\theta) = \\prod_{i=1}^n f(x_i|\\theta).\\]\nThe MLE of \\(\\theta\\) is \\(\\hat{\\theta} = \\argmax_{\\theta}L(\\theta)\\).\nUnder some regularity conditions on \\(f(x|\\theta)\\), the MLE is efficient (has the smallest variance) and its distribution is approximately normal (when \\(n\\) is large enough)."
+    "text": "Maximum Likelihood Estimation\n\nSuppose \\(X_1, \\ldots, X_n \\iid f(x|\\theta)\\).\nThe likelihood function is \\[L(\\theta) = \\prod_{i=1}^n f(x_i|\\theta).\\]\nThe MLE of \\(\\theta\\) is \\(\\hat{\\theta} = \\argmax_{\\theta}L(\\theta)\\).\nUnder some regularity conditions on \\(f(x|\\theta)\\), the MLE is efficient (has the smallest variance) and its distribution is approximately normal (when \\(n\\) is large enough)."
   },
   {
     "objectID": "slides/01-intro.html#law-of-large-numbers-central-limit-theorem",
     "href": "slides/01-intro.html#law-of-large-numbers-central-limit-theorem",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Law of Large Numbers & Central Limit Theorem",
-    "text": "Law of Large Numbers & Central Limit Theorem\nSuppose \\(X_1, \\ldots, X_n\\) are iid (independent and identically distributed) from some distribution \\(F\\) with \\(\\E(X) = \\mu\\) and \\(\\var(X) = \\sigma^2 &lt; \\infty\\). Let \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i\\). Then\n\n\nLaw of Large Numbers (LLN): \\(\\bar{X}_n\\) will be very closed to \\(\\mu\\) for large \\(n\\) \\[ \\bar{X}_n \\cas \\mu\\]\nCentral Limit Theorem (CLT): the distribution of \\(\\bar{X}_n\\) will be approximately normal for large \\(n\\) \\[\\sqrt{n}(\\bar{X}_n - \\mu) \\cd N(0, \\sigma^2)\\]"
+    "text": "Law of Large Numbers & Central Limit Theorem\nSuppose \\(X_1, \\ldots, X_n\\) are iid (independent and identically distributed) from some distribution \\(F\\) with \\(\\E(X) = \\mu\\) and \\(\\var(X) = \\sigma^2 &lt; \\infty\\). Let \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i\\). Then\n\nLaw of Large Numbers (LLN): \\(\\bar{X}_n\\) will be very closed to \\(\\mu\\) for large \\(n\\) \\[ \\bar{X}_n \\cas \\mu\\]\nCentral Limit Theorem (CLT): the distribution of \\(\\bar{X}_n\\) will be approximately normal for large \\(n\\) \\[\\sqrt{n}(\\bar{X}_n - \\mu) \\cd N(0, \\sigma^2)\\]"
   },
   {
     "objectID": "slides/01-intro.html#monte-carlo-approximationestimation",
     "href": "slides/01-intro.html#monte-carlo-approximationestimation",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Monte Carlo Approximation/Estimation",
-    "text": "Monte Carlo Approximation/Estimation\n\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\).\n\n\n\n\n\nHome"
+    "text": "Monte Carlo Approximation/Estimation\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\).\n\n\n\n\nHome"
   },
   {
     "objectID": "slides/macro.html",
