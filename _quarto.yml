@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  render: 
+    - "*.qmd"
+    - "!slides/macro.qmd"
   
 website:
   title: "STAT 5010"

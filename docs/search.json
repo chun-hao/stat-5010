@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Resources",
+    "section": "",
+    "text": "BDA Book Website\nStan"
+  },
+  {
+    "objectID": "resources.html#links",
+    "href": "resources.html#links",
+    "title": "Resources",
+    "section": "",
+    "text": "BDA Book Website\nStan"
+  },
+  {
     "objectID": "slides/01-intro.html#course-description",
     "href": "slides/01-intro.html#course-description",
     "title": "Lecture 01: Course Introduction and Review",
@@ -294,17 +308,234 @@
     "text": "Monte Carlo Approximation/Estimation\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\).\n\n\n\n\nHome"
   },
   {
-    "objectID": "resources.html",
-    "href": "resources.html",
-    "title": "Resources",
-    "section": "",
-    "text": "BDA Book Website\nStan"
+    "objectID": "slides/02-intro-bayes.html#beta-binomial-model-1",
+    "href": "slides/02-intro-bayes.html#beta-binomial-model-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Beta-Binomial model",
+    "text": "Beta-Binomial model\n\nLet \\(X_1, \\ldots, X_n \\mid p \\iid \\ber(p)\\).\nConsider the prior \\(p \\sim \\text{Beta}(\\alpha, \\beta)\\) where \\(\\alpha\\) and \\(\\beta\\) are known.\nThe posterior distribution of \\(p\\) given \\(X_1, \\ldots, X_n\\) is \\[\np \\mid X_1, \\ldots, X_n \\sim \\text{Beta}\\left(\\alpha + \\sum_{i=1}^n X_i, \\beta + n - \\sum_{i=1}^n X_i \\right).\n\\]"
   },
   {
-    "objectID": "resources.html#links",
-    "href": "resources.html#links",
-    "title": "Resources",
-    "section": "",
-    "text": "BDA Book Website\nStan"
+    "objectID": "slides/02-intro-bayes.html#derivation",
+    "href": "slides/02-intro-bayes.html#derivation",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Derivation",
+    "text": "Derivation\n\nBayes Theorem: \\[\\begin{align*}\n\\pi(p \\mid x) & = \\frac{f(x \\mid p) \\pi(p)}{\\int f(x \\mid p) \\pi(p) dp} = \\frac{\\text{likelihood} \\times \\text{prior}}{\\text{marginal}}\\\\\n& \\propto f(x \\mid p) \\pi(p) = \\text{likelihood} \\times \\text{prior}\n\\end{align*}\\]\nThe marginal (and other normalizing constants) can be ignored.\nThe likelihood is \\[\nf(x_1, \\ldots, x_n \\mid p) = \\prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i}.\n\\]\nThe prior is \\[\n\\pi(p) = \\frac{1}{B(\\alpha, \\beta)} p^{\\alpha-1} (1-p)^{\\beta-1} \\propto p^{\\alpha-1}(1-p)^{\\beta - 1}.\n\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#derivation-1",
+    "href": "slides/02-intro-bayes.html#derivation-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Derivation",
+    "text": "Derivation\n\nHence the posterior is \\[\\begin{align*}\n\\pi(p \\mid X_1, \\ldots, X_n) & \\propto p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i} \\times p^{\\alpha-1}(1-p)^{\\beta - 1}\\\\\n& = p^{\\alpha + \\sum_{i=1}^n x_i - 1}(1-p)^{\\beta + n - \\sum_{i=1}^n x_i - 1}.\n\\end{align*}\\]\nRecognizing that this is the kernel of a Beta distribution, the posterior is \\[\np \\mid X_1, \\ldots, X_n \\sim \\text{Beta}\\left(\\alpha + \\sum_{i=1}^n X_i, \\beta + n - \\sum_{i=1}^n X_i \\right).\n\\]\nIt’s called Beta-Binomial model since the posterior only depends on \\(\\sum X_i\\) and the distribution of \\(\\sum X_i\\) is \\(\\bin(n,p)\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#kernel-of-a-pdfpmf",
+    "href": "slides/02-intro-bayes.html#kernel-of-a-pdfpmf",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Kernel of a pdf/pmf",
+    "text": "Kernel of a pdf/pmf\n\nThe kernel is the form of the pdf or pmf in which any factors that are not functions of any of the variables in the domain are omitted.\nExamples:\n\n\nNormal: \\(\\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)\\)\nGamma: \\(x^{\\alpha-1}\\exp(-\\beta x)\\)\nBeta: \\(x^{\\alpha-1}(1-x)^{\\beta-1}\\)\nPoisson: \\(\\frac{\\lambda^x}{x!}\\)\n\n\nWe can use only the kernels to simplify the computation."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#posterior-distribution",
+    "href": "slides/02-intro-bayes.html#posterior-distribution",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Posterior Distribution",
+    "text": "Posterior Distribution\n\nset.seed(2023)\nn &lt;- 15\np &lt;- 0.3\nX &lt;- rbinom(n, 1, p)\ns &lt;- sum(X)\np_mle &lt;- s/n # MLE\nprint(X)\n\n [1] 0 0 0 0 0 0 0 0 0 0 1 0 0 1 1\n\n\n\nlibrary(ggplot2)\nggplot(data = data.frame(p = c(0, 1)), aes(p)) + \n    lims(x = c(0, 1), y = c(0, 5)) + \n    labs(x = \"p\", y = \"Density\") +\n    geom_function(fun = dunif, aes(col = \"blue\")) + \n    geom_function(fun = dbeta, aes(col = \"red\"), \n                  args = list(shape1 = s + 1, shape2 = n - s + 1)) + \n    geom_vline(xintercept = p_mle, linetype = \"dashed\", col = \"darkgrey\") + \n    geom_vline(xintercept = p, linetype = \"dashed\", col = \"darkgreen\") + \n    scale_colour_manual(name = \"Distribution\", \n                        values = c(\"blue\", \"red\"),\n                        labels = c(\"Prior\", \"Posterior\"))"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#posterior-distribution-output",
+    "href": "slides/02-intro-bayes.html#posterior-distribution-output",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Posterior Distribution",
+    "text": "Posterior Distribution"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#posterior-inference",
+    "href": "slides/02-intro-bayes.html#posterior-inference",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Posterior Inference",
+    "text": "Posterior Inference\n\nThe posterior distribution of \\(p\\) contains much more information than the MLE.\nWe can use the posterior for:\n\nEstimation: \\(\\hat{p} = \\E(p \\mid X_1, \\ldots, X_n)\\) (posterior mean)\nPrediction: \\(\\P(X_{n+1} = 1 \\mid X_1, \\ldots, X_n)\\)\nInterval estimation: Find \\((L, U)\\) such that \\(\\P(L \\leq p \\leq U \\mid X_1, \\ldots, X_n) = 0.95\\)\n\nIn the Beta-Binomial model, an estimate for \\(p\\) is \\[\n\\hat{p} = \\E(p \\mid X_1, \\ldots, X_n) = \\frac{\\alpha + \\sum_{i=1}^n X_i}{\\alpha + \\beta + n}\n\\] whereas the MLE is \\(\\hat{p}_{\\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^nX_i\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#maximum-a-posteriori-estimate",
+    "href": "slides/02-intro-bayes.html#maximum-a-posteriori-estimate",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Maximum-a-posteriori Estimate",
+    "text": "Maximum-a-posteriori Estimate\n\nThe posterior mean is not the only estimate we can obtain from the posterior.\nAnother commonly used estimator is the maximum-a-posterior (MAP) estimate \\[\n\\hat{p}_{\\text{MAP}} = \\argmax_{0 &lt; p &lt; 1} \\pi(p \\mid X_1, \\ldots, X_n).\n\\]\nSince the mode of \\(\\text{Beta}(\\alpha, \\beta)\\) is \\(\\frac{\\alpha-1}{\\alpha+\\beta-2}\\) when \\(\\alpha, \\beta &gt; 1\\), \\[\n\\hat{p}_{\\text{MAP}} = \\frac{\\alpha -1 + \\sum_{i=1}^n X_i}{\\alpha + \\beta + n - 2}.\n\\]\nIf \\(\\alpha = \\beta = 1\\) and \\(\\sum X_i &gt; 1\\), then \\(\\hat{p}_{\\text{MAP}} = \\hat{p}_{\\text{MLE}} = \\bar{X}\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#recall-laplaces-rule-of-succession",
+    "href": "slides/02-intro-bayes.html#recall-laplaces-rule-of-succession",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Recall: Laplace’s Rule of Succession",
+    "text": "Recall: Laplace’s Rule of Succession\nGiven binary iid random variables \\(X_1, \\ldots, X_n\\) with \\(\\sum_{i=1}^n X_i = s\\), then \\[\\P\\left(X_{n+1}=1 \\mid X_1+\\cdots+X_n=s\\right)=\\frac{s+1}{n+2}.\\]\nDerivation:\n\nLet \\(X_1, \\ldots, X_n \\iid \\ber(p)\\) and \\(p \\sim \\text{Beta}(1,1)\\) (the uniform prior).\nThe posterior is \\(p \\mid X_1 + \\cdots + X_n = s \\sim \\text{Beta}(s + 1, n-s + 1)\\).\nAssuming \\(X_{n+1} \\sim \\ber(p)\\) and \\(X_i\\)’s are iid conditioned on \\(p\\), \\[\\begin{align*}\n\\P\\left(X_{n+1}=1 \\mid \\sum X_i=s\\right)\n& = \\int \\P(X_{n+1}=1 \\mid p)\\pi\\left(p \\mid \\sum X_i = s\\right) dp\\\\\n& = \\int p \\pi\\left(p \\mid \\sum X_i = s\\right) dp\n= \\frac{s+1}{n+2}.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#interval-estimation-credible-intervalregion",
+    "href": "slides/02-intro-bayes.html#interval-estimation-credible-intervalregion",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Interval Estimation: Credible Interval/Region",
+    "text": "Interval Estimation: Credible Interval/Region\n\nFor frequentists, it’s called confidence interval/region.\nLet \\([L(X), U(X)]\\) be an interval for \\(\\theta\\) based on sample \\(X\\).\n\\(100\\times(1-\\alpha)\\%\\) Bayesian Coverage: \\(\\P(L(x) \\leq \\theta \\leq U(x) \\mid {\\color{magenta}X = x}) = 1-\\alpha\\).\n\ndescribes your information about the location of the true value of \\(\\theta\\) after you have observed \\(X = x\\)\n\n\\(100\\times(1-\\alpha)\\%\\) Frequentist Coverage: \\(\\P(L(X) \\leq \\theta \\leq U(X) \\mid {\\color{magenta}\\theta}) = 1-\\alpha\\)\n\ndescribes the probability that the interval will cover the true value before the data are observed\n\nThere are many ways to construct a credible interval:\n\nQuantile-based method\nHighest posterior density (HPD) region"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#quantile-based-method",
+    "href": "slides/02-intro-bayes.html#quantile-based-method",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Quantile-based method",
+    "text": "Quantile-based method\nTo find a \\(100\\times(1-\\alpha)\\%\\) credible interval for \\(\\theta\\):\n\nFind numbers \\(\\theta_{\\alpha / 2} &lt; \\theta_{1-\\alpha / 2}\\) such that\n\n\n\\(\\P\\left(\\theta&lt;\\theta_\\alpha \\mid X = x\\right)=\\alpha / 2\\);\n\\(\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)=\\alpha / 2\\).\n\n\nThe numbers \\(\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\) are the \\(\\alpha / 2\\) and \\(1-\\alpha / 2\\) posterior quantiles of \\(\\theta\\), and so \\[\\begin{align*}\n\\P\\left(\\theta \\in\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) & =1-\\P\\left(\\theta \\notin\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) \\\\\n& =1-\\left[\\P\\left(\\theta&lt;\\theta_{\\alpha / 2} \\mid X=x\\right)\\right.\\\\\n& \\qquad \\left.+\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)\\right] \\\\\n& =1-\\alpha.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#binomial-example",
+    "href": "slides/02-intro-bayes.html#binomial-example",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Binomial Example",
+    "text": "Binomial Example\nSuppose we observed \\(X=2\\) from a \\(\\bin(10, p)\\). Assume the uniform prior \\(p\\).\n\nalpha &lt;- 1;  beta &lt;- 1 # uniform prior\nn &lt;- 10; y &lt;- 2 # data\n\nqbeta(c(0.025, 0.975), alpha + y, beta + n - y)\n\n[1] 0.06022 0.51776"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
+    "href": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Highest posterior density (HPD) region",
+    "text": "Highest posterior density (HPD) region\n\nDefinition 1 A \\(100 \\times(1-\\alpha) \\%\\) HPD region consists of a subset of the parameter space, \\(s(x) \\subset \\Theta\\) such that\n\n\\(\\P(\\theta \\in s(x) \\mid X = x)=1-\\alpha\\);\nIf \\(\\theta_a \\in s(x)\\), and \\(\\theta_b \\notin s(x)\\), then \\(\\pi\\left(\\theta_a \\mid X=x\\right)&gt;\\pi\\left(\\theta_b \\mid X=x\\right)\\).\n\n\n\nAn HPD region might not be an interval if the posterior density is multimodal (having multiple peaks)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#binomial-example-1",
+    "href": "slides/02-intro-bayes.html#binomial-example-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Binomial Example",
+    "text": "Binomial Example\nLet’s compute the HPD for the previous example: \\(\\theta \\mid X = 2 \\sim \\text{Beta}(3, 9)\\).\n\nlibrary(HDInterval)\nhdi(qbeta, 0.95, shape1 = 3, shape2=9)\n\n  lower   upper \n0.04056 0.48372 \nattr(,\"credMass\")\n[1] 0.95\n\n\nThe HPD is narrower than the quantile-based interval.\n\n\n\n\nFig. 3.6 in Hoff’s book"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
+    "href": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Wrap-up for the Beta-Binomial model",
+    "text": "Wrap-up for the Beta-Binomial model\n\nThe Beta-Binomial model: \\[\\begin{align*}\nX \\mid p & \\sim \\bin(n,p)\\\\\np & \\sim \\text{Beta}(\\alpha,\\beta)\\\\\np \\mid X & \\sim \\text{Beta}(\\alpha + X, \\beta + n - X)\n\\end{align*}\\]\nNote that the posterior is in the same family of the prior: both of them are in the Beta family.\nIn this case, the Beta prior is called a conjugate prior for the Binomial model."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#conjugate-prior-1",
+    "href": "slides/02-intro-bayes.html#conjugate-prior-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Conjugate prior",
+    "text": "Conjugate prior\n\nDefinition 2 A class \\(\\mc{P}\\) of prior distributions for \\(\\theta\\) is called conjugate for a sampling model \\(p(x \\mid \\theta)\\) if \\[\\begin{align*}\n\\pi(\\theta) \\in \\mc{P} \\Rightarrow \\pi(\\theta \\mid x) \\in \\mc{P} .\n\\end{align*}\\]\n\n\nUsually, the class \\(\\mc{P}\\) is a parametric family with a finite number of parameters.\nExample: Beta is conjugate for the binomial model.\nConjugate priors make posterior calculations easy, but might not actually represent our prior information.\nHowever, mixtures of conjugate prior distributions are very flexible and are computationally tractable."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
+    "href": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Catalog for conjugate priors",
+    "text": "Catalog for conjugate priors\n\n\n\n\n\n\n\n\n\n\n\n\n\nSampling model\nParameter\nPrior\nPosterior\n\n\n\n\n\\(X \\sim \\bin(n, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + X, \\beta_0+n-X)\\)\n\n\n\\(X \\sim N(\\mu, \\sigma^2)\\)\n\\(\\mu\\)\n\\(N(\\mu_0, \\sigma_0^2)\\)\n\\(N\\left(\\frac{1}{\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}}\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{ X}{\\sigma^2}\\right),\\left(\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}\\right)^{-1}\\right)\\)\n\n\n\\(X \\sim \\text{Poisson}(\\lambda)\\)\n\\(\\lambda\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + X, \\beta+1)\\)\n\n\n\\(X \\sim \\text{Gamma}(\\alpha, \\beta)\\)\n\\(\\beta\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + \\alpha, \\beta_0+X)\\)\n\n\n\\(X \\sim \\text{NB}(r, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + r, \\beta_0+X)\\)\n\n\n\n\nMore can be found on Wiki\nExercise: Derive the posterior for the Normal-Normal model. You should do this once in your life and then you are allowed to copy the formula from Wiki."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#exponential-families-and-conjugate-priors",
+    "href": "slides/02-intro-bayes.html#exponential-families-and-conjugate-priors",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Exponential families and conjugate priors",
+    "text": "Exponential families and conjugate priors"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#pros-and-cons",
+    "href": "slides/02-intro-bayes.html#pros-and-cons",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Pros and cons",
+    "text": "Pros and cons"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#real-data-example",
+    "href": "slides/02-intro-bayes.html#real-data-example",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Real Data Example",
+    "text": "Real Data Example\n\n\n2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.1711（生下男嬰機率為0.5394）。\n同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）\n根據統計，全球人類自然出生性別比1.052（生下男嬰機率為0.5122）。\n基隆市自然出生性別比是否高於台灣平均？\n\n\n行政院資料庫Our World in Data"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#real-data-example-1",
+    "href": "slides/02-intro-bayes.html#real-data-example-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Real Data Example",
+    "text": "Real Data Example\n\nlibrary(tidyverse)\nlibrary(knitr)\nm &lt;- 856; f &lt;- 731\nprior_mean &lt;- c(0.5, 0.5122, 0.5122, 0.5122, 0.5122, 0.5122)\na_b &lt;- c(2, 2, 10, 100, 1000, 10000)\nalpha &lt;- prior_mean*a_b\nbeta &lt;- a_b - alpha\ndata.frame(alpha, beta, prior_mean) |&gt; \n    mutate(a_b = alpha + beta,\n           post_mean = (alpha+m)/(alpha+beta+m+f),\n           ratio = post_mean/(1-post_mean),\n           post_int = paste0(\"[\", round(qbeta(0.025, alpha + m, beta + f), 3),\n                             \", \", round(qbeta(0.975, alpha + m, beta + f), 3), \"]\")) |&gt;\n    select(c(prior_mean, a_b, post_mean, ratio, post_int)) |&gt;\n    kable(format = \"markdown\", digits = 4,\n          col.names = c(\"Prior mean $\\\\frac{\\\\alpha}{\\\\alpha+\\\\beta}$\",\n                        \"$\\\\alpha + \\\\beta$\",\n                        \"Post. mean\", \"Gender ratio\",\n                        \"Post. 95% Interval\"))"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#real-data-example-1-output",
+    "href": "slides/02-intro-bayes.html#real-data-example-1-output",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Real Data Example",
+    "text": "Real Data Example\n\n\n\n\n\n\n\n\n\n\n\nPrior mean \\(\\frac{\\alpha}{\\alpha+\\beta}\\)\n\\(\\alpha + \\beta\\)\nPost. mean\nGender ratio\nPost. 95% Interval\n\n\n\n\n0.5000\n2\n0.5393\n1.171\n[0.515, 0.564]\n\n\n0.5122\n2\n0.5393\n1.171\n[0.515, 0.564]\n\n\n0.5122\n10\n0.5392\n1.170\n[0.515, 0.564]\n\n\n0.5122\n100\n0.5378\n1.163\n[0.514, 0.562]\n\n\n0.5122\n1000\n0.5289\n1.123\n[0.51, 0.548]\n\n\n0.5122\n10000\n0.5159\n1.066\n[0.507, 0.525]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#some-follow-up-questions",
+    "href": "slides/02-intro-bayes.html#some-follow-up-questions",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Some follow-up questions",
+    "text": "Some follow-up questions\n\nIs the sample size (856+731=1587) large enough?\nWhich prior? Depend on how strong your prior belief is.\n\nNo prior knowledge \\(\\Rightarrow\\) Uniform prior\nReliable prior information \\(\\Rightarrow\\) prior with larger \\(\\alpha+\\beta\\)\n\nWith prior information, we can obtain better estimates when the sample size is small:\n\nFor example, think of a really small village in which only two boys and one girl were born last year.\nIf we don’t use any prior information, the gender ratio is 2.\n\nWhat if our prior information cannot be described by a Beta distribution?\n\nEx: our prior information indicates a multimodal distribution\nThe posterior will be complicated and we need some other methods for posterior inference."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
+    "href": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "What is good and bad about Bayesian?",
+    "text": "What is good and bad about Bayesian?\n\nGood:\n\nconsistent and coherent: everything (sample or parameter) is a random variable\neverything is conditional: we only care about conditional independence rather than marginal independence\nstopping rule does not matter\n\nBad:\n\nthe choice of prior is subjective\ncomputationally challenging"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#exchangeability",
+    "href": "slides/02-intro-bayes.html#exchangeability",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Exchangeability",
+    "text": "Exchangeability\n\nDefinition 3 Let \\(p\\left(x_1, \\ldots, x_n\\right)\\) be the joint density of \\(X_1\\), \\(\\ldots, X_n\\). If \\(p\\left(x_1, \\ldots, x_n\\right)=p\\left(x_{\\pi(1)}, \\ldots, x_{\\pi(n)}\\right)\\) for all permutations \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\), then \\(X_1, \\ldots, X_n\\) are exchangeable.\n\n\nRoughly speaking, \\(X_1, \\ldots, X_n\\) are exchangeable if the subscript labels convey no information about the outcomes.\nApparently, independence implies exchangeability, but the converse is false.\nWhat is the relationship between conditional independence and exchangeability?"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
+    "href": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Conditional independence and exchangeability",
+    "text": "Conditional independence and exchangeability\n\nProposition 1 If \\(\\theta \\sim p(\\theta)\\) and \\(X_1, \\ldots, X_n\\) are conditionally i.i.d. given \\(\\theta\\), then marginally (unconditionally on \\(\\theta\\) ) \\(, X_1, \\ldots, X_n\\) are exchangeable.\n\n\nProof. Suppose \\(X_1, \\ldots, X_n\\) are conditionally iid given some unknown parameter \\(\\theta\\). Then for any permutation \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\) and any set of values \\(\\left(x_1, \\ldots, x_n\\right) \\in\\) \\(\\mc{X}^n\\) \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right) & =\\int p\\left(x_1, \\ldots, x_n \\mid \\theta\\right) p(\\theta) d \\theta & & \\text { (definition of marginal probability) } \\\\\n& =\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta & & \\text { ($X$'s are conditionally i.i.d.) } \\\\\n& =\\int\\left\\{\\prod_{i=1}^n p\\left(x_{\\pi(i)} \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta & & \\text { (product does not depend on order) } \\\\\n& =p\\left(x_{\\pi(1)}, \\ldots x_{\\pi(n)}\\right) & & \\text { (definition of marginal probability) } .\n\\end{align*}\\]\n\n\n\nCh. 2.7 & 2.8 in Hoff’s book."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#de-finettis-theorem",
+    "href": "slides/02-intro-bayes.html#de-finettis-theorem",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "de Finetti’s Theorem",
+    "text": "de Finetti’s Theorem\n\nWe have seen that\n\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { i.i.d } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Rightarrow X_1, \\ldots, X_n \\text { are exchangeable. }\n\\end{align*}\\]\n\n\nWhat about an arrow in the other direction?\n\n\nTheorem 1 (de Finetti) Let \\(X_i \\in \\mc{X}\\) for all \\(i \\in\\{1,2, \\ldots\\}\\). Suppose that, for any \\(n\\), \\(X_1, \\ldots, X_n\\) are exchangeable. Then our model can be written as \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right)=\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta\n\\end{align*}\\] for some parameter \\(\\theta\\), some prior distribution on \\(\\theta\\) and some sampling model \\(p(x \\mid \\theta)\\). The prior and sampling model depend on \\(p\\left(x_1, \\ldots, x_n\\right)\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#de-finettis-theorem-1",
+    "href": "slides/02-intro-bayes.html#de-finettis-theorem-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "de Finetti’s Theorem",
+    "text": "de Finetti’s Theorem\n\n\nThe conclusion is\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { are i.i.d. } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Leftrightarrow X_1, \\ldots, X_n \\text { are exchangeable for all } n \\text {. }\n\\end{align*}\\]\n\n\nThis justifies the use of prior distributions when samples are exchangeable.\nWhen is the condition “\\(X_1, \\ldots, X_n\\) are exchangeable for all \\(n\\)” reasonable?\n\n\\(X_1, \\ldots, X_n\\) are outcomes of a repeatable experiment;\n\\(X_1, \\ldots, X_n\\) are sampled from a finite population with replacement;\n\\(X_1, \\ldots, X_n\\) are sampled from an infinite population without replacement."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule",
+    "href": "slides/02-intro-bayes.html#stopping-rule",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\nLet \\(\\theta\\) be the probability of a particular coin landing on heads, and suppose we want to test the hypotheses \\[\\begin{align*}\nH_0: \\theta=1 / 2, \\quad H_1: \\theta&gt;1 / 2\n\\end{align*}\\] at a significance level of \\(\\alpha=0.05\\). Suppose we observe the following sequence of flips: \\[\n\\text{heads, heads, heads, heads, heads, tails (5 heads, 1 tails)}\n\\]\n\nTo perform a frequentist hypothesis test, we must define a random variable to describe the data.\nThe proper way to do this depends on exactly which of the following two experiments was actually performed:\n\n\n\nExample 1.1 in Essential Bayes"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-1",
+    "href": "slides/02-intro-bayes.html#stopping-rule-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\nSuppose the experiment is “Flip six times and record the results.”\n\n\\(X\\) counts the number of heads, and \\(X \\sim \\bin(6, \\theta)\\).\nThe observed data was \\(x=5\\), and the \\(p\\)-value of our hypothesis test is \\[\\begin{align*}\np\\text{-value} & =\\P_{\\theta=1 / 2}(X \\geq 5) \\\\\n& =\\P_{\\theta=1 / 2}(X=5)+\\P_{\\theta=1 / 2}(X=6) \\\\\n& =\\frac{6}{64}+\\frac{1}{64}=\\frac{7}{64}=0.109375&gt;0.05 .\n\\end{align*}\\] So we fail to reject \\(H_0\\) at \\(\\alpha=0.05\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-2",
+    "href": "slides/02-intro-bayes.html#stopping-rule-2",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\nSuppose now the experiment is “Flip until we get tails.”\n\n\\(X\\) counts the number of the flip on which the first tails occurs, and \\(X \\sim \\text{Geometric}(1-\\theta)\\).\nThe observed data was \\(x=6\\), and the p-value of our hypothesis test is \\[\\begin{align*}\np \\text{-value} & = \\P_{\\theta=1 / 2}(X \\geq 6) \\\\\n& =1-\\P_{\\theta=1 / 2}(X&lt;6) \\\\\n& =1-\\sum_{x=1}^5 \\P_{\\theta=1 / 2}(X=x) \\\\\n& =1-\\left(\\frac{1}{2}+\\frac{1}{4}+\\frac{1}{8}+\\frac{1}{16}+\\frac{1}{32}\\right)=\\frac{1}{32}=0.03125&lt;0.05\n\\end{align*}\\] So we reject \\(H_0\\) at \\(\\alpha=0.05\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-rewording",
+    "href": "slides/02-intro-bayes.html#stopping-rule-rewording",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule (rewording)",
+    "text": "Stopping Rule (rewording)\n\nThe conclusions differ, which seems strikes some people as absurd.\nP-values aren’t close: one is 3.5 times as large as the other.\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-rewording-1",
+    "href": "slides/02-intro-bayes.html#stopping-rule-rewording-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule (rewording)",
+    "text": "Stopping Rule (rewording)\n\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under the uniform prior, the posteriors under the two stopping rules are the same.\n\n\n\nHome"
   }
 ]
