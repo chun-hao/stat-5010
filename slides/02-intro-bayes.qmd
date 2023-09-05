@@ -271,7 +271,7 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
 -   However, mixtures of conjugate prior distributions are very flexible
     and are computationally tractable.
 
-## Catalog for conjugate priors 
+## Catalog for conjugate priors
 
 ```{css}
 #| echo: false
@@ -281,16 +281,20 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
 }
 
 ```
-| Sampling model      | Parameter | Prior                        | Posterior                            |
-|--------------------|-------------|-------------|-----------------------------------|
-| $X \sim \bin(n, p)$ | $p$       | $\text{Beta}(\alpha_0, \beta_0)$ | $\text{Beta}(\alpha_0 + X, \beta_0+n-X)$ |
-| $X \sim N(\mu, \sigma^2)$ | $\mu$       | $N(\mu_0, \sigma_0^2)$ | $N\left(\frac{1}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}}\left(\frac{\mu_0}{\sigma_0^2}+\frac{ X}{\sigma^2}\right),\left(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}\right)^{-1}\right)$ |
-| $X \sim \text{Poisson}(\lambda)$ | $\lambda$       | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + X, \beta+1)$ |
-| $X \sim \text{Gamma}(\alpha, \beta)$ | $\beta$       | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + \alpha, \beta_0+X)$ |
-| $X \sim \text{NB}(r, p)$ | $p$       | $\text{Beta}(\alpha_0, \beta_0)$ | $\text{Beta}(\alpha_0 + r, \beta_0+X)$ |
 
--   More can be found on [Wiki](https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions)
--   Exercise: Derive the posterior for the Normal-Normal model. You should do this once in your life and then you are allowed to copy the formula from Wiki.
+| Sampling model                       | Parameter | Prior                             | Posterior                                                                                                                                                                            |
+|---------------|---------------|---------------|---------------------------|
+| $X \sim \bin(n, p)$                  | $p$       | $\text{Beta}(\alpha_0, \beta_0)$  | $\text{Beta}(\alpha_0 + X, \beta_0+n-X)$                                                                                                                                             |
+| $X \sim N(\mu, \sigma^2)$            | $\mu$     | $N(\mu_0, \sigma_0^2)$            | $N\left(\frac{1}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}}\left(\frac{\mu_0}{\sigma_0^2}+\frac{ X}{\sigma^2}\right),\left(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}\right)^{-1}\right)$ |
+| $X \sim \text{Poisson}(\lambda)$     | $\lambda$ | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + X, \beta+1)$                                                                                                                                                |
+| $X \sim \text{Gamma}(\alpha, \beta)$ | $\beta$   | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + \alpha, \beta_0+X)$                                                                                                                                         |
+| $X \sim \text{NB}(r, p)$             | $p$       | $\text{Beta}(\alpha_0, \beta_0)$  | $\text{Beta}(\alpha_0 + r, \beta_0+X)$                                                                                                                                               |
+
+-   More can be found on
+    [Wiki](https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions)
+-   Exercise: Derive the posterior for the Normal-Normal model. You
+    should do this once in your life and then you are allowed to copy
+    the formula from Wiki.
 
 ## Exponential families and conjugate priors
 
@@ -298,18 +302,20 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
 
 ## Real Data Example
 
-:::{.nonincremental}
--    2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.171[^1]（生下男嬰機率為0.5394）。
--    同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）
--    根據統計，全球人類自然出生性別比1.05[^2]（生下男嬰機率為0.5122）。
--    基隆市自然出生性別比是否高於台灣平均？
+::: nonincremental
+-   2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.171[^1]（生下男嬰機率為0.5394）。
+-   同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）
+-   根據統計，全球人類自然出生性別比1.05[^2]（生下男嬰機率為0.5122）。
+-   基隆市自然出生性別比是否高於台灣平均？
 :::
 
 [^1]: [行政院資料庫](https://www.gender.ey.gov.tw/gecdb/Stat_Statistics_DetailData.aspx?sn=XGXgzan!6JtvV7D5uGZISg%40%40&d=m9ww9odNZAz2Rc5Ooj%24wIQ%40%40)
-[^2]: [Our World in Data](https://ourworldindata.org/gender-ratio#sex-ratio-at-birth)
 
+[^2]: [Our World in
+    Data](https://ourworldindata.org/gender-ratio#sex-ratio-at-birth)
 
 ## Real Data Example
+
 ```{r}
 #| echo: true
 #| output-location: slide
@@ -338,16 +344,20 @@ data.frame(alpha, beta, prior_mean) |>
 ## Some follow-up questions
 
 -   Is the sample size (856+731=1587) large enough?
--   Which prior?  Depend on how strong your prior belief is.
-    +   No prior knowledge $\Rightarrow$ Uniform prior
-    +   Reliable prior information $\Rightarrow$ prior with larger $\alpha+\beta$
--   With prior information, we can obtain better estimates when the sample size is small:
-    +   For example, think of a really small village in which only **two boys and one girl** were born last year.
-    +   If we don't use any prior information, the gender ratio is 2.
--   What if our prior information cannot be described by a Beta distribution?
-    +   Ex: our prior information indicates a multimodal distribution
-    +   The posterior will be complicated and we need some other methods for posterior inference.
-
+-   Which prior? Depend on how strong your prior belief is.
+    -   No prior knowledge $\Rightarrow$ Uniform prior
+    -   Reliable prior information $\Rightarrow$ prior with larger
+        $\alpha+\beta$
+-   With prior information, we can obtain better estimates when the
+    sample size is small:
+    -   For example, think of a really small village in which only **two
+        boys and one girl** were born last year.
+    -   If we don't use any prior information, the gender ratio is 2.
+-   What if our prior information cannot be described by a Beta
+    distribution?
+    -   Ex: our prior information indicates a multimodal distribution
+    -   The posterior will be complicated and we need some other methods
+        for posterior inference.
 
 # Why Bayesian
 
@@ -506,16 +516,11 @@ Suppose now the experiment is "**Flip until we get tails**."
     & =1-\left(\frac{1}{2}+\frac{1}{4}+\frac{1}{8}+\frac{1}{16}+\frac{1}{32}\right)=\frac{1}{32}=0.03125<0.05
     \end{align*} So we **reject** $H_0$ at $\alpha=0.05$.
 
-## Stopping Rule (rewording)
+## Stopping Rule
 
--   The conclusions differ, which seems strikes some people as absurd.
--   P-values aren't close: one is 3.5 times as large as the other.
 -   The result our hypothesis test depends on whether we would have
     stopped flipping if we had gotten a tails sooner.
 -   The tests are dependent on what we call the **stopping rule**.
-
-## Stopping Rule (rewording)
-
 -   The likelihood for the actual value of $x$ that was observed is the
     same for both experiments (up to a constant): \begin{align*}
     p(x \mid \theta) \propto \theta^5(1-\theta) .

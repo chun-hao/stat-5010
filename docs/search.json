@@ -256,7 +256,7 @@
     "href": "slides/01-intro.html#law-of-total-probabilityexpectationvariance",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Law of Total Probability/Expectation/Variance",
-    "text": "Law of Total Probability/Expectation/Variance\n\n\nLaw of Total Probability: For \\(B_i \\cap B_j = \\emptyset\\) and \\(\\cup_{i=1}^k B_i = \\Omega\\),\n\n\\[\\P(A) = \\sum_{i=1}^k \\P(A \\mid B_i).\\]\n\n\n\nLaw of Total Expectation (tower property/double expectation):\n\n\\[\\E(X) = \\E_Y(\\E_{X|Y}(X|Y)).\\]\n\n\n\nLaw of Total Variance:\n\n\\[\\var(X) = \\var(\\E(X|Y)) + \\E(\\var(X|Y)).\\]"
+    "text": "Law of Total Probability/Expectation/Variance\n\n\nLaw of Total Probability: For \\(B_i \\cap B_j = \\emptyset\\) and \\(\\cup_{i=1}^k B_i = \\Omega\\),\n\n\\[\\P(A) = \\sum_{i=1}^k \\P(A \\mid B_i)\\P(B_i).\\]\n\n\n\nLaw of Total Expectation (tower property/double expectation):\n\n\\[\\E(X) = \\E_Y(\\E_{X|Y}(X|Y)).\\]\n\n\n\nLaw of Total Variance:\n\n\\[\\var(X) = \\var(\\E(X|Y)) + \\E(\\var(X|Y)).\\]"
   },
   {
     "objectID": "slides/01-intro.html#important-univariate-distributions",
@@ -546,17 +546,10 @@
     "text": "Stopping Rule\nSuppose now the experiment is “Flip until we get tails.”\n\n\\(X\\) counts the number of the flip on which the first tails occurs, and \\(X \\sim \\text{Geometric}(1-\\theta)\\).\nThe observed data was \\(x=6\\), and the p-value of our hypothesis test is \\[\\begin{align*}\np \\text{-value} & = \\P_{\\theta=1 / 2}(X \\geq 6) \\\\\n& =1-\\P_{\\theta=1 / 2}(X&lt;6) \\\\\n& =1-\\sum_{x=1}^5 \\P_{\\theta=1 / 2}(X=x) \\\\\n& =1-\\left(\\frac{1}{2}+\\frac{1}{4}+\\frac{1}{8}+\\frac{1}{16}+\\frac{1}{32}\\right)=\\frac{1}{32}=0.03125&lt;0.05\n\\end{align*}\\] So we reject \\(H_0\\) at \\(\\alpha=0.05\\)."
   },
   {
-    "objectID": "slides/02-intro-bayes.html#stopping-rule-rewording",
-    "href": "slides/02-intro-bayes.html#stopping-rule-rewording",
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-3",
+    "href": "slides/02-intro-bayes.html#stopping-rule-3",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Stopping Rule (rewording)",
-    "text": "Stopping Rule (rewording)\n\nThe conclusions differ, which seems strikes some people as absurd.\nP-values aren’t close: one is 3.5 times as large as the other.\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#stopping-rule-rewording-1",
-    "href": "slides/02-intro-bayes.html#stopping-rule-rewording-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Stopping Rule (rewording)",
-    "text": "Stopping Rule (rewording)\n\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under the uniform prior, the posteriors under the two stopping rules are the same.\n\n\n\nHome"
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under the uniform prior, the posteriors under the two stopping rules are the same.\n\n\n\nHome"
   }
 ]

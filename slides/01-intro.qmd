@@ -460,7 +460,7 @@ $$\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)} = \frac{\P(B \mid A)\P(A)}{\P(B)}.$$
 -   Law of Total Probability: For $B_i \cap B_j = \emptyset$ and
     $\cup_{i=1}^k B_i = \Omega$,
 
-$$\P(A) = \sum_{i=1}^k \P(A \mid B_i).$$
+$$\P(A) = \sum_{i=1}^k \P(A \mid B_i)\P(B_i).$$
 :::
 
 :::{.fragment .nonincremental}    
