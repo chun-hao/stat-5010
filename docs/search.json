@@ -151,7 +151,7 @@
     "href": "slides/01-intro.html#who-is-the-father-of-statistics",
     "title": "Lecture 01: Course Introduction and Review",
     "section": "Who is the father of statistics?",
-    "text": "Who is the father of statistics?\nSome important statisticians:\n\nCarl Friedrich Gauss (1777 - 1855): Gaussian distribution, …\nRonald A. Fisher (1890 - 1962): likelihood based inference, …\nKarl Pearson (1857 - 1936): Pearson’s correlation coefficient, …\nWilliam Sealy Gosset (1876 - 1937): \\(t\\)-test and \\(t\\) distribution\nJerzy Neyman (1894 - 1981): Neyman-Pearson Lemma, …\nPierre-Simon Laplace (1749 - 1827): Central Limit Theorem, …\nThomas Bayes (1702 - 1761): Bayes Theorem, … :::"
+    "text": "Who is the father of statistics?\nSome important statisticians:\n\nCarl Friedrich Gauss (1777 - 1855): Gaussian distribution, …\nRonald A. Fisher (1890 - 1962): likelihood based inference, …\nKarl Pearson (1857 - 1936): Pearson’s correlation coefficient, …\nWilliam Sealy Gosset (1876 - 1937): \\(t\\)-test and \\(t\\) distribution, …\nJerzy Neyman (1894 - 1981): Neyman-Pearson Lemma, …\nPierre-Simon Laplace (1749 - 1827): Central Limit Theorem, …\nThomas Bayes (1702 - 1761): Bayes Theorem, …"
   },
   {
     "objectID": "slides/01-intro.html#thomas-bayes",
@@ -434,32 +434,11 @@
     "text": "Wrap-up for the Beta-Binomial model\n\nThe Beta-Binomial model: \\[\\begin{align*}\nX \\mid p & \\sim \\bin(n,p)\\\\\np & \\sim \\text{Beta}(\\alpha,\\beta)\\\\\np \\mid X & \\sim \\text{Beta}(\\alpha + X, \\beta + n - X)\n\\end{align*}\\]\nNote that the posterior is in the same family of the prior: both of them are in the Beta family.\nIn this case, the Beta prior is called a conjugate prior for the Binomial model."
   },
   {
-    "objectID": "slides/02-intro-bayes.html#conjugate-prior-1",
-    "href": "slides/02-intro-bayes.html#conjugate-prior-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Conjugate prior",
-    "text": "Conjugate prior\n\nDefinition 2 A class \\(\\mc{P}\\) of prior distributions for \\(\\theta\\) is called conjugate for a sampling model \\(p(x \\mid \\theta)\\) if \\[\\begin{align*}\n\\pi(\\theta) \\in \\mc{P} \\Rightarrow \\pi(\\theta \\mid x) \\in \\mc{P} .\n\\end{align*}\\]\n\n\nUsually, the class \\(\\mc{P}\\) is a parametric family with a finite number of parameters.\nExample: Beta is conjugate for the binomial model.\nConjugate priors make posterior calculations easy, but might not actually represent our prior information.\nHowever, mixtures of conjugate prior distributions are very flexible and are computationally tractable."
-  },
-  {
     "objectID": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
     "href": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Catalog for conjugate priors",
     "text": "Catalog for conjugate priors\n\n\n\n\n\n\n\n\n\n\n\n\n\nSampling model\nParameter\nPrior\nPosterior\n\n\n\n\n\\(X \\sim \\bin(n, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + X, \\beta_0+n-X)\\)\n\n\n\\(X \\sim N(\\mu, \\sigma^2)\\)\n\\(\\mu\\)\n\\(N(\\mu_0, \\sigma_0^2)\\)\n\\(N\\left(\\frac{1}{\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}}\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{ X}{\\sigma^2}\\right),\\left(\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}\\right)^{-1}\\right)\\)\n\n\n\\(X \\sim \\text{Poisson}(\\lambda)\\)\n\\(\\lambda\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + X, \\beta+1)\\)\n\n\n\\(X \\sim \\text{Gamma}(\\alpha, \\beta)\\)\n\\(\\beta\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + \\alpha, \\beta_0+X)\\)\n\n\n\\(X \\sim \\text{NB}(r, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + r, \\beta_0+X)\\)\n\n\n\n\nMore can be found on Wiki\nExercise: Derive the posterior for the Normal-Normal model. You should do this once in your life and then you are allowed to copy the formula from Wiki."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#exponential-families-and-conjugate-priors",
-    "href": "slides/02-intro-bayes.html#exponential-families-and-conjugate-priors",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Exponential families and conjugate priors",
-    "text": "Exponential families and conjugate priors"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#pros-and-cons",
-    "href": "slides/02-intro-bayes.html#pros-and-cons",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Pros and cons",
-    "text": "Pros and cons"
   },
   {
     "objectID": "slides/02-intro-bayes.html#real-data-example",
@@ -490,6 +469,13 @@
     "text": "Some follow-up questions\n\nIs the sample size (856+731=1587) large enough?\nWhich prior? Depend on how strong your prior belief is.\n\nNo prior knowledge \\(\\Rightarrow\\) Uniform prior\nReliable prior information \\(\\Rightarrow\\) prior with larger \\(\\alpha+\\beta\\)\n\nWith prior information, we can obtain better estimates when the sample size is small:\n\nFor example, think of a really small village in which only two boys and one girl were born last year.\nIf we don’t use any prior information, the gender ratio is 2.\n\nWhat if our prior information cannot be described by a Beta distribution?\n\nEx: our prior information indicates a multimodal distribution\nThe posterior will be complicated and we need some other methods for posterior inference."
   },
   {
+    "objectID": "slides/02-intro-bayes.html#small-area-estimation-sae",
+    "href": "slides/02-intro-bayes.html#small-area-estimation-sae",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Small Area Estimation (SAE)",
+    "text": "Small Area Estimation (SAE)\n\nSmall area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey1.\n\nWiki"
+  },
+  {
     "objectID": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
     "href": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
@@ -501,7 +487,7 @@
     "href": "slides/02-intro-bayes.html#exchangeability",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Exchangeability",
-    "text": "Exchangeability\n\nDefinition 3 Let \\(p\\left(x_1, \\ldots, x_n\\right)\\) be the joint density of \\(X_1\\), \\(\\ldots, X_n\\). If \\(p\\left(x_1, \\ldots, x_n\\right)=p\\left(x_{\\pi(1)}, \\ldots, x_{\\pi(n)}\\right)\\) for all permutations \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\), then \\(X_1, \\ldots, X_n\\) are exchangeable.\n\n\nRoughly speaking, \\(X_1, \\ldots, X_n\\) are exchangeable if the subscript labels convey no information about the outcomes.\nApparently, independence implies exchangeability, but the converse is false.\nWhat is the relationship between conditional independence and exchangeability?"
+    "text": "Exchangeability\n\nDefinition 2 Let \\(p\\left(x_1, \\ldots, x_n\\right)\\) be the joint density of \\(X_1\\), \\(\\ldots, X_n\\). If \\(p\\left(x_1, \\ldots, x_n\\right)=p\\left(x_{\\pi(1)}, \\ldots, x_{\\pi(n)}\\right)\\) for all permutations \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\), then \\(X_1, \\ldots, X_n\\) are exchangeable.\n\n\nRoughly speaking, \\(X_1, \\ldots, X_n\\) are exchangeable if the subscript labels convey no information about the outcomes.\nApparently, independence implies exchangeability, but the converse is false.\nWhat is the relationship between conditional independence and exchangeability?"
   },
   {
     "objectID": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
@@ -550,6 +536,139 @@
     "href": "slides/02-intro-bayes.html#stopping-rule-3",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Stopping Rule",
-    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under the uniform prior, the posteriors under the two stopping rules are the same.\n\n\n\nHome"
+    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under a Beta prior, the posteriors under the two stopping rules are the same.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/03-prior.html#introduction",
+    "href": "slides/03-prior.html#introduction",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Introduction",
+    "text": "Introduction\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nThe choice of prior distribution is the most critical and difficult step in Bayesian analysis.\nIn practice, the available prior information is often not precise enough to lead to an exact determination of the prior distribution.\nWe need to find a prior distribution that is compatible with the prior information.\nAnother problem is the determination of prior when the prior information is too vague or does not even exist."
+  },
+  {
+    "objectID": "slides/03-prior.html#maximum-entropy-priors",
+    "href": "slides/03-prior.html#maximum-entropy-priors",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Maximum Entropy Priors",
+    "text": "Maximum Entropy Priors\n\nIf some characteristics of the prior distribution are known, assuming that they can be written as prior expectations, \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K,\n\\] a way to select a prior \\(\\pi\\) satisfying these constraints is the maximum entropy method.\nLet \\(\\pi\\) be a discrete distribution. The Shannon Entropy1 of \\(\\pi\\) is \\[\n\\mc{E}(\\pi) =  -\\E_{\\pi}[\\log \\pi(\\theta)].\n\\]\n\nIntroduced by Shannon (1948)."
+  },
+  {
+    "objectID": "slides/03-prior.html#intuition-behind-shannon-entropy",
+    "href": "slides/03-prior.html#intuition-behind-shannon-entropy",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Intuition behind Shannon Entropy",
+    "text": "Intuition behind Shannon Entropy\n\nEntropy is a measure of randomness: \nEntropy is the expectation of information: \\(\\mc{E}(\\pi) = \\E_{\\pi}(I(X))\\), where \\(I(x)\\) is the information of the event \\(\\{X = x\\}\\).\nRoughly speaking, ."
+  },
+  {
+    "objectID": "slides/03-prior.html#shannons-axioms-for-information",
+    "href": "slides/03-prior.html#shannons-axioms-for-information",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Shannon’s Axioms for Information",
+    "text": "Shannon’s Axioms for Information\n\nAn event that always happens yields no information.\nThe less probable an event is, the more information it yields.\nIf two independent events are measured separately, the total amount of information is the sum of the information of the individual events.\n\nThat is, the information \\(I(A)\\) of an event \\(A\\) satisfies\n\n\\(I(A) = 0\\) if \\(\\P(A) = 1\\).\n\\(I(A)\\) is a decreasing function of \\(\\P(A)\\).\n\\(I(A\\cap B) = I(A) + I(B)\\) if \\(A\\) and \\(B\\) are independent."
+  },
+  {
+    "objectID": "slides/03-prior.html#shannon-entropy",
+    "href": "slides/03-prior.html#shannon-entropy",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Shannon Entropy",
+    "text": "Shannon Entropy\n\nLet \\(X\\) be a discrete random variable with probability mass function \\(\\pi(x)\\). The Shannon information of \\(\\pi\\) is \\[\nI(x) \\coloneqq I(\\{X = x\\}) = -\\log \\P(X = x) = -\\log \\pi(x).\n\\]\nThe Shannon entropy of \\(\\pi\\) is \\(\\mc{E}(\\pi) = \\E_{\\pi}(I(X)) = -\\E_{\\pi}(\\log \\pi(X))\\).\nIf the support of \\(\\pi(x)\\) is a finite set, say \\(\\{x_1,\\ldots, x_m\\}\\), then \\(\\mc{E}(\\pi) \\leq \\log m\\) and the equality holds when \\(\\pi(x) = \\frac{1}{m}\\).\nWhat if \\(X\\) is continuous? If \\(\\pi(x)\\) is a probability density, the information \\(-\\log \\pi(x)\\) can be negative."
+  },
+  {
+    "objectID": "slides/03-prior.html#relative-entropy",
+    "href": "slides/03-prior.html#relative-entropy",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Relative Entropy",
+    "text": "Relative Entropy\n\nIt does not make sense to have a negative information.\nBut ``relative information” can be negative.\nLet \\(\\pi_0\\) be a reference distribution. The relative information of \\(\\pi\\) with respect to \\(\\pi_0\\) is \\[\nI(x; \\pi_0) \\coloneqq \\log \\frac{1}{\\pi_0(x)} - \\log \\frac{1}{\\pi(x)} = \\log \\frac{\\pi(x)}{\\pi_0(x)}\n\\]\nThen by Jensen’s inequality \\[\n\\E_{\\pi_0}[I(X;\\pi_0)] = \\mc{E}(\\pi_0) - \\mc{E}(\\pi, \\pi_0) \\leq 0\n\\] and the equality holds when \\(\\pi = \\pi_0\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#relative-entropy-1",
+    "href": "slides/03-prior.html#relative-entropy-1",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Relative Entropy",
+    "text": "Relative Entropy\n\nCross entropy: \\(\\mc{E}(\\pi, \\pi_0) = - \\E_{\\pi_0}(\\log \\pi(X))\\)\nRelative entropy: \\[\n\\mc{E}(\\pi_0\\| \\pi) = - \\E_{\\pi_0}[I(X;\\pi_0)] = \\E_{\\pi_0}\\left[\\log \\frac{\\pi_0(x)}{\\pi(x)}\\right] = D_{KL}(\\pi_0\\| \\pi) \\geq 0\n\\]\nIt is also called the Kullback-Liebler divergence.\nA common choice of the reference distribution \\(\\pi_0\\) is non-informative distributions, e.g., the Lebesgue measure."
+  },
+  {
+    "objectID": "slides/03-prior.html#entropyinformation",
+    "href": "slides/03-prior.html#entropyinformation",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Entropy/Information",
+    "text": "Entropy/Information\nSome take-home messages:\n\nEntropy \\(\\approx\\) Information \\(\\approx\\) Uncertainty \\(\\approx\\) Energy \\(\\approx\\) Temparature\nThere are different definitions of entropy, e.g. Rényi entropy, and therefore different divergences can be induced.\nEntropy plays the role of utility functions in decision theory: an inference procedure is obtained by maximizing the entropy."
+  },
+  {
+    "objectID": "slides/03-prior.html#maximum-entropy-prior-mep",
+    "href": "slides/03-prior.html#maximum-entropy-prior-mep",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Maximum Entropy Prior (MEP)",
+    "text": "Maximum Entropy Prior (MEP)\n\nThe maximum entropy prior (MEP) (with respect to a reference distribution \\(\\pi_0\\)) is the solution to the optimization problem \\[\\begin{equation}\\label{eq:MEP}\n\\begin{split}\n\\max_{\\pi \\in \\Gamma} & \\; \\mc{E}(\\pi; \\pi_0)\\\\\n& s.t. \\quad \\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K\n\\end{split}\n\\end{equation}\\] where \\(\\Gamma\\) is a class of candidate priors.\nThe existence of the solution depends on \\(g_k\\)’s, \\(\\Gamma\\), and \\(\\pi_0\\).\nThe prior \\(\\pi\\) maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through \\(\\pi\\) about \\(\\theta\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#discrete-mep",
+    "href": "slides/03-prior.html#discrete-mep",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Discrete MEP",
+    "text": "Discrete MEP\n\nLet \\(\\Theta=\\{\\theta_1, \\ldots, \\theta_m\\}\\) and \\(\\pi_0(\\theta_i) = \\frac{1}{m}\\) be the reference distribution.\nThe prior informations are \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\nThe MEP for \\(\\theta\\) is \\[\n\\pi^*(\\theta_i)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k\\left(\\theta_i\\right)\\right\\}}{\\sum_j \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k\\left(\\theta_j\\right)\\right\\}}\n\\] where the \\(\\lambda_k\\)’s are obtained from \\(\\eqref{eq:MEP}\\) as Lagrange multipliers.\nHere \\(\\Gamma\\) is the class of all discrete distributions on \\(\\Theta\\), i.e., \\(\\Gamma = \\{(p_1, \\ldots, p_m): \\sum p_i = 1\\}\\).\nThe proof is a simple application of Lagrange multipliers."
+  },
+  {
+    "objectID": "slides/03-prior.html#continuous-mep",
+    "href": "slides/03-prior.html#continuous-mep",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Continuous MEP",
+    "text": "Continuous MEP\n\nLet \\(\\Theta = \\R\\) and the prior information be \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\nThe MEP for \\(\\theta\\) is \\[\n\\pi^*(\\theta)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\theta)\\right\\} \\pi_0(\\theta)}{\\int \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\eta)\\right\\} \\pi_0(d \\eta)}.\n\\]\n??"
+  },
+  {
+    "objectID": "slides/03-prior.html#examples",
+    "href": "slides/03-prior.html#examples",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Examples",
+    "text": "Examples\n\nWithout any prior information, the MEP is the uniform distribution.\nWith \\(\\E_{\\pi}(\\theta) = \\mu\\), the MEP is \\(\\pi^*(\\theta) \\propto e^{\\lambda\\theta}\\), which can not be normalized to 1.\nWith \\(\\E_{\\pi}(\\theta) = \\mu\\) and \\(\\var_{\\pi}(\\theta) = \\sigma^2\\), the MEP is \\(N(\\mu, \\sigma^2)\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#problems-with-mep",
+    "href": "slides/03-prior.html#problems-with-mep",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Problems with MEP",
+    "text": "Problems with MEP"
+  },
+  {
+    "objectID": "slides/03-prior.html#parametric-approximations",
+    "href": "slides/03-prior.html#parametric-approximations",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Parametric Approximations",
+    "text": "Parametric Approximations\n\nA more practical solution to incorporate the prior information is to use parametric approximations.\nChoose a parametric family, e.g. normal, and find one in the family that matches the prior information (exactly or approximately).\nExample: Suppose the prior informations are: median = 0, lower quartile = -1, and upper quartile = 1.\nThe normal distribution satisfying these constraints is \\(N(0, 2.19)\\).\nThe Cauchy distribution satisfying these constraints is \\(\\text{Cauchy}(0,1)\\).\nBoth are reasonbale prior distributions (depending on the likelihood and data)."
+  },
+  {
+    "objectID": "slides/03-prior.html#conjugate-prior",
+    "href": "slides/03-prior.html#conjugate-prior",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Conjugate prior",
+    "text": "Conjugate prior\n\nDefinition 1 A class \\(\\mc{P}\\) of prior distributions for \\(\\theta\\) is called conjugate for a sampling model \\(p(x \\mid \\theta)\\) if \\[\\begin{align*}\n\\pi(\\theta) \\in \\mc{P} \\Rightarrow \\pi(\\theta \\mid x) \\in \\mc{P} .\n\\end{align*}\\]\n\n\nUsually, the class \\(\\mc{P}\\) is a parametric family with a finite number of parameters.\nExample: Beta is conjugate for the binomial model.\nConjugate priors make posterior calculations easy, but might not actually represent our prior information.\nHowever, mixtures of conjugate prior distributions are very flexible and are computationally tractable."
+  },
+  {
+    "objectID": "slides/03-prior.html#exponential-families",
+    "href": "slides/03-prior.html#exponential-families",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Exponential families",
+    "text": "Exponential families\n\nRecall that a family of distributions is an exponential family if its pdf/pmf can be written as \\[\\begin{align*}\nf(x;\\theta) & = h(x)\\exp\\left(\\sum_{i=1}^k w_i(\\theta)T_i(x) - \\psi(\\theta)\\right)\\\\\n& = h(x)\\exp\\left(\\sum_{i=1}^k \\eta_iT_i(x)-\\tilde{\\psi}(\\eta)\\right), \\quad \\eta_i = w_i(\\theta), \\eta = [\\eta_1, \\ldots, \\eta_k].\n\\end{align*}\\]\n\n\\(\\eta\\) is the natural parameter.\n\\(T(X) = [T_1(X), \\ldots, T_k(X)]\\) is a sufficient statistic; it is complete if the parameter space is an open set in \\(\\R^k\\).\n\nExample: Normal, Gamma, Beta, Binomial (with known \\(n\\)), Poisson, …\nNot an exponential family: \\(\\text{Unif}(\\theta, \\theta+1)\\) (if the support of the distribution depends on the parameter, then it is not an exponential family)."
+  },
+  {
+    "objectID": "slides/03-prior.html#constructing-a-conjugate-prior",
+    "href": "slides/03-prior.html#constructing-a-conjugate-prior",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Constructing a conjugate prior",
+    "text": "Constructing a conjugate prior\n\nSuppose \\(f(x\\mid \\theta) = h(x)\\exp(\\theta^Tx - \\psi(\\theta))\\) (natural parametrization).\nHow to construct a conjugate prior for \\(f(x \\mid \\theta)\\)?\nWe need \\(\\pi(\\theta)\\) and \\(\\pi(\\theta \\mid x)\\) to be in the same family.\n\n\n\\[\n\\begin{align}\n  \\pi(\\theta \\mid x) = \\frac{f(x \\mid \\theta)\\pi(\\theta)}{\\int f(x\\mid \\theta^{\\prime})\\pi(\\theta^{\\prime})d\\theta^{\\prime}}\n  & = \\frac{{\\color{green}\\pi(\\theta)}{\\color{magenta}h(x)}\\exp(\\theta^Tx {\\color{green} - \\psi(\\theta)})}{{\\color{magenta}m(x)}}\\\\\n    &\\class{fragment}{{} = \\exp\\left[x^T\\theta - \\left(\\psi(\\theta)\\right)\\right]}         \\\\[3px]\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "slides/03-prior.html#pros-and-cons",
+    "href": "slides/03-prior.html#pros-and-cons",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Pros and cons",
+    "text": "Pros and cons"
+  },
+  {
+    "objectID": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
+    "href": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
+    "title": "Lecture 03: Prior Information and Prior Distribution",
+    "section": "Some practical guides for choosing priors",
+    "text": "Some practical guides for choosing priors\nWith prior information: - Find the MEP - Find a (conjugate) parametric prior that approximates the prior information\nWithout prior information: - Use conjugate priors (if applicable) and hyper-priors - Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors\nFinally, perform some sensitivity analysis to access priors’ influence on the result.\n\n\nHome"
   }
 ]

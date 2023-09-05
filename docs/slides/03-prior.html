@@ -338,13 +338,236 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
-
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">The choice of prior distribution is the most critical and difficult step in Bayesian analysis.</li>
+<li class="fragment">In practice, the available prior information is often not precise enough to lead to an exact determination of the prior distribution.</li>
+<li class="fragment">We need to find a prior distribution that is compatible with the prior information.</li>
+<li class="fragment">Another problem is the determination of prior when the prior information is too vague or does not even exist.</li>
+</ul>
+</section>
+<section id="maximum-entropy-priors" class="slide level2">
+<h2>Maximum Entropy Priors</h2>
+<ul>
+<li class="fragment"><p>If some characteristics of the prior distribution are known, assuming that they can be written as prior expectations, <span class="math display">\[
+\E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K,
+\]</span> a way to select a prior <span class="math inline">\(\pi\)</span> satisfying these constraints is the <em>maximum entropy method</em>.</p></li>
+<li class="fragment"><p>Let <span class="math inline">\(\pi\)</span> be a discrete distribution. The Shannon Entropy<sup>1</sup> of <span class="math inline">\(\pi\)</span> is <span class="math display">\[
+\mc{E}(\pi) =  -\E_{\pi}[\log \pi(\theta)].
+\]</span></p></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Introduced by Shannon (1948).</p></li></ol></aside></section>
+<section id="intuition-behind-shannon-entropy" class="slide level2">
+<h2>Intuition behind Shannon Entropy</h2>
+<ul>
+<li class="fragment"><p>Entropy is a measure of randomness: </p></li>
+<li class="fragment"><p>Entropy is the expectation of information: <span class="math inline">\(\mc{E}(\pi) = \E_{\pi}(I(X))\)</span>, where <span class="math inline">\(I(x)\)</span> is the <em>information</em> of the event <span class="math inline">\(\{X = x\}\)</span>.</p></li>
+<li class="fragment"><p>Roughly speaking, .</p></li>
+</ul>
+</section>
+<section id="shannons-axioms-for-information" class="slide level2">
+<h2>Shannon’s Axioms for Information</h2>
+<ol type="1">
+<li class="fragment">An event that always happens yields no information.</li>
+<li class="fragment">The less probable an event is, the more information it yields.</li>
+<li class="fragment">If two independent events are measured separately, the total amount of information is the sum of the information of the individual events.</li>
+</ol>
+<p>That is, the information <span class="math inline">\(I(A)\)</span> of an event <span class="math inline">\(A\)</span> satisfies</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(I(A) = 0\)</span> if <span class="math inline">\(\P(A) = 1\)</span>.</li>
+<li class="fragment"><span class="math inline">\(I(A)\)</span> is a decreasing function of <span class="math inline">\(\P(A)\)</span>.</li>
+<li class="fragment"><span class="math inline">\(I(A\cap B) = I(A) + I(B)\)</span> if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent.</li>
+</ol>
+</section>
+<section id="shannon-entropy" class="slide level2">
+<h2>Shannon Entropy</h2>
+<ul>
+<li class="fragment"><p>Let <span class="math inline">\(X\)</span> be a discrete random variable with probability mass function <span class="math inline">\(\pi(x)\)</span>. The Shannon information of <span class="math inline">\(\pi\)</span> is <span class="math display">\[
+I(x) \coloneqq I(\{X = x\}) = -\log \P(X = x) = -\log \pi(x).
+\]</span></p></li>
+<li class="fragment"><p>The Shannon entropy of <span class="math inline">\(\pi\)</span> is <span class="math inline">\(\mc{E}(\pi) = \E_{\pi}(I(X)) = -\E_{\pi}(\log \pi(X))\)</span>.</p></li>
+<li class="fragment"><p>If the support of <span class="math inline">\(\pi(x)\)</span> is a finite set, say <span class="math inline">\(\{x_1,\ldots, x_m\}\)</span>, then <span class="math inline">\(\mc{E}(\pi) \leq \log m\)</span> and the equality holds when <span class="math inline">\(\pi(x) = \frac{1}{m}\)</span>.</p></li>
+<li class="fragment"><p>What if <span class="math inline">\(X\)</span> is continuous? If <span class="math inline">\(\pi(x)\)</span> is a probability density, the information <span class="math inline">\(-\log \pi(x)\)</span> can be negative.</p></li>
+</ul>
+</section>
+<section id="relative-entropy" class="slide level2">
+<h2>Relative Entropy</h2>
+<ul>
+<li class="fragment">It does not make sense to have a negative information.</li>
+<li class="fragment">But ``relative information” can be negative.</li>
+<li class="fragment">Let <span class="math inline">\(\pi_0\)</span> be a reference distribution. The <strong>relative information</strong> of <span class="math inline">\(\pi\)</span> with respect to <span class="math inline">\(\pi_0\)</span> is <span class="math display">\[
+I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \frac{\pi(x)}{\pi_0(x)}
+\]</span></li>
+<li class="fragment">Then by Jensen’s inequality <span class="math display">\[
+\E_{\pi_0}[I(X;\pi_0)] = \mc{E}(\pi_0) - \mc{E}(\pi, \pi_0) \leq 0
+\]</span> and the equality holds when <span class="math inline">\(\pi = \pi_0\)</span>.</li>
+</ul>
+</section>
+<section id="relative-entropy-1" class="slide level2">
+<h2>Relative Entropy</h2>
+<ul>
+<li class="fragment"><p><strong>Cross entropy</strong>: <span class="math inline">\(\mc{E}(\pi, \pi_0) = - \E_{\pi_0}(\log \pi(X))\)</span></p></li>
+<li class="fragment"><p><strong>Relative entropy</strong>: <span class="math display">\[
+\mc{E}(\pi_0\| \pi) = - \E_{\pi_0}[I(X;\pi_0)] = \E_{\pi_0}\left[\log \frac{\pi_0(x)}{\pi(x)}\right] = D_{KL}(\pi_0\| \pi) \geq 0
+\]</span></p></li>
+<li class="fragment"><p>It is also called the <strong>Kullback-Liebler divergence</strong>.</p></li>
+<li class="fragment"><p>A common choice of the reference distribution <span class="math inline">\(\pi_0\)</span> is non-informative distributions, e.g., the Lebesgue measure.</p></li>
+</ul>
+</section>
+<section id="entropyinformation" class="slide level2">
+<h2>Entropy/Information</h2>
+<p>Some take-home messages:</p>
+<ul>
+<li class="fragment">Entropy <span class="math inline">\(\approx\)</span> Information <span class="math inline">\(\approx\)</span> Uncertainty <span class="math inline">\(\approx\)</span> Energy <span class="math inline">\(\approx\)</span> Temparature</li>
+<li class="fragment">There are different definitions of entropy, e.g.&nbsp;Rényi entropy, and therefore different divergences can be induced.</li>
+<li class="fragment">Entropy plays the role of utility functions in decision theory: an inference procedure is obtained by maximizing the entropy.</li>
+</ul>
+</section>
+<section id="maximum-entropy-prior-mep" class="slide level2">
+<h2>Maximum Entropy Prior (MEP)</h2>
+<ul>
+<li class="fragment"><p>The maximum entropy prior (MEP) (with respect to a reference distribution <span class="math inline">\(\pi_0\)</span>) is the solution to the optimization problem <span class="math display">\[\begin{equation}\label{eq:MEP}
+\begin{split}
+\max_{\pi \in \Gamma} &amp; \; \mc{E}(\pi; \pi_0)\\
+&amp; s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K
+\end{split}
+\end{equation}\]</span> where <span class="math inline">\(\Gamma\)</span> is a class of candidate priors.</p></li>
+<li class="fragment"><p>The existence of the solution depends on <span class="math inline">\(g_k\)</span>’s, <span class="math inline">\(\Gamma\)</span>, and <span class="math inline">\(\pi_0\)</span>.</p></li>
+<li class="fragment"><p>The prior <span class="math inline">\(\pi\)</span> maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through <span class="math inline">\(\pi\)</span> about <span class="math inline">\(\theta\)</span>.</p></li>
+</ul>
+</section>
+<section id="discrete-mep" class="slide level2">
+<h2>Discrete MEP</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(\Theta=\{\theta_1, \ldots, \theta_m\}\)</span> and <span class="math inline">\(\pi_0(\theta_i) = \frac{1}{m}\)</span> be the reference distribution.</li>
+<li class="fragment">The prior informations are <span class="math display">\[
+\E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K.
+\]</span></li>
+<li class="fragment">The MEP for <span class="math inline">\(\theta\)</span> is <span class="math display">\[
+\pi^*(\theta_i)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k\left(\theta_i\right)\right\}}{\sum_j \exp \left\{\sum_{k=1}^K \lambda_k g_k\left(\theta_j\right)\right\}}
+\]</span> where the <span class="math inline">\(\lambda_k\)</span>’s are obtained from <span class="math inline">\(\eqref{eq:MEP}\)</span> as Lagrange multipliers.</li>
+<li class="fragment">Here <span class="math inline">\(\Gamma\)</span> is the class of all discrete distributions on <span class="math inline">\(\Theta\)</span>, i.e., <span class="math inline">\(\Gamma = \{(p_1, \ldots, p_m): \sum p_i = 1\}\)</span>.</li>
+<li class="fragment">The proof is a simple application of Lagrange multipliers.</li>
+</ul>
+</section>
+<section id="continuous-mep" class="slide level2">
+<h2>Continuous MEP</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(\Theta = \R\)</span> and the prior information be <span class="math display">\[
+\E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K.
+\]</span></li>
+<li class="fragment">The MEP for <span class="math inline">\(\theta\)</span> is <span class="math display">\[
+\pi^*(\theta)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k(\theta)\right\} \pi_0(\theta)}{\int \exp \left\{\sum_{k=1}^K \lambda_k g_k(\eta)\right\} \pi_0(d \eta)}.
+\]</span></li>
+<li class="fragment">??</li>
+</ul>
+</section>
+<section id="examples" class="slide level2">
+<h2>Examples</h2>
+<ul>
+<li class="fragment">Without any prior information, the MEP is the uniform distribution.</li>
+<li class="fragment">With <span class="math inline">\(\E_{\pi}(\theta) = \mu\)</span>, the MEP is <span class="math inline">\(\pi^*(\theta) \propto e^{\lambda\theta}\)</span>, which can not be normalized to 1.</li>
+<li class="fragment">With <span class="math inline">\(\E_{\pi}(\theta) = \mu\)</span> and <span class="math inline">\(\var_{\pi}(\theta) = \sigma^2\)</span>, the MEP is <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</li>
+</ul>
+</section>
+<section id="problems-with-mep" class="slide level2">
+<h2>Problems with MEP</h2>
+</section>
+<section id="parametric-approximations" class="slide level2">
+<h2>Parametric Approximations</h2>
+<ul>
+<li class="fragment">A more practical solution to incorporate the prior information is to use parametric approximations.</li>
+<li class="fragment">Choose a parametric family, e.g.&nbsp;normal, and find one in the family that matches the prior information (exactly or approximately).</li>
+<li class="fragment">Example: Suppose the prior informations are: median = 0, lower quartile = -1, and upper quartile = 1.</li>
+<li class="fragment">The normal distribution satisfying these constraints is <span class="math inline">\(N(0, 2.19)\)</span>.</li>
+<li class="fragment">The Cauchy distribution satisfying these constraints is <span class="math inline">\(\text{Cauchy}(0,1)\)</span>.</li>
+<li class="fragment">Both are reasonbale prior distributions (depending on the likelihood and data).</li>
+</ul>
+</section>
+<section id="conjugate-prior" class="slide level2">
+<h2>Conjugate prior</h2>
+<div id="def-conjugacy" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1 </strong></span>A class <span class="math inline">\(\mc{P}\)</span> of prior distributions for <span class="math inline">\(\theta\)</span> is called <u>conjugate</u> for a sampling model <span class="math inline">\(p(x \mid \theta)\)</span> if <span class="math display">\[\begin{align*}
+\pi(\theta) \in \mc{P} \Rightarrow \pi(\theta \mid x) \in \mc{P} .
+\end{align*}\]</span></p>
+</div>
+<ul>
+<li class="fragment">Usually, the class <span class="math inline">\(\mc{P}\)</span> is a parametric family with a finite number of parameters.</li>
+<li class="fragment">Example: Beta is conjugate for the binomial model.</li>
+<li class="fragment">Conjugate priors make posterior calculations easy, but might not actually represent our prior information.</li>
+<li class="fragment">However, mixtures of conjugate prior distributions are very flexible and are computationally tractable.</li>
+</ul>
+</section>
+<section id="exponential-families" class="slide level2">
+<h2>Exponential families</h2>
+<ul>
+<li class="fragment">Recall that a family of distributions is an <strong>exponential family</strong> if its pdf/pmf can be written as <span class="math display">\[\begin{align*}
+f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\right)\\
+&amp; = h(x)\exp\left(\sum_{i=1}^k \eta_iT_i(x)-\tilde{\psi}(\eta)\right), \quad \eta_i = w_i(\theta), \eta = [\eta_1, \ldots, \eta_k].
+\end{align*}\]</span>
+<ul>
+<li class="fragment"><span class="math inline">\(\eta\)</span> is the <strong>natural parameter</strong>.</li>
+<li class="fragment"><span class="math inline">\(T(X) = [T_1(X), \ldots, T_k(X)]\)</span> is a <strong>sufficient statistic</strong>; it is <strong>complete</strong> if the parameter space is an open set in <span class="math inline">\(\R^k\)</span>.</li>
+</ul></li>
+<li class="fragment">Example: Normal, Gamma, Beta, Binomial (with known <span class="math inline">\(n\)</span>), Poisson, …</li>
+<li class="fragment">Not an exponential family: <span class="math inline">\(\text{Unif}(\theta, \theta+1)\)</span> (if the support of the distribution depends on the parameter, then it is not an exponential family).</li>
+</ul>
+</section>
+<section id="constructing-a-conjugate-prior" class="slide level2">
+<h2>Constructing a conjugate prior</h2>
+<ul>
+<li class="fragment">Suppose <span class="math inline">\(f(x\mid \theta) = h(x)\exp(\theta^Tx - \psi(\theta))\)</span> (natural parametrization).</li>
+<li class="fragment">How to construct a conjugate prior for <span class="math inline">\(f(x \mid \theta)\)</span>?</li>
+<li class="fragment">We need <span class="math inline">\(\pi(\theta)\)</span> and <span class="math inline">\(\pi(\theta \mid x)\)</span> to be in the same family.</li>
+</ul>
+<div class="fragment">
+<p><span class="math display">\[
+\begin{align}
+  \pi(\theta \mid x) = \frac{f(x \mid \theta)\pi(\theta)}{\int f(x\mid \theta^{\prime})\pi(\theta^{\prime})d\theta^{\prime}}
+  &amp; = \frac{{\color{green}\pi(\theta)}{\color{magenta}h(x)}\exp(\theta^Tx {\color{green} - \psi(\theta)})}{{\color{magenta}m(x)}}\\
+    &amp;\class{fragment}{{} = \exp\left[x^T\theta - \left(\psi(\theta)\right)\right]}         \\[3px]
+\end{align}
+\]</span></p>
+</div>
+</section>
+<section id="pros-and-cons" class="slide level2">
+<h2>Pros and cons</h2>
+</section>
+<section id="some-practical-guides-for-choosing-priors" class="slide level2">
+<h2>Some practical guides for choosing priors</h2>
+<p>With prior information: - Find the MEP - Find a (conjugate) parametric prior that approximates the prior information</p>
+<p>Without prior information: - Use conjugate priors (if applicable) and hyper-priors - Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors</p>
+<p>Finally, perform some sensitivity analysis to access priors’ influence on the result.</p>
 
 <div class="footer footer-default">
 <p><a href="https://chun-hao.github.io/stat-5010/">Home</a></p>
 </div>
 </section>
+
     </div>
   </div>
 

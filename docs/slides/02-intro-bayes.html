@@ -666,25 +666,6 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <li class="fragment">Note that the posterior is in the same family of the prior: both of them are in the Beta family.</li>
 <li class="fragment">In this case, the Beta prior is called a <strong>conjugate prior</strong> for the Binomial model.</li>
 </ul>
-</section></section>
-<section>
-<section id="conjugate-prior" class="title-slide slide level1 center">
-<h1>Conjugate Prior</h1>
-
-</section>
-<section id="conjugate-prior-1" class="slide level2">
-<h2>Conjugate prior</h2>
-<div id="def-conjugacy" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2 </strong></span>A class <span class="math inline">\(\mc{P}\)</span> of prior distributions for <span class="math inline">\(\theta\)</span> is called <u>conjugate</u> for a sampling model <span class="math inline">\(p(x \mid \theta)\)</span> if <span class="math display">\[\begin{align*}
-\pi(\theta) \in \mc{P} \Rightarrow \pi(\theta \mid x) \in \mc{P} .
-\end{align*}\]</span></p>
-</div>
-<ul>
-<li class="fragment">Usually, the class <span class="math inline">\(\mc{P}\)</span> is a parametric family with a finite number of parameters.</li>
-<li class="fragment">Example: Beta is conjugate for the binomial model.</li>
-<li class="fragment">Conjugate priors make posterior calculations easy, but might not actually represent our prior information.</li>
-<li class="fragment">However, mixtures of conjugate prior distributions are very flexible and are computationally tractable.</li>
-</ul>
 </section>
 <section id="catalog-for-conjugate-priors" class="slide level2">
 <h2>Catalog for conjugate priors</h2>
@@ -749,12 +730,6 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <li class="fragment">More can be found on <a href="https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions">Wiki</a></li>
 <li class="fragment">Exercise: Derive the posterior for the Normal-Normal model. You should do this once in your life and then you are allowed to copy the formula from Wiki.</li>
 </ul>
-</section>
-<section id="exponential-families-and-conjugate-priors" class="slide level2">
-<h2>Exponential families and conjugate priors</h2>
-</section>
-<section id="pros-and-cons" class="slide level2">
-<h2>Pros and cons</h2>
 </section>
 <section id="real-data-example" class="slide level2">
 <h2>Real Data Example</h2>
@@ -877,7 +852,13 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <li class="fragment">The posterior will be complicated and we need some other methods for posterior inference.</li>
 </ul></li>
 </ul>
-</section></section>
+</section>
+<section id="small-area-estimation-sae" class="slide level2">
+<h2>Small Area Estimation (SAE)</h2>
+<blockquote>
+<p>Small area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey<sup>1</sup>.</p>
+</blockquote>
+<aside><ol class="aside-footnotes"><li id="fn3"><p><a href="https://en.wikipedia.org/wiki/Small_area_estimation">Wiki</a></p></li></ol></aside></section></section>
 <section>
 <section id="why-bayesian" class="title-slide slide level1 center">
 <h1>Why Bayesian</h1>
@@ -902,7 +883,7 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <section id="exchangeability" class="slide level2">
 <h2>Exchangeability</h2>
 <div id="def-exchangeability" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3 </strong></span>Let <span class="math inline">\(p\left(x_1, \ldots, x_n\right)\)</span> be the joint density of <span class="math inline">\(X_1\)</span>, <span class="math inline">\(\ldots, X_n\)</span>. If <span class="math inline">\(p\left(x_1, \ldots, x_n\right)=p\left(x_{\pi(1)}, \ldots, x_{\pi(n)}\right)\)</span> for all permutations <span class="math inline">\(\pi\)</span> of <span class="math inline">\(\{1, \ldots, n\}\)</span>, then <span class="math inline">\(X_1, \ldots, X_n\)</span> are exchangeable.</p>
+<p><span class="theorem-title"><strong>Definition 2 </strong></span>Let <span class="math inline">\(p\left(x_1, \ldots, x_n\right)\)</span> be the joint density of <span class="math inline">\(X_1\)</span>, <span class="math inline">\(\ldots, X_n\)</span>. If <span class="math inline">\(p\left(x_1, \ldots, x_n\right)=p\left(x_{\pi(1)}, \ldots, x_{\pi(n)}\right)\)</span> for all permutations <span class="math inline">\(\pi\)</span> of <span class="math inline">\(\{1, \ldots, n\}\)</span>, then <span class="math inline">\(X_1, \ldots, X_n\)</span> are exchangeable.</p>
 </div>
 <ul>
 <li class="fragment">Roughly speaking, <span class="math inline">\(X_1, \ldots, X_n\)</span> are exchangeable if the subscript labels convey no information about the outcomes.</li>
@@ -1021,7 +1002,7 @@ p \text{-value} &amp; = \P_{\theta=1 / 2}(X \geq 6) \\
 p(x \mid \theta) \propto \theta^5(1-\theta) .
 \end{align*}\]</span></li>
 <li class="fragment">A Bayesian approach would take the data into account only through this likelihood.</li>
-<li class="fragment">Homework: Show that under the uniform prior, the posteriors under the two stopping rules are the same.</li>
+<li class="fragment">Homework: Show that under a Beta prior, the posteriors under the two stopping rules are the same.</li>
 </ul>
 
 <div class="footer footer-default">

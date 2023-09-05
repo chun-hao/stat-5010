@@ -1,14 +1,25 @@
 ---
 title: "Lecture 02: Introduction to Bayesian Statistics"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chun-hao.github.io/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: auto
 ---
 
 # Beta-Binomial Model
 
 {{< include macro.qmd >}}
 
-```{r setup}
-options(digits = 4)
-```
 
 ## Beta-Binomial model
 
@@ -251,25 +262,6 @@ width="55%"}
 -   In this case, the Beta prior is called a **conjugate prior** for the
     Binomial model.
 
-# Conjugate Prior
-
-## Conjugate prior
-
-::: {#def-conjugacy}
-A class $\mc{P}$ of prior distributions for $\theta$ is called
-[conjugate]{.underline} for a sampling model $p(x \mid \theta)$ if
-\begin{align*}
-\pi(\theta) \in \mc{P} \Rightarrow \pi(\theta \mid x) \in \mc{P} .
-\end{align*}
-:::
-
--   Usually, the class $\mc{P}$ is a parametric family with a finite
-    number of parameters.
--   Example: Beta is conjugate for the binomial model.
--   Conjugate priors make posterior calculations easy, but might not
-    actually represent our prior information.
--   However, mixtures of conjugate prior distributions are very flexible
-    and are computationally tractable.
 
 ## Catalog for conjugate priors
 
@@ -281,6 +273,7 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
 }
 
 ```
+
 
 | Sampling model                       | Parameter | Prior                             | Posterior                                                                                                                                                                            |
 |---------------|---------------|---------------|---------------------------|
@@ -295,10 +288,6 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
 -   Exercise: Derive the posterior for the Normal-Normal model. You
     should do this once in your life and then you are allowed to copy
     the formula from Wiki.
-
-## Exponential families and conjugate priors
-
-## Pros and cons
 
 ## Real Data Example
 
@@ -358,6 +347,16 @@ data.frame(alpha, beta, prior_mean) |>
     -   Ex: our prior information indicates a multimodal distribution
     -   The posterior will be complicated and we need some other methods
         for posterior inference.
+
+## Small Area Estimation (SAE)
+
+  > Small area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey[^3].  
+  
+  
+  
+[^3]:  [Wiki](https://en.wikipedia.org/wiki/Small_area_estimation)
+
+
 
 # Why Bayesian
 
@@ -527,5 +526,5 @@ Suppose now the experiment is "**Flip until we get tails**."
     \end{align*}
 -   A Bayesian approach would take the data into account only through
     this likelihood.
--   Homework: Show that under the uniform prior, the posteriors under
+-   Homework: Show that under a Beta prior, the posteriors under
     the two stopping rules are the same.
