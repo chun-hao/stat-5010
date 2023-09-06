@@ -42,7 +42,7 @@ execute:
 ## Intuition behind Shannon Entropy
 
 -   Entropy is a measure of randomness:
-    \textcolor{red}{high entropy = high randomness}
+    \color{red}{high entropy = high randomness}
 
 -   Entropy is the expectation of information:
     $\mc{E}(\pi) = \E_{\pi}(I(X))$, where $I(x)$ is the *information* of

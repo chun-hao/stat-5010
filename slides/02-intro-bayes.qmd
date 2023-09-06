@@ -1,19 +1,5 @@
 ---
 title: "Lecture 02: Introduction to Bayesian Statistics"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chun-hao.github.io/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: auto
 ---
 
 # Beta-Binomial Model

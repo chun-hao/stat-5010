@@ -22,7 +22,6 @@ website:
       - href: resources.qmd
         text: Resources
     tools:
-      - icon: house-door-fill
       - icon: github
         href: https://github.com/chun-hao/stat-5010
   page-footer:
