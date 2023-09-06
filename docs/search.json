@@ -445,7 +445,7 @@
     "href": "slides/02-intro-bayes.html#real-data-example",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Real Data Example",
-    "text": "Real Data Example\n\n\n2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.1711（生下男嬰機率為0.5394）。\n同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）\n根據統計，全球人類自然出生性別比1.052（生下男嬰機率為0.5122）。\n基隆市自然出生性別比是否高於台灣平均？\n\n\n行政院資料庫Our World in Data"
+    "text": "Real Data Example\n\n\n2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.1711（生下男嬰機率為0.5394）。\n同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）\n根據統計，全球人類自然出生性別比1.052（生下男嬰機率為0.5122）。\n基隆市自然出生性別比是否高於台灣平均？\n\n\n\n\n性別比 ＝ 男嬰數/女嬰數；生下男嬰機率 ＝ 男嬰數/(男嬰數+女嬰數)；生下男嬰機率 ＝ 性別比/(1+性別比)\n行政院資料庫Our World in Data"
   },
   {
     "objectID": "slides/02-intro-bayes.html#real-data-example-1",
@@ -473,7 +473,7 @@
     "href": "slides/02-intro-bayes.html#small-area-estimation-sae",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Small Area Estimation (SAE)",
-    "text": "Small Area Estimation (SAE)\n\nSmall area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey1.\n\nWiki"
+    "text": "Small Area Estimation (SAE)\n\nThe previous example is an example of an SAE problem.\n\n\n\nSmall area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey1.\n\n\n\nThere is a hierarchical structure in SAE problems:\n\n\n\\[\n\\text{基隆} \\subset \\text{台灣} \\subset \\text{東亞} \\subset \\text{亞洲} \\subset{世界}\n\\]\n\n\nOne of the common frequentist models for SAE problems is the random effect model.\n\nWiki"
   },
   {
     "objectID": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
@@ -536,7 +536,7 @@
     "href": "slides/02-intro-bayes.html#stopping-rule-3",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Stopping Rule",
-    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under a Beta prior, the posteriors under the two stopping rules are the same.\n\n\n\nHome"
+    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under a Beta prior, the posteriors under the two stopping rules are the same."
   },
   {
     "objectID": "slides/03-prior.html#introduction",
@@ -670,5 +670,19 @@
     "title": "Lecture 03: Prior Information and Prior Distribution",
     "section": "Some practical guides for choosing priors",
     "text": "Some practical guides for choosing priors\nWith prior information: - Find the MEP - Find a (conjugate) parametric prior that approximates the prior information\nWithout prior information: - Use conjugate priors (if applicable) and hyper-priors - Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors\nFinally, perform some sensitivity analysis to access priors’ influence on the result.\n\n\nHome"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#small-area-estimation",
+    "href": "slides/02-intro-bayes.html#small-area-estimation",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Small Area Estimation",
+    "text": "Small Area Estimation\n\nBayesians typically use a hierarchical model to handle an SAE problem.\nIn this example, (conceptually) \\[\\begin{align*}\n  X \\mid p & \\sim \\bin\\left(n, p\\right)\\\\\n  p \\mid p_{\\text{TW}} & \\sim \\pi_1\\\\\n  p_{\\text{TW}} \\mid p_{\\text{World}} & \\sim \\pi_2\n\\end{align*}\\]\nNotations:\n\n\\(R = \\frac{p}{1-p}\\) is the Keelung’s gender ratio (parameter);\n\\(R_{\\text{TW}} = \\frac{p_{\\text{TW}}}{1-p_{\\text{TW}}}\\) is the Taiwan’s gender ratio (parameter);\n\\(p_{\\text{World}} = 0.5122\\)\n\nThis model is more complicated than the previous one, but descibes the data more accurately."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#more-importantly",
+    "href": "slides/02-intro-bayes.html#more-importantly",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "More importantly …",
+    "text": "More importantly …\n\n\n\n\n\n\n\n\nHome\n\n\nImage source: https://twitter.com/LSpakeAnthro/status/1257766583629275137"
   }
 ]

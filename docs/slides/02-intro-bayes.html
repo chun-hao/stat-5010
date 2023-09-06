@@ -741,7 +741,10 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <li>基隆市自然出生性別比是否高於台灣平均？</li>
 </ul>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.gender.ey.gov.tw/gecdb/Stat_Statistics_DetailData.aspx?sn=XGXgzan!6JtvV7D5uGZISg%40%40&amp;d=m9ww9odNZAz2Rc5Ooj%24wIQ%40%40">行政院資料庫</a></p></li><li id="fn2"><p><a href="https://ourworldindata.org/gender-ratio#sex-ratio-at-birth">Our World in Data</a></p></li></ol></aside></section>
+
+<aside><div>
+<p>性別比 ＝ 男嬰數/女嬰數；生下男嬰機率 ＝ 男嬰數/(男嬰數+女嬰數)；生下男嬰機率 ＝ 性別比/(1+性別比)</p>
+</div><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.gender.ey.gov.tw/gecdb/Stat_Statistics_DetailData.aspx?sn=XGXgzan!6JtvV7D5uGZISg%40%40&amp;d=m9ww9odNZAz2Rc5Ooj%24wIQ%40%40">行政院資料庫</a></p></li><li id="fn2"><p><a href="https://ourworldindata.org/gender-ratio#sex-ratio-at-birth">Our World in Data</a></p></li></ol></aside></section>
 <section id="real-data-example-1" class="slide level2">
 <h2>Real Data Example</h2>
 <div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-7_80f0daafc7fc041eff204716cc755319">
@@ -855,10 +858,44 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 </section>
 <section id="small-area-estimation-sae" class="slide level2">
 <h2>Small Area Estimation (SAE)</h2>
+<ul>
+<li class="fragment">The previous example is an example of an SAE problem.</li>
+</ul>
+<div class="fragment">
 <blockquote>
 <p>Small area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey<sup>1</sup>.</p>
 </blockquote>
-<aside><ol class="aside-footnotes"><li id="fn3"><p><a href="https://en.wikipedia.org/wiki/Small_area_estimation">Wiki</a></p></li></ol></aside></section></section>
+</div>
+<ul>
+<li class="fragment">There is a hierarchical structure in SAE problems:</li>
+</ul>
+<div class="fragment">
+<p><span class="math display">\[
+\text{基隆} \subset \text{台灣} \subset \text{東亞} \subset \text{亞洲} \subset{世界}
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">One of the common frequentist models for SAE problems is the <strong>random effect model</strong>.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn3"><p><a href="https://en.wikipedia.org/wiki/Small_area_estimation">Wiki</a></p></li></ol></aside></section>
+<section id="small-area-estimation" class="slide level2">
+<h2>Small Area Estimation</h2>
+<ul>
+<li class="fragment"><p>Bayesians typically use a <strong>hierarchical model</strong> to handle an SAE problem.</p></li>
+<li class="fragment"><p>In this example, (conceptually) <span class="math display">\[\begin{align*}
+  X \mid p &amp; \sim \bin\left(n, p\right)\\
+  p \mid p_{\text{TW}} &amp; \sim \pi_1\\
+  p_{\text{TW}} \mid p_{\text{World}} &amp; \sim \pi_2
+\end{align*}\]</span></p></li>
+<li class="fragment"><p>Notations:</p>
+<ul>
+<li class="fragment"><span class="math inline">\(R = \frac{p}{1-p}\)</span> is the Keelung’s gender ratio (parameter);</li>
+<li class="fragment"><span class="math inline">\(R_{\text{TW}} = \frac{p_{\text{TW}}}{1-p_{\text{TW}}}\)</span> is the Taiwan’s gender ratio (parameter);</li>
+<li class="fragment"><span class="math inline">\(p_{\text{World}} = 0.5122\)</span></li>
+</ul></li>
+<li class="fragment"><p>This model is more complicated than the previous one, but descibes the data more accurately.</p></li>
+</ul>
+</section></section>
 <section>
 <section id="why-bayesian" class="title-slide slide level1 center">
 <h1>Why Bayesian</h1>
@@ -1004,11 +1041,22 @@ p(x \mid \theta) \propto \theta^5(1-\theta) .
 <li class="fragment">A Bayesian approach would take the data into account only through this likelihood.</li>
 <li class="fragment">Homework: Show that under a Beta prior, the posteriors under the two stopping rules are the same.</li>
 </ul>
+</section>
+<section id="more-importantly" class="slide level2">
+<h2>More importantly …</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/lec02/meme1.webp" style="width:40.0%"></p>
+</figure>
+</div>
+
 
 <div class="footer footer-default">
 <p><a href="https://chun-hao.github.io/stat-5010/">Home</a></p>
 </div>
-</section></section>
+<aside><div>
+<p>Image source: <a href="https://twitter.com/LSpakeAnthro/status/1257766583629275137" class="uri">https://twitter.com/LSpakeAnthro/status/1257766583629275137</a></p>
+</div></aside></section></section>
 
     </div>
   </div>

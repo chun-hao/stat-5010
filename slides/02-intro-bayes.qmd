@@ -302,6 +302,10 @@ width="55%"}
 
 [^2]: [Our World in
     Data](https://ourworldindata.org/gender-ratio#sex-ratio-at-birth)
+    
+::: aside
+性別比 ＝ 男嬰數/女嬰數；生下男嬰機率 ＝ 男嬰數/(男嬰數+女嬰數)；生下男嬰機率 ＝ 性別比/(1+性別比)
+:::
 
 ## Real Data Example
 
@@ -350,13 +354,42 @@ data.frame(alpha, beta, prior_mean) |>
 
 ## Small Area Estimation (SAE)
 
+-   The previous example is an example of an SAE problem.
+
+:::{.fragment}
   > Small area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey[^3].  
-  
-  
+
+:::
+
+-   There is a hierarchical structure in SAE problems:
+
+:::{.fragment}
+$$
+\text{基隆} \subset \text{台灣} \subset \text{東亞} \subset \text{亞洲} \subset{世界}
+$$
+:::
+
+-   One of the common frequentist models for SAE problems is the **random effect model**.
   
 [^3]:  [Wiki](https://en.wikipedia.org/wiki/Small_area_estimation)
 
+## Small Area Estimation
 
+-   Bayesians typically use a **hierarchical model** to handle an SAE problem.
+
+-   In this example, (conceptually)
+\begin{align*}
+  X \mid p & \sim \bin\left(n, p\right)\\ 
+  p \mid p_{\text{TW}} & \sim \pi_1\\
+  p_{\text{TW}} \mid p_{\text{World}} & \sim \pi_2 
+\end{align*}
+
+-   Notations:
+    +    $R = \frac{p}{1-p}$ is the Keelung's gender ratio (parameter);
+    +    $R_{\text{TW}} = \frac{p_{\text{TW}}}{1-p_{\text{TW}}}$ is the Taiwan's gender ratio (parameter);
+    +    $p_{\text{World}} = 0.5122$
+    
+-   This model is more complicated than the previous one, but descibes the data more accurately.
 
 # Why Bayesian
 
@@ -475,7 +508,8 @@ Let $\theta$ be the probability of a particular coin landing on heads,
 and suppose we want to test the hypotheses \begin{align*}
 H_0: \theta=1 / 2, \quad H_1: \theta>1 / 2
 \end{align*} at a significance level of $\alpha=0.05$. Suppose we
-observe the following sequence of flips: $$
+observe the following sequence of flips: 
+$$
 \text{heads, heads, heads, heads, heads, tails (5 heads, 1 tails)}
 $$
 
@@ -528,3 +562,11 @@ Suppose now the experiment is "**Flip until we get tails**."
     this likelihood.
 -   Homework: Show that under a Beta prior, the posteriors under
     the two stopping rules are the same.
+    
+## More importantly ...
+
+![](images/lec02/meme1.webp){fig-align="center" width="40%"}
+
+::: aside
+Image source: <https://twitter.com/LSpakeAnthro/status/1257766583629275137>
+:::
