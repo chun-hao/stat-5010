@@ -7,14 +7,6 @@ project:
   
 website:
   title: "STAT 5010"
-  sidebar:
-    style: "floating"
-    search: true
-    contents:
-      - section: "Slides"
-        contents:
-          - text: "Lecture 1"
-            href: slides/01-intro.qmd
   navbar:
     left:
       - href: index.qmd
@@ -32,6 +24,11 @@ format:
   html:
     theme: simplex
     toc: true
+    grid:
+      sidebar-width: 200px
+      body-width: 1000px
+      margin-width: 200px
+      gutter-width: 1.5rem
 
 editor: source
 

@@ -271,9 +271,7 @@ width="55%"}
 
 -   More can be found on
     [Wiki](https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions)
--   Exercise: Derive the posterior for the Normal-Normal model. You
-    should do this once in your life and then you are allowed to copy
-    the formula from Wiki.
+-   Exercise: Derive the posterior for the Normal-Normal model.
 
 ## Real Data Example
 
