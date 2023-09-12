@@ -14,15 +14,23 @@ execute:
     warning: false
     cache: true
     freeze: auto
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Introduction
+
 {{< include macro.qmd >}}
 
--   The choice of prior distribution is the most critical and difficult step in Bayesian analysis.
--   In practice, the available prior information is often not precise enough to lead to an exact determination of the prior distribution.
--   We need to find a prior distribution that is compatible with the prior information.
--   Another problem is the determination of prior when the prior information is too vague or does not even exist.
+-   The choice of prior distribution is the most critical and difficult
+    step in Bayesian analysis.
+-   In practice, the available prior information is often not precise
+    enough to lead to an exact determination of the prior distribution.
+-   We need to find a prior distribution that is compatible with the
+    prior information.
+-   Another problem is the determination of prior when the prior
+    information is too vague or does not even exist.
 
 ## Maximum Entropy Priors
 
@@ -42,14 +50,14 @@ execute:
 ## Intuition behind Shannon Entropy
 
 -   Entropy is a measure of randomness:
-    \color{red}{high entropy = high randomness}
+    <span style="color:red;">high entropy = high randomness</span>
 
 -   Entropy is the expectation of information:
     $\mc{E}(\pi) = \E_{\pi}(I(X))$, where $I(x)$ is the *information* of
     the event $\{X = x\}$.
 
 -   Roughly speaking,
-    \textcolor{cyan}{information of an event $E$ is the knowledge you obtained after the occurrence of $E$}.
+    <span style="color:red;">information of an event $E$ is the knowledge you obtained after the occurrence of $E$ </span>.
 
 ## Shannon's Axioms for Information
 
@@ -59,18 +67,20 @@ execute:
     of information is the sum of the information of the individual
     events.
 
+:::{.fragment}
 That is, the information $I(A)$ of an event $A$ satisfies
+:::
 
 1.  $I(A) = 0$ if $\P(A) = 1$.
 2.  $I(A)$ is a decreasing function of $\P(A)$.
 3.  $I(A\cap B) = I(A) + I(B)$ if $A$ and $B$ are independent.
 
-```{=tex}
-\vspace{1cm}
-\begin{center}
-\textcolor{cyan}{\large Shannon's solution: $I(A) = -\log \P(A)$ for $\P(A) > 0$}
-\end{center}
-```
+:::{.fragment style="text-align: center;"}
+<span style="color:red;">
+Shannon's solution: $I(A) = -\log \P(A)$ for $\P(A) > 0$
+</span>
+:::
+
 ## Shannon Entropy
 
 -   Let $X$ be a discrete random variable with probability mass function
@@ -193,7 +203,6 @@ Some take-home messages:
 -   Both are reasonbale prior distributions (depending on the likelihood
     and data).
 
-
 ## Conjugate prior
 
 ::: {#def-conjugacy}
@@ -214,23 +223,30 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
 
 ## Exponential families
 
--   Recall that a family of distributions is an **exponential family** if its pdf/pmf can be written as 
-\begin{align*}
-f(x;\theta) & = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\right)\\
-& = h(x)\exp\left(\sum_{i=1}^k \eta_iT_i(x)-\tilde{\psi}(\eta)\right), \quad \eta_i = w_i(\theta), \eta = [\eta_1, \ldots, \eta_k].
-\end{align*}
-    +   $\eta$ is the **natural parameter**.
-    +   $T(X) = [T_1(X), \ldots, T_k(X)]$ is a **sufficient statistic**; it is **complete** if the parameter space is an open set in $\R^k$.
--   Example: Normal, Gamma, Beta, Binomial (with known $n$), Poisson, ...
--   Not an exponential family: $\text{Unif}(\theta, \theta+1)$ (if the support of the distribution depends on the parameter, then it is not an exponential family).
+-   Recall that a family of distributions is an **exponential family**
+    if its pdf/pmf can be written as \begin{align*}
+    f(x;\theta) & = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\right)\\
+    & = h(x)\exp\left(\sum_{i=1}^k \eta_iT_i(x)-\tilde{\psi}(\eta)\right), \quad \eta_i = w_i(\theta), \eta = [\eta_1, \ldots, \eta_k].
+    \end{align*}
+    -   $\eta$ is the **natural parameter**.
+    -   $T(X) = [T_1(X), \ldots, T_k(X)]$ is a **sufficient statistic**;
+        it is **complete** if the parameter space is an open set in
+        $\R^k$.
+-   Example: Normal, Gamma, Beta, Binomial (with known $n$), Poisson,
+    ...
+-   Not an exponential family: $\text{Unif}(\theta, \theta+1)$ (if the
+    support of the distribution depends on the parameter, then it is not
+    an exponential family).
 
 ## Constructing a conjugate prior
 
--   Suppose $f(x\mid \theta) = h(x)\exp(\theta^Tx - \psi(\theta))$ (natural parametrization).
+-   Suppose $f(x\mid \theta) = h(x)\exp(\theta^Tx - \psi(\theta))$
+    (natural parametrization).
 -   How to construct a conjugate prior for $f(x \mid \theta)$?
--   We need $\pi(\theta)$ and $\pi(\theta \mid x)$ to be in the same family.
+-   We need $\pi(\theta)$ and $\pi(\theta \mid x)$ to be in the same
+    family.
 
-:::{.fragment}
+::: fragment
 $$
 \begin{align}
   \pi(\theta \mid x) = \frac{f(x \mid \theta)\pi(\theta)}{\int f(x\mid \theta^{\prime})\pi(\theta^{\prime})d\theta^{\prime}} 
@@ -240,19 +256,17 @@ $$
 $$
 :::
 
-
 ## Pros and cons
-
-
 
 ## Some practical guides for choosing priors
 
-With prior information: - Find the MEP - Find a (conjugate) parametric
-prior that approximates the prior information
+-   With prior information: 
+    + Find the MEP 
+    + Find a (conjugate) parametric prior that approximates the prior information
 
-Without prior information: - Use conjugate priors (if applicable) and
-hyper-priors - Use noninformative priors, e.g., Jeffreys prior,
-reference priors, vague priors
+-   Without prior information: 
+    + Use conjugate priors (if applicable) and hyper-priors 
+    + Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors
 
-Finally, perform some sensitivity analysis to access priors' influence
+-   Finally, perform some sensitivity analysis to access priors' influence
 on the result.

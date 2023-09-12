@@ -384,9 +384,9 @@ Chun-Hao Yang
 <section id="intuition-behind-shannon-entropy" class="slide level2">
 <h2>Intuition behind Shannon Entropy</h2>
 <ul>
-<li class="fragment"><p>Entropy is a measure of randomness: </p></li>
+<li class="fragment"><p>Entropy is a measure of randomness: <span style="color:red;">high entropy = high randomness</span></p></li>
 <li class="fragment"><p>Entropy is the expectation of information: <span class="math inline">\(\mc{E}(\pi) = \E_{\pi}(I(X))\)</span>, where <span class="math inline">\(I(x)\)</span> is the <em>information</em> of the event <span class="math inline">\(\{X = x\}\)</span>.</p></li>
-<li class="fragment"><p>Roughly speaking, .</p></li>
+<li class="fragment"><p>Roughly speaking, <span style="color:red;">information of an event <span class="math inline">\(E\)</span> is the knowledge you obtained after the occurrence of <span class="math inline">\(E\)</span> </span>.</p></li>
 </ul>
 </section>
 <section id="shannons-axioms-for-information" class="slide level2">
@@ -396,12 +396,17 @@ Chun-Hao Yang
 <li class="fragment">The less probable an event is, the more information it yields.</li>
 <li class="fragment">If two independent events are measured separately, the total amount of information is the sum of the information of the individual events.</li>
 </ol>
+<div class="fragment">
 <p>That is, the information <span class="math inline">\(I(A)\)</span> of an event <span class="math inline">\(A\)</span> satisfies</p>
+</div>
 <ol type="1">
 <li class="fragment"><span class="math inline">\(I(A) = 0\)</span> if <span class="math inline">\(\P(A) = 1\)</span>.</li>
 <li class="fragment"><span class="math inline">\(I(A)\)</span> is a decreasing function of <span class="math inline">\(\P(A)\)</span>.</li>
 <li class="fragment"><span class="math inline">\(I(A\cap B) = I(A) + I(B)\)</span> if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent.</li>
 </ol>
+<div class="fragment" style="text-align: center;">
+<p><span style="color:red;"> Shannon’s solution: <span class="math inline">\(I(A) = -\log \P(A)\)</span> for <span class="math inline">\(\P(A) &gt; 0\)</span> </span></p>
+</div>
 </section>
 <section id="shannon-entropy" class="slide level2">
 <h2>Shannon Entropy</h2>
@@ -559,9 +564,19 @@ f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\
 </section>
 <section id="some-practical-guides-for-choosing-priors" class="slide level2">
 <h2>Some practical guides for choosing priors</h2>
-<p>With prior information: - Find the MEP - Find a (conjugate) parametric prior that approximates the prior information</p>
-<p>Without prior information: - Use conjugate priors (if applicable) and hyper-priors - Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors</p>
-<p>Finally, perform some sensitivity analysis to access priors’ influence on the result.</p>
+<ul>
+<li class="fragment">With prior information:
+<ul>
+<li class="fragment">Find the MEP</li>
+<li class="fragment">Find a (conjugate) parametric prior that approximates the prior information</li>
+</ul></li>
+<li class="fragment">Without prior information:
+<ul>
+<li class="fragment">Use conjugate priors (if applicable) and hyper-priors</li>
+<li class="fragment">Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors</li>
+</ul></li>
+<li class="fragment">Finally, perform some sensitivity analysis to access priors’ influence on the result.</li>
+</ul>
 
 <div class="footer footer-default">
 <p><a href="https://chun-hao.github.io/stat-5010/">Home</a></p>

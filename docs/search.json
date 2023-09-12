@@ -571,14 +571,14 @@
     "href": "slides/03-prior.html#intuition-behind-shannon-entropy",
     "title": "Lecture 03: Prior Information and Prior Distribution",
     "section": "Intuition behind Shannon Entropy",
-    "text": "Intuition behind Shannon Entropy\n\nEntropy is a measure of randomness: \nEntropy is the expectation of information: \\(\\mc{E}(\\pi) = \\E_{\\pi}(I(X))\\), where \\(I(x)\\) is the information of the event \\(\\{X = x\\}\\).\nRoughly speaking, ."
+    "text": "Intuition behind Shannon Entropy\n\nEntropy is a measure of randomness: high entropy = high randomness\nEntropy is the expectation of information: \\(\\mc{E}(\\pi) = \\E_{\\pi}(I(X))\\), where \\(I(x)\\) is the information of the event \\(\\{X = x\\}\\).\nRoughly speaking, information of an event \\(E\\) is the knowledge you obtained after the occurrence of \\(E\\) ."
   },
   {
     "objectID": "slides/03-prior.html#shannons-axioms-for-information",
     "href": "slides/03-prior.html#shannons-axioms-for-information",
     "title": "Lecture 03: Prior Information and Prior Distribution",
     "section": "Shannon’s Axioms for Information",
-    "text": "Shannon’s Axioms for Information\n\nAn event that always happens yields no information.\nThe less probable an event is, the more information it yields.\nIf two independent events are measured separately, the total amount of information is the sum of the information of the individual events.\n\nThat is, the information \\(I(A)\\) of an event \\(A\\) satisfies\n\n\\(I(A) = 0\\) if \\(\\P(A) = 1\\).\n\\(I(A)\\) is a decreasing function of \\(\\P(A)\\).\n\\(I(A\\cap B) = I(A) + I(B)\\) if \\(A\\) and \\(B\\) are independent."
+    "text": "Shannon’s Axioms for Information\n\nAn event that always happens yields no information.\nThe less probable an event is, the more information it yields.\nIf two independent events are measured separately, the total amount of information is the sum of the information of the individual events.\n\n\nThat is, the information \\(I(A)\\) of an event \\(A\\) satisfies\n\n\n\\(I(A) = 0\\) if \\(\\P(A) = 1\\).\n\\(I(A)\\) is a decreasing function of \\(\\P(A)\\).\n\\(I(A\\cap B) = I(A) + I(B)\\) if \\(A\\) and \\(B\\) are independent.\n\n\n Shannon’s solution: \\(I(A) = -\\log \\P(A)\\) for \\(\\P(A) &gt; 0\\)"
   },
   {
     "objectID": "slides/03-prior.html#shannon-entropy",
@@ -683,6 +683,6 @@
     "href": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
     "title": "Lecture 03: Prior Information and Prior Distribution",
     "section": "Some practical guides for choosing priors",
-    "text": "Some practical guides for choosing priors\nWith prior information: - Find the MEP - Find a (conjugate) parametric prior that approximates the prior information\nWithout prior information: - Use conjugate priors (if applicable) and hyper-priors - Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors\nFinally, perform some sensitivity analysis to access priors’ influence on the result.\n\n\nHome"
+    "text": "Some practical guides for choosing priors\n\nWith prior information:\n\nFind the MEP\nFind a (conjugate) parametric prior that approximates the prior information\n\nWithout prior information:\n\nUse conjugate priors (if applicable) and hyper-priors\nUse noninformative priors, e.g., Jeffreys prior, reference priors, vague priors\n\nFinally, perform some sensitivity analysis to access priors’ influence on the result.\n\n\n\nHome"
   }
 ]
