@@ -168,7 +168,7 @@ To find a $100\times(1-\alpha)\%$ credible interval for $\theta$:
 -   Find numbers $\theta_{\alpha / 2} < \theta_{1-\alpha / 2}$ such that
 
     ::: nonincremental
-    1.  $\P\left(\theta<\theta_\alpha \mid X = x\right)=\alpha / 2$;
+    1.  $\P\left(\theta<\theta_{\alpha/2} \mid X = x\right)=\alpha / 2$;
     2.  $\P\left(\theta>\theta_{1-\alpha / 2} \mid X = x\right)=\alpha / 2$.
     :::
 
@@ -188,20 +188,20 @@ $p$.
 
 ```{r}
 #| echo: true
-alpha <- 1;  beta <- 1 # uniform prior
-n <- 10; y <- 2 # data
+alpha <- 1; beta <- 1 # uniform prior
+n <- 10; X <- 2 # data
 
-qbeta(c(0.025, 0.975), alpha + y, beta + n - y)
+qbeta(c(0.025, 0.975), alpha + X, beta + n - X)
 ```
 
 ```{r}
 #| fig-align: center
-curve(dbeta(x, alpha + y, beta + n - y), c(0, 1), 
+curve(dbeta(x, alpha + X, beta + n - X), c(0, 1), 
       ylab = expression(paste(pi, "(", theta, "|", x, ")")), 
       xlab = expression(theta), main="Beta(3, 9)")
-abline(v = qbeta(0.025, alpha + y, beta + n - y), col = "blue", lty = 2)
-abline(v = qbeta(0.975, alpha + y, beta + n - y), col = "blue", lty = 2)
-abline(v = y/n, col = "red")
+abline(v = qbeta(0.025, alpha + X, beta + n - X), col = "blue", lty = 2)
+abline(v = qbeta(0.975, alpha + X, beta + n - X), col = "blue", lty = 2)
+abline(v = X/n, col = "red")
 ```
 
 ## Highest posterior density (HPD) region
@@ -226,7 +226,7 @@ $\theta \mid X = 2 \sim \text{Beta}(3, 9)$.
 ```{r}
 #| echo: true
 library(HDInterval)
-hdi(qbeta, 0.95, shape1 = 3, shape2=9)
+hdi(qbeta, 0.95, shape1 = 3, shape2 = 9)
 ```
 
 The HPD is narrower than the quantile-based interval.
@@ -265,7 +265,7 @@ width="55%"}
 |---------------|---------------|---------------|---------------------------|
 | $X \sim \bin(n, p)$                  | $p$       | $\text{Beta}(\alpha_0, \beta_0)$  | $\text{Beta}(\alpha_0 + X, \beta_0+n-X)$                                                                                                                                             |
 | $X \sim N(\mu, \sigma^2)$            | $\mu$     | $N(\mu_0, \sigma_0^2)$            | $N\left(\frac{1}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}}\left(\frac{\mu_0}{\sigma_0^2}+\frac{ X}{\sigma^2}\right),\left(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}\right)^{-1}\right)$ |
-| $X \sim \text{Poisson}(\lambda)$     | $\lambda$ | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + X, \beta+1)$                                                                                                                                                |
+| $X \sim \text{Poisson}(\lambda)$     | $\lambda$ | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + X, \beta_0+1)$                                                                                                                                                |
 | $X \sim \text{Gamma}(\alpha, \beta)$ | $\beta$   | $\text{Gamma}(\alpha_0, \beta_0)$ | $\text{Gamma}(\alpha_0 + \alpha, \beta_0+X)$                                                                                                                                         |
 | $X \sim \text{NB}(r, p)$             | $p$       | $\text{Beta}(\alpha_0, \beta_0)$  | $\text{Beta}(\alpha_0 + r, \beta_0+X)$                                                                                                                                               |
 
@@ -295,22 +295,27 @@ width="55%"}
 
 ```{r}
 #| echo: true
-#| output-location: slide
-#| tbl-colwidths: [20,10,15,20,25]
 library(tidyverse)
 library(knitr)
+
 m <- 856; f <- 731
 prior_mean <- c(0.5, 0.5122, 0.5122, 0.5122, 0.5122, 0.5122)
-a_b <- c(2, 2, 10, 100, 1000, 10000)
-alpha <- prior_mean*a_b
-beta <- a_b - alpha
+alpha_plus_beta <- c(2, 2, 10, 100, 1000, 10000)
+alpha <- prior_mean * alpha_plus_beta
+beta <- alpha_plus_beta - alpha
+```
+
+```{r}
+#| echo: true
+#| output-location: slide
+#| tbl-colwidths: [20,10,15,20,25]
 data.frame(alpha, beta, prior_mean) |> 
-    mutate(a_b = alpha + beta,
+    mutate(alpha_plus_beta = alpha + beta,
            post_mean = (alpha+m)/(alpha+beta+m+f),
            ratio = post_mean/(1-post_mean),
            post_int = paste0("[", round(qbeta(0.025, alpha + m, beta + f), 3),
                              ", ", round(qbeta(0.975, alpha + m, beta + f), 3), "]")) |>
-    select(c(prior_mean, a_b, post_mean, ratio, post_int)) |>
+    select(c(prior_mean, alpha_plus_beta, post_mean, ratio, post_int)) |>
     kable(format = "markdown", digits = 4,
           col.names = c("Prior mean $\\frac{\\alpha}{\\alpha+\\beta}$",
                         "$\\alpha + \\beta$",
@@ -455,7 +460,7 @@ any $n$, $X_1, \ldots, X_n$ are exchangeable. Then our model can be
 written as \begin{align*}
 p\left(x_1, \ldots, x_n\right)=\int\left\{\prod_{i=1}^n p\left(x_i \mid \theta\right)\right\} p(\theta) d \theta
 \end{align*} for some parameter $\theta$, some prior distribution on
-$\theta$ and some sampling model $p(x \mid \theta)$. The prior and
+$\theta$, and some sampling model $p(x \mid \theta)$. The prior and
 sampling model depend on $p\left(x_1, \ldots, x_n\right)$.
 :::
 

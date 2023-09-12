@@ -403,14 +403,14 @@
     "href": "slides/02-intro-bayes.html#quantile-based-method",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Quantile-based method",
-    "text": "Quantile-based method\nTo find a \\(100\\times(1-\\alpha)\\%\\) credible interval for \\(\\theta\\):\n\nFind numbers \\(\\theta_{\\alpha / 2} &lt; \\theta_{1-\\alpha / 2}\\) such that\n\n\n\\(\\P\\left(\\theta&lt;\\theta_\\alpha \\mid X = x\\right)=\\alpha / 2\\);\n\\(\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)=\\alpha / 2\\).\n\n\nThe numbers \\(\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\) are the \\(\\alpha / 2\\) and \\(1-\\alpha / 2\\) posterior quantiles of \\(\\theta\\), and so \\[\\begin{align*}\n\\P\\left(\\theta \\in\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) & =1-\\P\\left(\\theta \\notin\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) \\\\\n& =1-\\left[\\P\\left(\\theta&lt;\\theta_{\\alpha / 2} \\mid X=x\\right)\\right.\\\\\n& \\qquad \\left.+\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)\\right] \\\\\n& =1-\\alpha.\n\\end{align*}\\]"
+    "text": "Quantile-based method\nTo find a \\(100\\times(1-\\alpha)\\%\\) credible interval for \\(\\theta\\):\n\nFind numbers \\(\\theta_{\\alpha / 2} &lt; \\theta_{1-\\alpha / 2}\\) such that\n\n\n\\(\\P\\left(\\theta&lt;\\theta_{\\alpha/2} \\mid X = x\\right)=\\alpha / 2\\);\n\\(\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)=\\alpha / 2\\).\n\n\nThe numbers \\(\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\) are the \\(\\alpha / 2\\) and \\(1-\\alpha / 2\\) posterior quantiles of \\(\\theta\\), and so \\[\\begin{align*}\n\\P\\left(\\theta \\in\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) & =1-\\P\\left(\\theta \\notin\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) \\\\\n& =1-\\left[\\P\\left(\\theta&lt;\\theta_{\\alpha / 2} \\mid X=x\\right)\\right.\\\\\n& \\qquad \\left.+\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)\\right] \\\\\n& =1-\\alpha.\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/02-intro-bayes.html#binomial-example",
     "href": "slides/02-intro-bayes.html#binomial-example",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Binomial Example",
-    "text": "Binomial Example\nSuppose we observed \\(X=2\\) from a \\(\\bin(10, p)\\). Assume the uniform prior \\(p\\).\n\nalpha &lt;- 1;  beta &lt;- 1 # uniform prior\nn &lt;- 10; y &lt;- 2 # data\n\nqbeta(c(0.025, 0.975), alpha + y, beta + n - y)\n\n[1] 0.06022 0.51776"
+    "text": "Binomial Example\nSuppose we observed \\(X=2\\) from a \\(\\bin(10, p)\\). Assume the uniform prior \\(p\\).\n\nalpha &lt;- 1; beta &lt;- 1 # uniform prior\nn &lt;- 10; X &lt;- 2 # data\n\nqbeta(c(0.025, 0.975), alpha + X, beta + n - X)\n\n[1] 0.06021773 0.51775585"
   },
   {
     "objectID": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
@@ -424,7 +424,7 @@
     "href": "slides/02-intro-bayes.html#binomial-example-1",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Binomial Example",
-    "text": "Binomial Example\nLet’s compute the HPD for the previous example: \\(\\theta \\mid X = 2 \\sim \\text{Beta}(3, 9)\\).\n\nlibrary(HDInterval)\nhdi(qbeta, 0.95, shape1 = 3, shape2=9)\n\n  lower   upper \n0.04056 0.48372 \nattr(,\"credMass\")\n[1] 0.95\n\n\nThe HPD is narrower than the quantile-based interval.\n\n\n\n\nFig. 3.6 in Hoff’s book"
+    "text": "Binomial Example\nLet’s compute the HPD for the previous example: \\(\\theta \\mid X = 2 \\sim \\text{Beta}(3, 9)\\).\n\nlibrary(HDInterval)\nhdi(qbeta, 0.95, shape1 = 3, shape2 = 9)\n\n     lower      upper \n0.04055517 0.48372366 \nattr(,\"credMass\")\n[1] 0.95\n\n\nThe HPD is narrower than the quantile-based interval.\n\n\n\n\nFig. 3.6 in Hoff’s book"
   },
   {
     "objectID": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
@@ -438,7 +438,7 @@
     "href": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Catalog for conjugate priors",
-    "text": "Catalog for conjugate priors\n\n\n\n\n\n\n\n\n\n\n\n\n\nSampling model\nParameter\nPrior\nPosterior\n\n\n\n\n\\(X \\sim \\bin(n, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + X, \\beta_0+n-X)\\)\n\n\n\\(X \\sim N(\\mu, \\sigma^2)\\)\n\\(\\mu\\)\n\\(N(\\mu_0, \\sigma_0^2)\\)\n\\(N\\left(\\frac{1}{\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}}\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{ X}{\\sigma^2}\\right),\\left(\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}\\right)^{-1}\\right)\\)\n\n\n\\(X \\sim \\text{Poisson}(\\lambda)\\)\n\\(\\lambda\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + X, \\beta+1)\\)\n\n\n\\(X \\sim \\text{Gamma}(\\alpha, \\beta)\\)\n\\(\\beta\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + \\alpha, \\beta_0+X)\\)\n\n\n\\(X \\sim \\text{NB}(r, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + r, \\beta_0+X)\\)\n\n\n\n\nMore can be found on Wiki\nExercise: Derive the posterior for the Normal-Normal model."
+    "text": "Catalog for conjugate priors\n\n\n\n\n\n\n\n\n\n\n\n\n\nSampling model\nParameter\nPrior\nPosterior\n\n\n\n\n\\(X \\sim \\bin(n, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + X, \\beta_0+n-X)\\)\n\n\n\\(X \\sim N(\\mu, \\sigma^2)\\)\n\\(\\mu\\)\n\\(N(\\mu_0, \\sigma_0^2)\\)\n\\(N\\left(\\frac{1}{\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}}\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{ X}{\\sigma^2}\\right),\\left(\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}\\right)^{-1}\\right)\\)\n\n\n\\(X \\sim \\text{Poisson}(\\lambda)\\)\n\\(\\lambda\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + X, \\beta_0+1)\\)\n\n\n\\(X \\sim \\text{Gamma}(\\alpha, \\beta)\\)\n\\(\\beta\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + \\alpha, \\beta_0+X)\\)\n\n\n\\(X \\sim \\text{NB}(r, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + r, \\beta_0+X)\\)\n\n\n\n\nMore can be found on Wiki\nExercise: Derive the posterior for the Normal-Normal model."
   },
   {
     "objectID": "slides/02-intro-bayes.html#real-data-example",
@@ -452,14 +452,14 @@
     "href": "slides/02-intro-bayes.html#real-data-example-1",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Real Data Example",
-    "text": "Real Data Example\n\nlibrary(tidyverse)\nlibrary(knitr)\nm &lt;- 856; f &lt;- 731\nprior_mean &lt;- c(0.5, 0.5122, 0.5122, 0.5122, 0.5122, 0.5122)\na_b &lt;- c(2, 2, 10, 100, 1000, 10000)\nalpha &lt;- prior_mean*a_b\nbeta &lt;- a_b - alpha\ndata.frame(alpha, beta, prior_mean) |&gt; \n    mutate(a_b = alpha + beta,\n           post_mean = (alpha+m)/(alpha+beta+m+f),\n           ratio = post_mean/(1-post_mean),\n           post_int = paste0(\"[\", round(qbeta(0.025, alpha + m, beta + f), 3),\n                             \", \", round(qbeta(0.975, alpha + m, beta + f), 3), \"]\")) |&gt;\n    select(c(prior_mean, a_b, post_mean, ratio, post_int)) |&gt;\n    kable(format = \"markdown\", digits = 4,\n          col.names = c(\"Prior mean $\\\\frac{\\\\alpha}{\\\\alpha+\\\\beta}$\",\n                        \"$\\\\alpha + \\\\beta$\",\n                        \"Post. mean\", \"Gender ratio\",\n                        \"Post. 95% Interval\"))"
+    "text": "Real Data Example\n\nlibrary(tidyverse)\nlibrary(knitr)\n\nm &lt;- 856; f &lt;- 731\nprior_mean &lt;- c(0.5, 0.5122, 0.5122, 0.5122, 0.5122, 0.5122)\nalpha_plus_beta &lt;- c(2, 2, 10, 100, 1000, 10000)\nalpha &lt;- prior_mean * alpha_plus_beta\nbeta &lt;- alpha_plus_beta - alpha\n\n\ndata.frame(alpha, beta, prior_mean) |&gt; \n    mutate(alpha_plus_beta = alpha + beta,\n           post_mean = (alpha+m)/(alpha+beta+m+f),\n           ratio = post_mean/(1-post_mean),\n           post_int = paste0(\"[\", round(qbeta(0.025, alpha + m, beta + f), 3),\n                             \", \", round(qbeta(0.975, alpha + m, beta + f), 3), \"]\")) |&gt;\n    select(c(prior_mean, alpha_plus_beta, post_mean, ratio, post_int)) |&gt;\n    kable(format = \"markdown\", digits = 4,\n          col.names = c(\"Prior mean $\\\\frac{\\\\alpha}{\\\\alpha+\\\\beta}$\",\n                        \"$\\\\alpha + \\\\beta$\",\n                        \"Post. mean\", \"Gender ratio\",\n                        \"Post. 95% Interval\"))"
   },
   {
     "objectID": "slides/02-intro-bayes.html#real-data-example-1-output",
     "href": "slides/02-intro-bayes.html#real-data-example-1-output",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "Real Data Example",
-    "text": "Real Data Example\n\n\n\n\n\n\n\n\n\n\n\nPrior mean \\(\\frac{\\alpha}{\\alpha+\\beta}\\)\n\\(\\alpha + \\beta\\)\nPost. mean\nGender ratio\nPost. 95% Interval\n\n\n\n\n0.5000\n2\n0.5393\n1.171\n[0.515, 0.564]\n\n\n0.5122\n2\n0.5393\n1.171\n[0.515, 0.564]\n\n\n0.5122\n10\n0.5392\n1.170\n[0.515, 0.564]\n\n\n0.5122\n100\n0.5378\n1.163\n[0.514, 0.562]\n\n\n0.5122\n1000\n0.5289\n1.123\n[0.51, 0.548]\n\n\n0.5122\n10000\n0.5159\n1.066\n[0.507, 0.525]"
+    "text": "Real Data Example\n\n\n\n\n\n\n\n\n\n\n\nPrior mean \\(\\frac{\\alpha}{\\alpha+\\beta}\\)\n\\(\\alpha + \\beta\\)\nPost. mean\nGender ratio\nPost. 95% Interval\n\n\n\n\n0.5000\n2\n0.5393\n1.1708\n[0.515, 0.564]\n\n\n0.5122\n2\n0.5393\n1.1708\n[0.515, 0.564]\n\n\n0.5122\n10\n0.5392\n1.1702\n[0.515, 0.564]\n\n\n0.5122\n100\n0.5378\n1.1634\n[0.514, 0.562]\n\n\n0.5122\n1000\n0.5289\n1.1226\n[0.51, 0.548]\n\n\n0.5122\n10000\n0.5159\n1.0658\n[0.507, 0.525]"
   },
   {
     "objectID": "slides/02-intro-bayes.html#some-follow-up-questions",
@@ -508,7 +508,7 @@
     "href": "slides/02-intro-bayes.html#de-finettis-theorem",
     "title": "Lecture 02: Introduction to Bayesian Statistics",
     "section": "de Finetti’s Theorem",
-    "text": "de Finetti’s Theorem\n\nWe have seen that\n\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { i.i.d } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Rightarrow X_1, \\ldots, X_n \\text { are exchangeable. }\n\\end{align*}\\]\n\n\nWhat about an arrow in the other direction?\n\n\nTheorem 1 (de Finetti) Let \\(X_i \\in \\mc{X}\\) for all \\(i \\in\\{1,2, \\ldots\\}\\). Suppose that, for any \\(n\\), \\(X_1, \\ldots, X_n\\) are exchangeable. Then our model can be written as \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right)=\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta\n\\end{align*}\\] for some parameter \\(\\theta\\), some prior distribution on \\(\\theta\\) and some sampling model \\(p(x \\mid \\theta)\\). The prior and sampling model depend on \\(p\\left(x_1, \\ldots, x_n\\right)\\)."
+    "text": "de Finetti’s Theorem\n\nWe have seen that\n\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { i.i.d } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Rightarrow X_1, \\ldots, X_n \\text { are exchangeable. }\n\\end{align*}\\]\n\n\nWhat about an arrow in the other direction?\n\n\nTheorem 1 (de Finetti) Let \\(X_i \\in \\mc{X}\\) for all \\(i \\in\\{1,2, \\ldots\\}\\). Suppose that, for any \\(n\\), \\(X_1, \\ldots, X_n\\) are exchangeable. Then our model can be written as \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right)=\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta\n\\end{align*}\\] for some parameter \\(\\theta\\), some prior distribution on \\(\\theta\\), and some sampling model \\(p(x \\mid \\theta)\\). The prior and sampling model depend on \\(p\\left(x_1, \\ldots, x_n\\right)\\)."
   },
   {
     "objectID": "slides/02-intro-bayes.html#de-finettis-theorem-1",

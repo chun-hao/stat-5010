@@ -593,7 +593,7 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 <li class="fragment"><p>Find numbers <span class="math inline">\(\theta_{\alpha / 2} &lt; \theta_{1-\alpha / 2}\)</span> such that</p>
 <div>
 <ol type="1">
-<li><span class="math inline">\(\P\left(\theta&lt;\theta_\alpha \mid X = x\right)=\alpha / 2\)</span>;</li>
+<li><span class="math inline">\(\P\left(\theta&lt;\theta_{\alpha/2} \mid X = x\right)=\alpha / 2\)</span>;</li>
 <li><span class="math inline">\(\P\left(\theta&gt;\theta_{1-\alpha / 2} \mid X = x\right)=\alpha / 2\)</span>.</li>
 </ol>
 </div></li>
@@ -608,13 +608,13 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 <section id="binomial-example" class="slide level2">
 <h2>Binomial Example</h2>
 <p>Suppose we observed <span class="math inline">\(X=2\)</span> from a <span class="math inline">\(\bin(10, p)\)</span>. Assume the uniform prior <span class="math inline">\(p\)</span>.</p>
-<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-3_1fb30197a02e737fdbb5fa703648a154">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span>;  beta <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># uniform prior</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># data</span></span>
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-3_c3c2e862612eae4f240cf9aa3cfcf9fb">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span>; beta <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># uniform prior</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; X <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># data</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), alpha <span class="sc">+</span> y, beta <span class="sc">+</span> n <span class="sc">-</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), alpha <span class="sc">+</span> X, beta <span class="sc">+</span> n <span class="sc">-</span> X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.06022 0.51776</code></pre>
+<pre><code>[1] 0.06021773 0.51775585</code></pre>
 </div>
 </div>
 
@@ -635,12 +635,12 @@ p \mid X_1, \ldots, X_n \sim \text{Beta}\left(\alpha + \sum_{i=1}^n X_i, \beta +
 <section id="binomial-example-1" class="slide level2">
 <h2>Binomial Example</h2>
 <p>Let’s compute the HPD for the previous example: <span class="math inline">\(\theta \mid X = 2 \sim \text{Beta}(3, 9)\)</span>.</p>
-<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-5_876fead292c5ef4f37546e4a7766bd38">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-5_294c44badc78b2b9f450b9d247f482a4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(HDInterval)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">hdi</span>(qbeta, <span class="fl">0.95</span>, <span class="at">shape1 =</span> <span class="dv">3</span>, <span class="at">shape2=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">hdi</span>(qbeta, <span class="fl">0.95</span>, <span class="at">shape1 =</span> <span class="dv">3</span>, <span class="at">shape2 =</span> <span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  lower   upper 
-0.04056 0.48372 
+<pre><code>     lower      upper 
+0.04055517 0.48372366 
 attr(,"credMass")
 [1] 0.95</code></pre>
 </div>
@@ -710,7 +710,7 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <td><span class="math inline">\(X \sim \text{Poisson}(\lambda)\)</span></td>
 <td><span class="math inline">\(\lambda\)</span></td>
 <td><span class="math inline">\(\text{Gamma}(\alpha_0, \beta_0)\)</span></td>
-<td><span class="math inline">\(\text{Gamma}(\alpha_0 + X, \beta+1)\)</span></td>
+<td><span class="math inline">\(\text{Gamma}(\alpha_0 + X, \beta_0+1)\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(X \sim \text{Gamma}(\alpha, \beta)\)</span></td>
@@ -747,30 +747,33 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 </div><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.gender.ey.gov.tw/gecdb/Stat_Statistics_DetailData.aspx?sn=XGXgzan!6JtvV7D5uGZISg%40%40&amp;d=m9ww9odNZAz2Rc5Ooj%24wIQ%40%40">行政院資料庫</a></p></li><li id="fn2"><p><a href="https://ourworldindata.org/gender-ratio#sex-ratio-at-birth">Our World in Data</a></p></li></ol></aside></section>
 <section id="real-data-example-1" class="slide level2">
 <h2>Real Data Example</h2>
-<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-7_80f0daafc7fc041eff204716cc755319">
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-7_79f4ea621e63aa46facf01cca3726fcf">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb8-3"><a href="#cb8-3"></a>m <span class="ot">&lt;-</span> <span class="dv">856</span>; f <span class="ot">&lt;-</span> <span class="dv">731</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>prior_mean <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>a_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>alpha <span class="ot">&lt;-</span> prior_mean<span class="sc">*</span>a_b</span>
-<span id="cb8-7"><a href="#cb8-7"></a>beta <span class="ot">&lt;-</span> a_b <span class="sc">-</span> alpha</span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="fu">data.frame</span>(alpha, beta, prior_mean) <span class="sc">|&gt;</span> </span>
-<span id="cb8-9"><a href="#cb8-9"></a>    <span class="fu">mutate</span>(<span class="at">a_b =</span> alpha <span class="sc">+</span> beta,</span>
-<span id="cb8-10"><a href="#cb8-10"></a>           <span class="at">post_mean =</span> (alpha<span class="sc">+</span>m)<span class="sc">/</span>(alpha<span class="sc">+</span>beta<span class="sc">+</span>m<span class="sc">+</span>f),</span>
-<span id="cb8-11"><a href="#cb8-11"></a>           <span class="at">ratio =</span> post_mean<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>post_mean),</span>
-<span id="cb8-12"><a href="#cb8-12"></a>           <span class="at">post_int =</span> <span class="fu">paste0</span>(<span class="st">"["</span>, <span class="fu">round</span>(<span class="fu">qbeta</span>(<span class="fl">0.025</span>, alpha <span class="sc">+</span> m, beta <span class="sc">+</span> f), <span class="dv">3</span>),</span>
-<span id="cb8-13"><a href="#cb8-13"></a>                             <span class="st">", "</span>, <span class="fu">round</span>(<span class="fu">qbeta</span>(<span class="fl">0.975</span>, alpha <span class="sc">+</span> m, beta <span class="sc">+</span> f), <span class="dv">3</span>), <span class="st">"]"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>    <span class="fu">select</span>(<span class="fu">c</span>(prior_mean, a_b, post_mean, ratio, post_int)) <span class="sc">|&gt;</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>    <span class="fu">kable</span>(<span class="at">format =</span> <span class="st">"markdown"</span>, <span class="at">digits =</span> <span class="dv">4</span>,</span>
-<span id="cb8-16"><a href="#cb8-16"></a>          <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Prior mean $</span><span class="sc">\\</span><span class="st">frac{</span><span class="sc">\\</span><span class="st">alpha}{</span><span class="sc">\\</span><span class="st">alpha+</span><span class="sc">\\</span><span class="st">beta}$"</span>,</span>
-<span id="cb8-17"><a href="#cb8-17"></a>                        <span class="st">"$</span><span class="sc">\\</span><span class="st">alpha + </span><span class="sc">\\</span><span class="st">beta$"</span>,</span>
-<span id="cb8-18"><a href="#cb8-18"></a>                        <span class="st">"Post. mean"</span>, <span class="st">"Gender ratio"</span>,</span>
-<span id="cb8-19"><a href="#cb8-19"></a>                        <span class="st">"Post. 95% Interval"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a>m <span class="ot">&lt;-</span> <span class="dv">856</span>; f <span class="ot">&lt;-</span> <span class="dv">731</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>prior_mean <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>, <span class="fl">0.5122</span>)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>alpha_plus_beta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>alpha <span class="ot">&lt;-</span> prior_mean <span class="sc">*</span> alpha_plus_beta</span>
+<span id="cb8-8"><a href="#cb8-8"></a>beta <span class="ot">&lt;-</span> alpha_plus_beta <span class="sc">-</span> alpha</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-8_40ae3afa6d03f5b1d76d913191d8c3e5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">data.frame</span>(alpha, beta, prior_mean) <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2"></a>    <span class="fu">mutate</span>(<span class="at">alpha_plus_beta =</span> alpha <span class="sc">+</span> beta,</span>
+<span id="cb9-3"><a href="#cb9-3"></a>           <span class="at">post_mean =</span> (alpha<span class="sc">+</span>m)<span class="sc">/</span>(alpha<span class="sc">+</span>beta<span class="sc">+</span>m<span class="sc">+</span>f),</span>
+<span id="cb9-4"><a href="#cb9-4"></a>           <span class="at">ratio =</span> post_mean<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>post_mean),</span>
+<span id="cb9-5"><a href="#cb9-5"></a>           <span class="at">post_int =</span> <span class="fu">paste0</span>(<span class="st">"["</span>, <span class="fu">round</span>(<span class="fu">qbeta</span>(<span class="fl">0.025</span>, alpha <span class="sc">+</span> m, beta <span class="sc">+</span> f), <span class="dv">3</span>),</span>
+<span id="cb9-6"><a href="#cb9-6"></a>                             <span class="st">", "</span>, <span class="fu">round</span>(<span class="fu">qbeta</span>(<span class="fl">0.975</span>, alpha <span class="sc">+</span> m, beta <span class="sc">+</span> f), <span class="dv">3</span>), <span class="st">"]"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="fu">select</span>(<span class="fu">c</span>(prior_mean, alpha_plus_beta, post_mean, ratio, post_int)) <span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="fu">kable</span>(<span class="at">format =</span> <span class="st">"markdown"</span>, <span class="at">digits =</span> <span class="dv">4</span>,</span>
+<span id="cb9-9"><a href="#cb9-9"></a>          <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Prior mean $</span><span class="sc">\\</span><span class="st">frac{</span><span class="sc">\\</span><span class="st">alpha}{</span><span class="sc">\\</span><span class="st">alpha+</span><span class="sc">\\</span><span class="st">beta}$"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>                        <span class="st">"$</span><span class="sc">\\</span><span class="st">alpha + </span><span class="sc">\\</span><span class="st">beta$"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>                        <span class="st">"Post. mean"</span>, <span class="st">"Gender ratio"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>                        <span class="st">"Post. 95% Interval"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section>
-<section id="real-data-example-1-output" class="slide level2 output-location-slide"><h2>Real Data Example</h2><div class="cell output-location-slide" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-7_80f0daafc7fc041eff204716cc755319">
+<section id="real-data-example-1-output" class="slide level2 output-location-slide"><h2>Real Data Example</h2><div class="cell output-location-slide" data-hash="02-intro-bayes_cache/revealjs/unnamed-chunk-8_40ae3afa6d03f5b1d76d913191d8c3e5">
 <div class="cell-output-display">
 <table style="width:90%;">
 <colgroup>
@@ -794,42 +797,42 @@ p \mid X &amp; \sim \text{Beta}(\alpha + X, \beta + n - X)
 <td style="text-align: right;">0.5000</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">0.5393</td>
-<td style="text-align: right;">1.171</td>
+<td style="text-align: right;">1.1708</td>
 <td style="text-align: left;">[0.515, 0.564]</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.5122</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">0.5393</td>
-<td style="text-align: right;">1.171</td>
+<td style="text-align: right;">1.1708</td>
 <td style="text-align: left;">[0.515, 0.564]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.5122</td>
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">0.5392</td>
-<td style="text-align: right;">1.170</td>
+<td style="text-align: right;">1.1702</td>
 <td style="text-align: left;">[0.515, 0.564]</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.5122</td>
 <td style="text-align: right;">100</td>
 <td style="text-align: right;">0.5378</td>
-<td style="text-align: right;">1.163</td>
+<td style="text-align: right;">1.1634</td>
 <td style="text-align: left;">[0.514, 0.562]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.5122</td>
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">0.5289</td>
-<td style="text-align: right;">1.123</td>
+<td style="text-align: right;">1.1226</td>
 <td style="text-align: left;">[0.51, 0.548]</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.5122</td>
 <td style="text-align: right;">10000</td>
 <td style="text-align: right;">0.5159</td>
-<td style="text-align: right;">1.066</td>
+<td style="text-align: right;">1.0658</td>
 <td style="text-align: left;">[0.507, 0.525]</td>
 </tr>
 </tbody>
@@ -964,7 +967,7 @@ X_1, \ldots, X_n \mid \theta \text { i.i.d } \\
 <div id="thm-de-finetti" class="fragment theorem">
 <p><span class="theorem-title"><strong>Theorem 1 (de Finetti) </strong></span>Let <span class="math inline">\(X_i \in \mc{X}\)</span> for all <span class="math inline">\(i \in\{1,2, \ldots\}\)</span>. Suppose that, for any <span class="math inline">\(n\)</span>, <span class="math inline">\(X_1, \ldots, X_n\)</span> are exchangeable. Then our model can be written as <span class="math display">\[\begin{align*}
 p\left(x_1, \ldots, x_n\right)=\int\left\{\prod_{i=1}^n p\left(x_i \mid \theta\right)\right\} p(\theta) d \theta
-\end{align*}\]</span> for some parameter <span class="math inline">\(\theta\)</span>, some prior distribution on <span class="math inline">\(\theta\)</span> and some sampling model <span class="math inline">\(p(x \mid \theta)\)</span>. The prior and sampling model depend on <span class="math inline">\(p\left(x_1, \ldots, x_n\right)\)</span>.</p>
+\end{align*}\]</span> for some parameter <span class="math inline">\(\theta\)</span>, some prior distribution on <span class="math inline">\(\theta\)</span>, and some sampling model <span class="math inline">\(p(x \mid \theta)\)</span>. The prior and sampling model depend on <span class="math inline">\(p\left(x_1, \ldots, x_n\right)\)</span>.</p>
 </div>
 </section>
 <section id="de-finettis-theorem-1" class="slide level2">
