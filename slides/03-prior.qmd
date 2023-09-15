@@ -1,5 +1,5 @@
 ---
-title: "Lecture 03: Prior Information and Prior Distribution"
+title: "Lecture 03: From Prior Information to Prior Distribution"
 author: "Chun-Hao Yang"
 footer: "[Home](https://chun-hao.github.io/stat-5010/)"
 format: 
@@ -32,13 +32,27 @@ editor:
 -   Another problem is the determination of prior when the prior
     information is too vague or does not even exist.
 
-## Maximum Entropy Priors
 
--   If some characteristics of the prior distribution are known,
-    assuming that they can be written as prior expectations, $$
+
+## Prior Information
+
+-   Suppose the prior information for $\theta$ is given through some expectations.
+    $$
     \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K,
-    $$ a way to select a prior $\pi$ satisfying these constraints is the
-    *maximum entropy method*.
+    $$
+-   For example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).
+-   The prior information about the sex ratio $\theta$ can be expressed as 
+    $$
+        \E_{\pi}(\theta) = 1.05 \quad \text{and} \quad \var_{\pi}(\theta) = 0.1^2.
+    $$
+-   Obviously, there are many distributions compatible with these constraints.
+-   We will discuss two approaches for choosing prior distributions compatible with these information.
+
+
+# Maximum Entropy Priors
+
+
+## Entropy
 
 -   Let $\pi$ be a discrete distribution. The Shannon Entropy[^1] of
     $\pi$ is $$
@@ -203,6 +217,9 @@ Some take-home messages:
 -   Both are reasonbale prior distributions (depending on the likelihood
     and data).
 
+
+# Conjugate Prior
+
 ## Conjugate prior
 
 ::: {#def-conjugacy}
@@ -257,6 +274,196 @@ $$
 :::
 
 ## Pros and cons
+
+# Noninformative prior
+
+## Noninformative prior
+
+-   When there is no prior information or the prior information is unreliable, should we still use Bayesian techniques?
+-   The answer is YES, due to some optimality criteria (we will discuss this in the next lecture).
+-   In such cases, the priors should be derived from the sampling distribution, since that is the only information we have.
+-   These priors are called **noninformative priors**, or objective/default priors.
+-   We will introduce some principles for deriving noninformative priors.
+
+## Laplace's prior
+
+-   For the binomial model, Laplace proposed to use the uniform distribution for $p$.
+-   It is called the **principle of insufficient reason**:
+
+:::{.fragment}
+>   If we are ignorant of the ways an event can occur, the event will occur equally likely in any way. [^2]
+:::
+
+-   It is also called the **equiprobability principle**.
+
+[^2]: <https://mathworld.wolfram.com/PrincipleofInsufficientReason.html>
+
+## Criticisms against Laplace's prior
+
+1.  When the parameter space is not compact, this principle leads to an **improper prior**.
+    -   A distribution $\pi$ is improper if $\pi(\theta) \geq 0$ but $\int \pi(\theta)d\theta = \infty$.
+    -   However, it is actually possible to work with improper priors, as long as we do not try to interpret them as probability distributions.
+    
+2.  Laplace's prior is not **invariant under reparametrization**.
+    -   Suupose we assign a unifrom prior for $\theta$: $\pi(\theta) \propto 1$.
+    -   We consider a reparametrization $\eta = g(\theta)$, where $g$ is one-to-one.
+    -   The corresponding prior is 
+    $$
+    \pi^*(\eta)=\left|\frac{d}{d \eta} g^{-1}(\eta)\right|
+    $$
+    which is not constant.
+    
+## Example
+
+-   Suppose $\Theta = [0, 1]$ and $\pi(\theta) = 1$ for $\theta \in \Theta$.
+-   Consider the odds $\eta = \frac{\theta}{1-\theta}$, which is one-to-one on $\Theta$.
+-   Then $\pi^*(\eta) = \left|\frac{d}{d \eta} g^{-1}(\eta)\right| = \frac{1}{(1+\eta)^2}$, that is, the prior prefers small $\eta$ (corresponding to small $\theta$). 
+
+:::{.fragment}
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 4.5
+plot(0, type = "n", xlim = c(0, 5), ylim = c(0,3), 
+     xlab = "parameter", ylab="prior density")
+abline(h = 1, col="blue")
+curve(1/(1+x)^2, col="red", add = T)
+```
+:::
+
+## Jeffreys prior
+
+:::{.fragment .nonincremental}
+-   Recall that the Fisher information of a pdf/pmf $f(x\mid\theta)$ is given by
+
+$$
+I(\theta)=\E_\theta\left[\left(\frac{\partial \log f(X \mid \theta)}{\partial \theta}\right)^2\right] \stackrel{(*)}{=} -\E_\theta\left[\frac{\partial^2 \log f(X \mid \theta)}{\partial \theta^2}\right].
+$$
+:::
+
+
+-   The Jeffreys prior distribution is $\pi_J(\theta) \propto \sqrt{I(\theta)}$, 
+defined up to a normalization constant when $\pi_J$ is proper.
+
+
+::: aside
+The equality $(*)$ holds under some regularity conditions on $f(x\mid\theta)$.
+:::
+
+## Example 
+If $X \sim \bin(n, p)$,
+
+:::{.fragment}
+$$
+\begin{aligned}
+f(x \mid p) & =\left(\begin{array}{c}
+n \\
+x
+\end{array}\right) p^x(1-p)^{n-x}, \\
+\frac{\partial^2 \log f(x \mid p)}{\partial p^2} & = - \frac{x}{p^2} - \frac{n-x}{(1-p)^2}, \\
+I(p) & =n\left[\frac{1}{p}+\frac{1}{1-p}\right]=\frac{n}{p(1-p)} .
+\end{aligned}
+$$
+:::
+
+:::{.fragment}
+Therefore, the Jeffreys prior for this model is
+$$
+\pi_J(p) \propto[p(1-p)]^{-1 / 2}
+$$
+and is thus proper, since it is a $\text{Beta}(1/2, 1/2)$ distribution.
+:::
+
+## Example 
+```{r}
+#| echo: false
+#| output-location: slide
+#| fig-align: center
+#| fig-cap: "Beta(1,1) (blue) and Beta(1/2, 1/2) (red)"
+#| fig-cap-location: top
+#| fig-width: 7
+plot(0, type = "n", xlim = c(0, 1), ylim = c(0, 4),
+     xlab = expression(theta), ylab = expression(pi(theta)))
+curve(dbeta(x, 1, 1), col = "blue", add = T)
+curve(dbeta(x, 1/2, 1/2), col = "red", add = T)
+```
+
+## Multidimensional parameters
+
+-   For $\theta \in \R^k$, the **Fisher information matrix** $I(\theta)$ has the following elements,
+
+:::{.fragment}
+$$
+I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log f(x \mid \theta)\right] \quad(i, j=1, \ldots, k).
+$$
+:::
+
+-   The Jeffreys noninformative prior is then defined by $\pi_J(\theta) \propto \sqrt{\det(I(\theta))}$.
+
+-   If $f(x \mid \theta)$ belongs to an exponential family, $f(x \mid \theta)=h(x) \exp (\theta \cdot x-\psi(\theta))$,
+the Fisher information matrix is given by $I(\theta)=\nabla \nabla^t \psi(\theta)$ and
+$$
+\pi_J(\theta) \propto\left(\prod_{i=1}^k \psi_{i i}^{\prime \prime}(\theta)\right)^{1 / 2}
+$$
+where $\psi_{i i}^{\prime \prime}(\theta)=\frac{\partial^2}{\partial \theta_i^2} \psi(\theta)$.
+
+## Jeffreys prior
+
+Jeffreys prior has several advantages:
+
+-   It depends only on the sampling model, through the Fisher information.
+-   The Fisher information is an indicator of the amount of information brought by the model (or the observation) about $\theta$.
+-   It is **invariant under reparametrization**.
+
+
+## Invariance of Jeffreys prior
+
+-   By definition, $I(\theta) = I(h(\theta))[h^{\prime}(\theta)]^2$ for any one-to-one $h$.
+-   Let $\eta = g(\theta)$ and $\theta \sim \pi_J(\theta) \propto \sqrt{I(\theta)}$.
+-   Then 
+    \begin{align*}
+    \pi^*(\eta) & = \pi_J(g^{-1}(\eta))\left|\frac{d}{d \eta} g^{-1}(\eta)\right| 
+    = \sqrt{I(g^{-1}(\eta))}\left|\frac{d}{d \eta} g^{-1}(\eta)\right| \\
+    & = \sqrt{I(\eta)[h^{\prime}(\eta)]^{-2}}|h^{\prime}(\eta)| \quad \text{(Let $h = g^{-1}$)}\\
+    & = \sqrt{I(\eta)} = \pi_J(\eta).
+    \end{align*}
+
+## Limitations of Jeffreys prior
+
+-   Jeffreys prior works well for one-parameter models.
+-   For multiparameter models however, Jeffreys prior leads to incoherences or even paradoxes.
+-   They do not necessarily perform satisfactorily for all inferential purposes, in particular when considering subvectors of interest (see Example 3.5.9 in Bayesian Choice). 
+
+
+## Example 
+-   Consider $X \sim N(\mu, \sigma^2)$ with $\theta = (\mu, \sigma^2)$ unknown. 
+-   In this case,
+$$
+I(\theta)  =\left(\begin{array}{cc}
+1 / \sigma^2 & 0 \\
+0 & 2 / \sigma^2
+\end{array}\right).
+$$
+-   Thus $\pi_J(\mu, \sigma^2) \propto \sigma^{-2}$.
+-   If we assume $\mu$ and $\sigma^2$ are **a priori independent**, then
+$$
+\pi_J(\mu, \sigma^2) = \pi_J(\mu)\pi_J(\sigma^2) \propto \sigma^{-1}.
+$$
+-   Theoretically, $\pi_J(\mu,\sigma^2) \propto \sigma^{-1}$ has better convergence properties than $\pi_J(\mu,\sigma^2) \propto \sigma^{-2}$.
+
+## Example
+
+## Reference prior
+
+-   Bernardo (1979) proposed a modification of the Jeffreys approach called *the reference prior approach*.
+-   A major difference is that this method distinguishes between **parameters of interest** and **nuisance parameters**.
+-   Hence the prior depends on the [sampling model]{.underline} as well as the [inferential problem]{.underline}.
+-   The main idea behind the reference approach is to a prior that maximizes the information brought by the data, i.e. the KL divergence between prior and posterior.
+-   It has been shown that for one-parameter models, the reference approach gives the Jeffreys prior.
+
+
+## Matching prior
 
 ## Some practical guides for choosing priors
 

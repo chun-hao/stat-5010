@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Chun-Hao Yang">
-  <title>STAT 5010 - Lecture 03: Prior Information and Prior Distribution</title>
+  <title>STAT 5010 - Lecture 03: From Prior Information to Prior Distribution</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -327,7 +327,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 03: Prior Information and Prior Distribution</h1>
+  <h1 class="title">Lecture 03: From Prior Information to Prior Distribution</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -370,15 +370,31 @@ Chun-Hao Yang
 <li class="fragment">Another problem is the determination of prior when the prior information is too vague or does not even exist.</li>
 </ul>
 </section>
-<section id="maximum-entropy-priors" class="slide level2">
-<h2>Maximum Entropy Priors</h2>
+<section id="prior-information" class="slide level2">
+<h2>Prior Information</h2>
 <ul>
-<li class="fragment"><p>If some characteristics of the prior distribution are known, assuming that they can be written as prior expectations, <span class="math display">\[
+<li class="fragment">Suppose the prior information for <span class="math inline">\(\theta\)</span> is given through some expectations. <span class="math display">\[
 \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K,
-\]</span> a way to select a prior <span class="math inline">\(\pi\)</span> satisfying these constraints is the <em>maximum entropy method</em>.</p></li>
-<li class="fragment"><p>Let <span class="math inline">\(\pi\)</span> be a discrete distribution. The Shannon Entropy<sup>1</sup> of <span class="math inline">\(\pi\)</span> is <span class="math display">\[
+\]</span></li>
+<li class="fragment">For example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).</li>
+<li class="fragment">The prior information about the sex ratio <span class="math inline">\(\theta\)</span> can be expressed as <span class="math display">\[
+    \E_{\pi}(\theta) = 1.05 \quad \text{and} \quad \var_{\pi}(\theta) = 0.1^2.
+\]</span></li>
+<li class="fragment">Obviously, there are many distributions compatible with these constraints.</li>
+<li class="fragment">We will discuss two approaches for choosing prior distributions compatible with these information.</li>
+</ul>
+</section>
+<section>
+<section id="maximum-entropy-priors" class="title-slide slide level1 center">
+<h1>Maximum Entropy Priors</h1>
+
+</section>
+<section id="entropy" class="slide level2">
+<h2>Entropy</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(\pi\)</span> be a discrete distribution. The Shannon Entropy<sup>1</sup> of <span class="math inline">\(\pi\)</span> is <span class="math display">\[
 \mc{E}(\pi) =  -\E_{\pi}[\log \pi(\theta)].
-\]</span></p></li>
+\]</span></li>
 </ul>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Introduced by Shannon (1948).</p></li></ol></aside></section>
 <section id="intuition-behind-shannon-entropy" class="slide level2">
@@ -512,8 +528,13 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 <li class="fragment">The Cauchy distribution satisfying these constraints is <span class="math inline">\(\text{Cauchy}(0,1)\)</span>.</li>
 <li class="fragment">Both are reasonbale prior distributions (depending on the likelihood and data).</li>
 </ul>
+</section></section>
+<section>
+<section id="conjugate-prior" class="title-slide slide level1 center">
+<h1>Conjugate Prior</h1>
+
 </section>
-<section id="conjugate-prior" class="slide level2">
+<section id="conjugate-prior-1" class="slide level2">
 <h2>Conjugate prior</h2>
 <div id="def-conjugacy" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1 </strong></span>A class <span class="math inline">\(\mc{P}\)</span> of prior distributions for <span class="math inline">\(\theta\)</span> is called <u>conjugate</u> for a sampling model <span class="math inline">\(p(x \mid \theta)\)</span> if <span class="math display">\[\begin{align*}
@@ -561,6 +582,195 @@ f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\
 </section>
 <section id="pros-and-cons" class="slide level2">
 <h2>Pros and cons</h2>
+</section></section>
+<section>
+<section id="noninformative-prior" class="title-slide slide level1 center">
+<h1>Noninformative prior</h1>
+
+</section>
+<section id="noninformative-prior-1" class="slide level2">
+<h2>Noninformative prior</h2>
+<ul>
+<li class="fragment">When there is no prior information or the prior information is unreliable, should we still use Bayesian techniques?</li>
+<li class="fragment">The answer is YES, due to some optimality criteria (we will discuss this in the next lecture).</li>
+<li class="fragment">In such cases, the priors should be derived from the sampling distribution, since that is the only information we have.</li>
+<li class="fragment">These priors are called <strong>noninformative priors</strong>, or objective/default priors.</li>
+<li class="fragment">We will introduce some principles for deriving noninformative priors.</li>
+</ul>
+</section>
+<section id="laplaces-prior" class="slide level2">
+<h2>Laplace’s prior</h2>
+<ul>
+<li class="fragment">For the binomial model, Laplace proposed to use the uniform distribution for <span class="math inline">\(p\)</span>.</li>
+<li class="fragment">It is called the <strong>principle of insufficient reason</strong>:</li>
+</ul>
+<div class="fragment">
+<blockquote>
+<p>If we are ignorant of the ways an event can occur, the event will occur equally likely in any way. <sup>1</sup></p>
+</blockquote>
+</div>
+<ul>
+<li class="fragment">It is also called the <strong>equiprobability principle</strong>.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn2"><p><a href="https://mathworld.wolfram.com/PrincipleofInsufficientReason.html" class="uri">https://mathworld.wolfram.com/PrincipleofInsufficientReason.html</a></p></li></ol></aside></section>
+<section id="criticisms-against-laplaces-prior" class="slide level2">
+<h2>Criticisms against Laplace’s prior</h2>
+<ol type="1">
+<li class="fragment">When the parameter space is not compact, this principle leads to an <strong>improper prior</strong>.
+<ul>
+<li class="fragment">A distribution <span class="math inline">\(\pi\)</span> is improper if <span class="math inline">\(\pi(\theta) \geq 0\)</span> but <span class="math inline">\(\int \pi(\theta)d\theta = \infty\)</span>.</li>
+<li class="fragment">However, it is actually possible to work with improper priors, as long as we do not try to interpret them as probability distributions.</li>
+</ul></li>
+<li class="fragment">Laplace’s prior is not <strong>invariant under reparametrization</strong>.
+<ul>
+<li class="fragment">Suupose we assign a unifrom prior for <span class="math inline">\(\theta\)</span>: <span class="math inline">\(\pi(\theta) \propto 1\)</span>.</li>
+<li class="fragment">We consider a reparametrization <span class="math inline">\(\eta = g(\theta)\)</span>, where <span class="math inline">\(g\)</span> is one-to-one.</li>
+<li class="fragment">The corresponding prior is <span class="math display">\[
+\pi^*(\eta)=\left|\frac{d}{d \eta} g^{-1}(\eta)\right|
+\]</span> which is not constant.</li>
+</ul></li>
+</ol>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">Suppose <span class="math inline">\(\Theta = [0, 1]\)</span> and <span class="math inline">\(\pi(\theta) = 1\)</span> for <span class="math inline">\(\theta \in \Theta\)</span>.</li>
+<li class="fragment">Consider the odds <span class="math inline">\(\eta = \frac{\theta}{1-\theta}\)</span>, which is one-to-one on <span class="math inline">\(\Theta\)</span>.</li>
+<li class="fragment">Then <span class="math inline">\(\pi^*(\eta) = \left|\frac{d}{d \eta} g^{-1}(\eta)\right| = \frac{1}{(1+\eta)^2}\)</span>, that is, the prior prefers small <span class="math inline">\(\eta\)</span> (corresponding to small <span class="math inline">\(\theta\)</span>).</li>
+</ul>
+<div class="fragment">
+<div class="cell" data-layout-align="center" data-hash="03-prior_cache/revealjs/unnamed-chunk-1_1c24242ee5a3706030504e1b5e8b1844">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-prior_files/figure-revealjs/unnamed-chunk-1-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="jeffreys-prior" class="slide level2">
+<h2>Jeffreys prior</h2>
+<div class="fragment">
+<ul>
+<li>Recall that the Fisher information of a pdf/pmf <span class="math inline">\(f(x\mid\theta)\)</span> is given by</li>
+</ul>
+<p><span class="math display">\[
+I(\theta)=\E_\theta\left[\left(\frac{\partial \log f(X \mid \theta)}{\partial \theta}\right)^2\right] \stackrel{(*)}{=} -\E_\theta\left[\frac{\partial^2 \log f(X \mid \theta)}{\partial \theta^2}\right].
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">The Jeffreys prior distribution is <span class="math inline">\(\pi_J(\theta) \propto \sqrt{I(\theta)}\)</span>, defined up to a normalization constant when <span class="math inline">\(\pi_J\)</span> is proper.</li>
+</ul>
+
+<aside><div>
+<p>The equality <span class="math inline">\((*)\)</span> holds under some regularity conditions on <span class="math inline">\(f(x\mid\theta)\)</span>.</p>
+</div></aside></section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+<p>If <span class="math inline">\(X \sim \bin(n, p)\)</span>,</p>
+<div class="fragment">
+<p><span class="math display">\[
+\begin{aligned}
+f(x \mid p) &amp; =\left(\begin{array}{c}
+n \\
+x
+\end{array}\right) p^x(1-p)^{n-x}, \\
+\frac{\partial^2 \log f(x \mid p)}{\partial p^2} &amp; = - \frac{x}{p^2} - \frac{n-x}{(1-p)^2}, \\
+I(p) &amp; =n\left[\frac{1}{p}+\frac{1}{1-p}\right]=\frac{n}{p(1-p)} .
+\end{aligned}
+\]</span></p>
+</div>
+<div class="fragment">
+<p>Therefore, the Jeffreys prior for this model is <span class="math display">\[
+\pi_J(p) \propto[p(1-p)]^{-1 / 2}
+\]</span> and is thus proper, since it is a <span class="math inline">\(\text{Beta}(1/2, 1/2)\)</span> distribution.</p>
+</div>
+</section>
+<section id="example-2" class="slide level2">
+<h2>Example</h2>
+
+<img data-src="03-prior_files/figure-revealjs/unnamed-chunk-2-1.png" width="672" class="r-stretch quarto-figure-center"><p class="caption">Beta(1,1) (blue) and Beta(1/2, 1/2) (red)</p></section>
+<section id="multidimensional-parameters" class="slide level2">
+<h2>Multidimensional parameters</h2>
+<ul>
+<li class="fragment">For <span class="math inline">\(\theta \in \R^k\)</span>, the <strong>Fisher information matrix</strong> <span class="math inline">\(I(\theta)\)</span> has the following elements,</li>
+</ul>
+<div class="fragment">
+<p><span class="math display">\[
+I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log f(x \mid \theta)\right] \quad(i, j=1, \ldots, k).
+\]</span></p>
+</div>
+<ul>
+<li class="fragment"><p>The Jeffreys noninformative prior is then defined by <span class="math inline">\(\pi_J(\theta) \propto \sqrt{\det(I(\theta))}\)</span>.</p></li>
+<li class="fragment"><p>If <span class="math inline">\(f(x \mid \theta)\)</span> belongs to an exponential family, <span class="math inline">\(f(x \mid \theta)=h(x) \exp (\theta \cdot x-\psi(\theta))\)</span>, the Fisher information matrix is given by <span class="math inline">\(I(\theta)=\nabla \nabla^t \psi(\theta)\)</span> and <span class="math display">\[
+\pi_J(\theta) \propto\left(\prod_{i=1}^k \psi_{i i}^{\prime \prime}(\theta)\right)^{1 / 2}
+\]</span> where <span class="math inline">\(\psi_{i i}^{\prime \prime}(\theta)=\frac{\partial^2}{\partial \theta_i^2} \psi(\theta)\)</span>.</p></li>
+</ul>
+</section>
+<section id="jeffreys-prior-1" class="slide level2">
+<h2>Jeffreys prior</h2>
+<p>Jeffreys prior has several advantages:</p>
+<ul>
+<li class="fragment">It depends only on the sampling model, through the Fisher information.</li>
+<li class="fragment">The Fisher information is an indicator of the amount of information brought by the model (or the observation) about <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">It is <strong>invariant under reparametrization</strong>.</li>
+</ul>
+</section>
+<section id="invariance-of-jeffreys-prior" class="slide level2">
+<h2>Invariance of Jeffreys prior</h2>
+<ul>
+<li class="fragment">By definition, <span class="math inline">\(I(\theta) = I(h(\theta))[h^{\prime}(\theta)]^2\)</span> for any one-to-one <span class="math inline">\(h\)</span>.</li>
+<li class="fragment">Let <span class="math inline">\(\eta = g(\theta)\)</span> and <span class="math inline">\(\theta \sim \pi_J(\theta) \propto \sqrt{I(\theta)}\)</span>.</li>
+<li class="fragment">Then <span class="math display">\[\begin{align*}
+\pi^*(\eta) &amp; = \pi_J(g^{-1}(\eta))\left|\frac{d}{d \eta} g^{-1}(\eta)\right|
+= \sqrt{I(g^{-1}(\eta))}\left|\frac{d}{d \eta} g^{-1}(\eta)\right| \\
+&amp; = \sqrt{I(\eta)[h^{\prime}(\eta)]^{-2}}|h^{\prime}(\eta)| \quad \text{(Let $h = g^{-1}$)}\\
+&amp; = \sqrt{I(\eta)} = \pi_J(\eta).
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="limitations-of-jeffreys-prior" class="slide level2">
+<h2>Limitations of Jeffreys prior</h2>
+<ul>
+<li class="fragment">Jeffreys prior works well for one-parameter models.</li>
+<li class="fragment">For multiparameter models however, Jeffreys prior leads to incoherences or even paradoxes.</li>
+<li class="fragment">They do not necessarily perform satisfactorily for all inferential purposes, in particular when considering subvectors of interest (see Example 3.5.9 in Bayesian Choice).</li>
+</ul>
+</section>
+<section id="example-3" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">Consider <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> with <span class="math inline">\(\theta = (\mu, \sigma^2)\)</span> unknown.</li>
+<li class="fragment">In this case, <span class="math display">\[
+I(\theta)  =\left(\begin{array}{cc}
+1 / \sigma^2 &amp; 0 \\
+0 &amp; 2 / \sigma^2
+\end{array}\right).
+\]</span></li>
+<li class="fragment">Thus <span class="math inline">\(\pi_J(\mu, \sigma^2) \propto \sigma^{-2}\)</span>.</li>
+<li class="fragment">If we assume <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> are <strong>a priori independent</strong>, then <span class="math display">\[
+\pi_J(\mu, \sigma^2) = \pi_J(\mu)\pi_J(\sigma^2) \propto \sigma^{-1}.
+\]</span></li>
+<li class="fragment">Theoretically, <span class="math inline">\(\pi_J(\mu,\sigma^2) \propto \sigma^{-1}\)</span> has better convergence properties than <span class="math inline">\(\pi_J(\mu,\sigma^2) \propto \sigma^{-2}\)</span>.</li>
+</ul>
+</section>
+<section id="example-4" class="slide level2">
+<h2>Example</h2>
+</section>
+<section id="reference-prior" class="slide level2">
+<h2>Reference prior</h2>
+<ul>
+<li class="fragment">Bernardo (1979) proposed a modification of the Jeffreys approach called <em>the reference prior approach</em>.</li>
+<li class="fragment">A major difference is that this method distinguishes between <strong>parameters of interest</strong> and <strong>nuisance parameters</strong>.</li>
+<li class="fragment">Hence the prior depends on the <u>sampling model</u> as well as the <u>inferential problem</u>.</li>
+<li class="fragment">The main idea behind the reference approach is to a prior that maximizes the information brought by the data, i.e.&nbsp;the KL divergence between prior and posterior.</li>
+<li class="fragment">It can be shown that for one-parameter models, the reference approach gives the Jeffreys prior.</li>
+</ul>
+</section>
+<section id="matching-prior" class="slide level2">
+<h2>Matching prior</h2>
 </section>
 <section id="some-practical-guides-for-choosing-priors" class="slide level2">
 <h2>Some practical guides for choosing priors</h2>
@@ -581,7 +791,7 @@ f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\
 <div class="footer footer-default">
 <p><a href="https://chun-hao.github.io/stat-5010/">Home</a></p>
 </div>
-</section>
+</section></section>
 
     </div>
   </div>
@@ -796,6 +1006,44 @@ f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
