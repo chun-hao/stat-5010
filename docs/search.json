@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\n\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\n\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\n\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#course-schedule",
     "href": "index.html#course-schedule",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\n\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\n\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\n\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#important-dates",
@@ -560,18 +560,18 @@
     "text": "Introduction\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nThe choice of prior distribution is the most critical and difficult step in Bayesian analysis.\nIn practice, the available prior information is often not precise enough to lead to an exact determination of the prior distribution.\nWe need to find a prior distribution that is compatible with the prior information.\nAnother problem is the determination of prior when the prior information is too vague or does not even exist."
   },
   {
-    "objectID": "slides/03-prior.html#maximum-entropy-priors",
-    "href": "slides/03-prior.html#maximum-entropy-priors",
+    "objectID": "slides/03-prior.html#prior-information",
+    "href": "slides/03-prior.html#prior-information",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Maximum Entropy Priors",
-    "text": "Maximum Entropy Priors\n\nIf some characteristics of the prior distribution are known, assuming that they can be written as prior expectations, \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K,\n\\] a way to select a prior \\(\\pi\\) satisfying these constraints is the maximum entropy method.\nLet \\(\\pi\\) be a discrete distribution. The Shannon Entropy1 of \\(\\pi\\) is \\[\n\\mc{E}(\\pi) =  -\\E_{\\pi}[\\log \\pi(\\theta)].\n\\]\n\nIntroduced by Shannon (1948)."
+    "section": "Prior Information",
+    "text": "Prior Information\n\nSuppose the prior information for \\(\\theta\\) is given through some expectations. \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K,\n\\]\nFor example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).\nThe prior information about the sex ratio \\(\\theta\\) can be expressed as \\[\n    \\E_{\\pi}(\\theta) = 1.05 \\quad \\text{and} \\quad \\var_{\\pi}(\\theta) = 0.1^2.\n\\]\nObviously, there are many distributions compatible with these constraints.\nWe will discuss two approaches for choosing prior distributions compatible with these information."
   },
   {
-    "objectID": "slides/03-prior.html#intuition-behind-shannon-entropy",
-    "href": "slides/03-prior.html#intuition-behind-shannon-entropy",
+    "objectID": "slides/03-prior.html#intuition-behind-entropy",
+    "href": "slides/03-prior.html#intuition-behind-entropy",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Intuition behind Shannon Entropy",
-    "text": "Intuition behind Shannon Entropy\n\nEntropy is a measure of randomness: high entropy = high randomness\nEntropy is the expectation of information: \\(\\mc{E}(\\pi) = \\E_{\\pi}(I(X))\\), where \\(I(x)\\) is the information of the event \\(\\{X = x\\}\\).\nRoughly speaking, information of an event \\(E\\) is the knowledge you obtained after the occurrence of \\(E\\) ."
+    "section": "Intuition behind entropy",
+    "text": "Intuition behind entropy\n\nLet \\(\\pi\\) be a discrete distribution. The Shannon Entropy1 of \\(\\pi\\) is \\[\n\\mc{E}(\\pi) =  -\\E_{\\pi}[\\log \\pi(\\theta)].\n\\]\nEntropy is a measure of randomness: high entropy = high randomness\nEntropy is the expectation of information: \\(\\mc{E}(\\pi) = \\E_{\\pi}(I(X))\\), where \\(I(x)\\) is the information of the event \\(\\{X = x\\}\\).\nRoughly speaking, information of an event \\(E\\) is the knowledge you obtained after the occurrence of \\(E\\) .\n\nIntroduced by Shannon (1948)."
   },
   {
     "objectID": "slides/03-prior.html#shannons-axioms-for-information",
@@ -599,7 +599,7 @@
     "href": "slides/03-prior.html#relative-entropy-1",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Relative Entropy",
-    "text": "Relative Entropy\n\nCross entropy: \\(\\mc{E}(\\pi, \\pi_0) = - \\E_{\\pi_0}(\\log \\pi(X))\\)\nRelative entropy: \\[\n\\mc{E}(\\pi_0\\| \\pi) = - \\E_{\\pi_0}[I(X;\\pi_0)] = \\E_{\\pi_0}\\left[\\log \\frac{\\pi_0(x)}{\\pi(x)}\\right] = D_{KL}(\\pi_0\\| \\pi) \\geq 0\n\\]\nIt is also called the Kullback-Liebler divergence.\nA common choice of the reference distribution \\(\\pi_0\\) is non-informative distributions, e.g., the Lebesgue measure."
+    "text": "Relative Entropy\n\nCross entropy: \\(\\mc{E}(\\pi, \\pi_0) = - \\E_{\\pi_0}(\\log \\pi(X))\\)\nRelative entropy: \\[\n\\mc{E}(\\pi_0\\| \\pi) = - \\E_{\\pi_0}[I(X;\\pi_0)] = \\E_{\\pi_0}\\left[\\log \\frac{\\pi_0(X)}{\\pi(X)}\\right] = D_{KL}(\\pi_0\\| \\pi) \\geq 0\n\\]\nIt is also called the Kullback-Liebler divergence.\nA common choice of the reference distribution \\(\\pi_0\\) is non-informative distributions, e.g., the Lebesgue measure."
   },
   {
     "objectID": "slides/03-prior.html#entropyinformation",
@@ -613,21 +613,21 @@
     "href": "slides/03-prior.html#maximum-entropy-prior-mep",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Maximum Entropy Prior (MEP)",
-    "text": "Maximum Entropy Prior (MEP)\n\nThe maximum entropy prior (MEP) (with respect to a reference distribution \\(\\pi_0\\)) is the solution to the optimization problem \\[\\begin{equation}\\label{eq:MEP}\n\\begin{split}\n\\max_{\\pi \\in \\Gamma} & \\; \\mc{E}(\\pi; \\pi_0)\\\\\n& s.t. \\quad \\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K\n\\end{split}\n\\end{equation}\\] where \\(\\Gamma\\) is a class of candidate priors.\nThe existence of the solution depends on \\(g_k\\)’s, \\(\\Gamma\\), and \\(\\pi_0\\).\nThe prior \\(\\pi\\) maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through \\(\\pi\\) about \\(\\theta\\)."
+    "text": "Maximum Entropy Prior (MEP)\n\nThe maximum entropy prior (MEP) (with respect to a reference distribution \\(\\pi_0\\)) is the solution to the optimization problem \\[\n\\max_{\\pi \\in \\Gamma} \\; \\mc{E}(\\pi; \\pi_0)\n\\qquad s.t. \\quad \\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k,\n\\quad k = 1, \\ldots, K\n\\tag{1}\\] where \\(\\Gamma\\) is a class of candidate priors.\nThe existence of the solution depends on \\(g_k\\)’s, \\(\\Gamma\\), and \\(\\pi_0\\).\nThe prior \\(\\pi\\) maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through \\(\\pi\\) about \\(\\theta\\)."
   },
   {
     "objectID": "slides/03-prior.html#discrete-mep",
     "href": "slides/03-prior.html#discrete-mep",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Discrete MEP",
-    "text": "Discrete MEP\n\nLet \\(\\Theta=\\{\\theta_1, \\ldots, \\theta_m\\}\\) and \\(\\pi_0(\\theta_i) = \\frac{1}{m}\\) be the reference distribution.\nThe prior informations are \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\nThe MEP for \\(\\theta\\) is \\[\n\\pi^*(\\theta_i)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k\\left(\\theta_i\\right)\\right\\}}{\\sum_j \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k\\left(\\theta_j\\right)\\right\\}}\n\\] where the \\(\\lambda_k\\)’s are obtained from \\(\\eqref{eq:MEP}\\) as Lagrange multipliers.\nHere \\(\\Gamma\\) is the class of all discrete distributions on \\(\\Theta\\), i.e., \\(\\Gamma = \\{(p_1, \\ldots, p_m): \\sum p_i = 1\\}\\).\nThe proof is a simple application of Lagrange multipliers."
+    "text": "Discrete MEP\n\nLet \\(\\Theta=\\{\\theta_1, \\ldots, \\theta_m\\}\\) and \\(\\pi_0(\\theta_i) = \\frac{1}{m}\\) be the reference distribution.\nThe prior informations are \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\nThe MEP for \\(\\theta\\) is \\[\n\\pi^*(\\theta_i)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k\\left(\\theta_i\\right)\\right\\}}{\\sum_j \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k\\left(\\theta_j\\right)\\right\\}}\n\\] where the \\(\\lambda_k\\)’s are obtained from Equation 1 as Lagrange multipliers.\nHere \\(\\Gamma\\) is the class of all discrete distributions on \\(\\Theta\\), i.e., \\(\\Gamma = \\{(p_1, \\ldots, p_m): \\sum p_i = 1\\}\\).\nThe proof is a simple application of Lagrange multipliers."
   },
   {
     "objectID": "slides/03-prior.html#continuous-mep",
     "href": "slides/03-prior.html#continuous-mep",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Continuous MEP",
-    "text": "Continuous MEP\n\nLet \\(\\Theta = \\R\\) and the prior information be \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\nThe MEP for \\(\\theta\\) is \\[\n\\pi^*(\\theta)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\theta)\\right\\} \\pi_0(\\theta)}{\\int \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\eta)\\right\\} \\pi_0(d \\eta)}.\n\\]\n??"
+    "text": "Continuous MEP\n\n\nLet \\(\\Theta = \\R\\) and the prior information be\n\n\\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\n\n\n\nThe MEP for \\(\\theta\\) is\n\n\\[\n\\pi^*(\\theta)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\theta)\\right\\} \\pi_0(\\theta)}{\\int \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\eta)\\right\\} \\pi_0(d \\eta)}.\n\\]\n\n\nNotice that the above distributions \\(\\pi^{*}\\) are necessarily in an exponential family."
   },
   {
     "objectID": "slides/03-prior.html#examples",
@@ -637,22 +637,22 @@
     "text": "Examples\n\nWithout any prior information, the MEP is the uniform distribution.\nWith \\(\\E_{\\pi}(\\theta) = \\mu\\), the MEP is \\(\\pi^*(\\theta) \\propto e^{\\lambda\\theta}\\), which can not be normalized to 1.\nWith \\(\\E_{\\pi}(\\theta) = \\mu\\) and \\(\\var_{\\pi}(\\theta) = \\sigma^2\\), the MEP is \\(N(\\mu, \\sigma^2)\\)."
   },
   {
-    "objectID": "slides/03-prior.html#problems-with-mep",
-    "href": "slides/03-prior.html#problems-with-mep",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Problems with MEP",
-    "text": "Problems with MEP"
-  },
-  {
     "objectID": "slides/03-prior.html#parametric-approximations",
     "href": "slides/03-prior.html#parametric-approximations",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Parametric Approximations",
-    "text": "Parametric Approximations\n\nA more practical solution to incorporate the prior information is to use parametric approximations.\nChoose a parametric family, e.g. normal, and find one in the family that matches the prior information (exactly or approximately).\nExample: Suppose the prior informations are: median = 0, lower quartile = -1, and upper quartile = 1.\nThe normal distribution satisfying these constraints is \\(N(0, 2.19)\\).\nThe Cauchy distribution satisfying these constraints is \\(\\text{Cauchy}(0,1)\\).\nBoth are reasonbale prior distributions (depending on the likelihood and data)."
+    "text": "Parametric Approximations\n\nA more practical solution to incorporate the prior information is to use parametric approximations.\nChoose a parametric family, e.g. normal, and find one in the family that matches the prior information (exactly or approximately).\nExample: Suppose the prior informations are: median = 0, lower quartile = -1, and upper quartile = 1.\nThe normal distribution satisfying these constraints is \\(N(0, 2.19)\\).\nThe Cauchy distribution satisfying these constraints is \\(\\text{Cauchy}(0,1)\\).\nBoth are reasonable prior distributions (depending on the likelihood and data)."
   },
   {
-    "objectID": "slides/03-prior.html#conjugate-prior",
-    "href": "slides/03-prior.html#conjugate-prior",
+    "objectID": "slides/03-prior.html#some-problems",
+    "href": "slides/03-prior.html#some-problems",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Some problems",
+    "text": "Some problems\n\nMatching moments/quantiles is often impractical and sometimes produces impossible values of the parameters; for instance, it can give negative variances.\nA deeper drawback of most parametric approaches is that the selection of the parametrized family is based on ease in the mathematical treatment, not on a subjective basis such as a preliminary histogram approximating \\(\\pi\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#conjugate-prior-1",
+    "href": "slides/03-prior.html#conjugate-prior-1",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Conjugate prior",
     "text": "Conjugate prior\n\nDefinition 1 A class \\(\\mc{P}\\) of prior distributions for \\(\\theta\\) is called conjugate for a sampling model \\(p(x \\mid \\theta)\\) if \\[\\begin{align*}\n\\pi(\\theta) \\in \\mc{P} \\Rightarrow \\pi(\\theta \\mid x) \\in \\mc{P} .\n\\end{align*}\\]\n\n\nUsually, the class \\(\\mc{P}\\) is a parametric family with a finite number of parameters.\nExample: Beta is conjugate for the binomial model.\nConjugate priors make posterior calculations easy, but might not actually represent our prior information.\nHowever, mixtures of conjugate prior distributions are very flexible and are computationally tractable."
@@ -665,74 +665,32 @@
     "text": "Exponential families\n\nRecall that a family of distributions is an exponential family if its pdf/pmf can be written as \\[\\begin{align*}\nf(x;\\theta) & = h(x)\\exp\\left(\\sum_{i=1}^k w_i(\\theta)T_i(x) - \\psi(\\theta)\\right)\\\\\n& = h(x)\\exp\\left(\\sum_{i=1}^k \\eta_iT_i(x)-\\tilde{\\psi}(\\eta)\\right), \\quad \\eta_i = w_i(\\theta), \\eta = [\\eta_1, \\ldots, \\eta_k].\n\\end{align*}\\]\n\n\\(\\eta\\) is the natural parameter.\n\\(T(X) = [T_1(X), \\ldots, T_k(X)]\\) is a sufficient statistic; it is complete if the parameter space is an open set in \\(\\R^k\\).\n\nExample: Normal, Gamma, Beta, Binomial (with known \\(n\\)), Poisson, …\nNot an exponential family: \\(\\text{Unif}(\\theta, \\theta+1)\\) (if the support of the distribution depends on the parameter, then it is not an exponential family)."
   },
   {
-    "objectID": "slides/03-prior.html#constructing-a-conjugate-prior",
-    "href": "slides/03-prior.html#constructing-a-conjugate-prior",
+    "objectID": "slides/03-prior.html#conjugate-priors-for-exponential-families",
+    "href": "slides/03-prior.html#conjugate-priors-for-exponential-families",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Constructing a conjugate prior",
-    "text": "Constructing a conjugate prior\n\nSuppose \\(f(x\\mid \\theta) = h(x)\\exp(\\theta^Tx - \\psi(\\theta))\\) (natural parametrization).\nHow to construct a conjugate prior for \\(f(x \\mid \\theta)\\)?\nWe need \\(\\pi(\\theta)\\) and \\(\\pi(\\theta \\mid x)\\) to be in the same family.\n\n\n\\[\n\\begin{align}\n  \\pi(\\theta \\mid x) = \\frac{f(x \\mid \\theta)\\pi(\\theta)}{\\int f(x\\mid \\theta^{\\prime})\\pi(\\theta^{\\prime})d\\theta^{\\prime}}\n  & = \\frac{{\\color{green}\\pi(\\theta)}{\\color{magenta}h(x)}\\exp(\\theta^Tx {\\color{green} - \\psi(\\theta)})}{{\\color{magenta}m(x)}}\\\\\n    &\\class{fragment}{{} = \\exp\\left[x^T\\theta - \\left(\\psi(\\theta)\\right)\\right]}         \\\\[3px]\n\\end{align}\n\\]"
+    "section": "Conjugate priors for exponential families",
+    "text": "Conjugate priors for exponential families\nConsider the exponential family \\(f(x\\mid\\theta) = h(x)\\exp(\\theta^Tx - \\psi(\\theta))\\).\n\nProposition 1 A conjugate family for \\(f(x \\mid \\theta)\\) is given by \\[\\begin{align*}\n\\pi(\\theta \\mid \\mu, \\lambda)=K(\\mu, \\lambda) e^{\\theta \\cdot \\mu-\\lambda \\psi(\\theta)},\n\\end{align*}\\] where \\(K(\\mu, \\lambda)\\) is the normalizing constant of the density. The corresponding posterior distribution is \\(\\pi(\\theta \\mid \\mu+x, \\lambda+1)\\).\n\n\nThe conjugate prior is again an exponential family.\nThe parameter spaces for \\(\\mu, \\lambda\\) are determined by propriety of the posterior."
   },
   {
-    "objectID": "slides/03-prior.html#pros-and-cons",
-    "href": "slides/03-prior.html#pros-and-cons",
+    "objectID": "slides/03-prior.html#example-logistic-regression",
+    "href": "slides/03-prior.html#example-logistic-regression",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Pros and cons",
-    "text": "Pros and cons"
+    "section": "Example (Logistic regression)",
+    "text": "Example (Logistic regression)\n\n\\(y \\in \\{0, 1\\}\\) and \\(x \\in \\R^k\\)\n\n\n\nThe conditional distribution of \\(Y\\) given \\(X = x\\) is\n\n\\[\n\\P_\\beta(Y=1\\mid X = x)=1-\\P_\\beta(Y=0 \\mid X = x)=\\frac{\\exp \\left(\\beta^t x\\right)}{1+\\exp \\left(\\beta^t x\\right)}.\n\\]\n\n\n\nGiven a sample \\((y_1, x_1), \\ldots, (y_n, x_n)\\), the joint distribution is\n\n\\[\nf\\left(y_1, \\ldots, y_n \\mid x_1, \\ldots, x_n, \\beta\\right)=\\exp \\left(\\beta^t \\sum_{i=1}^n y_i x_i\\right) \\prod_{i=1}^n\\left(1+e^{\\beta^t x_i}\\right)^{-1}.\n\\]"
   },
   {
-    "objectID": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
-    "href": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
+    "objectID": "slides/03-prior.html#example-logistic-regression-1",
+    "href": "slides/03-prior.html#example-logistic-regression-1",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Some practical guides for choosing priors",
-    "text": "Some practical guides for choosing priors\n\nWith prior information:\n\nFind the MEP\nFind a (conjugate) parametric prior that approximates the prior information\n\nWithout prior information:\n\nUse conjugate priors (if applicable) and hyper-priors\nUse noninformative priors, e.g., Jeffreys prior, reference priors, vague priors\n\nFinally, perform some sensitivity analysis to access priors’ influence on the result.\n\n\n\nHome"
+    "section": "Example (Logistic regression)",
+    "text": "Example (Logistic regression)\n\nApplying the previous proposition, we can find the conjugate prior for \\(\\beta\\): \\[\n\\pi\\left(\\beta \\mid y_0, \\lambda\\right) \\propto e^{\\beta^t y_0} \\prod_{i=1}^n\\left(1+e^{\\beta^t x_i}\\right)^{-\\lambda}.\n\\]\nThe normalizing constant for \\(\\pi(\\beta\\mid y_0, \\lambda)\\) is unknown and approximations of posterior quantities such as the posterior mean and posterior median can only be achieved through simulation techniques."
   },
   {
-    "objectID": "slides/03-prior.html#introduction-1",
-    "href": "slides/03-prior.html#introduction-1",
+    "objectID": "slides/03-prior.html#mixtures-of-conjugate-priors",
+    "href": "slides/03-prior.html#mixtures-of-conjugate-priors",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Introduction",
-    "text": "Introduction\nThe goal of lecture is to:\n\nfind a distribution compatible with prior information"
-  },
-  {
-    "objectID": "slides/03-prior.html#prior-information",
-    "href": "slides/03-prior.html#prior-information",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Prior Information",
-    "text": "Prior Information\n\nSuppose the prior information for \\(\\theta\\) is given through some expectations. \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K,\n\\]\nFor example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).\nThe prior information about the sex ratio \\(\\theta\\) can be expressed as \\[\n    \\E_{\\pi}(\\theta) = 1.05 \\quad \\text{and} \\quad \\var_{\\pi}(\\theta) = 0.1^2.\n\\]\nObviously, there are many distributions compatible with these constraints.\nWe will discuss two approaches for choosing prior distributions compatible with these information."
-  },
-  {
-    "objectID": "slides/03-prior.html#entropy",
-    "href": "slides/03-prior.html#entropy",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Entropy",
-    "text": "Entropy\n\nLet \\(\\pi\\) be a discrete distribution. The Shannon Entropy1 of \\(\\pi\\) is \\[\n\\mc{E}(\\pi) =  -\\E_{\\pi}[\\log \\pi(\\theta)].\n\\]\n\nIntroduced by Shannon (1948)."
-  },
-  {
-    "objectID": "slides/03-prior.html#conjugate-prior-1",
-    "href": "slides/03-prior.html#conjugate-prior-1",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Conjugate prior",
-    "text": "Conjugate prior\n\nDefinition 1 A class \\(\\mc{P}\\) of prior distributions for \\(\\theta\\) is called conjugate for a sampling model \\(p(x \\mid \\theta)\\) if \\[\\begin{align*}\n\\pi(\\theta) \\in \\mc{P} \\Rightarrow \\pi(\\theta \\mid x) \\in \\mc{P} .\n\\end{align*}\\]\n\n\nUsually, the class \\(\\mc{P}\\) is a parametric family with a finite number of parameters.\nExample: Beta is conjugate for the binomial model.\nConjugate priors make posterior calculations easy, but might not actually represent our prior information.\nHowever, mixtures of conjugate prior distributions are very flexible and are computationally tractable."
-  },
-  {
-    "objectID": "slides/03-prior.html#jeffreys-prior",
-    "href": "slides/03-prior.html#jeffreys-prior",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Jeffreys prior",
-    "text": "Jeffreys prior\n\n\nRecall that the Fisher information of a pdf/pmf \\(f(x\\mid\\theta)\\) is given by\n\n\\[\nI(\\theta)=\\E_\\theta\\left[\\left(\\frac{\\partial \\log f(X \\mid \\theta)}{\\partial \\theta}\\right)^2\\right] \\stackrel{(*)}{=} -\\E_\\theta\\left[\\frac{\\partial^2 \\log f(X \\mid \\theta)}{\\partial \\theta^2}\\right].\n\\]\n\n\nThe Jeffreys prior distribution is \\(\\pi_J(\\theta) \\propto \\sqrt{I(\\theta)}\\), defined up to a normalization constant when \\(\\pi_J\\) is proper.\n\n\n\nThe equality \\((*)\\) holds under some regularity conditions on \\(f(x\\mid\\theta)\\)."
-  },
-  {
-    "objectID": "slides/03-prior.html#reference-prior",
-    "href": "slides/03-prior.html#reference-prior",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Reference prior",
-    "text": "Reference prior\n\nBernardo (1979) proposed a modification of the Jeffreys approach called the reference prior approach.\nA major difference is that this method distinguishes between parameters of interest and nuisance parameters.\nHence the prior depends on the sampling model as well as the inferential problem.\nThe main idea behind the reference approach is to a prior that maximizes the information brought by the data, i.e. the KL divergence between prior and posterior.\nIt can be shown that for one-parameter models, the reference approach gives the Jeffreys prior."
-  },
-  {
-    "objectID": "slides/03-prior.html#matching-prior",
-    "href": "slides/03-prior.html#matching-prior",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Matching prior",
-    "text": "Matching prior"
+    "section": "Mixtures of conjugate priors",
+    "text": "Mixtures of conjugate priors\nLet \\(f(x \\mid \\theta)\\) be an exponential family and \\(\\pi(\\theta \\mid \\lambda, \\mu)\\) be its conjugate prior.\n\nConsider \\(\\pi(\\theta)=\\sum_{i=1}^N w_i \\pi\\left(\\theta \\mid \\lambda_i, \\mu_i\\right)\\).\nThen the posterior is \\[\n\\pi(\\theta \\mid x)=\\sum_{i=1}^N w_i^{\\prime}(x) \\pi\\left(\\theta \\mid \\lambda_i+1, \\mu_i+x\\right).\n\\] where \\(w^{\\prime}_i(x)\\) depends on \\(w_i\\)’s and the normalizing constant of \\(\\pi(\\theta\\mid\\lambda,\\mu)\\)1.\nMixtures can then be used as a basis to approximate any prior distribution.\n\nSee Page 126 of Bayesian Choice for details."
   },
   {
     "objectID": "slides/03-prior.html#noninformative-prior-1",
@@ -763,11 +721,11 @@
     "text": "Example\n\nSuppose \\(\\Theta = [0, 1]\\) and \\(\\pi(\\theta) = 1\\) for \\(\\theta \\in \\Theta\\).\nConsider the odds \\(\\eta = \\frac{\\theta}{1-\\theta}\\), which is one-to-one on \\(\\Theta\\).\nThen \\(\\pi^*(\\eta) = \\left|\\frac{d}{d \\eta} g^{-1}(\\eta)\\right| = \\frac{1}{(1+\\eta)^2}\\), that is, the prior prefers small \\(\\eta\\) (corresponding to small \\(\\theta\\))."
   },
   {
-    "objectID": "slides/03-prior.html#jeffreys-prior-1",
-    "href": "slides/03-prior.html#jeffreys-prior-1",
+    "objectID": "slides/03-prior.html#jeffreys-prior",
+    "href": "slides/03-prior.html#jeffreys-prior",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Jeffreys prior",
-    "text": "Jeffreys prior\nJeffreys prior has several advantages:\n\nIt depends only on the sampling model, through the Fisher information.\nThe Fisher information is an indicator of the amount of information brought by the model (or the observation) about \\(\\theta\\).\nIt is invariant under reparametrization."
+    "text": "Jeffreys prior\n\n\nRecall that the Fisher information of a pdf/pmf \\(f(x\\mid\\theta)\\) is given by\n\n\\[\nI(\\theta)=\\E_\\theta\\left[\\left(\\frac{\\partial \\log f(X \\mid \\theta)}{\\partial \\theta}\\right)^2\\right] \\stackrel{(*)}{=} -\\E_\\theta\\left[\\frac{\\partial^2 \\log f(X \\mid \\theta)}{\\partial \\theta^2}\\right].\n\\]\n\n\nThe Jeffreys prior distribution is \\(\\pi_J(\\theta) \\propto \\sqrt{I(\\theta)}\\), defined up to a normalization constant when \\(\\pi_J\\) is proper.\n\n\n\nThe equality \\((*)\\) holds under some regularity conditions on \\(f(x\\mid\\theta)\\)."
   },
   {
     "objectID": "slides/03-prior.html#example-1",
@@ -777,20 +735,6 @@
     "text": "Example\nIf \\(X \\sim \\bin(n, p)\\),\n\n\\[\n\\begin{aligned}\nf(x \\mid p) & =\\left(\\begin{array}{c}\nn \\\\\nx\n\\end{array}\\right) p^x(1-p)^{n-x}, \\\\\n\\frac{\\partial^2 \\log f(x \\mid p)}{\\partial p^2} & = - \\frac{x}{p^2} - \\frac{n-x}{(1-p)^2}, \\\\\nI(p) & =n\\left[\\frac{1}{p}+\\frac{1}{1-p}\\right]=\\frac{n}{p(1-p)} .\n\\end{aligned}\n\\]\n\n\nTherefore, the Jeffreys prior for this model is \\[\n\\pi_J(p) \\propto[p(1-p)]^{-1 / 2}\n\\] and is thus proper, since it is a \\(\\text{Beta}(1/2, 1/2)\\) distribution."
   },
   {
-    "objectID": "slides/03-prior.html#multidimensional-parameters",
-    "href": "slides/03-prior.html#multidimensional-parameters",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Multidimensional parameters",
-    "text": "Multidimensional parameters\n\nFor \\(\\theta \\in \\R^k\\), the Fisher information matrix \\(I(\\theta)\\) has the following elements,\n\n\n\\[\nI_{i j}(\\theta)=-\\mathbb{E}_\\theta\\left[\\frac{\\partial^2}{\\partial \\theta_i \\partial \\theta_j} \\log f(x \\mid \\theta)\\right] \\quad(i, j=1, \\ldots, k).\n\\]\n\n\nThe Jeffreys noninformative prior is then defined by \\(\\pi_J(\\theta) \\propto \\sqrt{\\det(I(\\theta))}\\).\nIf \\(f(x \\mid \\theta)\\) belongs to an exponential family, \\(f(x \\mid \\theta)=h(x) \\exp (\\theta \\cdot x-\\psi(\\theta))\\), the Fisher information matrix is given by \\(I(\\theta)=\\nabla \\nabla^t \\psi(\\theta)\\) and \\[\n\\pi_J(\\theta) \\propto\\left(\\prod_{i=1}^k \\psi_{i i}^{\\prime \\prime}(\\theta)\\right)^{1 / 2}\n\\] where \\(\\psi_{i i}^{\\prime \\prime}(\\theta)=\\frac{\\partial^2}{\\partial \\theta_i^2} \\psi(\\theta)\\)."
-  },
-  {
-    "objectID": "slides/03-prior.html#limitations-of-jeffreys-prior",
-    "href": "slides/03-prior.html#limitations-of-jeffreys-prior",
-    "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Limitations of Jeffreys prior",
-    "text": "Limitations of Jeffreys prior\n\nJeffreys prior works well for one-parameter models.\nFor multiparameter models however, Jeffreys prior leads to incoherences or even paradoxes.\nThey do not necessarily perform satisfactorily for all inferential purposes, in particular when considering subvectors of interest (see Example 3.5.9 in Bayesian Choice)."
-  },
-  {
     "objectID": "slides/03-prior.html#example-2",
     "href": "slides/03-prior.html#example-2",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
@@ -798,11 +742,18 @@
     "text": "Example\n\nBeta(1,1) (blue) and Beta(1/2, 1/2) (red)"
   },
   {
-    "objectID": "slides/03-prior.html#example-3",
-    "href": "slides/03-prior.html#example-3",
+    "objectID": "slides/03-prior.html#multidimensional-parameters",
+    "href": "slides/03-prior.html#multidimensional-parameters",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
-    "section": "Example",
-    "text": "Example\n\nConsider \\(X \\sim N(\\mu, \\sigma^2)\\) with \\(\\theta = (\\mu, \\sigma^2)\\) unknown.\nIn this case, \\[\nI(\\theta)  =\\left(\\begin{array}{cc}\n1 / \\sigma^2 & 0 \\\\\n0 & 2 / \\sigma^2\n\\end{array}\\right).\n\\]\nThus \\(\\pi_J(\\mu, \\sigma^2) \\propto \\sigma^{-2}\\).\nIf we assume \\(\\mu\\) and \\(\\sigma^2\\) are a priori independent, then \\[\n\\pi_J(\\mu, \\sigma^2) = \\pi_J(\\mu)\\pi_J(\\sigma^2) \\propto \\sigma^{-1}.\n\\]\nTheoretically, \\(\\pi_J(\\mu,\\sigma^2) \\propto \\sigma^{-1}\\) has better convergence properties than \\(\\pi_J(\\mu,\\sigma^2) \\propto \\sigma^{-2}\\)."
+    "section": "Multidimensional parameters",
+    "text": "Multidimensional parameters\n\nFor \\(\\theta \\in \\R^k\\), the Fisher information matrix \\(I(\\theta)\\) has the following elements,\n\n\n\\[\nI_{i j}(\\theta)=-\\mathbb{E}_\\theta\\left[\\frac{\\partial^2}{\\partial \\theta_i \\partial \\theta_j} \\log f(x \\mid \\theta)\\right] \\quad(i, j=1, \\ldots, k).\n\\]\n\n\nThe Jeffreys noninformative prior is then defined by \\(\\pi_J(\\theta) \\propto \\sqrt{\\det(I(\\theta))}\\).\nIf \\(f(x \\mid \\theta)\\) belongs to an exponential family, \\(f(x \\mid \\theta)=h(x) \\exp (\\theta \\cdot x-\\psi(\\theta))\\), the Fisher information matrix is given by \\(I(\\theta)=\\nabla \\nabla^t \\psi(\\theta)\\) and \\[\n\\pi_J(\\theta) \\propto\\left(\\prod_{i=1}^k \\psi_{i i}^{\\prime \\prime}(\\theta)\\right)^{1 / 2}\n\\] where \\(\\psi_{i i}^{\\prime \\prime}(\\theta)=\\frac{\\partial^2}{\\partial \\theta_i^2} \\psi(\\theta)\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#jeffreys-prior-1",
+    "href": "slides/03-prior.html#jeffreys-prior-1",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Jeffreys prior",
+    "text": "Jeffreys prior\nJeffreys prior has several advantages:\n\nIt depends only on the sampling model, through the Fisher information.\nThe Fisher information is an indicator of the amount of information brought by the model (or the observation) about \\(\\theta\\).\nIt is invariant under reparametrization."
   },
   {
     "objectID": "slides/03-prior.html#invariance-of-jeffreys-prior",
@@ -812,10 +763,73 @@
     "text": "Invariance of Jeffreys prior\n\nBy definition, \\(I(\\theta) = I(h(\\theta))[h^{\\prime}(\\theta)]^2\\) for any one-to-one \\(h\\).\nLet \\(\\eta = g(\\theta)\\) and \\(\\theta \\sim \\pi_J(\\theta) \\propto \\sqrt{I(\\theta)}\\).\nThen \\[\\begin{align*}\n\\pi^*(\\eta) & = \\pi_J(g^{-1}(\\eta))\\left|\\frac{d}{d \\eta} g^{-1}(\\eta)\\right|\n= \\sqrt{I(g^{-1}(\\eta))}\\left|\\frac{d}{d \\eta} g^{-1}(\\eta)\\right| \\\\\n& = \\sqrt{I(\\eta)[h^{\\prime}(\\eta)]^{-2}}|h^{\\prime}(\\eta)| \\quad \\text{(Let $h = g^{-1}$)}\\\\\n& = \\sqrt{I(\\eta)} = \\pi_J(\\eta).\n\\end{align*}\\]"
   },
   {
+    "objectID": "slides/03-prior.html#limitations-of-jeffreys-prior",
+    "href": "slides/03-prior.html#limitations-of-jeffreys-prior",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Limitations of Jeffreys prior",
+    "text": "Limitations of Jeffreys prior\n\nJeffreys prior works well for one-parameter models.\nFor multiparameter models however, Jeffreys prior leads to incoherences or even paradoxes.\nThey do not necessarily perform satisfactorily for all inferential purposes, in particular when considering subvectors of interest (see Example 3.5.9 in Bayesian Choice)."
+  },
+  {
+    "objectID": "slides/03-prior.html#example-3",
+    "href": "slides/03-prior.html#example-3",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Example",
+    "text": "Example\n\nConsider \\(X \\sim N(\\mu, \\sigma^2)\\) with \\(\\theta = (\\mu, \\sigma)\\) unknown.\nIn this case, \\[\nI(\\theta)  =\\left(\\begin{array}{cc}\n1 / \\sigma^2 & 0 \\\\\n0 & 2 / \\sigma^2\n\\end{array}\\right).\n\\]\nThus \\(\\pi_J(\\mu, \\sigma) \\propto \\sigma^{-2}\\).\nIf we assume \\(\\mu\\) and \\(\\sigma^2\\) are a priori independent, then \\[\n\\tilde{\\pi}_J(\\mu, \\sigma) = \\pi_J(\\mu)\\pi_J(\\sigma) \\propto \\sigma^{-1}.\n\\]\nTheoretically, \\(\\tilde{\\pi}_J(\\mu,\\sigma) \\propto \\sigma^{-1}\\) has better convergence properties than \\(\\pi_J(\\mu,\\sigma) \\propto \\sigma^{-2}\\)."
+  },
+  {
     "objectID": "slides/03-prior.html#example-4",
     "href": "slides/03-prior.html#example-4",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Example",
-    "text": "Example"
+    "text": "Example\n\nWe have seen that binomial and negative binomial modelings could lead to the same likelihood.\nHowever, if \\(X \\sim\\) \\(\\bin(n, \\theta)\\), the noninformative prior \\(\\pi_1(\\theta)\\) is \\(\\text{Beta}(1 / 2,1 / 2)\\).\nIf \\(N \\sim \\text{NB}(x, \\theta)\\), the Fisher information is \\[\\begin{align*}\nI(\\theta) & =-\\E_\\theta\\left[\\frac{\\partial^2}{\\partial \\theta^2} \\log f(N \\mid \\theta)\\right] \\\\\n& =\\E_\\theta\\left[\\frac{x}{\\theta^2}+\\frac{N-x}{(1-\\theta)^2}\\right]=\\frac{x}{\\theta^2(1-\\theta)},\n\\end{align*}\\]\nThe Jeffreys prior is \\(\\pi_2(\\theta) \\propto \\theta^{-1}(1-\\theta)^{-1 / 2}\\), which is improper and, more importantly, differs from \\(\\pi_1\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#reference-prior",
+    "href": "slides/03-prior.html#reference-prior",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Reference prior",
+    "text": "Reference prior\n\nBernardo (1979) proposed a modification of the Jeffreys approach called the reference prior approach.\nA major difference is that this method distinguishes between parameters of interest and nuisance parameters.\nHence the prior depends on the sampling model as well as the inferential problem.\nThe main idea behind the reference approach is to a prior that maximizes the information brought by the data, i.e. the KL divergence between prior and posterior.\nIt has been shown that for one-parameter models, the reference approach gives the Jeffreys prior."
+  },
+  {
+    "objectID": "slides/03-prior.html#the-reference-prior-approach",
+    "href": "slides/03-prior.html#the-reference-prior-approach",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "The reference prior approach",
+    "text": "The reference prior approach\nLet \\(X \\sim f(x \\mid \\theta)\\) and \\(\\theta=\\left(\\theta_1, \\theta_2\\right)\\). Suppose \\(\\theta_1\\) is the parameter of interest, and \\(\\theta_2\\) is the nuisance parameter.\n\nDefine \\(\\pi_J\\left(\\theta_2 \\mid \\theta_1\\right)\\) as the Jeffreys prior associated with \\(f(x \\mid \\theta)\\) when \\(\\theta_1\\) is fixed.\nDerive the marginal distribution \\[\\begin{align*}\n\\tilde{f}\\left(x \\mid \\theta_1\\right)=\\int f\\left(x \\mid \\theta_1, \\theta_2\\right) \\pi\\left(\\theta_2 \\mid \\theta_1\\right) d \\theta_2.\n\\end{align*}\\]\nCompute the Jeffreys prior \\(\\pi_J\\left(\\theta_1\\right)\\) associated with \\(\\tilde{f}\\left(x \\mid \\theta_1\\right)\\).\nThe reference prior for \\(\\theta\\) is \\(\\pi_R(\\theta) \\propto \\pi_J\\left(\\theta_2 \\mid \\theta_1\\right)\\pi_J\\left(\\theta_1\\right)\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#example-5",
+    "href": "slides/03-prior.html#example-5",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Example",
+    "text": "Example\nLet \\(X_1, X_2 \\iid N(\\mu, \\sigma^2)\\) where \\(\\sigma\\) is the parameter of interest and \\(\\mu\\) is the unknown nuisance parameter.\n\nFixing \\(\\sigma\\), the Jeffreys prior for \\(\\mu\\) is \\(\\pi_J(\\mu\\mid\\sigma) \\propto 1\\) (computed using the joint distribution of \\(X_1\\) and \\(X_2\\)).\nThe marginal distribution is \\[\\begin{align*}\n\\tilde{f}(x_1, x_2\\mid\\sigma) & = \\int \\frac{1}{2\\pi\\sigma^2}\\exp\\left(-\\frac{(x_1-\\mu)^2+(x_2-\\mu)^2}{2\\sigma^2}\\right) d\\mu\\\\\n& = \\frac{1}{\\sqrt{2 \\pi} 2 \\sigma}e^{-\\left(x_1-x_2\\right)^2 / 4 \\sigma^2}.\n\\end{align*}\\]\nThe Jeffreys prior for \\(\\tilde{f}(x_1, x_2\\mid\\sigma)\\) is \\(\\pi_J(\\sigma) \\propto \\sigma^{-1}\\).\nThe reference prior for \\((\\mu, \\sigma)\\) is \\(\\pi_R(\\mu,\\sigma) \\propto \\pi_J(\\mu\\mid\\sigma)\\pi_J(\\sigma) \\propto \\sigma^{-1}\\)."
+  },
+  {
+    "objectID": "slides/03-prior.html#more-about-reference-priors",
+    "href": "slides/03-prior.html#more-about-reference-priors",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "More about reference priors",
+    "text": "More about reference priors\n\nIn general, the reference prior depends the “importance” of the individual parameters.\nUnder some additional assumptions (e.g., posterior asymptotic normality), the reference prior can be easily computed.\nFor formal definitions and more examples of reference priors, see Bernardo (2005).\n\n\n\nBernardo, J. M. (2005). Reference analysis. Handbook of statistics, 25, 17-90."
+  },
+  {
+    "objectID": "slides/03-prior.html#matching-prior",
+    "href": "slides/03-prior.html#matching-prior",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Matching prior",
+    "text": "Matching prior\n\nA peculiar, not to say paradoxical, approach to noninformative priors is to look for good frequentist properties, that is, properties that hold on the average (in \\(x\\)), rather than conditional on \\(x\\).\nGoal: posterior probabilities \\(\\approx\\) frequentist coverage.\nFor example, find a prior such that the HPD interval and the frequentist CI are asymptotically the same."
+  },
+  {
+    "objectID": "slides/03-prior.html#posterior-validation-and-robustness",
+    "href": "slides/03-prior.html#posterior-validation-and-robustness",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Posterior validation and robustness",
+    "text": "Posterior validation and robustness\n\nWhen using an improper prior, you must check the propriety of the posterior.\nYou can perform some numerical analysis to see how the choice of prior affects your result. This is especially important for small sample sizes.\nAn additional level in the prior modeling should increase the robustness of the prior distribution.\nFor example, \\[\\begin{align*}\n\\lambda & \\sim \\pi_2(\\lambda), \\\\\n\\theta \\mid \\lambda & \\sim \\pi_1(\\theta \\mid \\lambda), \\\\\nX \\mid \\theta & \\sim f(x \\mid \\theta) .\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
+    "href": "slides/03-prior.html#some-practical-guides-for-choosing-priors",
+    "title": "Lecture 03: From Prior Information to Prior Distribution",
+    "section": "Some practical guides for choosing priors",
+    "text": "Some practical guides for choosing priors\n\nWith prior information:\n\nFind the MEP\nFind a (conjugate) parametric prior that approximates the prior information\n\nWithout prior information:\n\nUse conjugate priors (if applicable) or mixture of conjugate priors\nUse noninformative priors, e.g., Jeffreys prior, reference priors\n\nFinally, perform some sensitivity analysis to assess priors’ influence on the result.\n\n\n\nHome"
   }
 ]

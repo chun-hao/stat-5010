@@ -389,22 +389,17 @@ Chun-Hao Yang
 <h1>Maximum Entropy Priors</h1>
 
 </section>
-<section id="entropy" class="slide level2">
-<h2>Entropy</h2>
+<section id="intuition-behind-entropy" class="slide level2">
+<h2>Intuition behind entropy</h2>
 <ul>
-<li class="fragment">Let <span class="math inline">\(\pi\)</span> be a discrete distribution. The Shannon Entropy<sup>1</sup> of <span class="math inline">\(\pi\)</span> is <span class="math display">\[
+<li class="fragment"><p>Let <span class="math inline">\(\pi\)</span> be a discrete distribution. The Shannon Entropy<sup>1</sup> of <span class="math inline">\(\pi\)</span> is <span class="math display">\[
 \mc{E}(\pi) =  -\E_{\pi}[\log \pi(\theta)].
-\]</span></li>
-</ul>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>Introduced by Shannon (1948).</p></li></ol></aside></section>
-<section id="intuition-behind-shannon-entropy" class="slide level2">
-<h2>Intuition behind Shannon Entropy</h2>
-<ul>
+\]</span></p></li>
 <li class="fragment"><p>Entropy is a measure of randomness: <span style="color:red;">high entropy = high randomness</span></p></li>
 <li class="fragment"><p>Entropy is the expectation of information: <span class="math inline">\(\mc{E}(\pi) = \E_{\pi}(I(X))\)</span>, where <span class="math inline">\(I(x)\)</span> is the <em>information</em> of the event <span class="math inline">\(\{X = x\}\)</span>.</p></li>
 <li class="fragment"><p>Roughly speaking, <span style="color:red;">information of an event <span class="math inline">\(E\)</span> is the knowledge you obtained after the occurrence of <span class="math inline">\(E\)</span> </span>.</p></li>
 </ul>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Introduced by Shannon (1948).</p></li></ol></aside></section>
 <section id="shannons-axioms-for-information" class="slide level2">
 <h2>Shannon’s Axioms for Information</h2>
 <ol type="1">
@@ -453,7 +448,7 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 <ul>
 <li class="fragment"><p><strong>Cross entropy</strong>: <span class="math inline">\(\mc{E}(\pi, \pi_0) = - \E_{\pi_0}(\log \pi(X))\)</span></p></li>
 <li class="fragment"><p><strong>Relative entropy</strong>: <span class="math display">\[
-\mc{E}(\pi_0\| \pi) = - \E_{\pi_0}[I(X;\pi_0)] = \E_{\pi_0}\left[\log \frac{\pi_0(x)}{\pi(x)}\right] = D_{KL}(\pi_0\| \pi) \geq 0
+\mc{E}(\pi_0\| \pi) = - \E_{\pi_0}[I(X;\pi_0)] = \E_{\pi_0}\left[\log \frac{\pi_0(X)}{\pi(X)}\right] = D_{KL}(\pi_0\| \pi) \geq 0
 \]</span></p></li>
 <li class="fragment"><p>It is also called the <strong>Kullback-Liebler divergence</strong>.</p></li>
 <li class="fragment"><p>A common choice of the reference distribution <span class="math inline">\(\pi_0\)</span> is non-informative distributions, e.g., the Lebesgue measure.</p></li>
@@ -471,12 +466,11 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 <section id="maximum-entropy-prior-mep" class="slide level2">
 <h2>Maximum Entropy Prior (MEP)</h2>
 <ul>
-<li class="fragment"><p>The maximum entropy prior (MEP) (with respect to a reference distribution <span class="math inline">\(\pi_0\)</span>) is the solution to the optimization problem <span class="math display">\[\begin{equation}\label{eq:MEP}
-\begin{split}
-\max_{\pi \in \Gamma} &amp; \; \mc{E}(\pi; \pi_0)\\
-&amp; s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K
-\end{split}
-\end{equation}\]</span> where <span class="math inline">\(\Gamma\)</span> is a class of candidate priors.</p></li>
+<li class="fragment"><p>The maximum entropy prior (MEP) (with respect to a reference distribution <span class="math inline">\(\pi_0\)</span>) is the solution to the optimization problem <span id="eq-mep"><span class="math display">\[
+\max_{\pi \in \Gamma} \; \mc{E}(\pi; \pi_0)
+\qquad s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k,
+\quad k = 1, \ldots, K
+\tag{1}\]</span></span> where <span class="math inline">\(\Gamma\)</span> is a class of candidate priors.</p></li>
 <li class="fragment"><p>The existence of the solution depends on <span class="math inline">\(g_k\)</span>’s, <span class="math inline">\(\Gamma\)</span>, and <span class="math inline">\(\pi_0\)</span>.</p></li>
 <li class="fragment"><p>The prior <span class="math inline">\(\pi\)</span> maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through <span class="math inline">\(\pi\)</span> about <span class="math inline">\(\theta\)</span>.</p></li>
 </ul>
@@ -490,21 +484,31 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 \]</span></li>
 <li class="fragment">The MEP for <span class="math inline">\(\theta\)</span> is <span class="math display">\[
 \pi^*(\theta_i)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k\left(\theta_i\right)\right\}}{\sum_j \exp \left\{\sum_{k=1}^K \lambda_k g_k\left(\theta_j\right)\right\}}
-\]</span> where the <span class="math inline">\(\lambda_k\)</span>’s are obtained from <span class="math inline">\(\eqref{eq:MEP}\)</span> as Lagrange multipliers.</li>
+\]</span> where the <span class="math inline">\(\lambda_k\)</span>’s are obtained from <a href="#/maximum-entropy-prior-mep">Equation&nbsp;1</a> as Lagrange multipliers.</li>
 <li class="fragment">Here <span class="math inline">\(\Gamma\)</span> is the class of all discrete distributions on <span class="math inline">\(\Theta\)</span>, i.e., <span class="math inline">\(\Gamma = \{(p_1, \ldots, p_m): \sum p_i = 1\}\)</span>.</li>
 <li class="fragment">The proof is a simple application of Lagrange multipliers.</li>
 </ul>
 </section>
 <section id="continuous-mep" class="slide level2">
 <h2>Continuous MEP</h2>
+<div class="fragment">
 <ul>
-<li class="fragment">Let <span class="math inline">\(\Theta = \R\)</span> and the prior information be <span class="math display">\[
+<li>Let <span class="math inline">\(\Theta = \R\)</span> and the prior information be</li>
+</ul>
+<p><span class="math display">\[
 \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K.
-\]</span></li>
-<li class="fragment">The MEP for <span class="math inline">\(\theta\)</span> is <span class="math display">\[
+\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>The MEP for <span class="math inline">\(\theta\)</span> is</li>
+</ul>
+<p><span class="math display">\[
 \pi^*(\theta)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k(\theta)\right\} \pi_0(\theta)}{\int \exp \left\{\sum_{k=1}^K \lambda_k g_k(\eta)\right\} \pi_0(d \eta)}.
-\]</span></li>
-<li class="fragment">??</li>
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">Notice that the above distributions <span class="math inline">\(\pi^{*}\)</span> are necessarily in an exponential family.</li>
 </ul>
 </section>
 <section id="examples" class="slide level2">
@@ -515,9 +519,6 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 <li class="fragment">With <span class="math inline">\(\E_{\pi}(\theta) = \mu\)</span> and <span class="math inline">\(\var_{\pi}(\theta) = \sigma^2\)</span>, the MEP is <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</li>
 </ul>
 </section>
-<section id="problems-with-mep" class="slide level2">
-<h2>Problems with MEP</h2>
-</section>
 <section id="parametric-approximations" class="slide level2">
 <h2>Parametric Approximations</h2>
 <ul>
@@ -526,7 +527,14 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 <li class="fragment">Example: Suppose the prior informations are: median = 0, lower quartile = -1, and upper quartile = 1.</li>
 <li class="fragment">The normal distribution satisfying these constraints is <span class="math inline">\(N(0, 2.19)\)</span>.</li>
 <li class="fragment">The Cauchy distribution satisfying these constraints is <span class="math inline">\(\text{Cauchy}(0,1)\)</span>.</li>
-<li class="fragment">Both are reasonbale prior distributions (depending on the likelihood and data).</li>
+<li class="fragment">Both are reasonable prior distributions (depending on the likelihood and data).</li>
+</ul>
+</section>
+<section id="some-problems" class="slide level2">
+<h2>Some problems</h2>
+<ul>
+<li class="fragment">Matching moments/quantiles is often impractical and sometimes produces impossible values of the parameters; for instance, it can give negative variances.</li>
+<li class="fragment">A deeper drawback of most parametric approaches is that the selection of the parametrized family is based on ease in the mathematical treatment, not on a subjective basis such as a preliminary histogram approximating <span class="math inline">\(\pi\)</span>.</li>
 </ul>
 </section></section>
 <section>
@@ -563,26 +571,61 @@ f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\
 <li class="fragment">Not an exponential family: <span class="math inline">\(\text{Unif}(\theta, \theta+1)\)</span> (if the support of the distribution depends on the parameter, then it is not an exponential family).</li>
 </ul>
 </section>
-<section id="constructing-a-conjugate-prior" class="slide level2">
-<h2>Constructing a conjugate prior</h2>
+<section id="conjugate-priors-for-exponential-families" class="slide level2">
+<h2>Conjugate priors for exponential families</h2>
+<p>Consider the exponential family <span class="math inline">\(f(x\mid\theta) = h(x)\exp(\theta^Tx - \psi(\theta))\)</span>.</p>
+<div id="prp-conjugate-prior" class="fragment theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 1 </strong></span>A conjugate family for <span class="math inline">\(f(x \mid \theta)\)</span> is given by <span class="math display">\[\begin{align*}
+\pi(\theta \mid \mu, \lambda)=K(\mu, \lambda) e^{\theta \cdot \mu-\lambda \psi(\theta)},
+\end{align*}\]</span> where <span class="math inline">\(K(\mu, \lambda)\)</span> is the normalizing constant of the density. The corresponding posterior distribution is <span class="math inline">\(\pi(\theta \mid \mu+x, \lambda+1)\)</span>.</p>
+</div>
 <ul>
-<li class="fragment">Suppose <span class="math inline">\(f(x\mid \theta) = h(x)\exp(\theta^Tx - \psi(\theta))\)</span> (natural parametrization).</li>
-<li class="fragment">How to construct a conjugate prior for <span class="math inline">\(f(x \mid \theta)\)</span>?</li>
-<li class="fragment">We need <span class="math inline">\(\pi(\theta)\)</span> and <span class="math inline">\(\pi(\theta \mid x)\)</span> to be in the same family.</li>
+<li class="fragment">The conjugate prior is again an exponential family.</li>
+<li class="fragment">The parameter spaces for <span class="math inline">\(\mu, \lambda\)</span> are determined by propriety of the posterior.</li>
+</ul>
+</section>
+<section id="example-logistic-regression" class="slide level2">
+<h2>Example (Logistic regression)</h2>
+<ul>
+<li class="fragment"><span class="math inline">\(y \in \{0, 1\}\)</span> and <span class="math inline">\(x \in \R^k\)</span></li>
 </ul>
 <div class="fragment">
+<ul>
+<li>The conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X = x\)</span> is</li>
+</ul>
 <p><span class="math display">\[
-\begin{align}
-  \pi(\theta \mid x) = \frac{f(x \mid \theta)\pi(\theta)}{\int f(x\mid \theta^{\prime})\pi(\theta^{\prime})d\theta^{\prime}}
-  &amp; = \frac{{\color{green}\pi(\theta)}{\color{magenta}h(x)}\exp(\theta^Tx {\color{green} - \psi(\theta)})}{{\color{magenta}m(x)}}\\
-    &amp;\class{fragment}{{} = \exp\left[x^T\theta - \left(\psi(\theta)\right)\right]}         \\[3px]
-\end{align}
+\P_\beta(Y=1\mid X = x)=1-\P_\beta(Y=0 \mid X = x)=\frac{\exp \left(\beta^t x\right)}{1+\exp \left(\beta^t x\right)}.
+\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>Given a sample <span class="math inline">\((y_1, x_1), \ldots, (y_n, x_n)\)</span>, the joint distribution is</li>
+</ul>
+<p><span class="math display">\[
+f\left(y_1, \ldots, y_n \mid x_1, \ldots, x_n, \beta\right)=\exp \left(\beta^t \sum_{i=1}^n y_i x_i\right) \prod_{i=1}^n\left(1+e^{\beta^t x_i}\right)^{-1}.
 \]</span></p>
 </div>
 </section>
-<section id="pros-and-cons" class="slide level2">
-<h2>Pros and cons</h2>
-</section></section>
+<section id="example-logistic-regression-1" class="slide level2">
+<h2>Example (Logistic regression)</h2>
+<ul>
+<li class="fragment">Applying the previous proposition, we can find the conjugate prior for <span class="math inline">\(\beta\)</span>: <span class="math display">\[
+\pi\left(\beta \mid y_0, \lambda\right) \propto e^{\beta^t y_0} \prod_{i=1}^n\left(1+e^{\beta^t x_i}\right)^{-\lambda}.
+\]</span></li>
+<li class="fragment">The normalizing constant for <span class="math inline">\(\pi(\beta\mid y_0, \lambda)\)</span> is unknown and approximations of posterior quantities such as the posterior mean and posterior median can only be achieved through simulation techniques.</li>
+</ul>
+</section>
+<section id="mixtures-of-conjugate-priors" class="slide level2">
+<h2>Mixtures of conjugate priors</h2>
+<p>Let <span class="math inline">\(f(x \mid \theta)\)</span> be an exponential family and <span class="math inline">\(\pi(\theta \mid \lambda, \mu)\)</span> be its conjugate prior.</p>
+<ul>
+<li class="fragment"><p>Consider <span class="math inline">\(\pi(\theta)=\sum_{i=1}^N w_i \pi\left(\theta \mid \lambda_i, \mu_i\right)\)</span>.</p></li>
+<li class="fragment"><p>Then the posterior is <span class="math display">\[
+\pi(\theta \mid x)=\sum_{i=1}^N w_i^{\prime}(x) \pi\left(\theta \mid \lambda_i+1, \mu_i+x\right).
+\]</span> where <span class="math inline">\(w^{\prime}_i(x)\)</span> depends on <span class="math inline">\(w_i\)</span>’s and the normalizing constant of <span class="math inline">\(\pi(\theta\mid\lambda,\mu)\)</span><sup>1</sup>.</p></li>
+<li class="fragment"><p>Mixtures can then be used as a basis to approximate any prior distribution.</p></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>See Page 126 of Bayesian Choice for details.</p></li></ol></aside></section></section>
 <section>
 <section id="noninformative-prior" class="title-slide slide level1 center">
 <h1>Noninformative prior</h1>
@@ -612,7 +655,7 @@ f(x;\theta) &amp; = h(x)\exp\left(\sum_{i=1}^k w_i(\theta)T_i(x) - \psi(\theta)\
 <ul>
 <li class="fragment">It is also called the <strong>equiprobability principle</strong>.</li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn2"><p><a href="https://mathworld.wolfram.com/PrincipleofInsufficientReason.html" class="uri">https://mathworld.wolfram.com/PrincipleofInsufficientReason.html</a></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p><a href="https://mathworld.wolfram.com/PrincipleofInsufficientReason.html" class="uri">https://mathworld.wolfram.com/PrincipleofInsufficientReason.html</a></p></li></ol></aside></section>
 <section id="criticisms-against-laplaces-prior" class="slide level2">
 <h2>Criticisms against Laplace’s prior</h2>
 <ol type="1">
@@ -742,22 +785,31 @@ I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \par
 <section id="example-3" class="slide level2">
 <h2>Example</h2>
 <ul>
-<li class="fragment">Consider <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> with <span class="math inline">\(\theta = (\mu, \sigma^2)\)</span> unknown.</li>
+<li class="fragment">Consider <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> with <span class="math inline">\(\theta = (\mu, \sigma)\)</span> unknown.</li>
 <li class="fragment">In this case, <span class="math display">\[
 I(\theta)  =\left(\begin{array}{cc}
 1 / \sigma^2 &amp; 0 \\
 0 &amp; 2 / \sigma^2
 \end{array}\right).
 \]</span></li>
-<li class="fragment">Thus <span class="math inline">\(\pi_J(\mu, \sigma^2) \propto \sigma^{-2}\)</span>.</li>
+<li class="fragment">Thus <span class="math inline">\(\pi_J(\mu, \sigma) \propto \sigma^{-2}\)</span>.</li>
 <li class="fragment">If we assume <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> are <strong>a priori independent</strong>, then <span class="math display">\[
-\pi_J(\mu, \sigma^2) = \pi_J(\mu)\pi_J(\sigma^2) \propto \sigma^{-1}.
+\tilde{\pi}_J(\mu, \sigma) = \pi_J(\mu)\pi_J(\sigma) \propto \sigma^{-1}.
 \]</span></li>
-<li class="fragment">Theoretically, <span class="math inline">\(\pi_J(\mu,\sigma^2) \propto \sigma^{-1}\)</span> has better convergence properties than <span class="math inline">\(\pi_J(\mu,\sigma^2) \propto \sigma^{-2}\)</span>.</li>
+<li class="fragment">Theoretically, <span class="math inline">\(\tilde{\pi}_J(\mu,\sigma) \propto \sigma^{-1}\)</span> has better convergence properties than <span class="math inline">\(\pi_J(\mu,\sigma) \propto \sigma^{-2}\)</span>.</li>
 </ul>
 </section>
 <section id="example-4" class="slide level2">
 <h2>Example</h2>
+<ul>
+<li class="fragment">We have seen that binomial and negative binomial modelings could lead to the same likelihood.</li>
+<li class="fragment">However, if <span class="math inline">\(X \sim\)</span> <span class="math inline">\(\bin(n, \theta)\)</span>, the noninformative prior <span class="math inline">\(\pi_1(\theta)\)</span> is <span class="math inline">\(\text{Beta}(1 / 2,1 / 2)\)</span>.</li>
+<li class="fragment">If <span class="math inline">\(N \sim \text{NB}(x, \theta)\)</span>, the Fisher information is <span class="math display">\[\begin{align*}
+I(\theta) &amp; =-\E_\theta\left[\frac{\partial^2}{\partial \theta^2} \log f(N \mid \theta)\right] \\
+&amp; =\E_\theta\left[\frac{x}{\theta^2}+\frac{N-x}{(1-\theta)^2}\right]=\frac{x}{\theta^2(1-\theta)},
+\end{align*}\]</span></li>
+<li class="fragment">The Jeffreys prior is <span class="math inline">\(\pi_2(\theta) \propto \theta^{-1}(1-\theta)^{-1 / 2}\)</span>, which is improper and, more importantly, differs from <span class="math inline">\(\pi_1\)</span>.</li>
+</ul>
 </section>
 <section id="reference-prior" class="slide level2">
 <h2>Reference prior</h2>
@@ -766,11 +818,65 @@ I(\theta)  =\left(\begin{array}{cc}
 <li class="fragment">A major difference is that this method distinguishes between <strong>parameters of interest</strong> and <strong>nuisance parameters</strong>.</li>
 <li class="fragment">Hence the prior depends on the <u>sampling model</u> as well as the <u>inferential problem</u>.</li>
 <li class="fragment">The main idea behind the reference approach is to a prior that maximizes the information brought by the data, i.e.&nbsp;the KL divergence between prior and posterior.</li>
-<li class="fragment">It can be shown that for one-parameter models, the reference approach gives the Jeffreys prior.</li>
+<li class="fragment">It has been shown that for one-parameter models, the reference approach gives the Jeffreys prior.</li>
 </ul>
 </section>
+<section id="the-reference-prior-approach" class="slide level2">
+<h2>The reference prior approach</h2>
+<p>Let <span class="math inline">\(X \sim f(x \mid \theta)\)</span> and <span class="math inline">\(\theta=\left(\theta_1, \theta_2\right)\)</span>. Suppose <span class="math inline">\(\theta_1\)</span> is the parameter of interest, and <span class="math inline">\(\theta_2\)</span> is the nuisance parameter.</p>
+<ol type="1">
+<li class="fragment">Define <span class="math inline">\(\pi_J\left(\theta_2 \mid \theta_1\right)\)</span> as the Jeffreys prior associated with <span class="math inline">\(f(x \mid \theta)\)</span> when <span class="math inline">\(\theta_1\)</span> is fixed.</li>
+<li class="fragment">Derive the marginal distribution <span class="math display">\[\begin{align*}
+\tilde{f}\left(x \mid \theta_1\right)=\int f\left(x \mid \theta_1, \theta_2\right) \pi\left(\theta_2 \mid \theta_1\right) d \theta_2.
+\end{align*}\]</span></li>
+<li class="fragment">Compute the Jeffreys prior <span class="math inline">\(\pi_J\left(\theta_1\right)\)</span> associated with <span class="math inline">\(\tilde{f}\left(x \mid \theta_1\right)\)</span>.</li>
+<li class="fragment">The reference prior for <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\pi_R(\theta) \propto \pi_J\left(\theta_2 \mid \theta_1\right)\pi_J\left(\theta_1\right)\)</span>.</li>
+</ol>
+</section>
+<section id="example-5" class="slide level2">
+<h2>Example</h2>
+<p>Let <span class="math inline">\(X_1, X_2 \iid N(\mu, \sigma^2)\)</span> where <span class="math inline">\(\sigma\)</span> is the parameter of interest and <span class="math inline">\(\mu\)</span> is the unknown nuisance parameter.</p>
+<ol type="1">
+<li class="fragment">Fixing <span class="math inline">\(\sigma\)</span>, the Jeffreys prior for <span class="math inline">\(\mu\)</span> is <span class="math inline">\(\pi_J(\mu\mid\sigma) \propto 1\)</span> (computed using the joint distribution of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>).</li>
+<li class="fragment">The marginal distribution is <span class="math display">\[\begin{align*}
+\tilde{f}(x_1, x_2\mid\sigma) &amp; = \int \frac{1}{2\pi\sigma^2}\exp\left(-\frac{(x_1-\mu)^2+(x_2-\mu)^2}{2\sigma^2}\right) d\mu\\
+&amp; = \frac{1}{\sqrt{2 \pi} 2 \sigma}e^{-\left(x_1-x_2\right)^2 / 4 \sigma^2}.
+\end{align*}\]</span></li>
+<li class="fragment">The Jeffreys prior for <span class="math inline">\(\tilde{f}(x_1, x_2\mid\sigma)\)</span> is <span class="math inline">\(\pi_J(\sigma) \propto \sigma^{-1}\)</span>.</li>
+<li class="fragment">The reference prior for <span class="math inline">\((\mu, \sigma)\)</span> is <span class="math inline">\(\pi_R(\mu,\sigma) \propto \pi_J(\mu\mid\sigma)\pi_J(\sigma) \propto \sigma^{-1}\)</span>.</li>
+</ol>
+</section>
+<section id="more-about-reference-priors" class="slide level2">
+<h2>More about reference priors</h2>
+<ul>
+<li class="fragment">In general, the reference prior depends the “importance” of the individual parameters.</li>
+<li class="fragment">Under some additional assumptions (e.g., posterior asymptotic normality), the reference prior can be easily computed.</li>
+<li class="fragment">For formal definitions and more examples of reference priors, see Bernardo (2005).</li>
+</ul>
+
+<aside><div>
+<p>Bernardo, J. M. (2005). Reference analysis. <em>Handbook of statistics</em>, 25, 17-90.</p>
+</div></aside></section>
 <section id="matching-prior" class="slide level2">
 <h2>Matching prior</h2>
+<ul>
+<li class="fragment">A peculiar, not to say paradoxical, approach to noninformative priors is to look for good frequentist properties, that is, properties that hold on the average (in <span class="math inline">\(x\)</span>), rather than conditional on <span class="math inline">\(x\)</span>.</li>
+<li class="fragment">Goal: posterior probabilities <span class="math inline">\(\approx\)</span> frequentist coverage.</li>
+<li class="fragment">For example, find a prior such that the HPD interval and the frequentist CI are asymptotically the same.</li>
+</ul>
+</section>
+<section id="posterior-validation-and-robustness" class="slide level2">
+<h2>Posterior validation and robustness</h2>
+<ul>
+<li class="fragment">When using an improper prior, you must check the propriety of the posterior.</li>
+<li class="fragment">You can perform some numerical analysis to see how the choice of prior affects your result. This is especially important for small sample sizes.</li>
+<li class="fragment">An additional level in the prior modeling should increase the robustness of the prior distribution.</li>
+<li class="fragment">For example, <span class="math display">\[\begin{align*}
+\lambda &amp; \sim \pi_2(\lambda), \\
+\theta \mid \lambda &amp; \sim \pi_1(\theta \mid \lambda), \\
+X \mid \theta &amp; \sim f(x \mid \theta) .
+\end{align*}\]</span></li>
+</ul>
 </section>
 <section id="some-practical-guides-for-choosing-priors" class="slide level2">
 <h2>Some practical guides for choosing priors</h2>
@@ -782,14 +888,14 @@ I(\theta)  =\left(\begin{array}{cc}
 </ul></li>
 <li class="fragment">Without prior information:
 <ul>
-<li class="fragment">Use conjugate priors (if applicable) and hyper-priors</li>
-<li class="fragment">Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors</li>
+<li class="fragment">Use conjugate priors (if applicable) or mixture of conjugate priors</li>
+<li class="fragment">Use noninformative priors, e.g., Jeffreys prior, reference priors</li>
 </ul></li>
-<li class="fragment">Finally, perform some sensitivity analysis to access priors’ influence on the result.</li>
+<li class="fragment">Finally, perform some sensitivity analysis to assess priors’ influence on the result.</li>
 </ul>
 
 <div class="footer footer-default">
-<p><a href="https://chun-hao.github.io/stat-5010/">Home</a></p>
+<p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
 

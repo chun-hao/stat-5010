@@ -1,22 +1,5 @@
 ---
 title: "Lecture 03: From Prior Information to Prior Distribution"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chun-hao.github.io/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: auto
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Introduction
@@ -52,16 +35,12 @@ editor:
 # Maximum Entropy Priors
 
 
-## Entropy
+## Intuition behind entropy
 
 -   Let $\pi$ be a discrete distribution. The Shannon Entropy[^1] of
     $\pi$ is $$
     \mc{E}(\pi) =  -\E_{\pi}[\log \pi(\theta)].
     $$
-
-[^1]: Introduced by Shannon (1948).
-
-## Intuition behind Shannon Entropy
 
 -   Entropy is a measure of randomness:
     <span style="color:red;">high entropy = high randomness</span>
@@ -72,6 +51,8 @@ editor:
 
 -   Roughly speaking,
     <span style="color:red;">information of an event $E$ is the knowledge you obtained after the occurrence of $E$ </span>.
+    
+[^1]: Introduced by Shannon (1948).
 
 ## Shannon's Axioms for Information
 
@@ -129,7 +110,7 @@ Shannon's solution: $I(A) = -\log \P(A)$ for $\P(A) > 0$
 -   **Cross entropy**: $\mc{E}(\pi, \pi_0) = - \E_{\pi_0}(\log \pi(X))$
 
 -   **Relative entropy**: $$
-    \mc{E}(\pi_0\| \pi) = - \E_{\pi_0}[I(X;\pi_0)] = \E_{\pi_0}\left[\log \frac{\pi_0(x)}{\pi(x)}\right] = D_{KL}(\pi_0\| \pi) \geq 0
+    \mc{E}(\pi_0\| \pi) = - \E_{\pi_0}[I(X;\pi_0)] = \E_{\pi_0}\left[\log \frac{\pi_0(X)}{\pi(X)}\right] = D_{KL}(\pi_0\| \pi) \geq 0
     $$
 
 -   It is also called the **Kullback-Liebler divergence**.
@@ -152,12 +133,12 @@ Some take-home messages:
 
 -   The maximum entropy prior (MEP) (with respect to a reference
     distribution $\pi_0$) is the solution to the optimization problem
-    \begin{equation}\label{eq:MEP}
-    \begin{split}
-    \max_{\pi \in \Gamma} & \; \mc{E}(\pi; \pi_0)\\
-    & s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K
-    \end{split}
-    \end{equation} where $\Gamma$ is a class of candidate priors.
+    $$
+    \max_{\pi \in \Gamma} \; \mc{E}(\pi; \pi_0)
+    \qquad s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k, 
+    \quad k = 1, \ldots, K
+    $$ {#eq-mep}
+    where $\Gamma$ is a class of candidate priors.
 
 -   The existence of the solution depends on $g_k$'s, $\Gamma$, and
     $\pi_0$.
@@ -175,7 +156,7 @@ Some take-home messages:
     $$
 -   The MEP for $\theta$ is $$
     \pi^*(\theta_i)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k\left(\theta_i\right)\right\}}{\sum_j \exp \left\{\sum_{k=1}^K \lambda_k g_k\left(\theta_j\right)\right\}}
-    $$ where the $\lambda_k$'s are obtained from \eqref{eq:MEP} as
+    $$ where the $\lambda_k$'s are obtained from @eq-mep as
     Lagrange multipliers.
 -   Here $\Gamma$ is the class of all discrete distributions on
     $\Theta$, i.e., $\Gamma = \{(p_1, \ldots, p_m): \sum p_i = 1\}$.
@@ -183,13 +164,23 @@ Some take-home messages:
 
 ## Continuous MEP
 
--   Let $\Theta = \R$ and the prior information be $$
-    \E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K.
-    $$
--   The MEP for $\theta$ is $$
-    \pi^*(\theta)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k(\theta)\right\} \pi_0(\theta)}{\int \exp \left\{\sum_{k=1}^K \lambda_k g_k(\eta)\right\} \pi_0(d \eta)}.
-    $$
--   ??
+:::{.fragment .nonincremental}
+-   Let $\Theta = \R$ and the prior information be 
+
+$$
+\E_{\pi}\left[g_k(\theta)\right]=\omega_k, \quad k = 1, \ldots, K.
+$$
+:::
+
+:::{.fragment .nonincremental}
+-   The MEP for $\theta$ is 
+
+$$
+\pi^*(\theta)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k(\theta)\right\} \pi_0(\theta)}{\int \exp \left\{\sum_{k=1}^K \lambda_k g_k(\eta)\right\} \pi_0(d \eta)}.
+$$
+:::
+
+-   Notice that the above distributions $\pi^{*}$ are necessarily in an exponential family.
 
 ## Examples
 
@@ -199,8 +190,6 @@ Some take-home messages:
     normalized to 1.
 -   With $\E_{\pi}(\theta) = \mu$ and $\var_{\pi}(\theta) = \sigma^2$,
     the MEP is $N(\mu, \sigma^2)$.
-
-## Problems with MEP
 
 ## Parametric Approximations
 
@@ -214,9 +203,15 @@ Some take-home messages:
     $N(0, 2.19)$.
 -   The Cauchy distribution satisfying these constraints is
     $\text{Cauchy}(0,1)$.
--   Both are reasonbale prior distributions (depending on the likelihood
+-   Both are reasonable prior distributions (depending on the likelihood
     and data).
+    
+## Some problems
 
+-   Matching moments/quantiles is often impractical and sometimes produces impossible values of the parameters; for instance, it can give negative variances.
+-   A deeper drawback of most parametric approaches is that the
+selection of the parametrized family is based on ease in the mathematical
+treatment, not on a subjective basis such as a preliminary histogram approximating $\pi$.
 
 # Conjugate Prior
 
@@ -255,25 +250,66 @@ A class $\mc{P}$ of prior distributions for $\theta$ is called
     support of the distribution depends on the parameter, then it is not
     an exponential family).
 
-## Constructing a conjugate prior
+## Conjugate priors for exponential families
 
--   Suppose $f(x\mid \theta) = h(x)\exp(\theta^Tx - \psi(\theta))$
-    (natural parametrization).
--   How to construct a conjugate prior for $f(x \mid \theta)$?
--   We need $\pi(\theta)$ and $\pi(\theta \mid x)$ to be in the same
-    family.
+Consider the exponential family $f(x\mid\theta) = h(x)\exp(\theta^Tx - \psi(\theta))$.
 
-::: fragment
+:::{#prp-conjugate-prior .fragment}
+A conjugate family for $f(x \mid \theta)$ is given by
+\begin{align*}
+\pi(\theta \mid \mu, \lambda)=K(\mu, \lambda) e^{\theta \cdot \mu-\lambda \psi(\theta)},
+\end{align*}
+where $K(\mu, \lambda)$ is the normalizing constant of the density. The corresponding posterior distribution is $\pi(\theta \mid \mu+x, \lambda+1)$.
+:::
+
+-   The conjugate prior is again an exponential family.
+-   The parameter spaces for $\mu, \lambda$ are determined by propriety of the posterior.
+
+## Example (Logistic regression)
+
+-   $y \in \{0, 1\}$ and $x \in \R^k$
+
+:::{.fragment .nonincremental}
+-   The conditional distribution of $Y$ given $X = x$ is 
+
 $$
-\begin{align}
-  \pi(\theta \mid x) = \frac{f(x \mid \theta)\pi(\theta)}{\int f(x\mid \theta^{\prime})\pi(\theta^{\prime})d\theta^{\prime}} 
-  & = \frac{{\color{green}\pi(\theta)}{\color{magenta}h(x)}\exp(\theta^Tx {\color{green} - \psi(\theta)})}{{\color{magenta}m(x)}}\\
-    &\class{fragment}{{} = \exp\left[x^T\theta - \left(\psi(\theta)\right)\right]}         \\[3px]
-\end{align}
+\P_\beta(Y=1\mid X = x)=1-\P_\beta(Y=0 \mid X = x)=\frac{\exp \left(\beta^t x\right)}{1+\exp \left(\beta^t x\right)}.
 $$
 :::
 
-## Pros and cons
+:::{.fragment .nonincremental}
+-   Given a sample $(y_1, x_1), \ldots, (y_n, x_n)$, the joint distribution is 
+
+$$
+f\left(y_1, \ldots, y_n \mid x_1, \ldots, x_n, \beta\right)=\exp \left(\beta^t \sum_{i=1}^n y_i x_i\right) \prod_{i=1}^n\left(1+e^{\beta^t x_i}\right)^{-1}.
+$$
+:::
+
+## Example (Logistic regression)
+
+-   Applying the previous proposition, we can find the conjugate prior for $\beta$:
+$$
+\pi\left(\beta \mid y_0, \lambda\right) \propto e^{\beta^t y_0} \prod_{i=1}^n\left(1+e^{\beta^t x_i}\right)^{-\lambda}.
+$$
+-   The normalizing constant for $\pi(\beta\mid y_0, \lambda)$ is unknown and approximations of posterior quantities such as the posterior mean and posterior median can only be achieved through simulation techniques.
+
+## Mixtures of conjugate priors
+
+Let $f(x \mid \theta)$ be an exponential family and $\pi(\theta \mid \lambda, \mu)$ be its conjugate prior.
+
+-   Consider $\pi(\theta)=\sum_{i=1}^N w_i \pi\left(\theta \mid \lambda_i, \mu_i\right)$.
+-   Then the posterior is 
+    $$
+    \pi(\theta \mid x)=\sum_{i=1}^N w_i^{\prime}(x) \pi\left(\theta \mid \lambda_i+1, \mu_i+x\right).
+    $$
+where $w^{\prime}_i(x)$ depends on $w_i$'s and the normalizing constant of $\pi(\theta\mid\lambda,\mu)$[^2].
+
+-   Mixtures can then be used as a basis to approximate any prior distribution.
+
+
+[^2]: See Page 126 of Bayesian Choice for details.
+
+
 
 # Noninformative prior
 
@@ -291,12 +327,12 @@ $$
 -   It is called the **principle of insufficient reason**:
 
 :::{.fragment}
->   If we are ignorant of the ways an event can occur, the event will occur equally likely in any way. [^2]
+>   If we are ignorant of the ways an event can occur, the event will occur equally likely in any way. [^3]
 :::
 
 -   It is also called the **equiprobability principle**.
 
-[^2]: <https://mathworld.wolfram.com/PrincipleofInsufficientReason.html>
+[^3]: <https://mathworld.wolfram.com/PrincipleofInsufficientReason.html>
 
 ## Criticisms against Laplace's prior
 
@@ -437,7 +473,7 @@ Jeffreys prior has several advantages:
 
 
 ## Example 
--   Consider $X \sim N(\mu, \sigma^2)$ with $\theta = (\mu, \sigma^2)$ unknown. 
+-   Consider $X \sim N(\mu, \sigma^2)$ with $\theta = (\mu, \sigma)$ unknown. 
 -   In this case,
 $$
 I(\theta)  =\left(\begin{array}{cc}
@@ -445,14 +481,23 @@ I(\theta)  =\left(\begin{array}{cc}
 0 & 2 / \sigma^2
 \end{array}\right).
 $$
--   Thus $\pi_J(\mu, \sigma^2) \propto \sigma^{-2}$.
+-   Thus $\pi_J(\mu, \sigma) \propto \sigma^{-2}$.
 -   If we assume $\mu$ and $\sigma^2$ are **a priori independent**, then
 $$
-\pi_J(\mu, \sigma^2) = \pi_J(\mu)\pi_J(\sigma^2) \propto \sigma^{-1}.
+\tilde{\pi}_J(\mu, \sigma) = \pi_J(\mu)\pi_J(\sigma) \propto \sigma^{-1}.
 $$
--   Theoretically, $\pi_J(\mu,\sigma^2) \propto \sigma^{-1}$ has better convergence properties than $\pi_J(\mu,\sigma^2) \propto \sigma^{-2}$.
+-   Theoretically, $\tilde{\pi}_J(\mu,\sigma) \propto \sigma^{-1}$ has better convergence properties than $\pi_J(\mu,\sigma) \propto \sigma^{-2}$.
 
 ## Example
+
+-   We have seen that binomial and negative binomial modelings could lead to the same likelihood. 
+-   However, if $X \sim$ $\bin(n, \theta)$, the noninformative prior $\pi_1(\theta)$ is $\text{Beta}(1 / 2,1 / 2)$.
+-   If $N \sim \text{NB}(x, \theta)$, the Fisher information is
+\begin{align*}
+I(\theta) & =-\E_\theta\left[\frac{\partial^2}{\partial \theta^2} \log f(N \mid \theta)\right] \\
+& =\E_\theta\left[\frac{x}{\theta^2}+\frac{N-x}{(1-\theta)^2}\right]=\frac{x}{\theta^2(1-\theta)},
+\end{align*}
+-   The Jeffreys prior is $\pi_2(\theta) \propto \theta^{-1}(1-\theta)^{-1 / 2}$, which is improper and, more importantly, differs from $\pi_1$.
 
 ## Reference prior
 
@@ -462,8 +507,63 @@ $$
 -   The main idea behind the reference approach is to a prior that maximizes the information brought by the data, i.e. the KL divergence between prior and posterior.
 -   It has been shown that for one-parameter models, the reference approach gives the Jeffreys prior.
 
+## The reference prior approach
+
+Let $X \sim f(x \mid \theta)$ and $\theta=\left(\theta_1, \theta_2\right)$. Suppose $\theta_1$ is the parameter of interest, and $\theta_2$ is the nuisance parameter.
+
+1.  Define $\pi_J\left(\theta_2 \mid \theta_1\right)$ as the Jeffreys prior associated with $f(x \mid \theta)$ when $\theta_1$ is fixed. 
+2.  Derive the marginal distribution
+\begin{align*}
+\tilde{f}\left(x \mid \theta_1\right)=\int f\left(x \mid \theta_1, \theta_2\right) \pi\left(\theta_2 \mid \theta_1\right) d \theta_2.
+\end{align*}
+3.  Compute the Jeffreys prior $\pi_J\left(\theta_1\right)$ associated with $\tilde{f}\left(x \mid \theta_1\right)$. 
+4.  The reference prior for $\theta$ is $\pi_R(\theta) \propto \pi_J\left(\theta_2 \mid \theta_1\right)\pi_J\left(\theta_1\right)$.
+
+## Example
+
+Let $X_1, X_2 \iid N(\mu, \sigma^2)$ where $\sigma$ is the parameter of interest and $\mu$ is the unknown nuisance parameter.
+
+1.  Fixing $\sigma$, the Jeffreys prior for $\mu$ is $\pi_J(\mu\mid\sigma) \propto 1$ (computed using the joint distribution of $X_1$ and $X_2$).
+2.  The marginal distribution is 
+\begin{align*}
+\tilde{f}(x_1, x_2\mid\sigma) & = \int \frac{1}{2\pi\sigma^2}\exp\left(-\frac{(x_1-\mu)^2+(x_2-\mu)^2}{2\sigma^2}\right) d\mu\\
+& = \frac{1}{\sqrt{2 \pi} 2 \sigma}e^{-\left(x_1-x_2\right)^2 / 4 \sigma^2}. 
+\end{align*}
+3.  The Jeffreys prior for $\tilde{f}(x_1, x_2\mid\sigma)$ is $\pi_J(\sigma) \propto \sigma^{-1}$.
+4.  The reference prior for $(\mu, \sigma)$ is $\pi_R(\mu,\sigma) \propto \pi_J(\mu\mid\sigma)\pi_J(\sigma) \propto \sigma^{-1}$. 
+
+
+
+## More about reference priors
+
+-   In general, the reference prior depends the "importance" of the individual parameters.
+-   Under some additional assumptions (e.g., posterior asymptotic normality), the reference prior can be easily computed.
+-   For formal definitions and more examples of reference priors, see Bernardo (2005).
+
+::: aside
+Bernardo, J. M. (2005). Reference analysis. *Handbook of statistics*, 25, 17-90.
+:::
 
 ## Matching prior
+
+-   A peculiar, not to say paradoxical, approach to noninformative priors is
+to look for good frequentist properties, that is, properties that hold on the
+average (in $x$), rather than conditional on $x$.
+-   Goal: posterior probabilities $\approx$ frequentist coverage.
+-   For example, find a prior such that the HPD interval and the frequentist CI are asymptotically the same.
+
+
+## Posterior validation and robustness
+
+-   When using an improper prior, you must check the propriety of the posterior.
+-   You can perform some numerical analysis to see how the choice of prior affects your result. This is especially important for small sample sizes.
+-   An additional level in the prior modeling should increase the robustness of the prior distribution.
+-   For example,
+\begin{align*}
+\lambda & \sim \pi_2(\lambda), \\
+\theta \mid \lambda & \sim \pi_1(\theta \mid \lambda), \\
+X \mid \theta & \sim f(x \mid \theta) .
+\end{align*}
 
 ## Some practical guides for choosing priors
 
@@ -472,8 +572,8 @@ $$
     + Find a (conjugate) parametric prior that approximates the prior information
 
 -   Without prior information: 
-    + Use conjugate priors (if applicable) and hyper-priors 
-    + Use noninformative priors, e.g., Jeffreys prior, reference priors, vague priors
+    + Use conjugate priors (if applicable) or mixture of conjugate priors
+    + Use noninformative priors, e.g., Jeffreys prior, reference priors
 
--   Finally, perform some sensitivity analysis to access priors' influence
+-   Finally, perform some sensitivity analysis to assess priors' influence
 on the result.

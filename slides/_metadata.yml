@@ -1,5 +1,5 @@
 author: "Chun-Hao Yang"
-footer: "[Home](https://chun-hao.github.io/stat-5010/)"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
 format: 
     revealjs:
         theme: slides.scss
