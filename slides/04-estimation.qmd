@@ -1,3 +1,32 @@
 ---
 title: "Lecture 04: Decision Theory and Bayesian Estimation"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: auto
 ---
+
+## Introduction
+
+# Decision Theory
+
+## Evaluating estimators
+
+## Loss and Utility function
+
+## Admissibility
+
+## Minimaxity
+
+# Bayesian Estimation
+

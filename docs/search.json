@@ -831,5 +831,40 @@
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Some practical guides for choosing priors",
     "text": "Some practical guides for choosing priors\n\nWith prior information:\n\nFind the MEP\nFind a (conjugate) parametric prior that approximates the prior information\n\nWithout prior information:\n\nUse conjugate priors (if applicable) or mixture of conjugate priors\nUse noninformative priors, e.g., Jeffreys prior, reference priors\n\nFinally, perform some sensitivity analysis to assess priors’ influence on the result.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/04-estimation.html#introduction",
+    "href": "slides/04-estimation.html#introduction",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Introduction",
+    "text": "Introduction"
+  },
+  {
+    "objectID": "slides/04-estimation.html#evaluating-estimators",
+    "href": "slides/04-estimation.html#evaluating-estimators",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Evaluating estimators",
+    "text": "Evaluating estimators"
+  },
+  {
+    "objectID": "slides/04-estimation.html#loss-and-utility-function",
+    "href": "slides/04-estimation.html#loss-and-utility-function",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Loss and Utility function",
+    "text": "Loss and Utility function"
+  },
+  {
+    "objectID": "slides/04-estimation.html#admissibility",
+    "href": "slides/04-estimation.html#admissibility",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Admissibility",
+    "text": "Admissibility"
+  },
+  {
+    "objectID": "slides/04-estimation.html#minimaxity",
+    "href": "slides/04-estimation.html#minimaxity",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Minimaxity",
+    "text": "Minimaxity"
   }
 ]
