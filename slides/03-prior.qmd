@@ -176,7 +176,7 @@ $$
 -   The MEP for $\theta$ is 
 
 $$
-\pi^*(\theta)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k(\theta)\right\} \pi_0(\theta)}{\int \exp \left\{\sum_{k=1}^K \lambda_k g_k(\eta)\right\} \pi_0(d \eta)}.
+\pi^*(\theta)=\frac{\exp \left\{\sum_{k=1}^K \lambda_k g_k(\theta)\right\} \pi_0(\theta)}{\int \exp \left\{\sum_{k=1}^K \lambda_k g_k(\eta)\right\} \pi_0(\eta)d\eta}.
 $$
 :::
 
