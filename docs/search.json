@@ -627,7 +627,7 @@
     "href": "slides/03-prior.html#continuous-mep",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Continuous MEP",
-    "text": "Continuous MEP\n\n\nLet \\(\\Theta = \\R\\) and the prior information be\n\n\\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\n\n\n\nThe MEP for \\(\\theta\\) is\n\n\\[\n\\pi^*(\\theta)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\theta)\\right\\} \\pi_0(\\theta)}{\\int \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\eta)\\right\\} \\pi_0(d \\eta)}.\n\\]\n\n\nNotice that the above distributions \\(\\pi^{*}\\) are necessarily in an exponential family."
+    "text": "Continuous MEP\n\n\nLet \\(\\Theta = \\R\\) and the prior information be\n\n\\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K.\n\\]\n\n\n\nThe MEP for \\(\\theta\\) is\n\n\\[\n\\pi^*(\\theta)=\\frac{\\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\theta)\\right\\} \\pi_0(\\theta)}{\\int \\exp \\left\\{\\sum_{k=1}^K \\lambda_k g_k(\\eta)\\right\\} \\pi_0(\\eta)d\\eta}.\n\\]\n\n\nNotice that the above distributions \\(\\pi^{*}\\) are necessarily in an exponential family."
   },
   {
     "objectID": "slides/03-prior.html#examples",
