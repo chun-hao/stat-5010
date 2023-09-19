@@ -220,6 +220,7 @@ parameter space, $s(x) \subset \Theta$ such that
 
 ## Binomial Example
 
+
 Let's compute the HPD for the previous example:
 $\theta \mid X = 2 \sim \text{Beta}(3, 9)$.
 
