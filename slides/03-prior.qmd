@@ -26,7 +26,7 @@ title: "Lecture 03: From Prior Information to Prior Distribution"
 -   For example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).
 -   The prior information about the sex ratio $\theta$ can be expressed as 
     $$
-        \E_{\pi}(\theta) = 1.05 \quad \text{and} \quad \var_{\pi}(\theta) = 0.1^2.
+        \E_{\pi}(\theta) = 1.05 \quad \text{and} \quad \var_{\pi}(\theta) = 0.01^2.
     $$
 -   Obviously, there are many distributions compatible with these constraints.
 -   We will discuss two approaches for choosing prior distributions compatible with these information.
@@ -134,7 +134,7 @@ Some take-home messages:
 -   The maximum entropy prior (MEP) (with respect to a reference
     distribution $\pi_0$) is the solution to the optimization problem
     $$
-    \max_{\pi \in \Gamma} \; \mc{E}(\pi; \pi_0)
+    \max_{\pi \in \Gamma} \; \mc{E}(\pi_0 \| \pi)
     \qquad s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k, 
     \quad k = 1, \ldots, K
     $$ {#eq-mep}
@@ -324,7 +324,7 @@ where $w^{\prime}_i(x)$ depends on $w_i$'s and the normalizing constant of $\pi(
 ## Laplace's prior
 
 -   For the binomial model, Laplace proposed to use the uniform distribution for $p$.
--   It is called the **principle of insufficient reason**:
+-   His reasoning is called the **principle of insufficient reason**:
 
 :::{.fragment}
 >   If we are ignorant of the ways an event can occur, the event will occur equally likely in any way. [^3]
@@ -431,7 +431,7 @@ curve(dbeta(x, 1/2, 1/2), col = "red", add = T)
 
 :::{.fragment}
 $$
-I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log f(x \mid \theta)\right] \quad(i, j=1, \ldots, k).
+I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log f(X \mid \theta)\right] \quad(i, j=1, \ldots, k).
 $$
 :::
 

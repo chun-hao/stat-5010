@@ -564,7 +564,7 @@
     "href": "slides/03-prior.html#prior-information",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Prior Information",
-    "text": "Prior Information\n\nSuppose the prior information for \\(\\theta\\) is given through some expectations. \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K,\n\\]\nFor example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).\nThe prior information about the sex ratio \\(\\theta\\) can be expressed as \\[\n    \\E_{\\pi}(\\theta) = 1.05 \\quad \\text{and} \\quad \\var_{\\pi}(\\theta) = 0.1^2.\n\\]\nObviously, there are many distributions compatible with these constraints.\nWe will discuss two approaches for choosing prior distributions compatible with these information."
+    "text": "Prior Information\n\nSuppose the prior information for \\(\\theta\\) is given through some expectations. \\[\n\\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k, \\quad k = 1, \\ldots, K,\n\\]\nFor example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).\nThe prior information about the sex ratio \\(\\theta\\) can be expressed as \\[\n    \\E_{\\pi}(\\theta) = 1.05 \\quad \\text{and} \\quad \\var_{\\pi}(\\theta) = 0.01^2.\n\\]\nObviously, there are many distributions compatible with these constraints.\nWe will discuss two approaches for choosing prior distributions compatible with these information."
   },
   {
     "objectID": "slides/03-prior.html#intuition-behind-entropy",
@@ -613,7 +613,7 @@
     "href": "slides/03-prior.html#maximum-entropy-prior-mep",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Maximum Entropy Prior (MEP)",
-    "text": "Maximum Entropy Prior (MEP)\n\nThe maximum entropy prior (MEP) (with respect to a reference distribution \\(\\pi_0\\)) is the solution to the optimization problem \\[\n\\max_{\\pi \\in \\Gamma} \\; \\mc{E}(\\pi; \\pi_0)\n\\qquad s.t. \\quad \\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k,\n\\quad k = 1, \\ldots, K\n\\tag{1}\\] where \\(\\Gamma\\) is a class of candidate priors.\nThe existence of the solution depends on \\(g_k\\)’s, \\(\\Gamma\\), and \\(\\pi_0\\).\nThe prior \\(\\pi\\) maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through \\(\\pi\\) about \\(\\theta\\)."
+    "text": "Maximum Entropy Prior (MEP)\n\nThe maximum entropy prior (MEP) (with respect to a reference distribution \\(\\pi_0\\)) is the solution to the optimization problem \\[\n\\max_{\\pi \\in \\Gamma} \\; \\mc{E}(\\pi_0 \\| \\pi)\n\\qquad s.t. \\quad \\E_{\\pi}\\left[g_k(\\theta)\\right]=\\omega_k,\n\\quad k = 1, \\ldots, K\n\\tag{1}\\] where \\(\\Gamma\\) is a class of candidate priors.\nThe existence of the solution depends on \\(g_k\\)’s, \\(\\Gamma\\), and \\(\\pi_0\\).\nThe prior \\(\\pi\\) maximizing the entropy is, in this information-theoretic sense, minimizing the prior information brought through \\(\\pi\\) about \\(\\theta\\)."
   },
   {
     "objectID": "slides/03-prior.html#discrete-mep",
@@ -704,7 +704,7 @@
     "href": "slides/03-prior.html#laplaces-prior",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Laplace’s prior",
-    "text": "Laplace’s prior\n\nFor the binomial model, Laplace proposed to use the uniform distribution for \\(p\\).\nIt is called the principle of insufficient reason:\n\n\n\nIf we are ignorant of the ways an event can occur, the event will occur equally likely in any way. 1\n\n\n\nIt is also called the equiprobability principle.\n\nhttps://mathworld.wolfram.com/PrincipleofInsufficientReason.html"
+    "text": "Laplace’s prior\n\nFor the binomial model, Laplace proposed to use the uniform distribution for \\(p\\).\nHis reasoning is called the principle of insufficient reason:\n\n\n\nIf we are ignorant of the ways an event can occur, the event will occur equally likely in any way. 1\n\n\n\nIt is also called the equiprobability principle.\n\nhttps://mathworld.wolfram.com/PrincipleofInsufficientReason.html"
   },
   {
     "objectID": "slides/03-prior.html#criticisms-against-laplaces-prior",
@@ -746,7 +746,7 @@
     "href": "slides/03-prior.html#multidimensional-parameters",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
     "section": "Multidimensional parameters",
-    "text": "Multidimensional parameters\n\nFor \\(\\theta \\in \\R^k\\), the Fisher information matrix \\(I(\\theta)\\) has the following elements,\n\n\n\\[\nI_{i j}(\\theta)=-\\mathbb{E}_\\theta\\left[\\frac{\\partial^2}{\\partial \\theta_i \\partial \\theta_j} \\log f(x \\mid \\theta)\\right] \\quad(i, j=1, \\ldots, k).\n\\]\n\n\nThe Jeffreys noninformative prior is then defined by \\(\\pi_J(\\theta) \\propto \\sqrt{\\det(I(\\theta))}\\).\nIf \\(f(x \\mid \\theta)\\) belongs to an exponential family, \\(f(x \\mid \\theta)=h(x) \\exp (\\theta \\cdot x-\\psi(\\theta))\\), the Fisher information matrix is given by \\(I(\\theta)=\\nabla \\nabla^t \\psi(\\theta)\\) and \\[\n\\pi_J(\\theta) \\propto\\left(\\prod_{i=1}^k \\psi_{i i}^{\\prime \\prime}(\\theta)\\right)^{1 / 2}\n\\] where \\(\\psi_{i i}^{\\prime \\prime}(\\theta)=\\frac{\\partial^2}{\\partial \\theta_i^2} \\psi(\\theta)\\)."
+    "text": "Multidimensional parameters\n\nFor \\(\\theta \\in \\R^k\\), the Fisher information matrix \\(I(\\theta)\\) has the following elements,\n\n\n\\[\nI_{i j}(\\theta)=-\\mathbb{E}_\\theta\\left[\\frac{\\partial^2}{\\partial \\theta_i \\partial \\theta_j} \\log f(X \\mid \\theta)\\right] \\quad(i, j=1, \\ldots, k).\n\\]\n\n\nThe Jeffreys noninformative prior is then defined by \\(\\pi_J(\\theta) \\propto \\sqrt{\\det(I(\\theta))}\\).\nIf \\(f(x \\mid \\theta)\\) belongs to an exponential family, \\(f(x \\mid \\theta)=h(x) \\exp (\\theta \\cdot x-\\psi(\\theta))\\), the Fisher information matrix is given by \\(I(\\theta)=\\nabla \\nabla^t \\psi(\\theta)\\) and \\[\n\\pi_J(\\theta) \\propto\\left(\\prod_{i=1}^k \\psi_{i i}^{\\prime \\prime}(\\theta)\\right)^{1 / 2}\n\\] where \\(\\psi_{i i}^{\\prime \\prime}(\\theta)=\\frac{\\partial^2}{\\partial \\theta_i^2} \\psi(\\theta)\\)."
   },
   {
     "objectID": "slides/03-prior.html#jeffreys-prior-1",

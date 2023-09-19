@@ -378,7 +378,7 @@ Chun-Hao Yang
 \]</span></li>
 <li class="fragment">For example, the census records show that the sex ratio at birth is around 1.05 (ranging from 1.03 to 1.07 for most countries).</li>
 <li class="fragment">The prior information about the sex ratio <span class="math inline">\(\theta\)</span> can be expressed as <span class="math display">\[
-    \E_{\pi}(\theta) = 1.05 \quad \text{and} \quad \var_{\pi}(\theta) = 0.1^2.
+    \E_{\pi}(\theta) = 1.05 \quad \text{and} \quad \var_{\pi}(\theta) = 0.01^2.
 \]</span></li>
 <li class="fragment">Obviously, there are many distributions compatible with these constraints.</li>
 <li class="fragment">We will discuss two approaches for choosing prior distributions compatible with these information.</li>
@@ -467,7 +467,7 @@ I(x; \pi_0) \coloneqq \log \frac{1}{\pi_0(x)} - \log \frac{1}{\pi(x)} = \log \fr
 <h2>Maximum Entropy Prior (MEP)</h2>
 <ul>
 <li class="fragment"><p>The maximum entropy prior (MEP) (with respect to a reference distribution <span class="math inline">\(\pi_0\)</span>) is the solution to the optimization problem <span id="eq-mep"><span class="math display">\[
-\max_{\pi \in \Gamma} \; \mc{E}(\pi; \pi_0)
+\max_{\pi \in \Gamma} \; \mc{E}(\pi_0 \| \pi)
 \qquad s.t. \quad \E_{\pi}\left[g_k(\theta)\right]=\omega_k,
 \quad k = 1, \ldots, K
 \tag{1}\]</span></span> where <span class="math inline">\(\Gamma\)</span> is a class of candidate priors.</p></li>
@@ -645,7 +645,7 @@ f\left(y_1, \ldots, y_n \mid x_1, \ldots, x_n, \beta\right)=\exp \left(\beta^t \
 <h2>Laplace’s prior</h2>
 <ul>
 <li class="fragment">For the binomial model, Laplace proposed to use the uniform distribution for <span class="math inline">\(p\)</span>.</li>
-<li class="fragment">It is called the <strong>principle of insufficient reason</strong>:</li>
+<li class="fragment">His reasoning is called the <strong>principle of insufficient reason</strong>:</li>
 </ul>
 <div class="fragment">
 <blockquote>
@@ -742,7 +742,7 @@ I(p) &amp; =n\left[\frac{1}{p}+\frac{1}{1-p}\right]=\frac{n}{p(1-p)} .
 </ul>
 <div class="fragment">
 <p><span class="math display">\[
-I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log f(x \mid \theta)\right] \quad(i, j=1, \ldots, k).
+I_{i j}(\theta)=-\mathbb{E}_\theta\left[\frac{\partial^2}{\partial \theta_i \partial \theta_j} \log f(X \mid \theta)\right] \quad(i, j=1, \ldots, k).
 \]</span></p>
 </div>
 <ul>
