@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\n\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#course-schedule",
     "href": "index.html#course-schedule",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\n\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#important-dates",
@@ -949,7 +949,7 @@
     "href": "slides/04-estimation.html#bayes-esitmator-and-minimaxity",
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Bayes esitmator and minimaxity",
-    "text": "Bayes esitmator and minimaxity\n\nIn fact, from a Bayesian point of view, it is often equivalent to take a prior concentrated on these worst cases.\n{ least favorable prior}\n{ limiting Bayes}"
+    "text": "Bayes esitmator and minimaxity\n\nIn fact, from a Bayesian point of view, it is often equivalent to take a prior concentrated on these worst cases.\nIn some cases, a minimax estimator is also a Bayes estimator, that is, there exists a prior such that the Bayes estimator is minimax.\nSuch prior is called a least favorable prior, which has the largest Bayes risk among all other priors.\nIf you need a conservative Bayes estimate, you can choose the least favorable prior (if it exists).\nEven if a minimax estimator is not Bayes, it is often the limit of Bayes estimators, e.g., the MLE for \\(N(\\theta, 1)\\).\nA useful approach to the construction of minimax estimators is called a limiting Bayes approach.1\n\nSee Theorem 1.12 in Ch. 6 of Theory of Point Estimation for example."
   },
   {
     "objectID": "slides/04-estimation.html#admissibility",
@@ -985,5 +985,110 @@
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Optimality of Bayes estimators",
     "text": "Optimality of Bayes estimators\n\nUnique (regular) Bayes with constant (frequentist) risk \\(\\Rightarrow\\) admissible and minimax\n\nIf \\(X \\mid p \\sim \\bin(n, p)\\) and \\(p \\sim \\text{Beta}(\\sqrt{n}/2, \\sqrt{n}/2)\\), the posterior mean of \\(p\\) is admissible and minimax (under the squared error loss).\nThis prior \\(\\text{Beta}(\\sqrt{n}/2, \\sqrt{n}/2)\\) is called a least favorable prior.\nA least favorable prior, if it exists, gives a conservative Bayes estimate.\n\n\n\n\n\n\nConclusion\n\n\nBayes estimators are admissible. It can also be minimax with a particular prior."
+  },
+  {
+    "objectID": "slides/04-estimation.html#bayesian-estimation-1",
+    "href": "slides/04-estimation.html#bayesian-estimation-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Bayesian estimation",
+    "text": "Bayesian estimation\n\nWhen the prior distribution \\(\\pi(\\theta)\\) is available, the posterior distribution \\(\\pi(\\theta \\mid x)\\) can be formally derived from the observation \\(x\\) with distribution \\(f(x \\mid \\theta)\\).\nThis updated distribution integrates simultaneously prior information about \\(\\theta\\) and information brought by the observation \\(x\\).\nEven though \\(\\theta\\) is not necessarily a random variable, the distribution \\(\\pi(\\theta\\mid x)\\) can be used as a regular probability distribution to describe the properties of \\(\\theta\\).\nSummarizing indices for \\(\\pi(\\theta\\mid x)\\) such as the posterior mean, the posterior mode, the posterior variance, and the posterior median, can be used."
+  },
+  {
+    "objectID": "slides/04-estimation.html#map-estimator",
+    "href": "slides/04-estimation.html#map-estimator",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "MAP estimator",
+    "text": "MAP estimator\n\nThere is no way of selecting a best estimator, without using a loss criterion.\nNonetheless, a possible estimator of \\(\\theta\\) based on \\(\\pi(\\theta \\mid x)\\) is the maximum a posteriori (MAP) estimator, defined as the posterior mode: \\[\n\\hat{\\theta}_{\\text{MAP}} = \\argmax_\\theta \\pi(\\theta \\mid x) = \\argmax_{\\theta} \\ell(\\theta\\mid x) \\pi(\\theta)\n\\] where \\(\\ell(\\theta\\mid x)\\) is the likelihood function.\nNote that the MAP estimator also bypasses the computation of the marginal \\(m(x) = \\int \\ell(\\theta\\mid x)\\pi(\\theta)d\\theta\\).\nRecall that the MAP estimator is a Bayes estimator (in the decision-theoretic sense) under the 0-1 loss when \\(\\theta\\) is discrete and is the limit of Bayes estimators when \\(\\theta\\) is continuous."
+  },
+  {
+    "objectID": "slides/04-estimation.html#penalized-maximum-likelihood-estimator",
+    "href": "slides/04-estimation.html#penalized-maximum-likelihood-estimator",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Penalized maximum likelihood estimator",
+    "text": "Penalized maximum likelihood estimator\n\nFor frequentists, a common approach to preventing overfitting is through penalization or regularization.\nA typical penalized MLE is of the form \\[\n\\hat{\\theta} = \\argmax \\log \\ell(\\theta \\mid x) - \\text{Penalty}(\\theta).\n\\]\nThe MAP estimator can be expressed as a penalized MLE: \\[\\begin{align*}\n\\hat{\\theta}_{\\text{MAP}} & = \\argmax_{\\theta} \\ell(\\theta\\mid x) \\pi(\\theta)\n= \\argmax_{\\theta} \\log \\ell(\\theta\\mid x) + \\log \\pi(\\theta).\n\\end{align*}\\]\nThat is, the penalty of \\(\\theta\\) is given through the prior: \\(\\text{Penalty}(\\theta) = - \\log \\pi(\\theta)\\).\nSpecifying a prior is equivalent to specifying a penalty term for frequentists."
+  },
+  {
+    "objectID": "slides/04-estimation.html#penalized-regularized-regression",
+    "href": "slides/04-estimation.html#penalized-regularized-regression",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Penalized (regularized) regression",
+    "text": "Penalized (regularized) regression\n\nLinear regression: \\(Y = X \\beta + \\varepsilon\\), where \\(X\\) is a \\(k\\times p\\) covariate matrix, \\(\\beta \\in \\R^p\\) is the unknown parameter, and \\(\\varepsilon \\sim N_k(0, \\sigma^2I_k)\\).\nThe (unregularized) ordinary least-square estimator1 of \\(\\beta\\) is \\[\n    \\hat{\\beta}_{\\text{OLS}} = \\argmin_{\\beta} \\|Y - X\\beta\\|^2 = (X^TX)^{-1}X^TY.\n\\]\nSome commonly used regularization:\n\nRidge regression: \\(\\text{Penalty}(\\beta) = -\\lambda\\|\\beta\\|^2 \\Leftrightarrow \\beta_i \\iid N(0, \\lambda^{-1})\\).\nLasso2: \\(\\text{Penalty}(\\beta) = -\\lambda\\|\\beta\\|_1 = \\lambda\\sum_{i=1}^p|\\beta_i| \\Leftrightarrow \\beta_i \\iid \\text{Laplace}(0, \\lambda^{-1})\\)\n\nWhenever you’re applying regularization techniques, you are essentially doing Bayesian analysis.\n\nThe OLS estimate is the MLE under the normality assumption on \\(\\varepsilon\\).Least Absolute Shrinkage and Selection Operator"
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-2",
+    "href": "slides/04-estimation.html#example-2",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\nHowever, the MAP might not always be useful.\nConsider \\(x \\sim \\mathcal{C}(\\theta, 1)\\), i.e., \\[\\begin{align*}\nf(x \\mid \\theta)=\\frac{1}{\\pi}\\left[1+(x-\\theta)^2\\right]^{-1},\n\\end{align*}\\] and \\(\\pi(\\theta)=\\frac{1}{2} e^{-|\\theta|}\\).\nThe MAP estimator of \\(\\theta\\) is then \\(\\delta^*(x)=0\\), as the maximum of \\(\\exp (-|\\theta|)\\left[1+(x-\\theta)^2\\right]^{-1}\\) is attained for \\(\\theta=0\\), whatever the value of \\(x\\).\nThis behavior may be explained by the flatness of the likelihood function, which is not informative enough, compared with the sharp prior distribution.\nHowever, from a practical point of view, this estimator is useless."
+  },
+  {
+    "objectID": "slides/04-estimation.html#posterior-mean-vs-map",
+    "href": "slides/04-estimation.html#posterior-mean-vs-map",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Posterior mean vs MAP",
+    "text": "Posterior mean vs MAP\n\nWhich is better?\nIf we adopt the decision theory framework and confine ourselves to the squared error loss \\(L(\\theta, d) = (\\theta-d)^2\\), then of course the posterior mean is better.\nComputation: Suppose we have the posterior \\(\\pi(\\theta \\mid x)\\).\n\nMAP: \\(\\hat{\\theta} = \\argmax_{\\theta} \\pi(\\theta \\mid x)\\)\nPosterior mean: \\(\\hat{\\theta} = \\int \\theta \\pi(\\theta \\mid x)d\\theta\\)\nWhich is computationally easier?"
+  },
+  {
+    "objectID": "slides/04-estimation.html#capture-recapture-model",
+    "href": "slides/04-estimation.html#capture-recapture-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Capture-recapture model",
+    "text": "Capture-recapture model\n\nIt’s a method commonly used in ecology to estimate an animal population’s size where it is impractical to count every individual.\nIt is based on taking at least two successive samples from the population of interest.\n\n\n\n\n\nSample 1/2\nCaptured\nMissed\n\n\nCaptured\n\\(n_{11}\\)\n\\(n_{12}\\)\n\n\nMissed\n\\(n_{21}\\)\n\\(n_{22}\\)\n\n\n\n\n\nAfter the two capture experiments, the population is divided as in the table above, with \\(n_{11} +n_{12} +n_{21} +n_{22} = N\\) (the fourth sample size \\(n_{22}\\) being unknown)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#uniform-model",
+    "href": "slides/04-estimation.html#uniform-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Uniform model",
+    "text": "Uniform model\n\nFor the simplest model, called uniform, each individual has the same probability \\(p\\) of being captured in both experiments.\nTherefore, \\(p_{11}=p^2, p_{12}=p_{21}=p(1-p)\\), and \\(p_{22}=(1-p)^2\\).\nThe likelihood can be written \\[\nL\\left(N, p \\mid n_{11}, n_{12}, n_{21}\\right)=\\choose{N}{n_{11}\\;n_{12}\\;n_{21}} p^{\\tilde{n}}(1-p)^{2N-\\tilde{n}}\n\\] where \\(\\tilde{n}=2 n_{11}+n_{12}+n_{21}\\) is the total number of captured individuals.\nThere are two unknown parameters \\(N\\) and \\(p\\), which we assume a priori independent.\nThe prior is \\(\\pi(N, p) = \\pi(N)\\pi(p)\\) and we assume a Beta prior for \\(p\\).\nUnfortunately, the marginal posterior of \\(N\\) is complicated no matter we use \\(\\pi(N) = 1\\), \\(\\pi(N) = 1/N\\), or Poisson."
+  },
+  {
+    "objectID": "slides/04-estimation.html#darroch-model",
+    "href": "slides/04-estimation.html#darroch-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Darroch model",
+    "text": "Darroch model\n\nThe Darroch model1 is a hypergeometric model, in which the two sample sizes \\(n_1 = n_{11} + n_{12}\\) and \\(n_2 = n_{11} + n_{21}\\) are fixed.\nIn this case, the only remaining random variable is \\(n_{11}\\), with distribution \\(\\text{HyperGeo}(N, n_1, n_2)\\).\nRecall: The hypergeometric distribution \\(\\text{HyperGeo}(N, K, n)\\) has pmf \\[\n\\P(X = x) = \\frac{\\choose{K}{x}\\choose{N-K}{n-x}}{\\choose{N}{n}},\n\\] which models the number of successes in \\(n\\) draws (without replacement) from a population of size \\(N\\) with \\(K\\) successes.\n\nDarroch, J. N. (1958). The multiple-recapture census: I. Estimation of a closed population. Biometrika, 45(3/4), 343-359."
+  },
+  {
+    "objectID": "slides/04-estimation.html#darroch-model-1",
+    "href": "slides/04-estimation.html#darroch-model-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Darroch model",
+    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\frac{n_1}{\\left(n_{11} / n_2\\right)},\n\\end{align*}\\] which identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_11)\\) and draw an inference on \\(N\\)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-3",
+    "href": "slides/04-estimation.html#example-3",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\nSuppose that a prior ecological study suggests that the population size varies between 36 and 50.\nHence here we use a uniform distribution on \\(\\{36,\\ldots,50\\}\\).\nConsidering \\(n_1 = n_2 = 5\\), we have \\[\n\\pi\\left(N=n \\mid n_{11}\\right)=\\frac{\\choose{n_1}{n_{11}}\\choose{n-n_1}{n_2-n_{11}} / \\choose{n}{n_2} \\pi(N=n)}{\\sum_{k=36}^{50}\\choose{n_1}{n_{11}}\\choose{k-n_1}{n_2-n_{11}} / \\choose{k}{n_2} \\pi(N=k)}.\n\\]\n\n\n\nlibrary(tidyverse)\nlibrary(kableExtra)\nN_vec &lt;- 36:50; n_1 &lt;- 5; n_2 &lt;- 5; n_11 &lt;- 0:5\n\nout &lt;-sapply(n_11, function(x) dhyper(x, n_1, N_vec-n_1, n_2)) %&gt;%\n    apply(., 2, function(x) x/sum(x)) %&gt;%\n    data.frame() \nout %&gt;% cbind(N = N_vec, .) %&gt;%\n    kbl(format=\"markdown\", digits = 4, col.names = c(\"N\", n_11))"
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-3-output",
+    "href": "slides/04-estimation.html#example-3-output",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\n\n\n\nN\n0\n1\n2\n3\n4\n5\n\n\n\n\n36\n0.0580\n0.0725\n0.0886\n0.1061\n0.1246\n0.1438\n\n\n37\n0.0594\n0.0716\n0.0846\n0.0979\n0.1112\n0.1244\n\n\n38\n0.0608\n0.0708\n0.0808\n0.0905\n0.0996\n0.1080\n\n\n39\n0.0621\n0.0700\n0.0772\n0.0838\n0.0895\n0.0942\n\n\n40\n0.0634\n0.0691\n0.0739\n0.0778\n0.0806\n0.0824\n\n\n41\n0.0647\n0.0683\n0.0708\n0.0723\n0.0728\n0.0723\n\n\n42\n0.0659\n0.0674\n0.0679\n0.0673\n0.0659\n0.0637\n\n\n43\n0.0670\n0.0666\n0.0651\n0.0628\n0.0598\n0.0563\n\n\n44\n0.0682\n0.0658\n0.0625\n0.0587\n0.0544\n0.0499\n\n\n45\n0.0692\n0.0650\n0.0601\n0.0549\n0.0496\n0.0444\n\n\n46\n0.0703\n0.0642\n0.0578\n0.0515\n0.0453\n0.0396\n\n\n47\n0.0713\n0.0634\n0.0556\n0.0483\n0.0415\n0.0353\n\n\n48\n0.0723\n0.0626\n0.0536\n0.0454\n0.0380\n0.0317\n\n\n49\n0.0732\n0.0618\n0.0516\n0.0427\n0.0350\n0.0284\n\n\n50\n0.0741\n0.0611\n0.0498\n0.0402\n0.0322\n0.0256"
+  },
+  {
+    "objectID": "slides/04-estimation.html#estimates-of-the-population-size",
+    "href": "slides/04-estimation.html#estimates-of-the-population-size",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Estimates of the population size",
+    "text": "Estimates of the population size\n\n\nPosterior mean:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\mathbb{E}(N\\mid n_{11})\\)\n43.32\n42.77\n42.23\n41.72\n41.23\n40.78\n\n\n\n\n\n\n\n\nMAP:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\text{argmax }\\pi(N\\mid n_{11})\\)\n50\n36\n36\n36\n36\n36"
+  },
+  {
+    "objectID": "slides/04-estimation.html#estimates-of-the-population-size-1",
+    "href": "slides/04-estimation.html#estimates-of-the-population-size-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Estimates of the population size",
+    "text": "Estimates of the population size\nIf, instead of the squared error, we use the loss \\[\\begin{align*}\nL(N, \\delta)= \\begin{cases}10(\\delta-N) & \\text { if } \\delta&gt;N, \\\\ N-\\delta & \\text { otherwise }\\end{cases}\n\\end{align*}\\] in order to avoid an overestimation of the population size, the Bayes estimator is the \\((1 / 11)\\)-quantile of \\(\\pi\\left(N \\mid n_{11}\\right)\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\delta(n_{11})\\)\n37\n37\n37\n36\n36\n36"
+  },
+  {
+    "objectID": "slides/04-estimation.html#summary",
+    "href": "slides/04-estimation.html#summary",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Summary",
+    "text": "Summary\n\nThe decision theory framework allows us to compare different estimators, under a given loss function.\nThe determination of loss is as difficult as the determination of prior.\nFrom a decision-theoretic point of view, Bayes estimators are always admissible, while MLE might not (e.g., Stein’s paradox).\nThe MAP estimator is essentially a penalized MLE. The penalization term is determined by the prior.\n\n\n\nHome"
   }
 ]

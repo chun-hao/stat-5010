@@ -1,22 +1,5 @@
 ---
 title: "Lecture 04: Decision Theory and Bayesian Estimation"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: auto
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Introduction
@@ -84,31 +67,38 @@ York.
 
 -   Squared error loss: $L(\theta, d) = (\theta - d)^2$
 -   Weighted loss: $L(\theta, d) = w(\theta)(\theta-d)^2$
-    +    using this loss with prior $\pi(\theta)$ is the same as using squared error loss with prior $\pi(\theta)w(\theta)$
+    -   using this loss with prior $\pi(\theta)$ is the same as using
+        squared error loss with prior $\pi(\theta)w(\theta)$
 -   Absolute error: $L(\theta, d) = |\theta - d|$
 -   The 0-1 loss: $L(\theta, d) = I(\theta \neq d)$
 -   Intrinsic loss:
-    +   Kullback-Leibler divergence $L_{\text{KL}}(\theta, \delta) = \E_\theta\left[\log \left(\frac{f(x \mid \theta)}{f(x \mid \delta)}\right)\right]$
-    +   Hellinger loss $L_{\mathrm{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx$
-    
+    -   Kullback-Leibler divergence
+        $L_{\text{KL}}(\theta, \delta) = \E_\theta\left[\log \left(\frac{f(x \mid \theta)}{f(x \mid \delta)}\right)\right]$
+    -   Hellinger loss
+        $L_{\mathrm{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx$
+
 ## Example
 
-:::{.fragment .nonincremental}
+::: {.fragment .nonincremental}
 -   For $X \sim N(\theta, 1)$, we have
 
+```{=tex}
 \begin{align*}
 L_{\mathrm{KL}}(\theta, \delta) & =\frac{1}{2} \E_\theta\left[-(x-\theta)^2+(x-\delta)^2\right]=\frac{1}{2}(\delta-\theta)^2 \\
 L_{\mathrm{H}}(\theta, \delta) & =1-\exp \left\{-(\delta-\theta)^2 / 8\right\}.
 \end{align*}
+```
 :::
 
-:::{.fragment .nonincremental}
+::: {.fragment .nonincremental}
 -   For $X \sim N(0, \sigma^2)$, we have
 
+```{=tex}
 \begin{align*}
 L_{\mathrm{KL}}(\sigma, \delta) & =\log \frac{\delta}{\sigma}+\frac{\sigma^2}{2 \delta^2}-\frac{1}{2} \\
 L_{\mathrm{H}}(\sigma, \delta) & =1-\sqrt{\frac{2 \sigma \delta}{\sigma^2+\delta^2}}.
 \end{align*}
+```
 :::
 
 ## Statistical model
@@ -184,40 +174,42 @@ have
 -   For example, posterior mean is the Bayes estimator under the squared
     error loss $L(\theta, d) = (\theta - d)^2$ and posterior median is
     the Bayes estimator under $L(\theta, d) = |\theta-d|$.
--   When $\pi$ is improper, $r(\pi, \delta)$ might not be finite. In this case, we $\delta^{\pi}(x)$ as the minimum of the minimizer of the posterior risk and call it a **generalized Bayes estimator**.
+-   When $\pi$ is improper, $r(\pi, \delta)$ might not be finite. In
+    this case, we $\delta^{\pi}(x)$ as the minimum of the minimizer of
+    the posterior risk and call it a **generalized Bayes estimator**.
 
 ## The 0-1 loss and MAP
 
--   This loss is mainly used in the classical approach to hypothesis testing.
--   For discrete parameters, the Bayes estimator under the 0-1 loss is the MAP.
--   For example, consider $\Theta = \{0, 1\}$ and the posterior is $\pi(\theta = 1 \mid x) = p(x) = 1 - \pi(\theta = 0 \mid x)$.
--   The posterior risk is 
-    $$
+-   This loss is mainly used in the classical approach to hypothesis
+    testing.
+-   For discrete parameters, the Bayes estimator under the 0-1 loss is
+    the MAP.
+-   For example, consider $\Theta = \{0, 1\}$ and the posterior is
+    $\pi(\theta = 1 \mid x) = p(x) = 1 - \pi(\theta = 0 \mid x)$.
+-   The posterior risk is $$
         \rho(\pi, d \mid x) = \E_{\theta\mid x}L(\theta, d) = \begin{cases}
     1 - p(x), & d = 1\\
     p(x), & d = 0
-\end{cases}.
+    \end{cases}.
     $$
--   The Bayes estimator is 
-    $$
+-   The Bayes estimator is $$
         \delta^{\pi}(x) = \argmin_d \rho(\pi, d \mid x) =  \begin{cases}
     1, & \pi(\theta = 1 \mid x) > 1/2\\
     0, & \pi(\theta = 0 \mid x) > 1/2
-\end{cases},
-    $$
-    which is the MAP.
+    \end{cases},
+    $$ which is the MAP.
 
 ## The 0-1 loss and MAP
 
 -   For continuous parameters, it is slightly more complicated.
--   For any $d \in \Theta$, the posterior risk is 
-$$
-\rho(\pi, d \mid x) = \E_{\theta\mid x}I(\theta \neq d) = \P(\theta \neq d \mid x) = 1,
-$$
-which is independent of $d$. 
+-   For any $d \in \Theta$, the posterior risk is $$
+    \rho(\pi, d \mid x) = \E_{\theta\mid x}I(\theta \neq d) = \P(\theta \neq d \mid x) = 1,
+    $$ which is independent of $d$.
 -   Hence every $d \in \Theta$ is a minimizer of the posterior risk.
--   However if we replace the 0-1 loss by a sequence of losses, $L_{\varepsilon}(\theta, d) = I(\|\theta-d\| > \varepsilon)$,
-the MAP estimate is then the limit of the Bayes estimates associated with $L_{\varepsilon}$, when $\varepsilon \to 0$.
+-   However if we replace the 0-1 loss by a sequence of losses,
+    $L_{\varepsilon}(\theta, d) = I(\|\theta-d\| > \varepsilon)$, the
+    MAP estimate is then the limit of the Bayes estimates associated
+    with $L_{\varepsilon}$, when $\varepsilon \to 0$.
 
 ## A quick wrap-up
 
@@ -262,9 +254,19 @@ the MAP estimate is then the limit of the Bayes estimates associated with $L_{\v
 
 -   In fact, from a Bayesian point of view, it is often equivalent to
     take a prior concentrated on these worst cases.
--   {\color{red} least favorable prior}
--   {\color{red} limiting Bayes}
+-   In some cases, a minimax estimator is also a Bayes estimator, that
+    is, there exists a prior such that the Bayes estimator is minimax.
+-   Such prior is called a **least favorable prior**, which has the
+    largest Bayes risk among all other priors.
+-   If you need a conservative Bayes estimate, you can choose the least
+    favorable prior (if it exists).
+-   Even if a minimax estimator is not Bayes, it is often the limit of
+    Bayes estimators, e.g., the MLE for $N(\theta, 1)$.
+-   A useful approach to the construction of minimax estimators is
+    called a **limiting Bayes approach**.[^1]
 
+[^1]: See Theorem 1.12 in Ch. 6 of *Theory of Point Estimation* for
+    example.
 
 ## Admissibility
 
@@ -290,57 +292,269 @@ the MAP estimate is then the limit of the Bayes estimates associated with $L_{\v
 
 Among these 5 students:
 
--    A and E are minimax, since their have the highest worst score, 80.
+-   A and E are minimax, since their have the highest worst score, 80.
 
--    B and E are inadmissible, since A dominates B and E; A, C, and D are admissible.
+-   B and E are inadmissible, since A dominates B and E; A, C, and D are
+    admissible.
 
--    The Bayes estimator under the prior (1,1,1,1,1) is A; the Bayes estimator under the prior (1,0,0,0,0) is D.
+-   The Bayes estimator under the prior (1,1,1,1,1) is A; the Bayes
+    estimator under the prior (1,0,0,0,0) is D.
 
 ## Stein's Paradox
 
--   Let $X \sim N_p(\theta, I)$ and $p>2$. Then $X$ is the MLE for $\theta$ and [is inadmissible]{.underline}. 
--   The MLE is dominated by the **James-Stein estimator**
-$$
-\hat{\theta}^{\text{JS}} = \left(1 - \frac{p-2}{\|X\|^2}\right)X.
-$$
--   The James-Stein estimator is still inadmissible and is dominated by the **positive-part James-Stein estimator**[^1]
-$$
-\hat{\theta}^{\text{JS+}} = \left(1 - \frac{p-2}{\|X\|^2}\right)_+X,
-$$
-where $(x)_+ = \max(x, 0)$.
--   The positive-part James-Stein estimator is still inadmissible since it is not differentiable. 
+-   Let $X \sim N_p(\theta, I)$ and $p>2$. Then $X$ is the MLE for
+    $\theta$ and [is inadmissible]{.underline}.
+-   The MLE is dominated by the **James-Stein estimator** $$
+    \hat{\theta}^{\text{JS}} = \left(1 - \frac{p-2}{\|X\|^2}\right)X.
+    $$
+-   The James-Stein estimator is still inadmissible and is dominated by
+    the **positive-part James-Stein estimator**[^2] $$
+    \hat{\theta}^{\text{JS+}} = \left(1 - \frac{p-2}{\|X\|^2}\right)_+X,
+    $$ where $(x)_+ = \max(x, 0)$.
+-   The positive-part James-Stein estimator is still inadmissible since
+    it is not differentiable.
 
-[^1]: All these three estimators are minimax.
+[^2]: All these three estimators are minimax.
 
 ## Optimality of Bayes estimators
 
--   What is more important is whether the Bayes risk is finite rather than the propriety of the prior.
--   Finite Bayes risk: (regular) Bayes estimator; 
+-   What is more important is whether the Bayes risk is finite rather
+    than the propriety of the prior.
+-   Finite Bayes risk: (regular) Bayes estimator;
 -   Infinite Bayes risk: generalized Bayes estimator
--   **Unique (regular) Bayes $\Rightarrow$ admissible** 
-    +    When $L(\theta, d)$ is strictly convex in $d$, the Bayes estimator is unique.
-    +    For example, with a proper prior, the posterior mean is admissible.
-    +    With an improper prior, the posterior mean is admissible if it has finite Bayes risk.
+-   **Unique (regular) Bayes** $\Rightarrow$ admissible
+    -   When $L(\theta, d)$ is strictly convex in $d$, the Bayes
+        estimator is unique.
+    -   For example, with a proper prior, the posterior mean is
+        admissible.
+    -   With an improper prior, the posterior mean is admissible if it
+        has finite Bayes risk.
 
 ## Optimality of Bayes estimators
 
--   **Unique (regular) Bayes with constant (frequentist) risk $\Rightarrow$ admissible and minimax**
-    +    If $X \mid p \sim \bin(n, p)$ and $p \sim \text{Beta}(\sqrt{n}/2, \sqrt{n}/2)$, the posterior mean of $p$ is admissible and minimax (under the squared error loss).
-    +    This prior $\text{Beta}(\sqrt{n}/2, \sqrt{n}/2)$ is called a **least favorable prior**.
-    +    A least favorable prior, if it exists, gives a conservative Bayes estimate.
-    
-    
-::: {.fragment}
-    
-::: {.callout-note icon=false}
+-   **Unique (regular) Bayes with constant (frequentist) risk**
+    $\Rightarrow$ admissible and minimax
+    -   If $X \mid p \sim \bin(n, p)$ and
+        $p \sim \text{Beta}(\sqrt{n}/2, \sqrt{n}/2)$, the posterior mean
+        of $p$ is admissible and minimax (under the squared error loss).
+    -   This prior $\text{Beta}(\sqrt{n}/2, \sqrt{n}/2)$ is called a
+        **least favorable prior**.
+    -   A least favorable prior, if it exists, gives a conservative
+        Bayes estimate.
 
+::: fragment
+::: {.callout-note icon="false"}
 ## Conclusion
 
-Bayes estimators are admissible. It can also be minimax with a particular prior.
+Bayes estimators are admissible. It can also be minimax with a
+particular prior.
 :::
-
 :::
 
 # Bayesian Estimation
 
+## Bayesian estimation
+
+-   When the prior distribution $\pi(\theta)$ is available, the posterior distribution $\pi(\theta \mid x)$ can be formally derived from the observation $x$ with distribution $f(x \mid \theta)$. 
+-   This updated distribution integrates simultaneously prior information about $\theta$ and information brought by the observation $x$.
+-   Even though $\theta$ is not necessarily a random variable, the distribution $\pi(\theta\mid x)$ can be used as a regular probability distribution to describe the properties of $\theta$. 
+-   Summarizing indices for $\pi(\theta\mid x)$ such as the [posterior mean]{.underline}, the [posterior mode]{.underline}, the [posterior variance]{.underline}, and the [posterior median]{.underline}, can be used.
+
+## MAP estimator
+
+-   There is no way of selecting a best estimator, without using a loss criterion.
+-   Nonetheless, a possible estimator of $\theta$ based on $\pi(\theta \mid x)$ is the **maximum a posteriori (MAP)** estimator, defined as the posterior mode:
+    $$
+    \hat{\theta}_{\text{MAP}} = \argmax_\theta \pi(\theta \mid x) = \argmax_{\theta} \ell(\theta\mid x) \pi(\theta)
+    $$
+    where $\ell(\theta\mid x)$ is the likelihood function.
+
+-   Note that the MAP estimator also bypasses the computation of the marginal $m(x) = \int \ell(\theta\mid x)\pi(\theta)d\theta$.
+-   Recall that the MAP estimator is a Bayes estimator (in the decision-theoretic sense) under the 0-1 loss when $\theta$ is discrete and is the limit of Bayes estimators when $\theta$ is continuous.
+
+## Penalized maximum likelihood estimator
+
+-   For frequentists, a common approach to preventing overfitting is through **penalization** or **regularization**.
+-   A typical penalized MLE is of the form
+    $$
+    \hat{\theta} = \argmax \log \ell(\theta \mid x) - \text{Penalty}(\theta).
+    $$
+-   The MAP estimator can be expressed as a penalized MLE:
+    \begin{align*}
+    \hat{\theta}_{\text{MAP}} & = \argmax_{\theta} \ell(\theta\mid x) \pi(\theta)
+    = \argmax_{\theta} \log \ell(\theta\mid x) + \log \pi(\theta).
+    \end{align*}
+-   That is, the penalty of $\theta$ is given through the prior: $\text{Penalty}(\theta) = - \log \pi(\theta)$.
+-   Specifying a prior is equivalent to specifying a penalty term for frequentists.
+    
+    
+## Penalized (regularized) regression
+
+-   Linear regression: $Y = X \beta + \varepsilon$, where $X$ is a $k\times p$ covariate matrix, $\beta \in \R^p$ is the unknown parameter, and $\varepsilon \sim N_k(0, \sigma^2I_k)$.
+-   The (unregularized) ordinary least-square estimator[^3] of $\beta$ is 
+    $$
+        \hat{\beta}_{\text{OLS}} = \argmin_{\beta} \|Y - X\beta\|^2 = (X^TX)^{-1}X^TY.
+    $$
+-   Some commonly used regularization:
+    +    Ridge regression: $\text{Penalty}(\beta) = -\lambda\|\beta\|^2 \Leftrightarrow \beta_i \iid N(0, \lambda^{-1})$.
+    +    Lasso[^4]: $\text{Penalty}(\beta) = -\lambda\|\beta\|_1 = \lambda\sum_{i=1}^p|\beta_i| \Leftrightarrow \beta_i \iid \text{Laplace}(0, \lambda^{-1})$
+-   Whenever you're applying regularization techniques, you are essentially doing Bayesian analysis.
+
+[^3]: The OLS estimate is the MLE under the normality assumption on $\varepsilon$.
+[^4]: Least Absolute Shrinkage and Selection Operator
+
+## Example
+
+-   However, the MAP might not always be useful.
+-   Consider $x \sim \mathcal{C}(\theta, 1)$, i.e.,
+\begin{align*}
+f(x \mid \theta)=\frac{1}{\pi}\left[1+(x-\theta)^2\right]^{-1},
+\end{align*}
+and $\pi(\theta)=\frac{1}{2} e^{-|\theta|}$. 
+-   The MAP estimator of $\theta$ is then $\delta^*(x)=0$, as the maximum of $\exp (-|\theta|)\left[1+(x-\theta)^2\right]^{-1}$ is attained for $\theta=0$, whatever the value of $x$. 
+-   This behavior may be explained by the flatness of the likelihood function, which is not informative enough, compared with the sharp prior distribution. 
+-   However, from a practical point of view, this estimator is useless.
+
+## Posterior mean vs MAP
+
+-   Which is better?
+-   If we adopt the decision theory framework and confine ourselves to the squared error loss $L(\theta, d) = (\theta-d)^2$, then of course the posterior mean is better.
+-   Computation: Suppose we have the posterior $\pi(\theta \mid x)$.
+    +   MAP: $\hat{\theta} = \argmax_{\theta} \pi(\theta \mid x)$
+    +   Posterior mean: $\hat{\theta} = \int \theta \pi(\theta \mid x)d\theta$
+    +   Which is computationally easier?
+
+
+## Capture-recapture model
+
+-   It's a method commonly used in ecology to estimate an animal
+    population's size where it is impractical to count every individual.
+-   It is based on taking at least two successive samples from the
+    population of interest.
+
+::: {.fragment}
+|          |          |          |
+|----------|----------|----------|
+|Sample 1/2| Captured | Missed   |
+| Captured | $n_{11}$ | $n_{12}$ |
+| Missed   | $n_{21}$ | $n_{22}$ |
+
+:::
+
+-   After the two capture experiments, the population is divided as in the table above, with $n_{11} +n_{12} +n_{21} +n_{22} = N$ (the fourth sample size $n_{22}$ being unknown).
+
+## Uniform model
+
+-   For the simplest model, called *uniform*, each individual has the same probability $p$ of being captured in both experiments. 
+-   Therefore, $p_{11}=p^2, p_{12}=p_{21}=p(1-p)$, and $p_{22}=(1-p)^2$. 
+-   The likelihood can be written
+$$
+L\left(N, p \mid n_{11}, n_{12}, n_{21}\right)=\choose{N}{n_{11}\;n_{12}\;n_{21}} p^{\tilde{n}}(1-p)^{2N-\tilde{n}}
+$$
+where $\tilde{n}=2 n_{11}+n_{12}+n_{21}$ is the total number of captured individuals.
+-   There are two unknown parameters $N$ and $p$, which we assume a priori independent.
+-   The prior is $\pi(N, p) = \pi(N)\pi(p)$ and we assume a Beta prior for $p$.
+-   Unfortunately, the marginal posterior of $N$ is complicated no matter we use $\pi(N) = 1$, $\pi(N) = 1/N$, or Poisson.
+
+## Darroch model
+
+-   The Darroch model[^5] is a hypergeometric model, in which the two
+sample sizes $n_1 = n_{11} + n_{12}$ and $n_2 = n_{11} + n_{21}$ are fixed.
+-   In this case, the only remaining random variable is $n_{11}$, with distribution $\text{HyperGeo}(N, n_1, n_2)$.
+-   Recall: The hypergeometric distribution $\text{HyperGeo}(N, K, n)$ has pmf
+$$
+\P(X = x) = \frac{\choose{K}{x}\choose{N-K}{n-x}}{\choose{N}{n}},
+$$
+which models the number of successes in $n$ draws (without replacement) from a population of size $N$ with $K$ successes. 
+
+[^5]: Darroch, J. N. (1958). The multiple-recapture census: I. Estimation of a closed population. *Biometrika*, 45(3/4), 343-359.
+
+## Darroch model
+
+-   The MLE of $N$ is 
+\begin{align*}
+\hat{N}=\frac{n_1}{\left(n_{11} / n_2\right)},
+\end{align*}
+which identifies the proportion in the population $\left(n_1 / N\right)$ and the proportion in the sample $\left(n_{11} / n_2\right)$.
+-   A major drawback is that it cannot be used when $n_{11} = 0$.
+-   A Bayesian analysis does not suffer from this defect because it reaches
+a conclusion even when $n_{11} = 0$. 
+-   Given a prior distribution $\pi$ on $N$, it is
+formally easy to derive the posterior $\pi(N = n\mid n_11)$ and draw an inference
+on $N$.
+
+## Example
+
+-   Suppose that a prior ecological study suggests that the population size varies between 36 and 50.
+-   Hence here we use a uniform distribution on $\{36,\ldots,50\}$.
+-   Considering $n_1 = n_2 = 5$, we have
+$$
+\pi\left(N=n \mid n_{11}\right)=\frac{\choose{n_1}{n_{11}}\choose{n-n_1}{n_2-n_{11}} / \choose{n}{n_2} \pi(N=n)}{\sum_{k=36}^{50}\choose{n_1}{n_{11}}\choose{k-n_1}{n_2-n_{11}} / \choose{k}{n_2} \pi(N=k)}.
+$$
+
+:::{.fragment}
+```{r}
+#| echo: true
+#| include: true
+#| cache: true
+#| message: false
+#| output-location: slide
+library(tidyverse)
+library(kableExtra)
+N_vec <- 36:50; n_1 <- 5; n_2 <- 5; n_11 <- 0:5
+
+out <-sapply(n_11, function(x) dhyper(x, n_1, N_vec-n_1, n_2)) %>%
+    apply(., 2, function(x) x/sum(x)) %>%
+    data.frame() 
+out %>% cbind(N = N_vec, .) %>%
+    kbl(format="markdown", digits = 4, col.names = c("N", n_11))
+```
+:::
+
+## Estimates of the population size
+
+:::{.fragment .nonincremental}
+-   Posterior mean:
+```{r}
+#| cache: true
+#| tbl-colwidths: [10,10,10,10,10,10,10]
+out %>% summarise_all(function(x) sum(N_vec*x)) %>%
+    cbind("$\\mathbb{E}(N\\mid n_{11})$", .) %>%
+    kbl(format="markdown", digits = 2, col.names = c("$n_{11}$", n_11)) 
+```
+:::
+
+:::{.fragment .nonincremental}
+-   MAP:
+```{r}
+#| cache: true
+#| tbl-colwidths: [10,10,10,10,10,10,10]
+out %>% summarise_all(function(x) N_vec[which.max(x)]) %>%
+    cbind("$\\text{argmax }\\pi(N\\mid n_{11})$", .) %>%
+    kbl(format="markdown", digits = 2, col.names = c("$n_{11}$", n_11)) 
+```
+:::
+
+## Estimates of the population size
+
+If, instead of the squared error, we use the loss
+\begin{align*}
+L(N, \delta)= \begin{cases}10(\delta-N) & \text { if } \delta>N, \\ N-\delta & \text { otherwise }\end{cases}
+\end{align*}
+in order to avoid an overestimation of the population size, the Bayes estimator is the $(1 / 11)$-quantile of $\pi\left(N \mid n_{11}\right)$.
+
+```{r}
+#| cache: true
+#| tbl-colwidths: [10,10,10,10,10,10,10]
+out %>% summarise_all(function(x) N_vec[which(cumsum(x) > 1/11)[1]]) %>%
+    cbind("$\\delta(n_{11})$", .) %>%
+    kbl(format="markdown", digits = 2, col.names = c("$n_{11}$", n_11)) 
+```
+
+## Summary
+
+-   The decision theory framework allows us to compare different estimators, under a given loss function.
+-   The determination of loss is as difficult as the determination of prior.
+-   From a decision-theoretic point of view, Bayes estimators are always admissible, while MLE might not (e.g., Stein's paradox).
+-   The MAP estimator is essentially a penalized MLE. The penalization term is determined by the prior.
 

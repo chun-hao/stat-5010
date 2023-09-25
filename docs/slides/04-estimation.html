@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -245,6 +310,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -435,19 +501,19 @@ Chun-Hao Yang
 <ul>
 <li>For <span class="math inline">\(X \sim N(\theta, 1)\)</span>, we have</li>
 </ul>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 L_{\mathrm{KL}}(\theta, \delta) &amp; =\frac{1}{2} \E_\theta\left[-(x-\theta)^2+(x-\delta)^2\right]=\frac{1}{2}(\delta-\theta)^2 \\
 L_{\mathrm{H}}(\theta, \delta) &amp; =1-\exp \left\{-(\delta-\theta)^2 / 8\right\}.
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 </div>
 <div class="fragment">
 <ul>
 <li>For <span class="math inline">\(X \sim N(0, \sigma^2)\)</span>, we have</li>
 </ul>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 L_{\mathrm{KL}}(\sigma, \delta) &amp; =\log \frac{\delta}{\sigma}+\frac{\sigma^2}{2 \delta^2}-\frac{1}{2} \\
 L_{\mathrm{H}}(\sigma, \delta) &amp; =1-\sqrt{\frac{2 \sigma \delta}{\sigma^2+\delta^2}}.
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 </div>
 </section>
 <section id="statistical-model" class="slide level2">
@@ -581,10 +647,13 @@ p(x), &amp; d = 0
 <h2>Bayes esitmator and minimaxity</h2>
 <ul>
 <li class="fragment">In fact, from a Bayesian point of view, it is often equivalent to take a prior concentrated on these worst cases.</li>
-<li class="fragment">{ least favorable prior}</li>
-<li class="fragment">{ limiting Bayes}</li>
+<li class="fragment">In some cases, a minimax estimator is also a Bayes estimator, that is, there exists a prior such that the Bayes estimator is minimax.</li>
+<li class="fragment">Such prior is called a <strong>least favorable prior</strong>, which has the largest Bayes risk among all other priors.</li>
+<li class="fragment">If you need a conservative Bayes estimate, you can choose the least favorable prior (if it exists).</li>
+<li class="fragment">Even if a minimax estimator is not Bayes, it is often the limit of Bayes estimators, e.g., the MLE for <span class="math inline">\(N(\theta, 1)\)</span>.</li>
+<li class="fragment">A useful approach to the construction of minimax estimators is called a <strong>limiting Bayes approach</strong>.<sup>1</sup></li>
 </ul>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>See Theorem 1.12 in Ch. 6 of <em>Theory of Point Estimation</em> for example.</p></li></ol></aside></section>
 <section id="admissibility" class="slide level2">
 <h2>Admissibility</h2>
 <ul>
@@ -671,14 +740,14 @@ R\left(\theta_0, \delta_0\right)&gt;R\left(\theta_0, \delta_1\right) .
 \]</span> where <span class="math inline">\((x)_+ = \max(x, 0)\)</span>.</li>
 <li class="fragment">The positive-part James-Stein estimator is still inadmissible since it is not differentiable.</li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>All these three estimators are minimax.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>All these three estimators are minimax.</p></li></ol></aside></section>
 <section id="optimality-of-bayes-estimators" class="slide level2">
 <h2>Optimality of Bayes estimators</h2>
 <ul>
 <li class="fragment">What is more important is whether the Bayes risk is finite rather than the propriety of the prior.</li>
 <li class="fragment">Finite Bayes risk: (regular) Bayes estimator;</li>
 <li class="fragment">Infinite Bayes risk: generalized Bayes estimator</li>
-<li class="fragment"><strong>Unique (regular) Bayes <span class="math inline">\(\Rightarrow\)</span> admissible</strong>
+<li class="fragment"><strong>Unique (regular) Bayes</strong> <span class="math inline">\(\Rightarrow\)</span> admissible
 <ul>
 <li class="fragment">When <span class="math inline">\(L(\theta, d)\)</span> is strictly convex in <span class="math inline">\(d\)</span>, the Bayes estimator is unique.</li>
 <li class="fragment">For example, with a proper prior, the posterior mean is admissible.</li>
@@ -689,7 +758,7 @@ R\left(\theta_0, \delta_0\right)&gt;R\left(\theta_0, \delta_1\right) .
 <section id="optimality-of-bayes-estimators-1" class="slide level2">
 <h2>Optimality of Bayes estimators</h2>
 <ul>
-<li class="fragment"><strong>Unique (regular) Bayes with constant (frequentist) risk <span class="math inline">\(\Rightarrow\)</span> admissible and minimax</strong>
+<li class="fragment"><strong>Unique (regular) Bayes with constant (frequentist) risk</strong> <span class="math inline">\(\Rightarrow\)</span> admissible and minimax
 <ul>
 <li class="fragment">If <span class="math inline">\(X \mid p \sim \bin(n, p)\)</span> and <span class="math inline">\(p \sim \text{Beta}(\sqrt{n}/2, \sqrt{n}/2)\)</span>, the posterior mean of <span class="math inline">\(p\)</span> is admissible and minimax (under the squared error loss).</li>
 <li class="fragment">This prior <span class="math inline">\(\text{Beta}(\sqrt{n}/2, \sqrt{n}/2)\)</span> is called a <strong>least favorable prior</strong>.</li>
@@ -709,14 +778,471 @@ R\left(\theta_0, \delta_0\right)&gt;R\left(\theta_0, \delta_1\right) .
 </div>
 </div>
 </section></section>
+<section>
 <section id="bayesian-estimation" class="title-slide slide level1 center">
 <h1>Bayesian Estimation</h1>
+
+</section>
+<section id="bayesian-estimation-1" class="slide level2">
+<h2>Bayesian estimation</h2>
+<ul>
+<li class="fragment">When the prior distribution <span class="math inline">\(\pi(\theta)\)</span> is available, the posterior distribution <span class="math inline">\(\pi(\theta \mid x)\)</span> can be formally derived from the observation <span class="math inline">\(x\)</span> with distribution <span class="math inline">\(f(x \mid \theta)\)</span>.</li>
+<li class="fragment">This updated distribution integrates simultaneously prior information about <span class="math inline">\(\theta\)</span> and information brought by the observation <span class="math inline">\(x\)</span>.</li>
+<li class="fragment">Even though <span class="math inline">\(\theta\)</span> is not necessarily a random variable, the distribution <span class="math inline">\(\pi(\theta\mid x)\)</span> can be used as a regular probability distribution to describe the properties of <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">Summarizing indices for <span class="math inline">\(\pi(\theta\mid x)\)</span> such as the <u>posterior mean</u>, the <u>posterior mode</u>, the <u>posterior variance</u>, and the <u>posterior median</u>, can be used.</li>
+</ul>
+</section>
+<section id="map-estimator" class="slide level2">
+<h2>MAP estimator</h2>
+<ul>
+<li class="fragment"><p>There is no way of selecting a best estimator, without using a loss criterion.</p></li>
+<li class="fragment"><p>Nonetheless, a possible estimator of <span class="math inline">\(\theta\)</span> based on <span class="math inline">\(\pi(\theta \mid x)\)</span> is the <strong>maximum a posteriori (MAP)</strong> estimator, defined as the posterior mode: <span class="math display">\[
+\hat{\theta}_{\text{MAP}} = \argmax_\theta \pi(\theta \mid x) = \argmax_{\theta} \ell(\theta\mid x) \pi(\theta)
+\]</span> where <span class="math inline">\(\ell(\theta\mid x)\)</span> is the likelihood function.</p></li>
+<li class="fragment"><p>Note that the MAP estimator also bypasses the computation of the marginal <span class="math inline">\(m(x) = \int \ell(\theta\mid x)\pi(\theta)d\theta\)</span>.</p></li>
+<li class="fragment"><p>Recall that the MAP estimator is a Bayes estimator (in the decision-theoretic sense) under the 0-1 loss when <span class="math inline">\(\theta\)</span> is discrete and is the limit of Bayes estimators when <span class="math inline">\(\theta\)</span> is continuous.</p></li>
+</ul>
+</section>
+<section id="penalized-maximum-likelihood-estimator" class="slide level2">
+<h2>Penalized maximum likelihood estimator</h2>
+<ul>
+<li class="fragment">For frequentists, a common approach to preventing overfitting is through <strong>penalization</strong> or <strong>regularization</strong>.</li>
+<li class="fragment">A typical penalized MLE is of the form <span class="math display">\[
+\hat{\theta} = \argmax \log \ell(\theta \mid x) - \text{Penalty}(\theta).
+\]</span></li>
+<li class="fragment">The MAP estimator can be expressed as a penalized MLE: <span class="math display">\[\begin{align*}
+\hat{\theta}_{\text{MAP}} &amp; = \argmax_{\theta} \ell(\theta\mid x) \pi(\theta)
+= \argmax_{\theta} \log \ell(\theta\mid x) + \log \pi(\theta).
+\end{align*}\]</span></li>
+<li class="fragment">That is, the penalty of <span class="math inline">\(\theta\)</span> is given through the prior: <span class="math inline">\(\text{Penalty}(\theta) = - \log \pi(\theta)\)</span>.</li>
+<li class="fragment">Specifying a prior is equivalent to specifying a penalty term for frequentists.</li>
+</ul>
+</section>
+<section id="penalized-regularized-regression" class="slide level2">
+<h2>Penalized (regularized) regression</h2>
+<ul>
+<li class="fragment">Linear regression: <span class="math inline">\(Y = X \beta + \varepsilon\)</span>, where <span class="math inline">\(X\)</span> is a <span class="math inline">\(k\times p\)</span> covariate matrix, <span class="math inline">\(\beta \in \R^p\)</span> is the unknown parameter, and <span class="math inline">\(\varepsilon \sim N_k(0, \sigma^2I_k)\)</span>.</li>
+<li class="fragment">The (unregularized) ordinary least-square estimator<sup>1</sup> of <span class="math inline">\(\beta\)</span> is <span class="math display">\[
+    \hat{\beta}_{\text{OLS}} = \argmin_{\beta} \|Y - X\beta\|^2 = (X^TX)^{-1}X^TY.
+\]</span></li>
+<li class="fragment">Some commonly used regularization:
+<ul>
+<li class="fragment">Ridge regression: <span class="math inline">\(\text{Penalty}(\beta) = -\lambda\|\beta\|^2 \Leftrightarrow \beta_i \iid N(0, \lambda^{-1})\)</span>.</li>
+<li class="fragment">Lasso<sup>2</sup>: <span class="math inline">\(\text{Penalty}(\beta) = -\lambda\|\beta\|_1 = \lambda\sum_{i=1}^p|\beta_i| \Leftrightarrow \beta_i \iid \text{Laplace}(0, \lambda^{-1})\)</span></li>
+</ul></li>
+<li class="fragment">Whenever you’re applying regularization techniques, you are essentially doing Bayesian analysis.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>The OLS estimate is the MLE under the normality assumption on <span class="math inline">\(\varepsilon\)</span>.</p></li><li id="fn4"><p>Least Absolute Shrinkage and Selection Operator</p></li></ol></aside></section>
+<section id="example-2" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">However, the MAP might not always be useful.</li>
+<li class="fragment">Consider <span class="math inline">\(x \sim \mathcal{C}(\theta, 1)\)</span>, i.e., <span class="math display">\[\begin{align*}
+f(x \mid \theta)=\frac{1}{\pi}\left[1+(x-\theta)^2\right]^{-1},
+\end{align*}\]</span> and <span class="math inline">\(\pi(\theta)=\frac{1}{2} e^{-|\theta|}\)</span>.</li>
+<li class="fragment">The MAP estimator of <span class="math inline">\(\theta\)</span> is then <span class="math inline">\(\delta^*(x)=0\)</span>, as the maximum of <span class="math inline">\(\exp (-|\theta|)\left[1+(x-\theta)^2\right]^{-1}\)</span> is attained for <span class="math inline">\(\theta=0\)</span>, whatever the value of <span class="math inline">\(x\)</span>.</li>
+<li class="fragment">This behavior may be explained by the flatness of the likelihood function, which is not informative enough, compared with the sharp prior distribution.</li>
+<li class="fragment">However, from a practical point of view, this estimator is useless.</li>
+</ul>
+</section>
+<section id="posterior-mean-vs-map" class="slide level2">
+<h2>Posterior mean vs MAP</h2>
+<ul>
+<li class="fragment">Which is better?</li>
+<li class="fragment">If we adopt the decision theory framework and confine ourselves to the squared error loss <span class="math inline">\(L(\theta, d) = (\theta-d)^2\)</span>, then of course the posterior mean is better.</li>
+<li class="fragment">Computation: Suppose we have the posterior <span class="math inline">\(\pi(\theta \mid x)\)</span>.
+<ul>
+<li class="fragment">MAP: <span class="math inline">\(\hat{\theta} = \argmax_{\theta} \pi(\theta \mid x)\)</span></li>
+<li class="fragment">Posterior mean: <span class="math inline">\(\hat{\theta} = \int \theta \pi(\theta \mid x)d\theta\)</span></li>
+<li class="fragment">Which is computationally easier?</li>
+</ul></li>
+</ul>
+</section>
+<section id="capture-recapture-model" class="slide level2">
+<h2>Capture-recapture model</h2>
+<ul>
+<li class="fragment">It’s a method commonly used in ecology to estimate an animal population’s size where it is impractical to count every individual.</li>
+<li class="fragment">It is based on taking at least two successive samples from the population of interest.</li>
+</ul>
+<div class="fragment">
+<table>
+<tbody>
+<tr class="odd">
+<td>Sample 1/2</td>
+<td>Captured</td>
+<td>Missed</td>
+</tr>
+<tr class="even">
+<td>Captured</td>
+<td><span class="math inline">\(n_{11}\)</span></td>
+<td><span class="math inline">\(n_{12}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Missed</td>
+<td><span class="math inline">\(n_{21}\)</span></td>
+<td><span class="math inline">\(n_{22}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li class="fragment">After the two capture experiments, the population is divided as in the table above, with <span class="math inline">\(n_{11} +n_{12} +n_{21} +n_{22} = N\)</span> (the fourth sample size <span class="math inline">\(n_{22}\)</span> being unknown).</li>
+</ul>
+</section>
+<section id="uniform-model" class="slide level2">
+<h2>Uniform model</h2>
+<ul>
+<li class="fragment">For the simplest model, called <em>uniform</em>, each individual has the same probability <span class="math inline">\(p\)</span> of being captured in both experiments.</li>
+<li class="fragment">Therefore, <span class="math inline">\(p_{11}=p^2, p_{12}=p_{21}=p(1-p)\)</span>, and <span class="math inline">\(p_{22}=(1-p)^2\)</span>.</li>
+<li class="fragment">The likelihood can be written <span class="math display">\[
+L\left(N, p \mid n_{11}, n_{12}, n_{21}\right)=\choose{N}{n_{11}\;n_{12}\;n_{21}} p^{\tilde{n}}(1-p)^{2N-\tilde{n}}
+\]</span> where <span class="math inline">\(\tilde{n}=2 n_{11}+n_{12}+n_{21}\)</span> is the total number of captured individuals.</li>
+<li class="fragment">There are two unknown parameters <span class="math inline">\(N\)</span> and <span class="math inline">\(p\)</span>, which we assume a priori independent.</li>
+<li class="fragment">The prior is <span class="math inline">\(\pi(N, p) = \pi(N)\pi(p)\)</span> and we assume a Beta prior for <span class="math inline">\(p\)</span>.</li>
+<li class="fragment">Unfortunately, the marginal posterior of <span class="math inline">\(N\)</span> is complicated no matter we use <span class="math inline">\(\pi(N) = 1\)</span>, <span class="math inline">\(\pi(N) = 1/N\)</span>, or Poisson.</li>
+</ul>
+</section>
+<section id="darroch-model" class="slide level2">
+<h2>Darroch model</h2>
+<ul>
+<li class="fragment">The Darroch model<sup>1</sup> is a hypergeometric model, in which the two sample sizes <span class="math inline">\(n_1 = n_{11} + n_{12}\)</span> and <span class="math inline">\(n_2 = n_{11} + n_{21}\)</span> are fixed.</li>
+<li class="fragment">In this case, the only remaining random variable is <span class="math inline">\(n_{11}\)</span>, with distribution <span class="math inline">\(\text{HyperGeo}(N, n_1, n_2)\)</span>.</li>
+<li class="fragment">Recall: The hypergeometric distribution <span class="math inline">\(\text{HyperGeo}(N, K, n)\)</span> has pmf <span class="math display">\[
+\P(X = x) = \frac{\choose{K}{x}\choose{N-K}{n-x}}{\choose{N}{n}},
+\]</span> which models the number of successes in <span class="math inline">\(n\)</span> draws (without replacement) from a population of size <span class="math inline">\(N\)</span> with <span class="math inline">\(K\)</span> successes.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>Darroch, J. N. (1958). The multiple-recapture census: I. Estimation of a closed population. <em>Biometrika</em>, 45(3/4), 343-359.</p></li></ol></aside></section>
+<section id="darroch-model-1" class="slide level2">
+<h2>Darroch model</h2>
+<ul>
+<li class="fragment">The MLE of <span class="math inline">\(N\)</span> is <span class="math display">\[\begin{align*}
+\hat{N}=\frac{n_1}{\left(n_{11} / n_2\right)},
+\end{align*}\]</span> which identifies the proportion in the population <span class="math inline">\(\left(n_1 / N\right)\)</span> and the proportion in the sample <span class="math inline">\(\left(n_{11} / n_2\right)\)</span>.</li>
+<li class="fragment">A major drawback is that it cannot be used when <span class="math inline">\(n_{11} = 0\)</span>.</li>
+<li class="fragment">A Bayesian analysis does not suffer from this defect because it reaches a conclusion even when <span class="math inline">\(n_{11} = 0\)</span>.</li>
+<li class="fragment">Given a prior distribution <span class="math inline">\(\pi\)</span> on <span class="math inline">\(N\)</span>, it is formally easy to derive the posterior <span class="math inline">\(\pi(N = n\mid n_11)\)</span> and draw an inference on <span class="math inline">\(N\)</span>.</li>
+</ul>
+</section>
+<section id="example-3" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">Suppose that a prior ecological study suggests that the population size varies between 36 and 50.</li>
+<li class="fragment">Hence here we use a uniform distribution on <span class="math inline">\(\{36,\ldots,50\}\)</span>.</li>
+<li class="fragment">Considering <span class="math inline">\(n_1 = n_2 = 5\)</span>, we have <span class="math display">\[
+\pi\left(N=n \mid n_{11}\right)=\frac{\choose{n_1}{n_{11}}\choose{n-n_1}{n_2-n_{11}} / \choose{n}{n_2} \pi(N=n)}{\sum_{k=36}^{50}\choose{n_1}{n_{11}}\choose{k-n_1}{n_2-n_{11}} / \choose{k}{n_2} \pi(N=k)}.
+\]</span></li>
+</ul>
+<div class="fragment">
+<div class="cell" data-hash="04-estimation_cache/revealjs/unnamed-chunk-1_b9fe7c380bff2b2ddca80928dd315890">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>N_vec <span class="ot">&lt;-</span> <span class="dv">36</span><span class="sc">:</span><span class="dv">50</span>; n_1 <span class="ot">&lt;-</span> <span class="dv">5</span>; n_2 <span class="ot">&lt;-</span> <span class="dv">5</span>; n_11 <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>out <span class="ot">&lt;-</span><span class="fu">sapply</span>(n_11, <span class="cf">function</span>(x) <span class="fu">dhyper</span>(x, n_1, N_vec<span class="sc">-</span>n_1, n_2)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>    <span class="fu">apply</span>(., <span class="dv">2</span>, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sum</span>(x)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="fu">data.frame</span>() </span>
+<span id="cb1-8"><a href="#cb1-8"></a>out <span class="sc">%&gt;%</span> <span class="fu">cbind</span>(<span class="at">N =</span> N_vec, .) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>, <span class="at">digits =</span> <span class="dv">4</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"N"</span>, n_11))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</div>
+</section>
+<section id="example-3-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-hash="04-estimation_cache/revealjs/unnamed-chunk-1_b9fe7c380bff2b2ddca80928dd315890">
+<div class="cell-output-display">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">0.0580</td>
+<td style="text-align: right;">0.0725</td>
+<td style="text-align: right;">0.0886</td>
+<td style="text-align: right;">0.1061</td>
+<td style="text-align: right;">0.1246</td>
+<td style="text-align: right;">0.1438</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">0.0594</td>
+<td style="text-align: right;">0.0716</td>
+<td style="text-align: right;">0.0846</td>
+<td style="text-align: right;">0.0979</td>
+<td style="text-align: right;">0.1112</td>
+<td style="text-align: right;">0.1244</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0.0608</td>
+<td style="text-align: right;">0.0708</td>
+<td style="text-align: right;">0.0808</td>
+<td style="text-align: right;">0.0905</td>
+<td style="text-align: right;">0.0996</td>
+<td style="text-align: right;">0.1080</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">0.0621</td>
+<td style="text-align: right;">0.0700</td>
+<td style="text-align: right;">0.0772</td>
+<td style="text-align: right;">0.0838</td>
+<td style="text-align: right;">0.0895</td>
+<td style="text-align: right;">0.0942</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.0634</td>
+<td style="text-align: right;">0.0691</td>
+<td style="text-align: right;">0.0739</td>
+<td style="text-align: right;">0.0778</td>
+<td style="text-align: right;">0.0806</td>
+<td style="text-align: right;">0.0824</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">0.0647</td>
+<td style="text-align: right;">0.0683</td>
+<td style="text-align: right;">0.0708</td>
+<td style="text-align: right;">0.0723</td>
+<td style="text-align: right;">0.0728</td>
+<td style="text-align: right;">0.0723</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">0.0659</td>
+<td style="text-align: right;">0.0674</td>
+<td style="text-align: right;">0.0679</td>
+<td style="text-align: right;">0.0673</td>
+<td style="text-align: right;">0.0659</td>
+<td style="text-align: right;">0.0637</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">0.0670</td>
+<td style="text-align: right;">0.0666</td>
+<td style="text-align: right;">0.0651</td>
+<td style="text-align: right;">0.0628</td>
+<td style="text-align: right;">0.0598</td>
+<td style="text-align: right;">0.0563</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">0.0682</td>
+<td style="text-align: right;">0.0658</td>
+<td style="text-align: right;">0.0625</td>
+<td style="text-align: right;">0.0587</td>
+<td style="text-align: right;">0.0544</td>
+<td style="text-align: right;">0.0499</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0.0692</td>
+<td style="text-align: right;">0.0650</td>
+<td style="text-align: right;">0.0601</td>
+<td style="text-align: right;">0.0549</td>
+<td style="text-align: right;">0.0496</td>
+<td style="text-align: right;">0.0444</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">0.0703</td>
+<td style="text-align: right;">0.0642</td>
+<td style="text-align: right;">0.0578</td>
+<td style="text-align: right;">0.0515</td>
+<td style="text-align: right;">0.0453</td>
+<td style="text-align: right;">0.0396</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">0.0713</td>
+<td style="text-align: right;">0.0634</td>
+<td style="text-align: right;">0.0556</td>
+<td style="text-align: right;">0.0483</td>
+<td style="text-align: right;">0.0415</td>
+<td style="text-align: right;">0.0353</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">0.0723</td>
+<td style="text-align: right;">0.0626</td>
+<td style="text-align: right;">0.0536</td>
+<td style="text-align: right;">0.0454</td>
+<td style="text-align: right;">0.0380</td>
+<td style="text-align: right;">0.0317</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">0.0732</td>
+<td style="text-align: right;">0.0618</td>
+<td style="text-align: right;">0.0516</td>
+<td style="text-align: right;">0.0427</td>
+<td style="text-align: right;">0.0350</td>
+<td style="text-align: right;">0.0284</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.0741</td>
+<td style="text-align: right;">0.0611</td>
+<td style="text-align: right;">0.0498</td>
+<td style="text-align: right;">0.0402</td>
+<td style="text-align: right;">0.0322</td>
+<td style="text-align: right;">0.0256</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></section><section id="estimates-of-the-population-size" class="slide level2">
+<h2>Estimates of the population size</h2>
+<div class="fragment">
+<ul>
+<li>Posterior mean:</li>
+</ul>
+<div class="cell" data-hash="04-estimation_cache/revealjs/unnamed-chunk-2_ba3030fb8726c8dc292b182ca9f0cc5d">
+<div class="cell-output-display">
+<table style="width:70%;">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(n_{11}\)</span></th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\mathbb{E}(N\mid n_{11})\)</span></td>
+<td style="text-align: right;">43.32</td>
+<td style="text-align: right;">42.77</td>
+<td style="text-align: right;">42.23</td>
+<td style="text-align: right;">41.72</td>
+<td style="text-align: right;">41.23</td>
+<td style="text-align: right;">40.78</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>MAP:</li>
+</ul>
+<div class="cell" data-hash="04-estimation_cache/revealjs/unnamed-chunk-3_a3aa34cde7cb1a87d0c124a4e1650210">
+<div class="cell-output-display">
+<table style="width:70%;">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(n_{11}\)</span></th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\text{argmax }\pi(N\mid n_{11})\)</span></td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="estimates-of-the-population-size-1" class="slide level2">
+<h2>Estimates of the population size</h2>
+<p>If, instead of the squared error, we use the loss <span class="math display">\[\begin{align*}
+L(N, \delta)= \begin{cases}10(\delta-N) &amp; \text { if } \delta&gt;N, \\ N-\delta &amp; \text { otherwise }\end{cases}
+\end{align*}\]</span> in order to avoid an overestimation of the population size, the Bayes estimator is the <span class="math inline">\((1 / 11)\)</span>-quantile of <span class="math inline">\(\pi\left(N \mid n_{11}\right)\)</span>.</p>
+<div class="cell" data-hash="04-estimation_cache/revealjs/unnamed-chunk-4_f9f812efbb99369463c5030bc0e1ab54">
+<div class="cell-output-display">
+<table style="width:70%;">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(n_{11}\)</span></th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\delta(n_{11})\)</span></td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">36</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li class="fragment">The decision theory framework allows us to compare different estimators, under a given loss function.</li>
+<li class="fragment">The determination of loss is as difficult as the determination of prior.</li>
+<li class="fragment">From a decision-theoretic point of view, Bayes estimators are always admissible, while MLE might not (e.g., Stein’s paradox).</li>
+<li class="fragment">The MAP estimator is essentially a penalized MLE. The penalization term is determined by the prior.</li>
+</ul>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
-</section>
-
+</section></section>
 
     </div>
   </div>
@@ -931,6 +1457,44 @@ R\left(\theta_0, \delta_0\right)&gt;R\left(\theta_0, \delta_1\right) .
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
