@@ -340,6 +340,35 @@ Chun-Hao Yang
 </section>
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">We have seen that the determination of prior can be very complicated and different prior leads to different inference procedures.</li>
+<li class="fragment">In this lecture, we will see how we can evaluate and compare different inference procedures.</li>
+<li class="fragment">More importantly, besides offering coherent inference procedures, the Bayesian paradigm also enjoys some frequentist optimality properties.</li>
+<li class="fragment">The statistical inferential framework we focus in this lecture is called <strong>Decision Theory</strong>.</li>
+</ul>
 </section>
 <section>
 <section id="decision-theory" class="title-slide slide level1 center">
@@ -348,15 +377,337 @@ Chun-Hao Yang
 </section>
 <section id="evaluating-estimators" class="slide level2">
 <h2>Evaluating estimators</h2>
+<ul>
+<li class="fragment">Decision theory can be applied to any kind of statistical problems, e.g., testing, estimation, etc.</li>
+<li class="fragment">We will temporarily focus on the statistical estimation setting.</li>
+<li class="fragment">Let <span class="math inline">\(\Theta\)</span> be the parameter space and <span class="math inline">\(\mc{D}\)</span> be the <strong>decision space</strong>, which contain all possible decisions.</li>
+<li class="fragment">In standard estimation setting, <span class="math inline">\(\mc{D} = \Theta\)</span>.</li>
+</ul>
+<div id="def-loss" class="fragment theorem definition">
+<p><span class="theorem-title"><strong>Definition 1 </strong></span>A loss function is any function <span class="math inline">\(L\)</span> from <span class="math inline">\(\Theta \times \mc{D}\)</span> to <span class="math inline">\([0,+\infty)\)</span>.</p>
+</div>
 </section>
-<section id="loss-and-utility-function" class="slide level2">
-<h2>Loss and Utility function</h2>
+<section id="loss-function" class="slide level2">
+<h2>Loss function</h2>
+<ul>
+<li class="fragment">This loss function is supposed to evaluate the penalty (or error) <span class="math inline">\(L(\theta, d)\)</span> associated with the decision <span class="math inline">\(d\)</span> when the parameter takes the value <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">A <strong>utility function</strong> is just the opposite of a loss function, e.g., <span class="math inline">\(U(\theta, d) = -L(\theta, d)\)</span>.</li>
+<li class="fragment">Intuitively, a good decision <span class="math inline">\(d\)</span> minimizes the loss (maximizes the utility) <strong>at every</strong> <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">Is this possible?</li>
+</ul>
 </section>
-<section id="admissibility" class="slide level2">
-<h2>Admissibility</h2>
+<section id="bayesian-decision-theory" class="slide level2">
+<h2>Bayesian Decision Theory</h2>
+<ul>
+<li class="fragment"><p>Bayesian statistical inference should start with the rigorous determination of three factors:</p>
+<ol type="1">
+<li class="fragment">the distribution family for the observations, <span class="math inline">\(f(x\mid\theta)\)</span>;</li>
+<li class="fragment">the prior distribution for the parameters, <span class="math inline">\(\pi(\theta)\)</span>;</li>
+<li class="fragment">the loss associated with the decisions, <span class="math inline">\(L(\theta, \delta)\)</span>;</li>
+</ol></li>
+<li class="fragment"><p><strong>Bad news</strong>: The determination of loss is as complicated as the determination of prior.</p></li>
+<li class="fragment"><p>Actually, Lindley (1985) states that loss and prior are difficult to separate and should be analyzed simultaneously.</p></li>
+</ul>
+
+<aside><div>
+<p>Lindley, D.V. (1985) <em>Making Decisions</em> (2nd edition). J. Wiley, New York.</p>
+</div></aside></section>
+<section id="commonly-used-loss-functions" class="slide level2">
+<h2>Commonly used loss functions</h2>
+<ul>
+<li class="fragment">Squared error loss: <span class="math inline">\(L(\theta, d) = (\theta - d)^2\)</span></li>
+<li class="fragment">Weighted loss: <span class="math inline">\(L(\theta, d) = w(\theta)(\theta-d)^2\)</span>
+<ul>
+<li class="fragment">using this loss with prior <span class="math inline">\(\pi(\theta)\)</span> is the same as using squared error loss with prior <span class="math inline">\(\pi(\theta)w(\theta)\)</span></li>
+</ul></li>
+<li class="fragment">Absolute error: <span class="math inline">\(L(\theta, d) = |\theta - d|\)</span></li>
+<li class="fragment">The 0-1 loss: <span class="math inline">\(L(\theta, d) = I(\theta \neq d)\)</span></li>
+<li class="fragment">Intrinsic loss:
+<ul>
+<li class="fragment">Kullback-Leibler divergence <span class="math inline">\(L_{\text{KL}}(\theta, \delta) = \E_\theta\left[\log \left(\frac{f(x \mid \theta)}{f(x \mid \delta)}\right)\right]\)</span></li>
+<li class="fragment">Hellinger loss <span class="math inline">\(L_{\mathrm{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="fragment">
+<ul>
+<li>For <span class="math inline">\(X \sim N(\theta, 1)\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+L_{\mathrm{KL}}(\theta, \delta) &amp; =\frac{1}{2} \E_\theta\left[-(x-\theta)^2+(x-\delta)^2\right]=\frac{1}{2}(\delta-\theta)^2 \\
+L_{\mathrm{H}}(\theta, \delta) &amp; =1-\exp \left\{-(\delta-\theta)^2 / 8\right\}.
+\end{align*}\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>For <span class="math inline">\(X \sim N(0, \sigma^2)\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+L_{\mathrm{KL}}(\sigma, \delta) &amp; =\log \frac{\delta}{\sigma}+\frac{\sigma^2}{2 \delta^2}-\frac{1}{2} \\
+L_{\mathrm{H}}(\sigma, \delta) &amp; =1-\sqrt{\frac{2 \sigma \delta}{\sigma^2+\delta^2}}.
+\end{align*}\]</span></p>
+</div>
+</section>
+<section id="statistical-model" class="slide level2">
+<h2>Statistical model</h2>
+<ul>
+<li class="fragment">From a decision-theoretic point of view, the statistical model now involves three spaces:
+<ul>
+<li class="fragment"><span class="math inline">\(\mc{X}\)</span>, observation space (or sample space),</li>
+<li class="fragment"><span class="math inline">\(\Theta\)</span>, parameter space, and</li>
+<li class="fragment"><span class="math inline">\(\mc{D}\)</span>, decision space (or action space).</li>
+</ul></li>
+<li class="fragment">We then need to determine a loss function <span class="math inline">\(L(\theta, d)\)</span>.</li>
+<li class="fragment">The goal is to find a decision rule <span class="math inline">\(\delta: \mc{X} \to \mc{D}\)</span>, such that the loss <span class="math inline">\(L(\theta, \delta(x))\)</span> is minimized.</li>
+<li class="fragment">Except for trivial settings, it is generally impossible to uniformly minimize (in <span class="math inline">\(d\)</span>) the loss function <span class="math inline">\(L(\theta, d)\)</span> when <span class="math inline">\(\theta\)</span> is unknown.</li>
+</ul>
+</section>
+<section id="risk" class="slide level2">
+<h2>Risk</h2>
+<p>To derive an effective comparison criterion from the loss function, we have</p>
+<ul>
+<li class="fragment"><p>Frequentist Risk: average over unknown <span class="math inline">\(x\)</span> (samples) <span class="math display">\[\begin{align*}
+R(\theta, \delta)  =\E_\theta[L(\theta, \delta(X))]
+=\int_{\mc{X}} L(\theta, \delta(x)) f(x \mid \theta) d x
+\end{align*}\]</span></p></li>
+<li class="fragment"><p>Posterior Risk: average over unknown <span class="math inline">\(\theta\)</span> (parameters) <span class="math display">\[\begin{align*}
+\rho(\pi, d \mid x)  =\E^\pi[L(\theta, d) \mid x]
+=\int_{\Theta} L(\theta, d) \pi(\theta \mid x) d \theta
+\end{align*}\]</span></p></li>
+<li class="fragment"><p>Integrated Risk: average over both <span class="math inline">\(\theta\)</span> and <span class="math inline">\(x\)</span> <span class="math display">\[\begin{align*}
+r(\pi, \delta) =\mathbb{E}^\pi[R(\theta, \delta)]
+=\int_{\Theta} \int_{\mathcal{X}} \mathrm{L}(\theta, \delta(x)) f(x \mid \theta) d x \pi(\theta) d \theta
+\end{align*}\]</span></p></li>
+</ul>
+</section>
+<section id="frequentist-risk" class="slide level2">
+<h2>Frequentist Risk</h2>
+<ul>
+<li class="fragment">Given <span class="math inline">\(\delta\)</span>, <span class="math inline">\(R(\theta, \delta)\)</span> is a function of <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">The value <span class="math inline">\(R(\theta, \delta)\)</span> is the <strong>long-run performance</strong> of <span class="math inline">\(\delta\)</span> when the true parameter is <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">The goal is to select a decision rule that has the best long-run performance <u>uniformly in <span class="math inline">\(\theta\)</span></u>, which is generally impossible.</li>
+<li class="fragment">Even if we find a decision rule with good long-run performance, we are not able to evaluate the performance for the given observation <span class="math inline">\(x\)</span>.</li>
+<li class="fragment">Finally, using this risk implicitly assumes that the same problem will be met again and again.</li>
+</ul>
+</section>
+<section id="posterior-risk" class="slide level2">
+<h2>Posterior Risk</h2>
+<ul>
+<li class="fragment">Given <span class="math inline">\(x\)</span>, <span class="math inline">\(\rho(\pi, d \mid x)\)</span> is the average error resulting from decision <span class="math inline">\(d\)</span>.</li>
+<li class="fragment">The posterior risk is a function of <span class="math inline">\(x\)</span>, which is known.</li>
+<li class="fragment">By Fubini’s Theorem, <span class="math display">\[
+    r(\pi, \delta) = \int \rho(\pi, \delta(x) \mid x) m(x)dx
+\]</span> where <span class="math inline">\(m(x) = \int f(x\mid\theta)\pi(\theta)d\theta\)</span> is the marginal distribution.</li>
+<li class="fragment">Unlike the frequentist risk which associates a function to <span class="math inline">\(\delta\)</span>, the integrated risk associates a real number to <span class="math inline">\(\delta\)</span>.</li>
+</ul>
+</section>
+<section id="bayes-estimator" class="slide level2">
+<h2>Bayes Estimator</h2>
+<ul>
+<li class="fragment">Given a prior distribution <span class="math inline">\(\pi\)</span> and a loss function <span class="math inline">\(L\)</span></li>
+<li class="fragment">A <strong>Bayes estimator</strong> is any estimator <span class="math inline">\(\delta^\pi\)</span> which minimizes <span class="math inline">\(r(\pi, \delta)\)</span>.</li>
+<li class="fragment">For every <span class="math inline">\(x \in \mathcal{X}\)</span>, it is given by <span class="math inline">\(\delta^\pi(x)\)</span>, argument of <span class="math inline">\(\min _d \rho(\pi, d \mid x)\)</span>.</li>
+<li class="fragment">The value <span class="math inline">\(r(\pi)=r\left(\pi, \delta^\pi\right)\)</span> is then called the <em>Bayes risk</em>.</li>
+<li class="fragment">For example, posterior mean is the Bayes estimator under the squared error loss <span class="math inline">\(L(\theta, d) = (\theta - d)^2\)</span> and posterior median is the Bayes estimator under <span class="math inline">\(L(\theta, d) = |\theta-d|\)</span>.</li>
+<li class="fragment">When <span class="math inline">\(\pi\)</span> is improper, <span class="math inline">\(r(\pi, \delta)\)</span> might not be finite. In this case, we <span class="math inline">\(\delta^{\pi}(x)\)</span> as the minimum of the minimizer of the posterior risk and call it a <strong>generalized Bayes estimator</strong>.</li>
+</ul>
+</section>
+<section id="the-0-1-loss-and-map" class="slide level2">
+<h2>The 0-1 loss and MAP</h2>
+<ul>
+<li class="fragment">This loss is mainly used in the classical approach to hypothesis testing.</li>
+<li class="fragment">For discrete parameters, the Bayes estimator under the 0-1 loss is the MAP.</li>
+<li class="fragment">For example, consider <span class="math inline">\(\Theta = \{0, 1\}\)</span> and the posterior is <span class="math inline">\(\pi(\theta = 1 \mid x) = p(x) = 1 - \pi(\theta = 0 \mid x)\)</span>.</li>
+<li class="fragment">The posterior risk is <span class="math display">\[
+    \rho(\pi, d \mid x) = \E_{\theta\mid x}L(\theta, d) = \begin{cases}
+1 - p(x), &amp; d = 1\\
+p(x), &amp; d = 0
+\end{cases}.
+\]</span></li>
+<li class="fragment">The Bayes estimator is <span class="math display">\[
+    \delta^{\pi}(x) = \argmin_d \rho(\pi, d \mid x) =  \begin{cases}
+1, &amp; \pi(\theta = 1 \mid x) &gt; 1/2\\
+0, &amp; \pi(\theta = 0 \mid x) &gt; 1/2
+\end{cases},
+\]</span> which is the MAP.</li>
+</ul>
+</section>
+<section id="the-0-1-loss-and-map-1" class="slide level2">
+<h2>The 0-1 loss and MAP</h2>
+<ul>
+<li class="fragment">For continuous parameters, it is slightly more complicated.</li>
+<li class="fragment">For any <span class="math inline">\(d \in \Theta\)</span>, the posterior risk is <span class="math display">\[
+\rho(\pi, d \mid x) = \E_{\theta\mid x}I(\theta \neq d) = \P(\theta \neq d \mid x) = 1,
+\]</span> which is independent of <span class="math inline">\(d\)</span>.</li>
+<li class="fragment">Hence every <span class="math inline">\(d \in \Theta\)</span> is a minimizer of the posterior risk.</li>
+<li class="fragment">However if we replace the 0-1 loss by a sequence of losses, <span class="math inline">\(L_{\varepsilon}(\theta, d) = I(\|\theta-d\| &gt; \varepsilon)\)</span>, the MAP estimate is then the limit of the Bayes estimates associated with <span class="math inline">\(L_{\varepsilon}\)</span>, when <span class="math inline">\(\varepsilon \to 0\)</span>.</li>
+</ul>
+</section>
+<section id="a-quick-wrap-up" class="slide level2">
+<h2>A quick wrap-up</h2>
+<ul>
+<li class="fragment">To perform a decision-theoretic evaluation for estimators (or any other statistical inference), we need to first choose a <strong>loss function</strong> <span class="math inline">\(L\)</span>.</li>
+<li class="fragment">With <span class="math inline">\(L\)</span>, we can obtain different risks by averaging over different spaces.</li>
+<li class="fragment">As a Bayesian, only the posterior risk <span class="math inline">\(\rho(\pi, d\mid x)\)</span> is important.</li>
+<li class="fragment">The integrated risk <span class="math inline">\(r(\pi, \delta)\)</span> actually connects the posterior risk and the frequentist risk.</li>
+<li class="fragment">It also explains why Bayes estimators play an important role in frequentist optimality criteria.</li>
+</ul>
+</section>
+<section id="two-optimalities" class="slide level2">
+<h2>Two optimalities</h2>
+<ul>
+<li class="fragment">There are two fundamental notions of frequentist Decision Theory: <strong>minimaxity</strong> and <strong>admissibility</strong>.</li>
+<li class="fragment">Under the frequentist paradigm, there is no single optimal estimator.</li>
+<li class="fragment">We will see that Bayes estimators are often optimal for the frequentist concepts of optimality.</li>
+</ul>
 </section>
 <section id="minimaxity" class="slide level2">
 <h2>Minimaxity</h2>
+<ul>
+<li class="fragment">It is an insurance against the worst case because it aims at minimizing the expected loss in the least favorable case.</li>
+<li class="fragment">The <strong>minimax risk</strong> associated with a loss function <span class="math inline">\(L\)</span> is the value <span class="math display">\[
+\bar{R}=\inf _{\delta \in \mc{D}} \sup _\theta R(\theta, \delta)=\inf _{\delta \in \mc{D}} \sup_\theta \E_\theta[L(\theta, \delta(X))].
+\]</span></li>
+<li class="fragment">A <strong>minimax estimator</strong> is any estimator <span class="math inline">\(\delta_0\)</span> such that <span class="math display">\[
+\sup _\theta R\left(\theta, \delta_0\right)=\bar{R} .
+\]</span></li>
+<li class="fragment">In other words, a minimax estimator has the best <strong>worst-case performance</strong>.</li>
+<li class="fragment">The notion of minimaxity provides a good illustration of the conservative aspects of the frequentist paradigm.</li>
+</ul>
+</section>
+<section id="bayes-esitmator-and-minimaxity" class="slide level2">
+<h2>Bayes esitmator and minimaxity</h2>
+<ul>
+<li class="fragment">In fact, from a Bayesian point of view, it is often equivalent to take a prior concentrated on these worst cases.</li>
+<li class="fragment">{ least favorable prior}</li>
+<li class="fragment">{ limiting Bayes}</li>
+</ul>
+</section>
+<section id="admissibility" class="slide level2">
+<h2>Admissibility</h2>
+<ul>
+<li class="fragment">An estimator <span class="math inline">\(\delta_0\)</span> is <strong>inadmissible</strong> if there exists an estimator <span class="math inline">\(\delta_1\)</span> which dominates <span class="math inline">\(\delta_0\)</span>, that is, such that, for every <span class="math inline">\(\theta\)</span>, <span class="math display">\[\begin{align*}
+R\left(\theta, \delta_0\right) \geq R\left(\theta, \delta_1\right)
+\end{align*}\]</span> and, for at least one value <span class="math inline">\(\theta_0\)</span> of the parameter, <span class="math display">\[\begin{align*}
+R\left(\theta_0, \delta_0\right)&gt;R\left(\theta_0, \delta_1\right) .
+\end{align*}\]</span></li>
+<li class="fragment">Otherwise, <span class="math inline">\(\delta_0\)</span> is said to be <strong>admissible</strong>.</li>
+</ul>
+</section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Student</th>
+<th>國文</th>
+<th>英文</th>
+<th>數學</th>
+<th>自然</th>
+<th>社會</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>80</td>
+<td>90</td>
+<td>95</td>
+<td>85</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>70</td>
+<td>80</td>
+<td>85</td>
+<td>75</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>85</td>
+<td>90</td>
+<td>95</td>
+<td>90</td>
+<td>60</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>90</td>
+<td>80</td>
+<td>50</td>
+<td>60</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>80</td>
+<td>80</td>
+<td>80</td>
+<td>80</td>
+<td>80</td>
+</tr>
+</tbody>
+</table>
+<p>Among these 5 students:</p>
+<ul>
+<li class="fragment"><p>A and E are minimax, since their have the highest worst score, 80.</p></li>
+<li class="fragment"><p>B and E are inadmissible, since A dominates B and E; A, C, and D are admissible.</p></li>
+<li class="fragment"><p>The Bayes estimator under the prior (1,1,1,1,1) is A; the Bayes estimator under the prior (1,0,0,0,0) is D.</p></li>
+</ul>
+</section>
+<section id="steins-paradox" class="slide level2">
+<h2>Stein’s Paradox</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(X \sim N_p(\theta, I)\)</span> and <span class="math inline">\(p&gt;2\)</span>. Then <span class="math inline">\(X\)</span> is the MLE for <span class="math inline">\(\theta\)</span> and <u>is inadmissible</u>.</li>
+<li class="fragment">The MLE is dominated by the <strong>James-Stein estimator</strong> <span class="math display">\[
+\hat{\theta}^{\text{JS}} = \left(1 - \frac{p-2}{\|X\|^2}\right)X.
+\]</span></li>
+<li class="fragment">The James-Stein estimator is still inadmissible and is dominated by the <strong>positive-part James-Stein estimator</strong><sup>1</sup> <span class="math display">\[
+\hat{\theta}^{\text{JS+}} = \left(1 - \frac{p-2}{\|X\|^2}\right)_+X,
+\]</span> where <span class="math inline">\((x)_+ = \max(x, 0)\)</span>.</li>
+<li class="fragment">The positive-part James-Stein estimator is still inadmissible since it is not differentiable.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>All these three estimators are minimax.</p></li></ol></aside></section>
+<section id="optimality-of-bayes-estimators" class="slide level2">
+<h2>Optimality of Bayes estimators</h2>
+<ul>
+<li class="fragment">What is more important is whether the Bayes risk is finite rather than the propriety of the prior.</li>
+<li class="fragment">Finite Bayes risk: (regular) Bayes estimator;</li>
+<li class="fragment">Infinite Bayes risk: generalized Bayes estimator</li>
+<li class="fragment"><strong>Unique (regular) Bayes <span class="math inline">\(\Rightarrow\)</span> admissible</strong>
+<ul>
+<li class="fragment">When <span class="math inline">\(L(\theta, d)\)</span> is strictly convex in <span class="math inline">\(d\)</span>, the Bayes estimator is unique.</li>
+<li class="fragment">For example, with a proper prior, the posterior mean is admissible.</li>
+<li class="fragment">With an improper prior, the posterior mean is admissible if it has finite Bayes risk.</li>
+</ul></li>
+</ul>
+</section>
+<section id="optimality-of-bayes-estimators-1" class="slide level2">
+<h2>Optimality of Bayes estimators</h2>
+<ul>
+<li class="fragment"><strong>Unique (regular) Bayes with constant (frequentist) risk <span class="math inline">\(\Rightarrow\)</span> admissible and minimax</strong>
+<ul>
+<li class="fragment">If <span class="math inline">\(X \mid p \sim \bin(n, p)\)</span> and <span class="math inline">\(p \sim \text{Beta}(\sqrt{n}/2, \sqrt{n}/2)\)</span>, the posterior mean of <span class="math inline">\(p\)</span> is admissible and minimax (under the squared error loss).</li>
+<li class="fragment">This prior <span class="math inline">\(\text{Beta}(\sqrt{n}/2, \sqrt{n}/2)\)</span> is called a <strong>least favorable prior</strong>.</li>
+<li class="fragment">A least favorable prior, if it exists, gives a conservative Bayes estimate.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Conclusion</strong></p>
+</div>
+<div class="callout-content">
+<p>Bayes estimators are admissible. It can also be minimax with a particular prior.</p>
+</div>
+</div>
+</div>
+</div>
 </section></section>
 <section id="bayesian-estimation" class="title-slide slide level1 center">
 <h1>Bayesian Estimation</h1>
@@ -365,6 +716,8 @@ Chun-Hao Yang
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section>
+
+
     </div>
   </div>
 

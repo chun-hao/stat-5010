@@ -14,19 +14,333 @@ execute:
     warning: false
     cache: true
     freeze: auto
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Introduction
+
+{{< include macro.qmd >}}
+
+-   We have seen that the determination of prior can be very complicated
+    and different prior leads to different inference procedures.
+-   In this lecture, we will see how we can evaluate and compare
+    different inference procedures.
+-   More importantly, besides offering coherent inference procedures,
+    the Bayesian paradigm also enjoys some frequentist optimality
+    properties.
+-   The statistical inferential framework we focus in this lecture is
+    called **Decision Theory**.
 
 # Decision Theory
 
 ## Evaluating estimators
 
-## Loss and Utility function
+-   Decision theory can be applied to any kind of statistical problems,
+    e.g., testing, estimation, etc.
+-   We will temporarily focus on the statistical estimation setting.
+-   Let $\Theta$ be the parameter space and $\mc{D}$ be the **decision
+    space**, which contain all possible decisions.
+-   In standard estimation setting, $\mc{D} = \Theta$.
 
-## Admissibility
+::: {#def-loss .fragment}
+A loss function is any function $L$ from $\Theta \times \mc{D}$ to
+$[0,+\infty)$.
+:::
+
+## Loss function
+
+-   This loss function is supposed to evaluate the penalty (or error)
+    $L(\theta, d)$ associated with the decision $d$ when the parameter
+    takes the value $\theta$.
+-   A **utility function** is just the opposite of a loss function,
+    e.g., $U(\theta, d) = -L(\theta, d)$.
+-   Intuitively, a good decision $d$ minimizes the loss (maximizes the
+    utility) **at every** $\theta$.
+-   Is this possible?
+
+## Bayesian Decision Theory
+
+-   Bayesian statistical inference should start with the rigorous
+    determination of three factors:
+
+    1.  the distribution family for the observations, $f(x\mid\theta)$;
+    2.  the prior distribution for the parameters, $\pi(\theta)$;
+    3.  the loss associated with the decisions, $L(\theta, \delta)$;
+
+-   **Bad news**: The determination of loss is as complicated as the
+    determination of prior.
+
+-   Actually, Lindley (1985) states that loss and prior are difficult to
+    separate and should be analyzed simultaneously.
+
+::: aside
+Lindley, D.V. (1985) *Making Decisions* (2nd edition). J. Wiley, New
+York.
+:::
+
+## Commonly used loss functions
+
+-   Squared error loss: $L(\theta, d) = (\theta - d)^2$
+-   Weighted loss: $L(\theta, d) = w(\theta)(\theta-d)^2$
+    +    using this loss with prior $\pi(\theta)$ is the same as using squared error loss with prior $\pi(\theta)w(\theta)$
+-   Absolute error: $L(\theta, d) = |\theta - d|$
+-   The 0-1 loss: $L(\theta, d) = I(\theta \neq d)$
+-   Intrinsic loss:
+    +   Kullback-Leibler divergence $L_{\text{KL}}(\theta, \delta) = \E_\theta\left[\log \left(\frac{f(x \mid \theta)}{f(x \mid \delta)}\right)\right]$
+    +   Hellinger loss $L_{\mathrm{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx$
+    
+## Example
+
+:::{.fragment .nonincremental}
+-   For $X \sim N(\theta, 1)$, we have
+
+\begin{align*}
+L_{\mathrm{KL}}(\theta, \delta) & =\frac{1}{2} \E_\theta\left[-(x-\theta)^2+(x-\delta)^2\right]=\frac{1}{2}(\delta-\theta)^2 \\
+L_{\mathrm{H}}(\theta, \delta) & =1-\exp \left\{-(\delta-\theta)^2 / 8\right\}.
+\end{align*}
+:::
+
+:::{.fragment .nonincremental}
+-   For $X \sim N(0, \sigma^2)$, we have
+
+\begin{align*}
+L_{\mathrm{KL}}(\sigma, \delta) & =\log \frac{\delta}{\sigma}+\frac{\sigma^2}{2 \delta^2}-\frac{1}{2} \\
+L_{\mathrm{H}}(\sigma, \delta) & =1-\sqrt{\frac{2 \sigma \delta}{\sigma^2+\delta^2}}.
+\end{align*}
+:::
+
+## Statistical model
+
+-   From a decision-theoretic point of view, the statistical model now
+    involves three spaces:
+    -   $\mc{X}$, observation space (or sample space),
+    -   $\Theta$, parameter space, and
+    -   $\mc{D}$, decision space (or action space).
+-   We then need to determine a loss function $L(\theta, d)$.
+-   The goal is to find a decision rule $\delta: \mc{X} \to \mc{D}$,
+    such that the loss $L(\theta, \delta(x))$ is minimized.
+-   Except for trivial settings, it is generally impossible to uniformly
+    minimize (in $d$) the loss function $L(\theta, d)$ when $\theta$ is
+    unknown.
+
+## Risk
+
+To derive an effective comparison criterion from the loss function, we
+have
+
+-   Frequentist Risk: average over unknown $x$ (samples) \begin{align*}
+    R(\theta, \delta)  =\E_\theta[L(\theta, \delta(X))]
+    =\int_{\mc{X}} L(\theta, \delta(x)) f(x \mid \theta) d x
+    \end{align*}
+
+-   Posterior Risk: average over unknown $\theta$ (parameters)
+    \begin{align*}
+    \rho(\pi, d \mid x)  =\E^\pi[L(\theta, d) \mid x]
+    =\int_{\Theta} L(\theta, d) \pi(\theta \mid x) d \theta
+    \end{align*}
+
+-   Integrated Risk: average over both $\theta$ and $x$ \begin{align*}
+    r(\pi, \delta) =\mathbb{E}^\pi[R(\theta, \delta)]
+     =\int_{\Theta} \int_{\mathcal{X}} \mathrm{L}(\theta, \delta(x)) f(x \mid \theta) d x \pi(\theta) d \theta
+    \end{align*}
+
+## Frequentist Risk
+
+-   Given $\delta$, $R(\theta, \delta)$ is a function of $\theta$.
+-   The value $R(\theta, \delta)$ is the **long-run performance** of
+    $\delta$ when the true parameter is $\theta$.
+-   The goal is to select a decision rule that has the best long-run
+    performance [uniformly in $\theta$]{.underline}, which is generally
+    impossible.
+-   Even if we find a decision rule with good long-run performance, we
+    are not able to evaluate the performance for the given observation
+    $x$.
+-   Finally, using this risk implicitly assumes that the same problem
+    will be met again and again.
+
+## Posterior Risk
+
+-   Given $x$, $\rho(\pi, d \mid x)$ is the average error resulting from
+    decision $d$.
+-   The posterior risk is a function of $x$, which is known.
+-   By Fubini's Theorem, $$
+        r(\pi, \delta) = \int \rho(\pi, \delta(x) \mid x) m(x)dx
+    $$ where $m(x) = \int f(x\mid\theta)\pi(\theta)d\theta$ is the
+    marginal distribution.
+-   Unlike the frequentist risk which associates a function to $\delta$,
+    the integrated risk associates a real number to $\delta$.
+
+## Bayes Estimator
+
+-   Given a prior distribution $\pi$ and a loss function $L$
+-   A **Bayes estimator** is any estimator $\delta^\pi$ which minimizes
+    $r(\pi, \delta)$.
+-   For every $x \in \mathcal{X}$, it is given by $\delta^\pi(x)$,
+    argument of $\min _d \rho(\pi, d \mid x)$.
+-   The value $r(\pi)=r\left(\pi, \delta^\pi\right)$ is then called the
+    *Bayes risk*.
+-   For example, posterior mean is the Bayes estimator under the squared
+    error loss $L(\theta, d) = (\theta - d)^2$ and posterior median is
+    the Bayes estimator under $L(\theta, d) = |\theta-d|$.
+-   When $\pi$ is improper, $r(\pi, \delta)$ might not be finite. In this case, we $\delta^{\pi}(x)$ as the minimum of the minimizer of the posterior risk and call it a **generalized Bayes estimator**.
+
+## The 0-1 loss and MAP
+
+-   This loss is mainly used in the classical approach to hypothesis testing.
+-   For discrete parameters, the Bayes estimator under the 0-1 loss is the MAP.
+-   For example, consider $\Theta = \{0, 1\}$ and the posterior is $\pi(\theta = 1 \mid x) = p(x) = 1 - \pi(\theta = 0 \mid x)$.
+-   The posterior risk is 
+    $$
+        \rho(\pi, d \mid x) = \E_{\theta\mid x}L(\theta, d) = \begin{cases}
+    1 - p(x), & d = 1\\
+    p(x), & d = 0
+\end{cases}.
+    $$
+-   The Bayes estimator is 
+    $$
+        \delta^{\pi}(x) = \argmin_d \rho(\pi, d \mid x) =  \begin{cases}
+    1, & \pi(\theta = 1 \mid x) > 1/2\\
+    0, & \pi(\theta = 0 \mid x) > 1/2
+\end{cases},
+    $$
+    which is the MAP.
+
+## The 0-1 loss and MAP
+
+-   For continuous parameters, it is slightly more complicated.
+-   For any $d \in \Theta$, the posterior risk is 
+$$
+\rho(\pi, d \mid x) = \E_{\theta\mid x}I(\theta \neq d) = \P(\theta \neq d \mid x) = 1,
+$$
+which is independent of $d$. 
+-   Hence every $d \in \Theta$ is a minimizer of the posterior risk.
+-   However if we replace the 0-1 loss by a sequence of losses, $L_{\varepsilon}(\theta, d) = I(\|\theta-d\| > \varepsilon)$,
+the MAP estimate is then the limit of the Bayes estimates associated with $L_{\varepsilon}$, when $\varepsilon \to 0$.
+
+## A quick wrap-up
+
+-   To perform a decision-theoretic evaluation for estimators (or any
+    other statistical inference), we need to first choose a **loss
+    function** $L$.
+-   With $L$, we can obtain different risks by averaging over different
+    spaces.
+-   As a Bayesian, only the posterior risk $\rho(\pi, d\mid x)$ is
+    important.
+-   The integrated risk $r(\pi, \delta)$ actually connects the posterior
+    risk and the frequentist risk.
+-   It also explains why Bayes estimators play an important role in
+    frequentist optimality criteria.
+
+## Two optimalities
+
+-   There are two fundamental notions of frequentist Decision Theory:
+    **minimaxity** and **admissibility**.
+-   Under the frequentist paradigm, there is no single optimal
+    estimator.
+-   We will see that Bayes estimators are often optimal for the
+    frequentist concepts of optimality.
 
 ## Minimaxity
 
+-   It is an insurance against the worst case because it aims at
+    minimizing the expected loss in the least favorable case.
+-   The **minimax risk** associated with a loss function $L$ is the
+    value $$
+    \bar{R}=\inf _{\delta \in \mc{D}} \sup _\theta R(\theta, \delta)=\inf _{\delta \in \mc{D}} \sup_\theta \E_\theta[L(\theta, \delta(X))].
+    $$
+-   A **minimax estimator** is any estimator $\delta_0$ such that $$
+    \sup _\theta R\left(\theta, \delta_0\right)=\bar{R} .
+    $$
+-   In other words, a minimax estimator has the best **worst-case
+    performance**.
+-   The notion of minimaxity provides a good illustration of the
+    conservative aspects of the frequentist paradigm.
+
+## Bayes esitmator and minimaxity
+
+-   In fact, from a Bayesian point of view, it is often equivalent to
+    take a prior concentrated on these worst cases.
+-   {\color{red} least favorable prior}
+-   {\color{red} limiting Bayes}
+
+
+## Admissibility
+
+-   An estimator $\delta_0$ is **inadmissible** if there exists an
+    estimator $\delta_1$ which dominates $\delta_0$, that is, such that,
+    for every $\theta$, \begin{align*}
+    R\left(\theta, \delta_0\right) \geq R\left(\theta, \delta_1\right)
+    \end{align*} and, for at least one value $\theta_0$ of the
+    parameter, \begin{align*}
+    R\left(\theta_0, \delta_0\right)>R\left(\theta_0, \delta_1\right) .
+    \end{align*}
+-   Otherwise, $\delta_0$ is said to be **admissible**.
+
+## Example
+
+| Student | 國文 | 英文 | 數學 | 自然 | 社會 |
+|---------|------|------|------|------|------|
+| A       | 80   | 90   | 95   | 85   | 85   |
+| B       | 70   | 80   | 85   | 75   | 75   |
+| C       | 85   | 90   | 95   | 90   | 60   |
+| D       | 90   | 80   | 50   | 60   | 80   |
+| E       | 80   | 80   | 80   | 80   | 80   |
+
+Among these 5 students:
+
+-    A and E are minimax, since their have the highest worst score, 80.
+
+-    B and E are inadmissible, since A dominates B and E; A, C, and D are admissible.
+
+-    The Bayes estimator under the prior (1,1,1,1,1) is A; the Bayes estimator under the prior (1,0,0,0,0) is D.
+
+## Stein's Paradox
+
+-   Let $X \sim N_p(\theta, I)$ and $p>2$. Then $X$ is the MLE for $\theta$ and [is inadmissible]{.underline}. 
+-   The MLE is dominated by the **James-Stein estimator**
+$$
+\hat{\theta}^{\text{JS}} = \left(1 - \frac{p-2}{\|X\|^2}\right)X.
+$$
+-   The James-Stein estimator is still inadmissible and is dominated by the **positive-part James-Stein estimator**[^1]
+$$
+\hat{\theta}^{\text{JS+}} = \left(1 - \frac{p-2}{\|X\|^2}\right)_+X,
+$$
+where $(x)_+ = \max(x, 0)$.
+-   The positive-part James-Stein estimator is still inadmissible since it is not differentiable. 
+
+[^1]: All these three estimators are minimax.
+
+## Optimality of Bayes estimators
+
+-   What is more important is whether the Bayes risk is finite rather than the propriety of the prior.
+-   Finite Bayes risk: (regular) Bayes estimator; 
+-   Infinite Bayes risk: generalized Bayes estimator
+-   **Unique (regular) Bayes $\Rightarrow$ admissible** 
+    +    When $L(\theta, d)$ is strictly convex in $d$, the Bayes estimator is unique.
+    +    For example, with a proper prior, the posterior mean is admissible.
+    +    With an improper prior, the posterior mean is admissible if it has finite Bayes risk.
+
+## Optimality of Bayes estimators
+
+-   **Unique (regular) Bayes with constant (frequentist) risk $\Rightarrow$ admissible and minimax**
+    +    If $X \mid p \sim \bin(n, p)$ and $p \sim \text{Beta}(\sqrt{n}/2, \sqrt{n}/2)$, the posterior mean of $p$ is admissible and minimax (under the squared error loss).
+    +    This prior $\text{Beta}(\sqrt{n}/2, \sqrt{n}/2)$ is called a **least favorable prior**.
+    +    A least favorable prior, if it exists, gives a conservative Bayes estimate.
+    
+    
+::: {.fragment}
+    
+::: {.callout-note icon=false}
+
+## Conclusion
+
+Bayes estimators are admissible. It can also be minimax with a particular prior.
+:::
+
+:::
+
 # Bayesian Estimation
+
 
