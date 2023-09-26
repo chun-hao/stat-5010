@@ -38,7 +38,7 @@ $[0,+\infty)$.
     $L(\theta, d)$ associated with the decision $d$ when the parameter
     takes the value $\theta$.
 -   A **utility function** is just the opposite of a loss function,
-    e.g., $U(\theta, d) = -L(\theta, d)$.
+    e.g. $U(\theta, d) = -L(\theta, d)$.
 -   Intuitively, a good decision $d$ minimizes the loss (maximizes the
     utility) **at every** $\theta$.
 -   Is this possible?
@@ -75,7 +75,7 @@ York.
     -   Kullback-Leibler divergence
         $L_{\text{KL}}(\theta, \delta) = \E_\theta\left[\log \left(\frac{f(x \mid \theta)}{f(x \mid \delta)}\right)\right]$
     -   Hellinger loss
-        $L_{\mathrm{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx$
+        $L_{\text{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx$
 
 ## Example
 
@@ -109,7 +109,7 @@ L_{\mathrm{H}}(\sigma, \delta) & =1-\sqrt{\frac{2 \sigma \delta}{\sigma^2+\delta
     -   $\Theta$, parameter space, and
     -   $\mc{D}$, decision space (or action space).
 -   We then need to determine a loss function $L(\theta, d)$.
--   The goal is to find a decision rule $\delta: \mc{X} \to \mc{D}$,
+-   The goal is to find a **decision rule** $\delta: \mc{X} \to \mc{D}$,
     such that the loss $L(\theta, \delta(x))$ is minimized.
 -   Except for trivial settings, it is generally impossible to uniformly
     minimize (in $d$) the loss function $L(\theta, d)$ when $\theta$ is
@@ -473,9 +473,10 @@ which models the number of successes in $n$ draws (without replacement) from a p
 
 -   The MLE of $N$ is 
 \begin{align*}
-\hat{N}=\frac{n_1}{\left(n_{11} / n_2\right)},
+\hat{N}=\left[\frac{n_1}{\left(n_{11} / n_2\right)}\right],
 \end{align*}
-which identifies the proportion in the population $\left(n_1 / N\right)$ and the proportion in the sample $\left(n_{11} / n_2\right)$.
+where $[a]$ is the integer part of $a$.
+-   It identifies the proportion in the population $\left(n_1 / N\right)$ and the proportion in the sample $\left(n_{11} / n_2\right)$.
 -   A major drawback is that it cannot be used when $n_{11} = 0$.
 -   A Bayesian analysis does not suffer from this defect because it reaches
 a conclusion even when $n_{11} = 0$. 

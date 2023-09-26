@@ -851,7 +851,7 @@
     "href": "slides/04-estimation.html#loss-function",
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Loss function",
-    "text": "Loss function\n\nThis loss function is supposed to evaluate the penalty (or error) \\(L(\\theta, d)\\) associated with the decision \\(d\\) when the parameter takes the value \\(\\theta\\).\nA utility function is just the opposite of a loss function, e.g., \\(U(\\theta, d) = -L(\\theta, d)\\).\nIntuitively, a good decision \\(d\\) minimizes the loss (maximizes the utility) at every \\(\\theta\\).\nIs this possible?"
+    "text": "Loss function\n\nThis loss function is supposed to evaluate the penalty (or error) \\(L(\\theta, d)\\) associated with the decision \\(d\\) when the parameter takes the value \\(\\theta\\).\nA utility function is just the opposite of a loss function, e.g. \\(U(\\theta, d) = -L(\\theta, d)\\).\nIntuitively, a good decision \\(d\\) minimizes the loss (maximizes the utility) at every \\(\\theta\\).\nIs this possible?"
   },
   {
     "objectID": "slides/04-estimation.html#bayesian-decision-theory",
@@ -865,7 +865,7 @@
     "href": "slides/04-estimation.html#commonly-used-loss-functions",
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Commonly used loss functions",
-    "text": "Commonly used loss functions\n\nSquared error loss: \\(L(\\theta, d) = (\\theta - d)^2\\)\nWeighted loss: \\(L(\\theta, d) = w(\\theta)(\\theta-d)^2\\)\n\nusing this loss with prior \\(\\pi(\\theta)\\) is the same as using squared error loss with prior \\(\\pi(\\theta)w(\\theta)\\)\n\nAbsolute error: \\(L(\\theta, d) = |\\theta - d|\\)\nThe 0-1 loss: \\(L(\\theta, d) = I(\\theta \\neq d)\\)\nIntrinsic loss:\n\nKullback-Leibler divergence \\(L_{\\text{KL}}(\\theta, \\delta) = \\E_\\theta\\left[\\log \\left(\\frac{f(x \\mid \\theta)}{f(x \\mid \\delta)}\\right)\\right]\\)\nHellinger loss \\(L_{\\mathrm{H}}(\\theta, \\delta)=\\frac{1}{2} \\E_\\theta\\left[\\left(\\sqrt{\\frac{f(x \\mid \\delta)}{f(x \\mid \\theta)}}-1\\right)^2\\right] = \\frac{1}{2}\\int \\left(\\sqrt{f(x\\mid\\theta)}-\\sqrt{f(x\\mid\\delta)}\\right)^2 dx\\)"
+    "text": "Commonly used loss functions\n\nSquared error loss: \\(L(\\theta, d) = (\\theta - d)^2\\)\nWeighted loss: \\(L(\\theta, d) = w(\\theta)(\\theta-d)^2\\)\n\nusing this loss with prior \\(\\pi(\\theta)\\) is the same as using squared error loss with prior \\(\\pi(\\theta)w(\\theta)\\)\n\nAbsolute error: \\(L(\\theta, d) = |\\theta - d|\\)\nThe 0-1 loss: \\(L(\\theta, d) = I(\\theta \\neq d)\\)\nIntrinsic loss:\n\nKullback-Leibler divergence \\(L_{\\text{KL}}(\\theta, \\delta) = \\E_\\theta\\left[\\log \\left(\\frac{f(x \\mid \\theta)}{f(x \\mid \\delta)}\\right)\\right]\\)\nHellinger loss \\(L_{\\text{H}}(\\theta, \\delta)=\\frac{1}{2} \\E_\\theta\\left[\\left(\\sqrt{\\frac{f(x \\mid \\delta)}{f(x \\mid \\theta)}}-1\\right)^2\\right] = \\frac{1}{2}\\int \\left(\\sqrt{f(x\\mid\\theta)}-\\sqrt{f(x\\mid\\delta)}\\right)^2 dx\\)"
   },
   {
     "objectID": "slides/04-estimation.html#example",
@@ -1054,7 +1054,7 @@
     "href": "slides/04-estimation.html#darroch-model-1",
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Darroch model",
-    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\frac{n_1}{\\left(n_{11} / n_2\\right)},\n\\end{align*}\\] which identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_11)\\) and draw an inference on \\(N\\)."
+    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\left[\\frac{n_1}{\\left(n_{11} / n_2\\right)}\\right],\n\\end{align*}\\] where \\([a]\\) is the integer part of \\(a\\).\nIt identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_11)\\) and draw an inference on \\(N\\)."
   },
   {
     "objectID": "slides/04-estimation.html#example-3",

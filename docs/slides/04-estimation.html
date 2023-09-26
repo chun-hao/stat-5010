@@ -457,7 +457,7 @@ Chun-Hao Yang
 <h2>Loss function</h2>
 <ul>
 <li class="fragment">This loss function is supposed to evaluate the penalty (or error) <span class="math inline">\(L(\theta, d)\)</span> associated with the decision <span class="math inline">\(d\)</span> when the parameter takes the value <span class="math inline">\(\theta\)</span>.</li>
-<li class="fragment">A <strong>utility function</strong> is just the opposite of a loss function, e.g., <span class="math inline">\(U(\theta, d) = -L(\theta, d)\)</span>.</li>
+<li class="fragment">A <strong>utility function</strong> is just the opposite of a loss function, e.g.&nbsp;<span class="math inline">\(U(\theta, d) = -L(\theta, d)\)</span>.</li>
 <li class="fragment">Intuitively, a good decision <span class="math inline">\(d\)</span> minimizes the loss (maximizes the utility) <strong>at every</strong> <span class="math inline">\(\theta\)</span>.</li>
 <li class="fragment">Is this possible?</li>
 </ul>
@@ -491,7 +491,7 @@ Chun-Hao Yang
 <li class="fragment">Intrinsic loss:
 <ul>
 <li class="fragment">Kullback-Leibler divergence <span class="math inline">\(L_{\text{KL}}(\theta, \delta) = \E_\theta\left[\log \left(\frac{f(x \mid \theta)}{f(x \mid \delta)}\right)\right]\)</span></li>
-<li class="fragment">Hellinger loss <span class="math inline">\(L_{\mathrm{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx\)</span></li>
+<li class="fragment">Hellinger loss <span class="math inline">\(L_{\text{H}}(\theta, \delta)=\frac{1}{2} \E_\theta\left[\left(\sqrt{\frac{f(x \mid \delta)}{f(x \mid \theta)}}-1\right)^2\right] = \frac{1}{2}\int \left(\sqrt{f(x\mid\theta)}-\sqrt{f(x\mid\delta)}\right)^2 dx\)</span></li>
 </ul></li>
 </ul>
 </section>
@@ -526,7 +526,7 @@ L_{\mathrm{H}}(\sigma, \delta) &amp; =1-\sqrt{\frac{2 \sigma \delta}{\sigma^2+\d
 <li class="fragment"><span class="math inline">\(\mc{D}\)</span>, decision space (or action space).</li>
 </ul></li>
 <li class="fragment">We then need to determine a loss function <span class="math inline">\(L(\theta, d)\)</span>.</li>
-<li class="fragment">The goal is to find a decision rule <span class="math inline">\(\delta: \mc{X} \to \mc{D}\)</span>, such that the loss <span class="math inline">\(L(\theta, \delta(x))\)</span> is minimized.</li>
+<li class="fragment">The goal is to find a <strong>decision rule</strong> <span class="math inline">\(\delta: \mc{X} \to \mc{D}\)</span>, such that the loss <span class="math inline">\(L(\theta, \delta(x))\)</span> is minimized.</li>
 <li class="fragment">Except for trivial settings, it is generally impossible to uniformly minimize (in <span class="math inline">\(d\)</span>) the loss function <span class="math inline">\(L(\theta, d)\)</span> when <span class="math inline">\(\theta\)</span> is unknown.</li>
 </ul>
 </section>
@@ -916,8 +916,9 @@ L\left(N, p \mid n_{11}, n_{12}, n_{21}\right)=\choose{N}{n_{11}\;n_{12}\;n_{21}
 <h2>Darroch model</h2>
 <ul>
 <li class="fragment">The MLE of <span class="math inline">\(N\)</span> is <span class="math display">\[\begin{align*}
-\hat{N}=\frac{n_1}{\left(n_{11} / n_2\right)},
-\end{align*}\]</span> which identifies the proportion in the population <span class="math inline">\(\left(n_1 / N\right)\)</span> and the proportion in the sample <span class="math inline">\(\left(n_{11} / n_2\right)\)</span>.</li>
+\hat{N}=\left[\frac{n_1}{\left(n_{11} / n_2\right)}\right],
+\end{align*}\]</span> where <span class="math inline">\([a]\)</span> is the integer part of <span class="math inline">\(a\)</span>.</li>
+<li class="fragment">It identifies the proportion in the population <span class="math inline">\(\left(n_1 / N\right)\)</span> and the proportion in the sample <span class="math inline">\(\left(n_{11} / n_2\right)\)</span>.</li>
 <li class="fragment">A major drawback is that it cannot be used when <span class="math inline">\(n_{11} = 0\)</span>.</li>
 <li class="fragment">A Bayesian analysis does not suffer from this defect because it reaches a conclusion even when <span class="math inline">\(n_{11} = 0\)</span>.</li>
 <li class="fragment">Given a prior distribution <span class="math inline">\(\pi\)</span> on <span class="math inline">\(N\)</span>, it is formally easy to derive the posterior <span class="math inline">\(\pi(N = n\mid n_11)\)</span> and draw an inference on <span class="math inline">\(N\)</span>.</li>
