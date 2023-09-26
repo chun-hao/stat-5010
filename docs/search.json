@@ -1054,7 +1054,7 @@
     "href": "slides/04-estimation.html#darroch-model-1",
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Darroch model",
-    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\left[\\frac{n_1}{\\left(n_{11} / n_2\\right)}\\right],\n\\end{align*}\\] where \\([a]\\) is the integer part of \\(a\\).\nIt identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_11)\\) and draw an inference on \\(N\\)."
+    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\left[\\frac{n_1}{\\left(n_{11} / n_2\\right)}\\right],\n\\end{align*}\\] where \\([a]\\) is the integer part of \\(a\\).\nIt identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_{11})\\) and draw an inference on \\(N\\)."
   },
   {
     "objectID": "slides/04-estimation.html#example-3",

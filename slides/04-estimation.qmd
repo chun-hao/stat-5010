@@ -481,7 +481,7 @@ where $[a]$ is the integer part of $a$.
 -   A Bayesian analysis does not suffer from this defect because it reaches
 a conclusion even when $n_{11} = 0$. 
 -   Given a prior distribution $\pi$ on $N$, it is
-formally easy to derive the posterior $\pi(N = n\mid n_11)$ and draw an inference
+formally easy to derive the posterior $\pi(N = n\mid n_{11})$ and draw an inference
 on $N$.
 
 ## Example
