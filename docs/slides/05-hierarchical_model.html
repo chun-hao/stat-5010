@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Chun-Hao Yang">
-  <title>STAT 5010 - Lecture 05: Hierarchical Models</title>
+  <title>STAT 5010 - Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -328,7 +393,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 05: Hierarchical Models</h1>
+  <h1 class="title">Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -339,13 +404,243 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
+<section>
+<section id="connections-to-non-bayesian-analysis" class="title-slide slide level1 center">
+<h1>Connections to non-Bayesian Analysis</h1>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li class="fragment">In the previous lecture, we saw that MLE and MAP are related.</li>
+<li class="fragment">We will discuss this relationship in more details and explore how this relationship benefits us.</li>
+<li class="fragment">MLE and MAP are not the only connection between Bayesian and non-Bayesian analysis.</li>
+<li class="fragment">We will discuss two other examples: bootstrap and random effect model.</li>
+</ul>
+</section>
+<section id="mle-vs-map" class="slide level2">
+<h2>MLE vs MAP</h2>
+<div class="fragment">
+<ul>
+<li>Given <span class="math inline">\(X_1, \ldots, X_n \iid f(x\mid\theta)\)</span>, the likelihood function is</li>
+</ul>
+<p><span class="math display">\[\ell(\theta\mid x_1,\ldots,x_n) = \prod_{i=1}^n f(x_i\mid\theta) = f(x_1,\ldots,x_n\mid\theta).\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>Suppose we choose <span class="math inline">\(\pi(\theta) \propto 1\)</span>. The posterior is<sup>1</sup></li>
+</ul>
+<p><span class="math display">\[
+    \pi(\theta \mid x_1, \ldots, x_n) \propto f(x_1,\ldots,x_n\mid\theta)\pi(\theta) = f(x_1,\ldots,x_n\mid\theta).
+\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li>Therefore</li>
+</ul>
+<p><span class="math display">\[
+\hat{\theta}_{\text{MAP}} = \argmax_{\theta}\pi(\theta \mid x_1, \ldots, x_n)
+    = \argmax_{\theta}\ell(\theta\mid x_1,\ldots,x_n) = \hat{\theta}_{\text{MLE}}.
+\]</span></p>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>We need to make sure that the posterior is proper; otherwise, this equation is meaningless.</p></li></ol></aside></section>
+<section id="mle-vs-map-1" class="slide level2">
+<h2>MLE vs MAP</h2>
+<ul>
+<li class="fragment">MLE is actually a special case of MAP.</li>
+<li class="fragment"></li>
+</ul>
+</section>
+<section id="asymptotics-of-mle" class="slide level2">
+<h2>Asymptotics of MLE</h2>
+</section>
+<section id="asymptotics-of-bayesion-inference" class="slide level2">
+<h2>Asymptotics of Bayesion inference</h2>
+</section>
+<section id="bernstein-von-mises-theorem" class="slide level2">
+<h2>Bernstein-von Mises Theorem</h2>
+</section>
+<section id="normal-approximation-to-the-posterior" class="slide level2">
+<h2>Normal approximation to the posterior</h2>
+<ul>
+<li class="fragment">If the posterior <span class="math inline">\(\pi(\theta\mid x)\)</span> is <u>unimodal and roughly symmetric</u>, it can be convenient to approximate it by a normal distribution.</li>
+<li class="fragment">That is, the logarithm of the posterior density is approximated by a quadratic function of <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">Consider Taylor series expansion of <span class="math inline">\(\log \pi(\theta\mid x)\)</span> centered at the posterior mode (MAP) <span class="math inline">\(\hat{\theta}\)</span> <span class="math display">\[
+\log \pi(\theta \mid x)=\log \pi(\hat{\theta} \mid x)+\frac{1}{2}(\theta-\hat{\theta})^T\left[\frac{d^2}{d \theta^2} \log \pi(\theta \mid x)\right]_{\theta=\hat{\theta}}(\theta-\hat{\theta})+\cdots
+\]</span></li>
+<li class="fragment">That is, <span class="math display">\[\begin{align*}
+\pi(\theta \mid x) \approx N\left(\hat{\theta},[I(\hat{\theta})]^{-1}\right)
+\end{align*}\]</span> where <span class="math inline">\(I(\theta)\)</span> is the observed information, <span class="math inline">\(I(\theta)=-\frac{d^2}{d \theta^2} \log \pi(\theta \mid x)\)</span>.</li>
+</ul>
+</section>
+<section id="if-the-approximation-is-good-we-can" class="slide level2">
+<h2>IF the approximation is good, we can</h2>
+<ul>
+<li class="fragment">construct a approximate credible region</li>
+<li class="fragment">the MAP and the observed Fisher information are sufficient</li>
+</ul>
+</section>
+<section id="bootstrap-and-bayesian-inference2" class="slide level2">
+<h2>Bootstrap and Bayesian Inference<sup>1</sup></h2>
+<ul>
+<li class="fragment">Bootstrap is a method proposed by Efron (1979)<sup>2</sup> for deriving the sampling distribution of a statistic.</li>
+<li class="fragment">It is based on resampling from the empirical distribution, which converges to the true population distribution (Glivenko-Cantelli theorem).</li>
+<li class="fragment">Example: <span class="math inline">\(X_1, \ldots, X_n \iid F\)</span> and <span class="math inline">\(\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i\)</span>.</li>
+<li class="fragment">A bootstrap sample <span class="math inline">\(X_1^*, \ldots, X_n^*\)</span> is obtained from <span class="math inline">\(X_1, \ldots, X_n\)</span> using <u>sampling with replacement</u>.</li>
+<li class="fragment">The sampling distribution of <span class="math inline">\(\bar{X}_n\)</span> can be estimated/approximated by the distribution of <span class="math inline">\(\bar{X}^*_n = \frac{1}{n}\sum_{i=1}^n X_i^*\)</span>, which is called the <strong>bootstrap distribution</strong>.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Ch. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., &amp; Friedman, J. H. (2009). <em>The elements of statistical learning: data mining, inference, and prediction</em>.</p></li><li id="fn3"><p>B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. <em>Annals of Statistics</em> 7(1) 1 - 26.</p></li></ol></aside></section>
+<section id="bootstrap-and-bayesian-inference" class="slide level2">
+<h2>Bootstrap and Bayesian Inference</h2>
+<ul>
+<li class="fragment">There are some similarities between bootstrap and Bayesian inference:
+<ol type="1">
+<li class="fragment">They both treat the sample as fixed and given.</li>
+<li class="fragment">Based on the sample, they both construct a distribution: bootstrap distribution vs posterior distribution.</li>
+</ol></li>
+<li class="fragment">When will they be (approximately) the same?</li>
+<li class="fragment">Suppose <span class="math inline">\(X_1, \ldots, X_n \mid p \iid \text{Ber}(p)\)</span> and <span class="math inline">\(p \sim \text{Beta}(\alpha, \beta)\)</span>. Then <span class="math display">\[
+p \sim \text{Beta}\left(\alpha + \sum X_i, \beta + n - \sum X_i\right).
+\]</span></li>
+<li class="fragment">Letting <span class="math inline">\(\alpha \to 0\)</span> and <span class="math inline">\(\beta \to 0\)</span>, we have a noninformative prior and <span class="math display">\[
+p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
+\]</span></li>
+</ul>
+</section>
+<section id="bootstrap-and-bayesian-inference-1" class="slide level2">
+<h2>Bootstrap and Bayesian Inference</h2>
+<ul>
+<li class="fragment">Consider a bootstrap sample <span class="math inline">\(X_1^*, \ldots, X_n^*\)</span> (obtained from <span class="math inline">\(X_1,\ldots,X_n\)</span> using sampling with replacement).</li>
+<li class="fragment">Actually, <span class="math inline">\(X_1^*,\ldots, X_n^*\mid X_1,\ldots, X_n \iid \text{Ber}(\hat{p})\)</span>, where <span class="math inline">\(\hat{p} = \frac{1}{n}\sum X_i\)</span>.</li>
+<li class="fragment">Let <span class="math inline">\(\hat{p}^* = \frac{1}{n}\sum X_i^*\)</span>. What is the <u>bootstrap distribution</u> <span class="math inline">\(\hat{p}^* \mid X_1,\ldots, X_n\)</span>?</li>
+<li class="fragment">Let’s do some experiment!</li>
+</ul>
+</section>
+<section id="bootstrap-and-bayesian-inference-2" class="slide level2">
+<h2>Bootstrap and Bayesian Inference</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-1_4ac1537cc6421f63702602c27c74dd6b">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">124</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>p <span class="ot">&lt;-</span> <span class="fl">0.4</span>; n <span class="ot">&lt;-</span> <span class="dv">100</span>; X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># bootstrap</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>B <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>p_boot <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, B)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    X_boot <span class="ot">&lt;-</span> <span class="fu">sample</span>(X, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    p_boot[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(X_boot)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>}</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">hist</span>(p_boot, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">"Bootstrap Distribution"</span>, <span class="at">xlab =</span> <span class="st">"p"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">curve</span>(<span class="fu">dbeta</span>(x, n<span class="sc">*</span>p_hat, n<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_hat)), <span class="at">add =</span> T, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="fu">abline</span>(<span class="at">v =</span> p, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"green"</span>, <span class="at">lwd =</span> <span class="dv">4</span>)</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="fu">abline</span>(<span class="at">v =</span> p_hat, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
+</section>
+<section id="bootstrap-and-bayesian-inference-2-output" class="slide level2 output-location-slide"><h2>Bootstrap and Bayesian Inference</h2><div class="cell output-location-slide" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-1_4ac1537cc6421f63702602c27c74dd6b">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="05-hierarchical_model_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
+<figcaption>The red curve is the posterior distribution; the blue dashed line is the MLE.</figcaption>
+</figure>
+</div>
+</div>
+</div></section><section id="bootstrap-and-bayesian-inference-3" class="slide level2">
+<h2>Bootstrap and Bayesian Inference</h2>
+<ul>
+<li class="fragment">In this sense, the bootstrap distribution represents an (approximate) nonparametric posterior distribution under a noninformative prior.</li>
+<li class="fragment">But this bootstrap distribution is obtained painlessly – without having to formally specify a prior and without having to sample from the posterior distribution.</li>
+<li class="fragment">Hence we might think of the bootstrap distribution as a “poor man’s” posterior.</li>
+</ul>
+</section>
+<section id="distributional-estimates" class="slide level2">
+<h2>Distributional estimates</h2>
+<ul>
+<li class="fragment">One of the advantages of Bayesian inference is that the entire inference is based the posterior distribution, rather than a single point estimate or an interval.</li>
+<li class="fragment">The posterior distribution is just one example of <strong>distributional estimate</strong>, which use a distribution for inference.</li>
+<li class="fragment">Bootstrap distribution is another example.</li>
+<li class="fragment">There is a frequentist concept, called the <strong>confidence distribution</strong>, proposed by Neyman (1939)<sup>1</sup>.</li>
+<li class="fragment">The confidence distribution contains confidence interval of any level.</li>
+<li class="fragment">Fraser (2011)<sup>2</sup> also discussed how the Bayesian posterior and the confidence distribution are related.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>Neyman, J. (1937). Outline of a theory of statistical estimation based on the classical theory of probability. <em>Phil. Trans. Roy. Soc</em></p></li><li id="fn5"><p>Fraser, D. A. S. (2011). Is Bayes Posterior just Quick and Dirty Confidence? <em>Statistical Science</em>, 26(3), 299–316.</p></li></ol></aside></section>
+<section id="random-effect-models" class="slide level2">
+<h2>Random effect models</h2>
+<ul>
+<li class="fragment">Fixed effect model: <span class="math inline">\(Y_i = \beta_0 + \beta X_i + \epsilon_i\)</span>, <span class="math inline">\(\epsilon_i \iid N(0, \sigma^2)\)</span>
+<ul>
+<li class="fragment">The parameter <span class="math inline">\(\beta\)</span> is the <strong>fixed effect</strong> of the factors <span class="math inline">\(X\)</span>.</li>
+<li class="fragment">With a unit increase in <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> is expected to increase by <span class="math inline">\(\beta\)</span>.</li>
+<li class="fragment">Use (regularized) least squares to obtain an estimate for <span class="math inline">\(\beta\)</span>.</li>
+<li class="fragment">The effect is <u>the same for each observation</u></li>
+</ul></li>
+<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + U_i + \epsilon_i\)</span>, <span class="math inline">\(U_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\epsilon_i \iid N(0, \sigma^2)\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(U_i\)</span> is the <strong>random effect</strong> in this model</li>
+<li class="fragment">The effect is different for each observation and, on average, <span class="math inline">\(Y\)</span> is increase by <span class="math inline">\(\beta\)</span> with the presence of this effect.</li>
+<li class="fragment">We will estimate the distribution of the random effect rather than the random effect itself.</li>
+<li class="fragment">The parameters <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\tau\)</span> are estimated through analysis of variance (ANOVA).</li>
+</ul></li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+</section>
+<section id="mixed-effect-model" class="slide level2">
+<h2>Mixed effect model</h2>
+<ul>
+<li class="fragment">A model with both fixed effects and random effects is called a <strong>mixed effect model</strong>.</li>
+<li class="fragment">This model is commonly used in biostatistics, psychology, economics, etc.</li>
+<li class="fragment"></li>
+</ul>
+</section></section>
+<section>
+<section id="hierarchical-models" class="title-slide slide level1 center">
+<h1>Hierarchical Models</h1>
+
+</section>
+<section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<ul>
+<li class="fragment">Some problems have intrinsic hierarchical structures and simple nonhierarchical models (with only few parameters) cannot describe such problems accurately.</li>
+<li class="fragment">Exchangeable parameters</li>
+</ul>
+</section>
+<section id="meta-analysis" class="slide level2">
+<h2>Meta-analysis</h2>
+<ul>
+<li class="fragment">Meta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.</li>
+</ul>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
-</section>
+</section></section>
+
     </div>
   </div>
 
@@ -559,6 +854,44 @@ Chun-Hao Yang
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

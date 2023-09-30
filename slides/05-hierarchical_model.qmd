@@ -1,4 +1,208 @@
 ---
-title: "Lecture 05: Hierarchical Models"
+title: "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+        scrollable: true
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: auto
 ---
 
+# Connections to non-Bayesian Analysis
+
+{{< include macro.qmd >}}
+
+## Introduction
+
+-   In the previous lecture, we saw that MLE and MAP are related.
+-   We will discuss this relationship in more details and explore how this relationship benefits us.
+-   MLE and MAP are not the only connection between Bayesian and non-Bayesian analysis.
+-   We will discuss two other examples: bootstrap and random effect model.
+
+## MLE vs MAP
+
+:::{.fragment .nonincremental}
+-   Given $X_1, \ldots, X_n \iid f(x\mid\theta)$, the likelihood function is 
+
+$$\ell(\theta\mid x_1,\ldots,x_n) = \prod_{i=1}^n f(x_i\mid\theta) = f(x_1,\ldots,x_n\mid\theta).$$
+:::
+
+:::{.fragment .nonincremental}
+-   Suppose we choose $\pi(\theta) \propto 1$. The posterior is[^1]  
+    
+$$
+    \pi(\theta \mid x_1, \ldots, x_n) \propto f(x_1,\ldots,x_n\mid\theta)\pi(\theta) = f(x_1,\ldots,x_n\mid\theta).
+$$
+:::
+
+:::{.fragment .nonincremental}
+-   Therefore
+    
+$$
+\hat{\theta}_{\text{MAP}} = \argmax_{\theta}\pi(\theta \mid x_1, \ldots, x_n)
+    = \argmax_{\theta}\ell(\theta\mid x_1,\ldots,x_n) = \hat{\theta}_{\text{MLE}}.
+$$
+:::
+
+[^1]: We need to make sure that the posterior is proper; otherwise, this equation is meaningless.
+
+## MLE vs MAP
+
+-   MLE is actually a special case of MAP.
+
+## Asymptotics of MLE
+
+## Asymptotics of Bayesion inference
+
+## Bernstein-von Mises Theorem
+
+## Normal approximation to the posterior 
+
+-   If the posterior $\pi(\theta\mid x)$ is [unimodal and roughly symmetric]{.underline}, it can be convenient to approximate it by a normal distribution.
+-   That is, the logarithm of the posterior density is approximated by a quadratic function of $\theta$.
+-   Consider Taylor series expansion of $\log \pi(\theta\mid x)$ centered at the posterior mode (MAP) $\hat{\theta}$
+    $$
+    \log \pi(\theta \mid x)=\log \pi(\hat{\theta} \mid x)+\frac{1}{2}(\theta-\hat{\theta})^T\left[\frac{d^2}{d \theta^2} \log \pi(\theta \mid x)\right]_{\theta=\hat{\theta}}(\theta-\hat{\theta})+\cdots
+    $$
+-   That is, 
+    \begin{align*}
+\pi(\theta \mid x) \approx N\left(\hat{\theta},[I(\hat{\theta})]^{-1}\right)
+\end{align*}
+where $I(\theta)$ is the observed information,
+$I(\theta)=-\frac{d^2}{d \theta^2} \log \pi(\theta \mid x)$.
+
+## Normal approximation to the posterior 
+
+If the approximation is good, we can 
+-   construct a approximate credible region 
+
+
+
+
+## Bootstrap and Bayesian Inference[^2]
+
+-   Bootstrap is a method proposed by Efron (1979)[^3] for deriving the sampling distribution of a statistic.
+-   It is based on resampling from the empirical distribution, which converges to the true population distribution (Glivenko-Cantelli theorem).
+-   Example: $X_1, \ldots, X_n \iid F$ and $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$. 
+-   A bootstrap sample $X_1^*, \ldots, X_n^*$ is obtained from $X_1, \ldots, X_n$ using [sampling with replacement]{.underline}.
+-   The sampling distribution of $\bar{X}_n$ can be estimated/approximated by the distribution of $\bar{X}^*_n = \frac{1}{n}\sum_{i=1}^n X_i^*$, which is called the **bootstrap distribution**.
+
+[^2]: Ch. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). *The elements of statistical learning: data mining, inference, and prediction*.
+
+[^3]: B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. *Annals of Statistics* 7(1) 1 - 26.
+
+## Bootstrap and Bayesian Inference
+
+-   There are some similarities between bootstrap and Bayesian inference:
+    1.   They both treat the sample as fixed and given.
+    2.   Based on the sample, they both construct a distribution: bootstrap distribution vs posterior distribution.
+
+-   When will they be (approximately) the same?
+-   Suppose $X_1, \ldots, X_n \mid p \iid \text{Ber}(p)$ and $p \sim \text{Beta}(\alpha, \beta)$. Then
+    $$
+    p \sim \text{Beta}\left(\alpha + \sum X_i, \beta + n - \sum X_i\right).
+    $$
+-   Letting $\alpha \to 0$ and $\beta \to 0$, we have a noninformative prior and 
+$$
+p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
+$$
+
+## Bootstrap and Bayesian Inference
+
+-   Consider a bootstrap sample $X_1^*, \ldots, X_n^*$ (obtained from $X_1,\ldots,X_n$ using sampling with replacement).
+-   Actually, $X_1^*,\ldots, X_n^*\mid X_1,\ldots, X_n \iid \text{Ber}(\hat{p})$, where $\hat{p} = \frac{1}{n}\sum X_i$.
+-   Let $\hat{p}^* = \frac{1}{n}\sum X_i^*$. What is the [bootstrap distribution]{.underline} $\hat{p}^* \mid X_1,\ldots, X_n$?
+-   Let's do some experiment!
+
+## Bootstrap and Bayesian Inference
+
+```{r}
+#| echo: true
+#| cache: true
+#| output-location: slide
+#| fig-cap: The red curve is the posterior distribution; the blue dashed line is the MLE.
+set.seed(124)
+p <- 0.4; n <- 100; X <- rbinom(n, 1, p)
+p_hat <- mean(X)
+
+# bootstrap
+B <- 10^3
+p_boot <- rep(0, B)
+for(i in 1:B){
+    X_boot <- sample(X, size = n, replace = TRUE)
+    p_boot[i] <- mean(X_boot)
+}
+
+hist(p_boot, freq = FALSE, main = "Bootstrap Distribution", xlab = "p")
+curve(dbeta(x, n*p_hat, n*(1-p_hat)), add = T, col = "red")
+abline(v = p, lty = 2, col = "green", lwd = 4)
+abline(v = p_hat, lty = 2, col = "blue", lwd = 4)
+```
+
+## Bootstrap and Bayesian Inference
+
+-   In this sense, the bootstrap distribution represents an (approximate)
+nonparametric posterior distribution under a noninformative prior.
+-   But this bootstrap distribution is obtained painlessly -- without having to
+formally specify a prior and without having to sample from the posterior
+distribution.
+-   Hence we might think of the bootstrap distribution as a "poor
+man's" posterior.
+
+## Distributional estimates
+
+-   One of the advantages of Bayesian inference is that the entire inference is based the posterior distribution, rather than a single point estimate or an interval.
+-   The posterior distribution is just one example of **distributional estimate**, which use a distribution for inference.
+-   Bootstrap distribution is another example.
+-   There is a frequentist concept, called the **confidence distribution**, proposed by Neyman (1939)[^neyman].
+-   The confidence distribution contains confidence interval of any level.
+-   Fraser (2011)[^fraser] also discussed how the Bayesian posterior and the confidence distribution are related.
+
+[^neyman]: Neyman, J. (1937). Outline of a theory of statistical estimation based on the classical theory of probability. *Phil. Trans. Roy. Soc*
+
+[^fraser]: Fraser, D. A. S. (2011). Is Bayes Posterior just Quick and Dirty Confidence? *Statistical Science*, 26(3), 299–316. 
+
+## Random effect models
+
+-   Fixed effect model: $Y_i = \beta_0 + \beta X_i + \epsilon_i$, $\epsilon_i \iid N(0, \sigma^2)$
+    -   The parameter $\beta$ is the **fixed effect** of the factors $X$.
+    -   With a unit increase in $X$, $Y$ is expected to increase by $\beta$.
+    -   Use (regularized) least squares to obtain an estimate for $\beta$.
+    -   The effect is [the same for each observation]{.underline}
+-   Random effect model: $Y_i = \beta_0 + U_i + \epsilon_i$, $U_i \sim N(\beta, \tau^2)$, $\epsilon_i \iid N(0, \sigma^2)$
+    -   $U_i$ is the **random effect** in this model
+    -   The effect is different for each observation and, on average, $Y$ is increase by $\beta$ with the presence of this effect.
+    -   We will estimate the distribution of the random effect rather than the random effect itself.
+    -   The parameters $\beta$ and $\tau$ are estimated through analysis of variance (ANOVA).
+    
+
+## Example
+
+
+## Mixed effect model
+
+-   A model with both fixed effects and random effects is called a **mixed effect model**.
+-   This model is commonly used in biostatistics, psychology, economics, etc.
+
+
+# Hierarchical Models
+
+## Motivation
+
+-   Some problems have intrinsic hierarchical structures and simple nonhierarchical models (with only few parameters) cannot describe such problems accurately.
+-   Exchangeable parameters
+
+
+## Meta-analysis
+
+-   Meta-analysis is an increasingly popular and important process of summarizing and integrating
+the findings of research studies in a particular area.

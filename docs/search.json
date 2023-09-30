@@ -1090,5 +1090,166 @@
     "title": "Lecture 04: Decision Theory and Bayesian Estimation",
     "section": "Summary",
     "text": "Summary\n\nThe decision theory framework allows us to compare different estimators, under a given loss function.\nThe determination of loss is as difficult as the determination of prior.\nFrom a decision-theoretic point of view, Bayes estimators are always admissible, while MLE might not (e.g., Stein’s paradox).\nThe MAP estimator is essentially a penalized MLE. The penalization term is determined by the prior.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#mle-vs-map",
+    "href": "slides/05-hierarchical_model.html#mle-vs-map",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "MLE vs MAP",
+    "text": "MLE vs MAP\n\n\nGiven \\(X_1, \\ldots, X_n \\iid f(x\\mid\\theta)\\), the likelihood function is\n\n\\[\\ell(\\theta\\mid x_1,\\ldots,x_n) = \\prod_{i=1}^n f(x_i\\mid\\theta) = f(x_1,\\ldots,x_n\\mid\\theta).\\]\n\n\n\nSuppose we choose \\(\\pi(\\theta) \\propto 1\\). The posterior is1\n\n\\[\n    \\pi(\\theta \\mid x_1, \\ldots, x_n) \\propto f(x_1,\\ldots,x_n\\mid\\theta)\\pi(\\theta) = f(x_1,\\ldots,x_n\\mid\\theta).\n\\]\n\n\n\nTherefore\n\n\\[\n\\hat{\\theta}_{\\text{MAP}} = \\argmax_{\\theta}\\pi(\\theta \\mid x_1, \\ldots, x_n)\n    = \\argmax_{\\theta}\\ell(\\theta\\mid x_1,\\ldots,x_n) = \\hat{\\theta}_{\\text{MLE}}.\n\\]\n\nWe need to make sure that the posterior is proper; otherwise, this equation is meaningless."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#mle-vs-map-1",
+    "href": "slides/05-hierarchical_model.html#mle-vs-map-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "MLE vs MAP",
+    "text": "MLE vs MAP\n\nMLE is actually a special case of MAP."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference1",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference1",
+    "text": "Bootstrap and Bayesian Inference1\nCh. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction. New York: springer."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#asymptotics-of-mle",
+    "href": "slides/05-hierarchical_model.html#asymptotics-of-mle",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Asymptotics of MLE",
+    "text": "Asymptotics of MLE"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#asymptotics-of-bayesion-inference",
+    "href": "slides/05-hierarchical_model.html#asymptotics-of-bayesion-inference",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Asymptotics of Bayesion inference",
+    "text": "Asymptotics of Bayesion inference"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference2",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference2",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference1",
+    "text": "Bootstrap and Bayesian Inference1\n\nBootstrap is a method proposed by Efron (1979)2 for deriving the sampling distribution of a statistic.\nIt is based on resampling from the empirical distribution, which converges to the true population distribution (Glivenko-Cantelli theorem).\nExample: \\(X_1, \\ldots, X_n \\iid F\\) and \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i\\).\nA bootstrap sample \\(X_1^*, \\ldots, X_n^*\\) is obtained from \\(X_1, \\ldots, X_n\\) using sampling with replacement.\nThe sampling distribution of \\(\\bar{X}_n\\) can be estimated/approximated by the distribution of \\(\\bar{X}^*_n = \\frac{1}{n}\\sum_{i=1}^n X_i^*\\), which is called the bootstrap distribution.\n\nCh. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction.B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. Annals of Statistics 7(1) 1 - 26."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#random-effect-models",
+    "href": "slides/05-hierarchical_model.html#random-effect-models",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Random effect models",
+    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\epsilon_i\\), \\(\\epsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\epsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\epsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect.\nWe will estimate the distribution of the random effect rather than the random effect itself.\nThe parameters \\(\\beta\\) and \\(\\tau\\) are estimated through analysis of variance (ANOVA)."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bernstein-von-mises-theorem",
+    "href": "slides/05-hierarchical_model.html#bernstein-von-mises-theorem",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bernstein-von Mises Theorem",
+    "text": "Bernstein-von Mises Theorem"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior",
+    "href": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Normal approximation to the posterior",
+    "text": "Normal approximation to the posterior\n\nIf the posterior \\(\\pi(\\theta\\mid x)\\) is unimodal and roughly symmetric, it can be convenient to approximate it by a normal distribution.\nThat is, the logarithm of the posterior density is approximated by a quadratic function of \\(\\theta\\).\nConsider Taylor series expansion of \\(\\log \\pi(\\theta\\mid x)\\) centered at the posterior mode (MAP) \\(\\hat{\\theta}\\) \\[\n\\log \\pi(\\theta \\mid x)=\\log \\pi(\\hat{\\theta} \\mid x)+\\frac{1}{2}(\\theta-\\hat{\\theta})^T\\left[\\frac{d^2}{d \\theta^2} \\log \\pi(\\theta \\mid x)\\right]_{\\theta=\\hat{\\theta}}(\\theta-\\hat{\\theta})+\\cdots\n\\]\nThat is, \\[\\begin{align*}\n\\pi(\\theta \\mid x) \\approx N\\left(\\hat{\\theta},[I(\\hat{\\theta})]^{-1}\\right)\n\\end{align*}\\] where \\(I(\\theta)\\) is the observed information, \\(I(\\theta)=-\\frac{d^2}{d \\theta^2} \\log \\pi(\\theta \\mid x)\\)."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#if-the-approximation-is-good-we-can",
+    "href": "slides/05-hierarchical_model.html#if-the-approximation-is-good-we-can",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "IF the approximation is good, we can",
+    "text": "IF the approximation is good, we can\n\nconstruct a approximate credible region\nthe MAP and the observed Fisher information are sufficient"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#motivation",
+    "href": "slides/05-hierarchical_model.html#motivation",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Motivation",
+    "text": "Motivation\n\nSome problems have intrinsic hierarchical structures and simple nonhierarchical models (with only few parameters) cannot describe such problems accurately.\nExchangeable parameters"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#meta-analysis",
+    "href": "slides/05-hierarchical_model.html#meta-analysis",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Meta-analysis",
+    "text": "Meta-analysis\n\nMeta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\nThere are some similarities between bootstrap and Bayesian inference:\n\nThey both treat the sample as fixed and given.\nBased on the sample, they both construct a distribution: bootstrap distribution vs posterior distribution.\n\nWhen will they be (approximately) the same?\nSuppose \\(X_1, \\ldots, X_n \\mid p \\iid \\text{Ber}(p)\\) and \\(p \\sim \\text{Beta}(\\alpha, \\beta)\\). Then \\[\np \\sim \\text{Beta}\\left(\\alpha + \\sum X_i, \\beta + n - \\sum X_i\\right).\n\\]\nLetting \\(\\alpha \\to 0\\) and \\(\\beta \\to 0\\), we have a noninformative prior and \\[\np \\mid X_1,\\ldots, X_n \\sim \\text{Beta}\\left(\\sum X_i, n-\\sum X_i\\right).\n\\]"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-1",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\nConsider a bootstrap sample \\(X_1^*, \\ldots, X_n^*\\) (obtained from \\(X_1,\\ldots,X_n\\) using sampling with replacement).\nActually, \\(X_1^*,\\ldots, X_n^*\\mid X_1,\\ldots, X_n \\iid \\text{Ber}(\\hat{p})\\), where \\(\\hat{p} = \\frac{1}{n}\\sum X_i\\).\nLet \\(\\hat{p}^* = \\frac{1}{n}\\sum X_i^*\\). What is the bootstrap distribution \\(\\hat{p}^* \\mid X_1,\\ldots, X_n\\)?\nLet’s do some experiment!"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-2",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-2",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\nset.seed(124)\np &lt;- 0.4; n &lt;- 100; X &lt;- rbinom(n, 1, p)\np_hat &lt;- mean(X)\n\n# bootstrap\nB &lt;- 10^3\np_boot &lt;- rep(0, B)\nfor(i in 1:B){\n    X_boot &lt;- sample(X, size = n, replace = TRUE)\n    p_boot[i] &lt;- mean(X_boot)\n}\n\nhist(p_boot, freq = FALSE, main = \"Bootstrap Distribution\", xlab = \"p\")\ncurve(dbeta(x, n*p_hat, n*(1-p_hat)), add = T, col = \"red\")\nabline(v = p, lty = 2, col = \"green\", lwd = 4)\nabline(v = p_hat, lty = 2, col = \"blue\", lwd = 4)"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-3",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-3",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\nIn this sense, the bootstrap distribution represents an (approximate) nonparametric posterior distribution under a noninformative prior.\nBut this bootstrap distribution is obtained painlessly – without having to formally specify a prior and without having to sample from the posterior distribution.\nHence we might think of the bootstrap distribution as a “poor man’s” posterior."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-4",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-4",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-5",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-5",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\nIn this sense, the bootstrap distribution represents an (approximate) nonparametric posterior distribution under a noninformative prior.\nBut this bootstrap distribution is obtained painlessly – without having to formally specify a prior and without having to sample from the posterior distribution.\nHence we might think of the bootstrap distribution as a “poor man’s” posterior."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-2-output",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-2-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\n\n\n\nThe red curve is the posterior distribution; the blue dashed line is the MLE."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#distributional-estimates",
+    "href": "slides/05-hierarchical_model.html#distributional-estimates",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Distributional estimates",
+    "text": "Distributional estimates\n\nOne of the advantages of Bayesian inference is that the entire inference is based the posterior distribution, rather than a single point estimate or an interval.\nThe posterior distribution is just one example of distributional estimate, which use a distribution for inference.\nBootstrap distribution is another example.\nThere is a frequentist concept, called the confidence distribution, proposed by Neyman (1939)1.\nThe confidence distribution contains confidence interval of any level.\nFraser (2011)2 also discussed how the Bayesian posterior and the confidence distribution are related.\n\nNeyman, J. (1937). Outline of a theory of statistical estimation based on the classical theory of probability. Phil. Trans. Roy. SocFraser, D. A. S. (2011). Is Bayes Posterior just Quick and Dirty Confidence? Statistical Science, 26(3), 299–316."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#introduction",
+    "href": "slides/05-hierarchical_model.html#introduction",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Introduction",
+    "text": "Introduction\n\nIn the previous lecture, we saw that MLE and MAP are related.\nWe will discuss this relationship in more details and explore how this relationship benefits us.\nMLE and MAP are not the only connection between Bayesian and non-Bayesian analysis.\nWe will discuss two other examples: bootstrap and random effect model."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example",
+    "href": "slides/05-hierarchical_model.html#example",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#mixed-effect-model",
+    "href": "slides/05-hierarchical_model.html#mixed-effect-model",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Mixed effect model",
+    "text": "Mixed effect model\n\nA model with both fixed effects and random effects is called a mixed effect model.\nThis model is commonly used in biostatistics, psychology, economics, etc."
   }
 ]
