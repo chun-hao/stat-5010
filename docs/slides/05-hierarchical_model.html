@@ -470,7 +470,6 @@ Chun-Hao Yang
 <h2>MLE vs MAP</h2>
 <ul>
 <li class="fragment">MLE is actually a special case of MAP.</li>
-<li class="fragment"></li>
 </ul>
 </section>
 <section id="asymptotics-of-mle" class="slide level2">
@@ -495,12 +494,9 @@ Chun-Hao Yang
 \end{align*}\]</span> where <span class="math inline">\(I(\theta)\)</span> is the observed information, <span class="math inline">\(I(\theta)=-\frac{d^2}{d \theta^2} \log \pi(\theta \mid x)\)</span>.</li>
 </ul>
 </section>
-<section id="if-the-approximation-is-good-we-can" class="slide level2">
-<h2>IF the approximation is good, we can</h2>
-<ul>
-<li class="fragment">construct a approximate credible region</li>
-<li class="fragment">the MAP and the observed Fisher information are sufficient</li>
-</ul>
+<section id="normal-approximation-to-the-posterior-1" class="slide level2">
+<h2>Normal approximation to the posterior</h2>
+<p>If the approximation is good, we can - construct a approximate credible region</p>
 </section>
 <section id="bootstrap-and-bayesian-inference2" class="slide level2">
 <h2>Bootstrap and Bayesian Inference<sup>1</sup></h2>
@@ -591,31 +587,267 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 <section id="random-effect-models" class="slide level2">
 <h2>Random effect models</h2>
 <ul>
-<li class="fragment">Fixed effect model: <span class="math inline">\(Y_i = \beta_0 + \beta X_i + \epsilon_i\)</span>, <span class="math inline">\(\epsilon_i \iid N(0, \sigma^2)\)</span>
+<li class="fragment">Fixed effect model: <span class="math inline">\(Y_i = \beta_0 + \beta X_i + \varepsilon_i\)</span>, <span class="math inline">\(\varepsilon_i \iid N(0, \sigma^2)\)</span>
 <ul>
 <li class="fragment">The parameter <span class="math inline">\(\beta\)</span> is the <strong>fixed effect</strong> of the factors <span class="math inline">\(X\)</span>.</li>
 <li class="fragment">With a unit increase in <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> is expected to increase by <span class="math inline">\(\beta\)</span>.</li>
 <li class="fragment">Use (regularized) least squares to obtain an estimate for <span class="math inline">\(\beta\)</span>.</li>
 <li class="fragment">The effect is <u>the same for each observation</u></li>
 </ul></li>
-<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + U_i + \epsilon_i\)</span>, <span class="math inline">\(U_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\epsilon_i \iid N(0, \sigma^2)\)</span>
+<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + U_i + \varepsilon_i\)</span>, <span class="math inline">\(U_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\varepsilon_i \iid N(0, \sigma^2)\)</span>
 <ul>
 <li class="fragment"><span class="math inline">\(U_i\)</span> is the <strong>random effect</strong> in this model</li>
 <li class="fragment">The effect is different for each observation and, on average, <span class="math inline">\(Y\)</span> is increase by <span class="math inline">\(\beta\)</span> with the presence of this effect.</li>
-<li class="fragment">We will estimate the distribution of the random effect rather than the random effect itself.</li>
-<li class="fragment">The parameters <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\tau\)</span> are estimated through analysis of variance (ANOVA).</li>
 </ul></li>
 </ul>
-</section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
 </section>
 <section id="mixed-effect-model" class="slide level2">
 <h2>Mixed effect model</h2>
 <ul>
 <li class="fragment">A model with both fixed effects and random effects is called a <strong>mixed effect model</strong>.</li>
 <li class="fragment">This model is commonly used in biostatistics, psychology, economics, etc.</li>
-<li class="fragment"></li>
+<li class="fragment">A typical mixed model: <span class="math display">\[
+Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)  
+\]</span> where <span class="math inline">\(\beta\)</span> is the unknown fixed effect and <span class="math inline">\(\gamma \sim N(\nu, \Psi)\)</span> is the unknown random effect.</li>
+</ul>
+</section>
+<section id="sleep-deprivation-study" class="slide level2">
+<h2>Sleep deprivation study</h2>
+<p>We use the <code>sleepstudy</code> dataset in the <code>lme4</code> R package.</p>
+<blockquote>
+<p>The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.</p>
+</blockquote>
+<ul>
+<li class="fragment">There are 18 subjects and 10 measurements per subject (day 0 is normal sleep; day 1~9 is reduced sleep).</li>
+</ul>
+</section>
+<section id="sleep-deprivation-study-1" class="slide level2">
+<h2>Sleep deprivation study</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-2_3e6cd6ad7166e68fbde3dad0f0e52805">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">data</span>(<span class="st">"sleepstudy"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>sleepstudy <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Reaction</th>
+<th style="text-align: right;">Days</th>
+<th style="text-align: left;">Subject</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">249.5600</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">308</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">258.7047</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">308</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">250.8006</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">308</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">321.4398</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">308</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">356.8519</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">308</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">414.6901</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">308</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="sleep-deprivation-study-2" class="slide level2">
+<h2>Sleep deprivation study</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(Y\)</span> be the reaction time and <span class="math inline">\(X\)</span> be the Day variable.</li>
+<li class="fragment">We want to see the negative impact of consecutive sleep loss in reaction time.</li>
+<li class="fragment">A simple linear model: <span class="math inline">\(Y = \beta_0 + \beta_1 X\)</span>.</li>
+</ul>
+<div class="fragment">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-3_53589e30ee4ce9eaafa7089efc162ccd">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>sleepstudy <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> .) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="fu">tab_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" style="border-collapse:collapse; border:none;">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">Reaction</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">251.41</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">238.36&nbsp;–&nbsp;264.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Days</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8.02&nbsp;–&nbsp;12.91</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">180</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.286 / 0.282</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-deprivation-study-3" class="slide level2">
+<h2>Sleep deprivation study</h2>
+<p>However, this model does not take into account the individual difference, i.e., the difference between subjects.</p>
+
+<img data-src="05-hierarchical_model_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="sleep-deprivation-study-4" class="slide level2">
+<h2>Sleep deprivation study</h2>
+<ul>
+<li class="fragment">We allow each subject to have its own intercept and effect: <span class="math display">\[
+    Y_{ij} = b_{0,i} + b_{1,i} X_{j}, \quad i = 1,\ldots, 18, j = 0,\ldots, 9
+\]</span> where <span class="math inline">\(Y_{ij}\)</span> is the reaction time of <span class="math inline">\(i\)</span>th subject in Day <span class="math inline">\(j\)</span>.</li>
+<li class="fragment">Note that we are not interested in the effects for each individuals.</li>
+<li class="fragment">We just want to identify how much the individual difference contributes to the un-explained variation of the model.</li>
+<li class="fragment">We assume that <span class="math inline">\(b_{0,i} \iid N(\beta_0, \tau_0^2)\)</span> and <span class="math inline">\(b_{1,i} \iid N(\beta_1, \tau_1^2)\)</span> are independent.</li>
+<li class="fragment">The frequentist interpretation of this assumption is that the subjects are randomly selected, so there is randomness in the individual coefficients.</li>
+<li class="fragment">The parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are unknown and fixed.</li>
+</ul>
+</section>
+<section id="sleep-deprivation-study-5" class="slide level2">
+<h2>Sleep deprivation study</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-5_5a15b92300807d0c2b88a7b510e618cb">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sleepstudy <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>    <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">0</span><span class="sc">+</span>Days<span class="sc">|</span>Subject), </span>
+<span id="cb4-3"><a href="#cb4-3"></a>         <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">tab_model</span>(<span class="at">show.icc =</span> <span class="cn">FALSE</span>,<span class="at">show.obs =</span> <span class="cn">FALSE</span>, <span class="at">show.ngroups =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Reaction</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">251.41</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">237.82&nbsp;–&nbsp;264.99</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Days</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">10.47</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">7.39&nbsp;–&nbsp;13.55</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">Random Effects</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">σ<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">653.58</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>00</sub> <sub>Subject</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">627.57</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>11</sub> <sub>Subject.Days</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">35.86</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ρ<sub>01</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">&nbsp;</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ρ<sub>01</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">&nbsp;</td>
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">0.415 / 0.702</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+</section>
+<section id="bayesian-approach-to-mixed-effect-models" class="slide level2">
+<h2>Bayesian approach to mixed effect models</h2>
+<ul>
+<li class="fragment">The random effect assumption looks like a prior distribution on the coefficients.</li>
+<li class="fragment">A mixed model <span class="math display">\[
+Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \sim N(0, \sigma^2)  
+\]</span> can be rewritten as <span class="math display">\[\begin{align*}
+    Y \mid \gamma &amp; \sim N(X\beta + Z\gamma, \sigma^2)\\
+    \gamma &amp; \sim N(\nu, \Psi)
+\end{align*}\]</span></li>
+<li class="fragment">A Bayesian approach puts priors on the parameters: <span class="math display">\[\begin{align*}
+    Y \mid \gamma, \beta, \sigma^2 &amp; \sim N(X\beta + Z\gamma, \sigma^2)\\
+    \gamma \mid \nu, \Psi &amp; \sim N(\nu, \Psi)\\
+    \beta, \nu, \sigma^2, \Psi &amp; \sim \pi(\beta, \nu, \sigma^2, \Psi)
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="bayesian-approach-to-mixed-effect-models-1" class="slide level2">
+<h2>Bayesian approach to mixed effect models</h2>
+<p>Use <code>stan_lmer</code> to fit a Bayesian mixed effect model</p>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-6_5eeeac5d3096b45298a71024118006f9">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>sleep_lmer_B <span class="ot">&lt;-</span> <span class="fu">stan_lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">0</span><span class="sc">+</span>Days<span class="sc">|</span>Subject), </span>
+<span id="cb5-3"><a href="#cb5-3"></a>                          <span class="at">data =</span> sleepstudy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Use <code>summary(sleep_lmer_B)</code> to check the fitted result</li>
+<li class="fragment">Use <code>prior_summary(sleep_lmer_B)</code> to check the priors used in the model</li>
+</ul>
+</section>
+<section id="wrap-up" class="slide level2">
+<h2>Wrap-up</h2>
+<ul>
+<li class="fragment">Random effects are also called <strong>variance components</strong>, since we are more interested in the variance of the random effect rather than the effect itself.</li>
+<li class="fragment">Mixed effect model is just one example of <strong>hierarchical models</strong> (or <strong>multi-level models</strong>).</li>
+<li class="fragment">A hierarchical model contains many sub-models that are linked by some hierarchical relations.</li>
+<li class="fragment">In the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.</li>
+<li class="fragment">Note a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.</li>
 </ul>
 </section></section>
 <section>

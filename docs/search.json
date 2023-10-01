@@ -1138,7 +1138,7 @@
     "href": "slides/05-hierarchical_model.html#random-effect-models",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Random effect models",
-    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\epsilon_i\\), \\(\\epsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\epsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\epsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect.\nWe will estimate the distribution of the random effect rather than the random effect itself.\nThe parameters \\(\\beta\\) and \\(\\tau\\) are estimated through analysis of variance (ANOVA)."
+    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\varepsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#bernstein-von-mises-theorem",
@@ -1243,13 +1243,146 @@
     "href": "slides/05-hierarchical_model.html#example",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Example",
-    "text": "Example"
+    "text": "Example\nWe use the sleepstudy dataset in the lme4 R package.\n\nThe average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.\n\n\nThere are 18 subjects and 10 measurements per subject (day 0 is normal sleep; day 1~9 is reduced sleep).\n\n\n\nSee more examples in https://m-clark.github.io/mixed-models-with-R"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#mixed-effect-model",
     "href": "slides/05-hierarchical_model.html#mixed-effect-model",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Mixed effect model",
-    "text": "Mixed effect model\n\nA model with both fixed effects and random effects is called a mixed effect model.\nThis model is commonly used in biostatistics, psychology, economics, etc."
+    "text": "Mixed effect model\n\nA model with both fixed effects and random effects is called a mixed effect model.\nThis model is commonly used in biostatistics, psychology, economics, etc.\nA typical mixed model: \\[\nY = X\\beta + Z\\gamma + \\varepsilon, \\quad \\varepsilon \\sim N(0, \\sigma^2)  \n\\] where \\(\\beta\\) is the unknown fixed effect and \\(\\gamma \\sim N(\\nu, \\Psi)\\) is the unknown random effect."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior-1",
+    "href": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Normal approximation to the posterior",
+    "text": "Normal approximation to the posterior\nIf the approximation is good, we can - construct a approximate credible region"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example-output",
+    "href": "slides/05-hierarchical_model.html#example-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example\n\n   Reaction Days Subject\n1  249.5600    0     308\n2  258.7047    1     308\n3  250.8006    2     308\n4  321.4398    3     308\n5  356.8519    4     308\n6  414.6901    5     308\n7  382.2038    6     308\n8  290.1486    7     308\n9  430.5853    8     308\n10 466.3535    9     308"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example-1",
+    "href": "slides/05-hierarchical_model.html#example-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example\n\nlibrary(lme4)\nlibrary(tidyverse)\ndata(\"sleepstudy\")\nsleepstudy[1:15,]\n\n   Reaction Days Subject\n1  249.5600    0     308\n2  258.7047    1     308\n3  250.8006    2     308\n4  321.4398    3     308\n5  356.8519    4     308\n6  414.6901    5     308\n7  382.2038    6     308\n8  290.1486    7     308\n9  430.5853    8     308\n10 466.3535    9     308\n11 222.7339    0     309\n12 205.2658    1     309\n13 202.9778    2     309\n14 204.7070    3     309\n15 207.7161    4     309"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example-1-output",
+    "href": "slides/05-hierarchical_model.html#example-1-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example\n\n   Reaction Days Subject\n1  249.5600    0     308\n2  258.7047    1     308\n3  250.8006    2     308\n4  321.4398    3     308\n5  356.8519    4     308\n6  414.6901    5     308\n7  382.2038    6     308\n8  290.1486    7     308\n9  430.5853    8     308\n10 466.3535    9     308\n11 222.7339    0     309\n12 205.2658    1     309\n13 202.9778    2     309\n14 204.7070    3     309\n15 207.7161    4     309"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example-2",
+    "href": "slides/05-hierarchical_model.html#example-2",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple model would be \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy %&gt;%\n    lm(Reaction ~ Days, data = .) %&gt;% \n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n238.36 – 264.45\n&lt;0.001\n\n\nDays\n10.47\n8.02 – 12.91\n&lt;0.001\n\n\nObservations\n180\n\n\nR2 / R2 adjusted\n0.286 / 0.282"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example-3",
+    "href": "slides/05-hierarchical_model.html#example-3",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example\n\nHowever, this does not take into account the individual difference, i.e., the difference between subjects.\n\n\n\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1 + Days | Subject), data = .) %&gt;%\n    tab_model()"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#example-3-output",
+    "href": "slides/05-hierarchical_model.html#example-3-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Example",
+    "text": "Example\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n237.94 – 264.87\n&lt;0.001\n\n\nDays\n10.47\n7.42 – 13.52\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n654.94\n\n\n\nτ00 Subject\n612.10\n\n\nτ11 Subject.Days\n35.07\n\n\nρ01 Subject\n0.07\n\n\nICC\n0.72\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.799"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\nWe use the sleepstudy dataset in the lme4 R package.\n\nThe average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.\n\n\nThere are 18 subjects and 10 measurements per subject (day 0 is normal sleep; day 1~9 is reduced sleep)."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-1",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\nlibrary(lme4)\ndata(\"sleepstudy\")\nsleepstudy %&gt;% head() %&gt;% kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-2",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-2",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple linear model: \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy %&gt;%\n    lm(Reaction ~ Days, data = .) %&gt;% \n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n238.36 – 264.45\n&lt;0.001\n\n\nDays\n10.47\n8.02 – 12.91\n&lt;0.001\n\n\nObservations\n180\n\n\nR2 / R2 adjusted\n0.286 / 0.282"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-3",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-3",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\nHowever, this model does not take into account the individual difference, i.e., the difference between subjects."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-3-output",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-3-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n243.47 – 259.34\n&lt;0.001\n\n\nDays\n10.47\n6.78 – 14.16\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n842.03\n\n\n\nτ00\n \n\n\nτ00\n \n\n\nτ11 Subject.Days\n52.71\n\n\nρ01\n \n\n\nρ01\n \n\n\nICC\n0.64\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.741"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-4",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-4",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\nWe allow each subject to have its own intercept and effect: \\[\n    Y_{ij} = b_{0,i} + b_{1,i} X_{j}, \\quad i = 1,\\ldots, 18, j = 0,\\ldots, 9\n\\] where \\(Y_{ij}\\) is the reaction time of \\(i\\)th subject in Day \\(j\\).\nNote that we are not interested in the effects for each individuals.\nWe just want to identify how much the individual difference contributes to the un-explained variation of the model.\nWe assume that \\(b_{0,i} \\iid N(\\beta_0, \\tau_0^2)\\) and \\(b_{1,i} \\iid N(\\beta_1, \\tau_1^2)\\) are independent.\nThe frequentist interpretation of this assumption is that the subjects are randomly selected, so there is randomness in the individual coefficients.\nThe parameters \\(\\beta_0\\) and \\(\\beta_1\\) are unknown and fixed."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-4-output",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-4-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n243.47 – 259.34\n&lt;0.001\n\n\nDays\n10.47\n6.78 – 14.16\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n842.03\n\n\n\nτ00\n \n\n\nτ00\n \n\n\nτ11 Subject.Days\n52.71\n\n\nρ01\n \n\n\nρ01\n \n\n\nICC\n0.64\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.741"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
+    "href": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bayesian approach to mixed effect models",
+    "text": "Bayesian approach to mixed effect models\n\nThe random effect assumption looks like a prior distribution on the coefficients.\nA mixed model \\[\nY = X\\beta + Z\\gamma + \\varepsilon, \\quad\\gamma \\sim N(\\nu, \\Psi), \\varepsilon \\sim N(0, \\sigma^2)  \n\\] can be rewritten as \\[\\begin{align*}\n    Y \\mid \\gamma & \\sim N(X\\beta + Z\\gamma, \\sigma^2)\\\\\n    \\gamma & \\sim N(\\nu, \\Psi)\n\\end{align*}\\]\nA Bayesian approach puts priors on the parameters: \\[\\begin{align*}\n    Y \\mid \\gamma, \\beta, \\sigma^2 & \\sim N(X\\beta + Z\\gamma, \\sigma^2)\\\\\n    \\gamma \\mid \\nu, \\Psi & \\sim N(\\nu, \\Psi)\\\\\n    \\beta, \\nu, \\sigma^2, \\Psi & \\sim \\pi(\\beta, \\nu, \\sigma^2, \\Psi)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-5",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-5",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = .) %&gt;%\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n237.82 – 264.99\n&lt;0.001\n\n\nDays\n10.47\n7.39 – 13.55\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n653.58\n\n\n\nτ00 Subject\n627.57\n\n\nτ11 Subject.Days\n35.86\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.415 / 0.702"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-5-output",
+    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-5-output",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Sleep deprivation study",
+    "text": "Sleep deprivation study\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n243.47 – 259.34\n&lt;0.001\n\n\nDays\n10.47\n6.78 – 14.16\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n842.03\n\n\n\nτ00\n \n\n\nτ00\n \n\n\nτ11 Subject.Days\n52.71\n\n\nρ01\n \n\n\nρ01\n \n\n\nICC\n0.64\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.741"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#wrap-up",
+    "href": "slides/05-hierarchical_model.html#wrap-up",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Wrap-up",
+    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models-1",
+    "href": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bayesian approach to mixed effect models",
+    "text": "Bayesian approach to mixed effect models\nUse stan_lmer to fit a Bayesian mixed effect model\n\nlibrary(rstanarm)\nsleep_lmer_B &lt;- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n                          data = sleepstudy)\n\n\nUse summary(sleep_lmer_B) to check the fitted result\nUse prior_summary(sleep_lmer_B) to check the priors used in the model"
   }
 ]
