@@ -55,15 +55,37 @@ $$
 
 [^1]: We need to make sure that the posterior is proper; otherwise, this equation is meaningless.
 
-## MLE vs MAP
-
--   MLE is actually a special case of MAP.
 
 ## Asymptotics of MLE
 
-## Asymptotics of Bayesion inference
+-   Let $X_1, \ldots, X_n \iid f(x\mid \theta)$ and $\hat{\theta}_n$ be the MLE of $\theta$.
+-   Under some regularity conditions on $f(x\mid\theta)$, the MLE is asymptotically normally distributed and efficient (having the smallest variance).
+-   That is,
+$$
+\sqrt{n}\left(\hat{\theta}_n-\theta\right) \stackrel{d}{\rightarrow} N\left(0, I(\theta)^{-1}\right)
+$$
+where $I(\theta)$ is the Fisher information of $f(x\mid\theta)$.
+-   An important application of this result is the approximate confidence interval for $\theta$
+    $$
+    \P\left(\hat{\theta}_n - z_{\alpha/2}[nI(\hat{\theta}_n)]^{-1/2} \leq \theta \leq \hat{\theta}_n + z_{\alpha/2}[nI(\hat{\theta}_n)]^{-1/2} \right) \approx \alpha.
+    $$
 
-## Bernstein-von Mises Theorem
+## Asymptotics of Bayesian inference
+
+
+-   The Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.
+-   See Section 10.2 of Van der Vaart (2000) for rigorous arguments.
+-   The regularity conditions include:
+    +   the posterior must be proper, and
+    +   the prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.
+-   Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect[^BvM].
+
+
+[^BvM]: See this [blog post](https://statmodeling.stat.columbia.edu/2017/11/27/asymptotically-we-are-all-dead/) for an interesting discussion on Bernstein-von Mises Theoerm.
+
+::: aside
+Van der Vaart, A. W. (2000). *Asymptotic statistics*.
+:::
 
 ## Normal approximation to the posterior 
 
@@ -80,13 +102,13 @@ $$
 where $I(\theta)$ is the observed information,
 $I(\theta)=-\frac{d^2}{d \theta^2} \log \pi(\theta \mid x)$.
 
+
 ## Normal approximation to the posterior 
 
-If the approximation is good, we can 
--   construct a approximate credible region 
-
-
-
+-   If the approximation is good, we can construct an approximate credible interval without resorting to sampling techniques.
+-   In practice, however, it is almost impossible to check how good or bad the approximation is, especially when the parameter is high-dimensional.
+-   Even for low-dimensional parameter, if the posterior is multi-modal, the normal approximation will be terrible.
+-   In a later lecture, we will introduce a technique, called **variational inference**, which allows us to approximate the posterior using any parametric family, not just normal. 
 
 ## Bootstrap and Bayesian Inference[^2]
 
@@ -212,6 +234,8 @@ We use the `sleepstudy` dataset in the `lme4` R package.
 #| label: sleep_data
 #| echo: true
 library(lme4)
+library(tidyverse)
+library(kableExtra)
 data("sleepstudy")
 sleepstudy %>% head() %>% kbl(format="markdown")
 ```
@@ -314,7 +338,7 @@ sleep_lmer_B <- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject),
 -   Mixed effect model is just one example of **hierarchical models** (or **multi-level models**).
 -   A hierarchical model contains many sub-models that are linked by some hierarchical relations.
 -   In the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.
--   Note a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.
+-   Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.
 
 # Hierarchical Models
 
@@ -325,13 +349,16 @@ sleep_lmer_B <- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject),
 -   When parameters are only exchangeable rather than independent, a *hyperprior* is needed (de Finetti's Theorem). That is, the subscripts of the parameters convey no information.
 
 
-
 ## Meta-analysis
 
--   Meta-analysis is an increasingly popular and important process of summarizing and integrating
-the findings of research studies in a particular area.
+-   Meta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.
+-   The article "Why Science Is Not Necessarily Self-Correcting" by Ioannidis (2012) pointed out that sometimes fundamental fallacies remain unchallenged and are only perpetuated.
 
 -   You can find a detailed introduction to meat-analysis and different approaches to meta-analysis in <https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/>.
+
+::: aside
+Ioannidis, J. P. (2012). Why science is not necessarily self-correcting. *Perspectives on Psychological Science*, 7(6), 645-654.
+:::
 
 # Clinical trials of beta-blockers
 
@@ -394,6 +421,47 @@ meta_summary %>% head() %>% kbl(digits = 4)
 ## Goal of the inference
 
 -   Now we have the log odds ratios and their sampling variances from 22 studies.
+-   How are these studies related to each other?
+    +    Are they identical replications of each other, i.e., the studies are independent samples from a common population? 
+    +    Are they completely unrelated?
+-   A more realistic assumption is that they are somewhere between the two extremes.
+-   [Exchangeablity assumption]{.underline}: the parameters $\theta_j$ are exchangeable.
+    +    We cannot distinguish $\theta_j$'s before we see that data.
+    +    Therefore
+    $$
+    (\theta_1, \ldots, \theta_{22}) \sim \pi \Leftrightarrow
+    \theta_i \iid \pi(\theta\mid\phi), \phi \sim \nu.
+    $$
+
+## A hierarchical model
+
+-   Likelihood: $\hat{\theta}_j \sim N(\theta_j, \sigma^2_j)$, $j = 1,\ldots, 22$. 
+    +   Assume the $\sigma^2_j$'s are known (given by the sampling variance computed before).
+-   Prior: we use the exchangeable normal prior for $\theta_j$,
+    $$
+    \theta_j \mid \mu, \tau \iid N(\mu, \tau^2)
+    $$
+    where $\mu$ and $\tau$ are unknown *hyperparameters*.
+-   Hyperprior: for $\mu$ and $\tau$
+    \begin{align*}
+    \mu & \sim \pi(\mu) \propto 1\\
+    \tau & \sim \text{Unif}(0, A)
+    \end{align*}
+    for some large $A$.
+-   Computation is left as homework.
+    
+## Weakly informative priors for variance parameters
+
+-   For the variance parameter $\tau$, we use the uniform prior $\text{Unif}(0, A)$, which is a proper noninformative prior.
+-   Another choice is Inverse-Gamma$(\epsilon, \epsilon)$, with small $\epsilon$.
+-   How about the Jeffreys prior?
+    +    To compute the Jeffreys prior, you need to first find the marginal distribution $f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\mu$.
+    +    Then compute the Fisher information of $f(x \mid \mu, \tau)$.
+    +    Both steps are difficult!!
+-   A bad news is that the posterior of $\tau$ is sensitive to the choice of prior. You will see this in your homework.
+-   Read Section 5.7 of BDA for more details.
+
+
     
     
     

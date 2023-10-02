@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Chun-Hao Yang">
   <title>STAT 5010 - Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models</title>
@@ -469,21 +469,35 @@ Chun-Hao Yang
 \]</span></p>
 </div>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>We need to make sure that the posterior is proper; otherwise, this equation is meaningless.</p></li></ol></aside></section>
-<section id="mle-vs-map-1" class="slide level2">
-<h2>MLE vs MAP</h2>
-<ul>
-<li class="fragment">MLE is actually a special case of MAP.</li>
-</ul>
-</section>
 <section id="asymptotics-of-mle" class="slide level2">
 <h2>Asymptotics of MLE</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(X_1, \ldots, X_n \iid f(x\mid \theta)\)</span> and <span class="math inline">\(\hat{\theta}_n\)</span> be the MLE of <span class="math inline">\(\theta\)</span>.</li>
+<li class="fragment">Under some regularity conditions on <span class="math inline">\(f(x\mid\theta)\)</span>, the MLE is asymptotically normally distributed and efficient (having the smallest variance).</li>
+<li class="fragment">That is, <span class="math display">\[
+\sqrt{n}\left(\hat{\theta}_n-\theta\right) \stackrel{d}{\rightarrow} N\left(0, I(\theta)^{-1}\right)
+\]</span> where <span class="math inline">\(I(\theta)\)</span> is the Fisher information of <span class="math inline">\(f(x\mid\theta)\)</span>.</li>
+<li class="fragment">An important application of this result is the approximate confidence interval for <span class="math inline">\(\theta\)</span> <span class="math display">\[
+\P\left(\hat{\theta}_n - z_{\alpha/2}[nI(\hat{\theta}_n)]^{-1/2} \leq \theta \leq \hat{\theta}_n + z_{\alpha/2}[nI(\hat{\theta}_n)]^{-1/2} \right) \approx \alpha.
+\]</span></li>
+</ul>
 </section>
-<section id="asymptotics-of-bayesion-inference" class="slide level2">
-<h2>Asymptotics of Bayesion inference</h2>
-</section>
-<section id="bernstein-von-mises-theorem" class="slide level2">
-<h2>Bernstein-von Mises Theorem</h2>
-</section>
+<section id="asymptotics-of-bayesian-inference" class="slide level2">
+<h2>Asymptotics of Bayesian inference</h2>
+<ul>
+<li class="fragment">The Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.</li>
+<li class="fragment">See Section 10.2 of Van der Vaart (2000) for rigorous arguments.</li>
+<li class="fragment">The regularity conditions include:
+<ul>
+<li class="fragment">the posterior must be proper, and</li>
+<li class="fragment">the prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.</li>
+</ul></li>
+<li class="fragment">Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect<sup>1</sup>.</li>
+</ul>
+
+<aside><div>
+<p>Van der Vaart, A. W. (2000). <em>Asymptotic statistics</em>.</p>
+</div><ol class="aside-footnotes"><li id="fn2"><p>See this <a href="https://statmodeling.stat.columbia.edu/2017/11/27/asymptotically-we-are-all-dead/">blog post</a> for an interesting discussion on Bernstein-von Mises Theoerm.</p></li></ol></aside></section>
 <section id="normal-approximation-to-the-posterior" class="slide level2">
 <h2>Normal approximation to the posterior</h2>
 <ul>
@@ -499,7 +513,12 @@ Chun-Hao Yang
 </section>
 <section id="normal-approximation-to-the-posterior-1" class="slide level2">
 <h2>Normal approximation to the posterior</h2>
-<p>If the approximation is good, we can - construct a approximate credible region</p>
+<ul>
+<li class="fragment">If the approximation is good, we can construct an approximate credible interval without resorting to sampling techniques.</li>
+<li class="fragment">In practice, however, it is almost impossible to check how good or bad the approximation is, especially when the parameter is high-dimensional.</li>
+<li class="fragment">Even for low-dimensional parameter, if the posterior is multi-modal, the normal approximation will be terrible.</li>
+<li class="fragment">In a later lecture, we will introduce a technique, called <strong>variational inference</strong>, which allows us to approximate the posterior using any parametric family, not just normal.</li>
+</ul>
 </section>
 <section id="bootstrap-and-bayesian-inference2" class="slide level2">
 <h2>Bootstrap and Bayesian Inference<sup>1</sup></h2>
@@ -510,7 +529,7 @@ Chun-Hao Yang
 <li class="fragment">A bootstrap sample <span class="math inline">\(X_1^*, \ldots, X_n^*\)</span> is obtained from <span class="math inline">\(X_1, \ldots, X_n\)</span> using <u>sampling with replacement</u>.</li>
 <li class="fragment">The sampling distribution of <span class="math inline">\(\bar{X}_n\)</span> can be estimated/approximated by the distribution of <span class="math inline">\(\bar{X}^*_n = \frac{1}{n}\sum_{i=1}^n X_i^*\)</span>, which is called the <strong>bootstrap distribution</strong>.</li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>Ch. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., &amp; Friedman, J. H. (2009). <em>The elements of statistical learning: data mining, inference, and prediction</em>.</p></li><li id="fn3"><p>B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. <em>Annals of Statistics</em> 7(1) 1 - 26.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Ch. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., &amp; Friedman, J. H. (2009). <em>The elements of statistical learning: data mining, inference, and prediction</em>.</p></li><li id="fn4"><p>B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. <em>Annals of Statistics</em> 7(1) 1 - 26.</p></li></ol></aside></section>
 <section id="bootstrap-and-bayesian-inference" class="slide level2">
 <h2>Bootstrap and Bayesian Inference</h2>
 <ul>
@@ -586,7 +605,7 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 <li class="fragment">The confidence distribution contains confidence interval of any level.</li>
 <li class="fragment">Fraser (2011)<sup>2</sup> also discussed how the Bayesian posterior and the confidence distribution are related.</li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>Neyman, J. (1937). Outline of a theory of statistical estimation based on the classical theory of probability. <em>Phil. Trans. Roy. Soc</em></p></li><li id="fn5"><p>Fraser, D. A. S. (2011). Is Bayes Posterior just Quick and Dirty Confidence? <em>Statistical Science</em>, 26(3), 299–316.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>Neyman, J. (1937). Outline of a theory of statistical estimation based on the classical theory of probability. <em>Phil. Trans. Roy. Soc</em></p></li><li id="fn6"><p>Fraser, D. A. S. (2011). Is Bayes Posterior just Quick and Dirty Confidence? <em>Statistical Science</em>, 26(3), 299–316.</p></li></ol></aside></section>
 <section id="random-effect-models" class="slide level2">
 <h2>Random effect models</h2>
 <ul>
@@ -625,13 +644,15 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 <blockquote>
 <p>This dataset contains the average reaction time per day (in milliseconds) for subjects in a sleep deprivation study described in Belenky et al.&nbsp;(2003)<sup>1</sup>, for the most sleep-deprived group (3 hours time-in-bed; 18 subjects) and for the first 10 days of the study. Days 0-1 were adaptation and training (T1/T2), and day 2 was baseline (B); sleep deprivation started after day 2.</p>
 </blockquote>
-<aside><ol class="aside-footnotes"><li id="fn6"><p>Gregory Belenky, Nancy J. Wesensten, David R. Thorne, Maria L. Thomas, Helen C. Sing, Daniel P. Redmond, Michael B. Russo and Thomas J. Balkin (2003) Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study. <em>Journal of Sleep Research</em> <strong>12</strong>, 1–12.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn7"><p>Gregory Belenky, Nancy J. Wesensten, David R. Thorne, Maria L. Thomas, Helen C. Sing, Daniel P. Redmond, Michael B. Russo and Thomas J. Balkin (2003) Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study. <em>Journal of Sleep Research</em> <strong>12</strong>, 1–12.</p></li></ol></aside></section>
 <section id="data-description-1" class="slide level2">
 <h2>Data description</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_data_3d68973f55335a6c69f2734131595f07">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_data_5868c2ddc99a0af06b517038ca416135">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">data</span>(<span class="st">"sleepstudy"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>sleepstudy <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">data</span>(<span class="st">"sleepstudy"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a>sleepstudy <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table>
 <thead>
@@ -852,7 +873,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <li class="fragment">Mixed effect model is just one example of <strong>hierarchical models</strong> (or <strong>multi-level models</strong>).</li>
 <li class="fragment">A hierarchical model contains many sub-models that are linked by some hierarchical relations.</li>
 <li class="fragment">In the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.</li>
-<li class="fragment">Note a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.</li>
+<li class="fragment">Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.</li>
 </ul>
 </section></section>
 <section>
@@ -872,9 +893,13 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <h2>Meta-analysis</h2>
 <ul>
 <li class="fragment"><p>Meta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.</p></li>
+<li class="fragment"><p>The article “Why Science Is Not Necessarily Self-Correcting” by Ioannidis (2012) pointed out that sometimes fundamental fallacies remain unchallenged and are only perpetuated.</p></li>
 <li class="fragment"><p>You can find a detailed introduction to meat-analysis and different approaches to meta-analysis in <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/" class="uri">https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/</a>.</p></li>
 </ul>
-</section></section>
+
+<aside><div>
+<p>Ioannidis, J. P. (2012). Why science is not necessarily self-correcting. <em>Perspectives on Psychological Science</em>, 7(6), 645-654.</p>
+</div></aside></section></section>
 <section>
 <section id="clinical-trials-of-beta-blockers" class="title-slide slide level1 center">
 <h1>Clinical trials of beta-blockers</h1>
@@ -1036,10 +1061,56 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 </div>
 </div>
 </section>
-<section id="goal-of-inference" class="slide level2">
-<h2>Goal of inference</h2>
+<section id="goal-of-the-inference" class="slide level2">
+<h2>Goal of the inference</h2>
 <ul>
 <li class="fragment">Now we have the log odds ratios and their sampling variances from 22 studies.</li>
+<li class="fragment">How are these studies related to each other?
+<ul>
+<li class="fragment">Are they identical replications of each other, i.e., the studies are independent samples from a common population?</li>
+<li class="fragment">Are they completely unrelated?</li>
+</ul></li>
+<li class="fragment">A more realistic assumption is that they are somewhere between the two extremes.</li>
+<li class="fragment"><u>Exchangeablity assumption</u>: the parameters <span class="math inline">\(\theta_j\)</span> are exchangeable.
+<ul>
+<li class="fragment">We cannot distinguish <span class="math inline">\(\theta_j\)</span>’s before we see that data.</li>
+<li class="fragment">Therefore <span class="math display">\[
+(\theta_1, \ldots, \theta_{22}) \sim \pi \Leftrightarrow
+\theta_i \iid \pi(\theta\mid\phi), \phi \sim \nu.
+\]</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="a-hierarchical-model" class="slide level2">
+<h2>A hierarchical model</h2>
+<ul>
+<li class="fragment">Likelihood: <span class="math inline">\(\hat{\theta}_j \sim N(\theta_j, \sigma^2_j)\)</span>, <span class="math inline">\(j = 1,\ldots, 22\)</span>.
+<ul>
+<li class="fragment">Assume the <span class="math inline">\(\sigma^2_j\)</span>’s are known (given by the sampling variance computed before).</li>
+</ul></li>
+<li class="fragment">Prior: we use the exchangeable normal prior for <span class="math inline">\(\theta_j\)</span>, <span class="math display">\[
+\theta_j \mid \mu, \tau \iid N(\mu, \tau^2)
+\]</span> where <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> are unknown <em>hyperparameters</em>.</li>
+<li class="fragment">Hyperprior: for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> <span class="math display">\[\begin{align*}
+\mu &amp; \sim \pi(\mu) \propto 1\\
+\tau &amp; \sim \text{Unif}(0, A)
+\end{align*}\]</span> for some large <span class="math inline">\(A\)</span>.</li>
+<li class="fragment">Computation is left as homework.</li>
+</ul>
+</section>
+<section id="weakly-informative-priors-for-variance-parameters" class="slide level2">
+<h2>Weakly informative priors for variance parameters</h2>
+<ul>
+<li class="fragment">For the variance parameter <span class="math inline">\(\tau\)</span>, we use the uniform prior <span class="math inline">\(\text{Unif}(0, A)\)</span>, which is a proper noninformative prior.</li>
+<li class="fragment">Another choice is Inverse-Gamma<span class="math inline">\((\epsilon, \epsilon)\)</span>, with small <span class="math inline">\(\epsilon\)</span>.</li>
+<li class="fragment">How about the Jeffreys prior?
+<ul>
+<li class="fragment">To compute the Jeffreys prior, you need to first find the marginal distribution <span class="math inline">\(f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\mu\)</span>.</li>
+<li class="fragment">Then compute the Fisher information of <span class="math inline">\(f(x \mid \mu, \tau)\)</span>.</li>
+<li class="fragment">Both steps are difficult!!</li>
+</ul></li>
+<li class="fragment">A bad news is that the posterior of <span class="math inline">\(\tau\)</span> is sensitive to the choice of prior. You will see this in your homework.</li>
+<li class="fragment">Read Section 5.7 of BDA for more details.</li>
 </ul>
 
 <div class="footer footer-default">

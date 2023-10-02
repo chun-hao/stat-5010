@@ -1,17 +1,521 @@
 [
   {
+    "objectID": "slides/04-estimation.html#introduction",
+    "href": "slides/04-estimation.html#introduction",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Introduction",
+    "text": "Introduction\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nWe have seen that the determination of prior can be very complicated and different prior leads to different inference procedures.\nIn this lecture, we will see how we can evaluate and compare different inference procedures.\nMore importantly, besides offering coherent inference procedures, the Bayesian paradigm also enjoys some frequentist optimality properties.\nThe statistical inferential framework we focus in this lecture is called Decision Theory."
+  },
+  {
+    "objectID": "slides/04-estimation.html#evaluating-estimators",
+    "href": "slides/04-estimation.html#evaluating-estimators",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Evaluating estimators",
+    "text": "Evaluating estimators\n\nDecision theory can be applied to any kind of statistical problems, e.g., testing, estimation, etc.\nWe will temporarily focus on the statistical estimation setting.\nLet \\(\\Theta\\) be the parameter space and \\(\\mc{D}\\) be the decision space, which contain all possible decisions.\nIn standard estimation setting, \\(\\mc{D} = \\Theta\\).\n\n\nDefinition 1 A loss function is any function \\(L\\) from \\(\\Theta \\times \\mc{D}\\) to \\([0,+\\infty)\\)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#loss-function",
+    "href": "slides/04-estimation.html#loss-function",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Loss function",
+    "text": "Loss function\n\nThis loss function is supposed to evaluate the penalty (or error) \\(L(\\theta, d)\\) associated with the decision \\(d\\) when the parameter takes the value \\(\\theta\\).\nA utility function is just the opposite of a loss function, e.g. \\(U(\\theta, d) = -L(\\theta, d)\\).\nIntuitively, a good decision \\(d\\) minimizes the loss (maximizes the utility) at every \\(\\theta\\).\nIs this possible?"
+  },
+  {
+    "objectID": "slides/04-estimation.html#bayesian-decision-theory",
+    "href": "slides/04-estimation.html#bayesian-decision-theory",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Bayesian Decision Theory",
+    "text": "Bayesian Decision Theory\n\nBayesian statistical inference should start with the rigorous determination of three factors:\n\nthe distribution family for the observations, \\(f(x\\mid\\theta)\\);\nthe prior distribution for the parameters, \\(\\pi(\\theta)\\);\nthe loss associated with the decisions, \\(L(\\theta, \\delta)\\);\n\nBad news: The determination of loss is as complicated as the determination of prior.\nActually, Lindley (1985) states that loss and prior are difficult to separate and should be analyzed simultaneously.\n\n\n\nLindley, D.V. (1985) Making Decisions (2nd edition). J. Wiley, New York."
+  },
+  {
+    "objectID": "slides/04-estimation.html#commonly-used-loss-functions",
+    "href": "slides/04-estimation.html#commonly-used-loss-functions",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Commonly used loss functions",
+    "text": "Commonly used loss functions\n\nSquared error loss: \\(L(\\theta, d) = (\\theta - d)^2\\)\nWeighted loss: \\(L(\\theta, d) = w(\\theta)(\\theta-d)^2\\)\n\nusing this loss with prior \\(\\pi(\\theta)\\) is the same as using squared error loss with prior \\(\\pi(\\theta)w(\\theta)\\)\n\nAbsolute error: \\(L(\\theta, d) = |\\theta - d|\\)\nThe 0-1 loss: \\(L(\\theta, d) = I(\\theta \\neq d)\\)\nIntrinsic loss:\n\nKullback-Leibler divergence \\(L_{\\text{KL}}(\\theta, \\delta) = \\E_\\theta\\left[\\log \\left(\\frac{f(x \\mid \\theta)}{f(x \\mid \\delta)}\\right)\\right]\\)\nHellinger loss \\(L_{\\text{H}}(\\theta, \\delta)=\\frac{1}{2} \\E_\\theta\\left[\\left(\\sqrt{\\frac{f(x \\mid \\delta)}{f(x \\mid \\theta)}}-1\\right)^2\\right] = \\frac{1}{2}\\int \\left(\\sqrt{f(x\\mid\\theta)}-\\sqrt{f(x\\mid\\delta)}\\right)^2 dx\\)"
+  },
+  {
+    "objectID": "slides/04-estimation.html#example",
+    "href": "slides/04-estimation.html#example",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\n\nFor \\(X \\sim N(\\theta, 1)\\), we have\n\n\\[\\begin{align*}\nL_{\\mathrm{KL}}(\\theta, \\delta) & =\\frac{1}{2} \\E_\\theta\\left[-(x-\\theta)^2+(x-\\delta)^2\\right]=\\frac{1}{2}(\\delta-\\theta)^2 \\\\\nL_{\\mathrm{H}}(\\theta, \\delta) & =1-\\exp \\left\\{-(\\delta-\\theta)^2 / 8\\right\\}.\n\\end{align*}\\]\n\n\n\nFor \\(X \\sim N(0, \\sigma^2)\\), we have\n\n\\[\\begin{align*}\nL_{\\mathrm{KL}}(\\sigma, \\delta) & =\\log \\frac{\\delta}{\\sigma}+\\frac{\\sigma^2}{2 \\delta^2}-\\frac{1}{2} \\\\\nL_{\\mathrm{H}}(\\sigma, \\delta) & =1-\\sqrt{\\frac{2 \\sigma \\delta}{\\sigma^2+\\delta^2}}.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/04-estimation.html#statistical-model",
+    "href": "slides/04-estimation.html#statistical-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Statistical model",
+    "text": "Statistical model\n\nFrom a decision-theoretic point of view, the statistical model now involves three spaces:\n\n\\(\\mc{X}\\), observation space (or sample space),\n\\(\\Theta\\), parameter space, and\n\\(\\mc{D}\\), decision space (or action space).\n\nWe then need to determine a loss function \\(L(\\theta, d)\\).\nThe goal is to find a decision rule \\(\\delta: \\mc{X} \\to \\mc{D}\\), such that the loss \\(L(\\theta, \\delta(x))\\) is minimized.\nExcept for trivial settings, it is generally impossible to uniformly minimize (in \\(d\\)) the loss function \\(L(\\theta, d)\\) when \\(\\theta\\) is unknown."
+  },
+  {
+    "objectID": "slides/04-estimation.html#risk",
+    "href": "slides/04-estimation.html#risk",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Risk",
+    "text": "Risk\nTo derive an effective comparison criterion from the loss function, we have\n\nFrequentist Risk: average over unknown \\(x\\) (samples) \\[\\begin{align*}\nR(\\theta, \\delta)  =\\E_\\theta[L(\\theta, \\delta(X))]\n=\\int_{\\mc{X}} L(\\theta, \\delta(x)) f(x \\mid \\theta) d x\n\\end{align*}\\]\nPosterior Risk: average over unknown \\(\\theta\\) (parameters) \\[\\begin{align*}\n\\rho(\\pi, d \\mid x)  =\\E^\\pi[L(\\theta, d) \\mid x]\n=\\int_{\\Theta} L(\\theta, d) \\pi(\\theta \\mid x) d \\theta\n\\end{align*}\\]\nIntegrated Risk: average over both \\(\\theta\\) and \\(x\\) \\[\\begin{align*}\nr(\\pi, \\delta) =\\mathbb{E}^\\pi[R(\\theta, \\delta)]\n=\\int_{\\Theta} \\int_{\\mathcal{X}} \\mathrm{L}(\\theta, \\delta(x)) f(x \\mid \\theta) d x \\pi(\\theta) d \\theta\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/04-estimation.html#frequentist-risk",
+    "href": "slides/04-estimation.html#frequentist-risk",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Frequentist Risk",
+    "text": "Frequentist Risk\n\nGiven \\(\\delta\\), \\(R(\\theta, \\delta)\\) is a function of \\(\\theta\\).\nThe value \\(R(\\theta, \\delta)\\) is the long-run performance of \\(\\delta\\) when the true parameter is \\(\\theta\\).\nThe goal is to select a decision rule that has the best long-run performance uniformly in \\(\\theta\\), which is generally impossible.\nEven if we find a decision rule with good long-run performance, we are not able to evaluate the performance for the given observation \\(x\\).\nFinally, using this risk implicitly assumes that the same problem will be met again and again."
+  },
+  {
+    "objectID": "slides/04-estimation.html#posterior-risk",
+    "href": "slides/04-estimation.html#posterior-risk",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Posterior Risk",
+    "text": "Posterior Risk\n\nGiven \\(x\\), \\(\\rho(\\pi, d \\mid x)\\) is the average error resulting from decision \\(d\\).\nThe posterior risk is a function of \\(x\\), which is known.\nBy Fubini’s Theorem, \\[\n    r(\\pi, \\delta) = \\int \\rho(\\pi, \\delta(x) \\mid x) m(x)dx\n\\] where \\(m(x) = \\int f(x\\mid\\theta)\\pi(\\theta)d\\theta\\) is the marginal distribution.\nUnlike the frequentist risk which associates a function to \\(\\delta\\), the integrated risk associates a real number to \\(\\delta\\)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#bayes-estimator",
+    "href": "slides/04-estimation.html#bayes-estimator",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Bayes Estimator",
+    "text": "Bayes Estimator\n\nGiven a prior distribution \\(\\pi\\) and a loss function \\(L\\)\nA Bayes estimator is any estimator \\(\\delta^\\pi\\) which minimizes \\(r(\\pi, \\delta)\\).\nFor every \\(x \\in \\mathcal{X}\\), it is given by \\(\\delta^\\pi(x)\\), argument of \\(\\min _d \\rho(\\pi, d \\mid x)\\).\nThe value \\(r(\\pi)=r\\left(\\pi, \\delta^\\pi\\right)\\) is then called the Bayes risk.\nFor example, posterior mean is the Bayes estimator under the squared error loss \\(L(\\theta, d) = (\\theta - d)^2\\) and posterior median is the Bayes estimator under \\(L(\\theta, d) = |\\theta-d|\\).\nWhen \\(\\pi\\) is improper, \\(r(\\pi, \\delta)\\) might not be finite. In this case, we \\(\\delta^{\\pi}(x)\\) as the minimum of the minimizer of the posterior risk and call it a generalized Bayes estimator."
+  },
+  {
+    "objectID": "slides/04-estimation.html#the-0-1-loss-and-map",
+    "href": "slides/04-estimation.html#the-0-1-loss-and-map",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "The 0-1 loss and MAP",
+    "text": "The 0-1 loss and MAP\n\nThis loss is mainly used in the classical approach to hypothesis testing.\nFor discrete parameters, the Bayes estimator under the 0-1 loss is the MAP.\nFor example, consider \\(\\Theta = \\{0, 1\\}\\) and the posterior is \\(\\pi(\\theta = 1 \\mid x) = p(x) = 1 - \\pi(\\theta = 0 \\mid x)\\).\nThe posterior risk is \\[\n    \\rho(\\pi, d \\mid x) = \\E_{\\theta\\mid x}L(\\theta, d) = \\begin{cases}\n1 - p(x), & d = 1\\\\\np(x), & d = 0\n\\end{cases}.\n\\]\nThe Bayes estimator is \\[\n    \\delta^{\\pi}(x) = \\argmin_d \\rho(\\pi, d \\mid x) =  \\begin{cases}\n1, & \\pi(\\theta = 1 \\mid x) &gt; 1/2\\\\\n0, & \\pi(\\theta = 0 \\mid x) &gt; 1/2\n\\end{cases},\n\\] which is the MAP."
+  },
+  {
+    "objectID": "slides/04-estimation.html#the-0-1-loss-and-map-1",
+    "href": "slides/04-estimation.html#the-0-1-loss-and-map-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "The 0-1 loss and MAP",
+    "text": "The 0-1 loss and MAP\n\nFor continuous parameters, it is slightly more complicated.\nFor any \\(d \\in \\Theta\\), the posterior risk is \\[\n\\rho(\\pi, d \\mid x) = \\E_{\\theta\\mid x}I(\\theta \\neq d) = \\P(\\theta \\neq d \\mid x) = 1,\n\\] which is independent of \\(d\\).\nHence every \\(d \\in \\Theta\\) is a minimizer of the posterior risk.\nHowever if we replace the 0-1 loss by a sequence of losses, \\(L_{\\varepsilon}(\\theta, d) = I(\\|\\theta-d\\| &gt; \\varepsilon)\\), the MAP estimate is then the limit of the Bayes estimates associated with \\(L_{\\varepsilon}\\), when \\(\\varepsilon \\to 0\\)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#a-quick-wrap-up",
+    "href": "slides/04-estimation.html#a-quick-wrap-up",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "A quick wrap-up",
+    "text": "A quick wrap-up\n\nTo perform a decision-theoretic evaluation for estimators (or any other statistical inference), we need to first choose a loss function \\(L\\).\nWith \\(L\\), we can obtain different risks by averaging over different spaces.\nAs a Bayesian, only the posterior risk \\(\\rho(\\pi, d\\mid x)\\) is important.\nThe integrated risk \\(r(\\pi, \\delta)\\) actually connects the posterior risk and the frequentist risk.\nIt also explains why Bayes estimators play an important role in frequentist optimality criteria."
+  },
+  {
+    "objectID": "slides/04-estimation.html#two-optimalities",
+    "href": "slides/04-estimation.html#two-optimalities",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Two optimalities",
+    "text": "Two optimalities\n\nThere are two fundamental notions of frequentist Decision Theory: minimaxity and admissibility.\nUnder the frequentist paradigm, there is no single optimal estimator.\nWe will see that Bayes estimators are often optimal for the frequentist concepts of optimality."
+  },
+  {
+    "objectID": "slides/04-estimation.html#minimaxity",
+    "href": "slides/04-estimation.html#minimaxity",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Minimaxity",
+    "text": "Minimaxity\n\nIt is an insurance against the worst case because it aims at minimizing the expected loss in the least favorable case.\nThe minimax risk associated with a loss function \\(L\\) is the value \\[\n\\bar{R}=\\inf _{\\delta \\in \\mc{D}} \\sup _\\theta R(\\theta, \\delta)=\\inf _{\\delta \\in \\mc{D}} \\sup_\\theta \\E_\\theta[L(\\theta, \\delta(X))].\n\\]\nA minimax estimator is any estimator \\(\\delta_0\\) such that \\[\n\\sup _\\theta R\\left(\\theta, \\delta_0\\right)=\\bar{R} .\n\\]\nIn other words, a minimax estimator has the best worst-case performance.\nThe notion of minimaxity provides a good illustration of the conservative aspects of the frequentist paradigm."
+  },
+  {
+    "objectID": "slides/04-estimation.html#bayes-esitmator-and-minimaxity",
+    "href": "slides/04-estimation.html#bayes-esitmator-and-minimaxity",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Bayes esitmator and minimaxity",
+    "text": "Bayes esitmator and minimaxity\n\nIn fact, from a Bayesian point of view, it is often equivalent to take a prior concentrated on these worst cases.\nIn some cases, a minimax estimator is also a Bayes estimator, that is, there exists a prior such that the Bayes estimator is minimax.\nSuch prior is called a least favorable prior, which has the largest Bayes risk among all other priors.\nIf you need a conservative Bayes estimate, you can choose the least favorable prior (if it exists).\nEven if a minimax estimator is not Bayes, it is often the limit of Bayes estimators, e.g., the MLE for \\(N(\\theta, 1)\\).\nA useful approach to the construction of minimax estimators is called a limiting Bayes approach.1\n\nSee Theorem 1.12 in Ch. 6 of Theory of Point Estimation for example."
+  },
+  {
+    "objectID": "slides/04-estimation.html#admissibility",
+    "href": "slides/04-estimation.html#admissibility",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Admissibility",
+    "text": "Admissibility\n\nAn estimator \\(\\delta_0\\) is inadmissible if there exists an estimator \\(\\delta_1\\) which dominates \\(\\delta_0\\), that is, such that, for every \\(\\theta\\), \\[\\begin{align*}\nR\\left(\\theta, \\delta_0\\right) \\geq R\\left(\\theta, \\delta_1\\right)\n\\end{align*}\\] and, for at least one value \\(\\theta_0\\) of the parameter, \\[\\begin{align*}\nR\\left(\\theta_0, \\delta_0\\right)&gt;R\\left(\\theta_0, \\delta_1\\right) .\n\\end{align*}\\]\nOtherwise, \\(\\delta_0\\) is said to be admissible."
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-1",
+    "href": "slides/04-estimation.html#example-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\n\n\nStudent\n國文\n英文\n數學\n自然\n社會\n\n\n\n\nA\n80\n90\n95\n85\n85\n\n\nB\n70\n80\n85\n75\n75\n\n\nC\n85\n90\n95\n90\n60\n\n\nD\n90\n80\n50\n60\n80\n\n\nE\n80\n80\n80\n80\n80\n\n\n\nAmong these 5 students:\n\nA and E are minimax, since their have the highest worst score, 80.\nB and E are inadmissible, since A dominates B and E; A, C, and D are admissible.\nThe Bayes estimator under the prior (1,1,1,1,1) is A; the Bayes estimator under the prior (1,0,0,0,0) is D."
+  },
+  {
+    "objectID": "slides/04-estimation.html#steins-paradox",
+    "href": "slides/04-estimation.html#steins-paradox",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Stein’s Paradox",
+    "text": "Stein’s Paradox\n\nLet \\(X \\sim N_p(\\theta, I)\\) and \\(p&gt;2\\). Then \\(X\\) is the MLE for \\(\\theta\\) and is inadmissible.\nThe MLE is dominated by the James-Stein estimator \\[\n\\hat{\\theta}^{\\text{JS}} = \\left(1 - \\frac{p-2}{\\|X\\|^2}\\right)X.\n\\]\nThe James-Stein estimator is still inadmissible and is dominated by the positive-part James-Stein estimator1 \\[\n\\hat{\\theta}^{\\text{JS+}} = \\left(1 - \\frac{p-2}{\\|X\\|^2}\\right)_+X,\n\\] where \\((x)_+ = \\max(x, 0)\\).\nThe positive-part James-Stein estimator is still inadmissible since it is not differentiable.\n\nAll these three estimators are minimax."
+  },
+  {
+    "objectID": "slides/04-estimation.html#optimality-of-bayes-estimators",
+    "href": "slides/04-estimation.html#optimality-of-bayes-estimators",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Optimality of Bayes estimators",
+    "text": "Optimality of Bayes estimators\n\nWhat is more important is whether the Bayes risk is finite rather than the propriety of the prior.\nFinite Bayes risk: (regular) Bayes estimator;\nInfinite Bayes risk: generalized Bayes estimator\nUnique (regular) Bayes \\(\\Rightarrow\\) admissible\n\nWhen \\(L(\\theta, d)\\) is strictly convex in \\(d\\), the Bayes estimator is unique.\nFor example, with a proper prior, the posterior mean is admissible.\nWith an improper prior, the posterior mean is admissible if it has finite Bayes risk."
+  },
+  {
+    "objectID": "slides/04-estimation.html#optimality-of-bayes-estimators-1",
+    "href": "slides/04-estimation.html#optimality-of-bayes-estimators-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Optimality of Bayes estimators",
+    "text": "Optimality of Bayes estimators\n\nUnique (regular) Bayes with constant (frequentist) risk \\(\\Rightarrow\\) admissible and minimax\n\nIf \\(X \\mid p \\sim \\bin(n, p)\\) and \\(p \\sim \\text{Beta}(\\sqrt{n}/2, \\sqrt{n}/2)\\), the posterior mean of \\(p\\) is admissible and minimax (under the squared error loss).\nThis prior \\(\\text{Beta}(\\sqrt{n}/2, \\sqrt{n}/2)\\) is called a least favorable prior.\nA least favorable prior, if it exists, gives a conservative Bayes estimate.\n\n\n\n\n\n\nConclusion\n\n\nBayes estimators are admissible. It can also be minimax with a particular prior."
+  },
+  {
+    "objectID": "slides/04-estimation.html#bayesian-estimation-1",
+    "href": "slides/04-estimation.html#bayesian-estimation-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Bayesian estimation",
+    "text": "Bayesian estimation\n\nWhen the prior distribution \\(\\pi(\\theta)\\) is available, the posterior distribution \\(\\pi(\\theta \\mid x)\\) can be formally derived from the observation \\(x\\) with distribution \\(f(x \\mid \\theta)\\).\nThis updated distribution integrates simultaneously prior information about \\(\\theta\\) and information brought by the observation \\(x\\).\nEven though \\(\\theta\\) is not necessarily a random variable, the distribution \\(\\pi(\\theta\\mid x)\\) can be used as a regular probability distribution to describe the properties of \\(\\theta\\).\nSummarizing indices for \\(\\pi(\\theta\\mid x)\\) such as the posterior mean, the posterior mode, the posterior variance, and the posterior median, can be used."
+  },
+  {
+    "objectID": "slides/04-estimation.html#map-estimator",
+    "href": "slides/04-estimation.html#map-estimator",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "MAP estimator",
+    "text": "MAP estimator\n\nThere is no way of selecting a best estimator, without using a loss criterion.\nNonetheless, a possible estimator of \\(\\theta\\) based on \\(\\pi(\\theta \\mid x)\\) is the maximum a posteriori (MAP) estimator, defined as the posterior mode: \\[\n\\hat{\\theta}_{\\text{MAP}} = \\argmax_\\theta \\pi(\\theta \\mid x) = \\argmax_{\\theta} \\ell(\\theta\\mid x) \\pi(\\theta)\n\\] where \\(\\ell(\\theta\\mid x)\\) is the likelihood function.\nNote that the MAP estimator also bypasses the computation of the marginal \\(m(x) = \\int \\ell(\\theta\\mid x)\\pi(\\theta)d\\theta\\).\nRecall that the MAP estimator is a Bayes estimator (in the decision-theoretic sense) under the 0-1 loss when \\(\\theta\\) is discrete and is the limit of Bayes estimators when \\(\\theta\\) is continuous."
+  },
+  {
+    "objectID": "slides/04-estimation.html#penalized-maximum-likelihood-estimator",
+    "href": "slides/04-estimation.html#penalized-maximum-likelihood-estimator",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Penalized maximum likelihood estimator",
+    "text": "Penalized maximum likelihood estimator\n\nFor frequentists, a common approach to preventing overfitting is through penalization or regularization.\nA typical penalized MLE is of the form \\[\n\\hat{\\theta} = \\argmax \\log \\ell(\\theta \\mid x) - \\text{Penalty}(\\theta).\n\\]\nThe MAP estimator can be expressed as a penalized MLE: \\[\\begin{align*}\n\\hat{\\theta}_{\\text{MAP}} & = \\argmax_{\\theta} \\ell(\\theta\\mid x) \\pi(\\theta)\n= \\argmax_{\\theta} \\log \\ell(\\theta\\mid x) + \\log \\pi(\\theta).\n\\end{align*}\\]\nThat is, the penalty of \\(\\theta\\) is given through the prior: \\(\\text{Penalty}(\\theta) = - \\log \\pi(\\theta)\\).\nSpecifying a prior is equivalent to specifying a penalty term for frequentists."
+  },
+  {
+    "objectID": "slides/04-estimation.html#penalized-regularized-regression",
+    "href": "slides/04-estimation.html#penalized-regularized-regression",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Penalized (regularized) regression",
+    "text": "Penalized (regularized) regression\n\nLinear regression: \\(Y = X \\beta + \\varepsilon\\), where \\(X\\) is a \\(k\\times p\\) covariate matrix, \\(\\beta \\in \\R^p\\) is the unknown parameter, and \\(\\varepsilon \\sim N_k(0, \\sigma^2I_k)\\).\nThe (unregularized) ordinary least-square estimator1 of \\(\\beta\\) is \\[\n    \\hat{\\beta}_{\\text{OLS}} = \\argmin_{\\beta} \\|Y - X\\beta\\|^2 = (X^TX)^{-1}X^TY.\n\\]\nSome commonly used regularization:\n\nRidge regression: \\(\\text{Penalty}(\\beta) = -\\lambda\\|\\beta\\|^2 \\Leftrightarrow \\beta_i \\iid N(0, \\lambda^{-1})\\).\nLasso2: \\(\\text{Penalty}(\\beta) = -\\lambda\\|\\beta\\|_1 = \\lambda\\sum_{i=1}^p|\\beta_i| \\Leftrightarrow \\beta_i \\iid \\text{Laplace}(0, \\lambda^{-1})\\)\n\nWhenever you’re applying regularization techniques, you are essentially doing Bayesian analysis.\n\nThe OLS estimate is the MLE under the normality assumption on \\(\\varepsilon\\).Least Absolute Shrinkage and Selection Operator"
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-2",
+    "href": "slides/04-estimation.html#example-2",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\nHowever, the MAP might not always be useful.\nConsider \\(x \\sim \\mathcal{C}(\\theta, 1)\\), i.e., \\[\\begin{align*}\nf(x \\mid \\theta)=\\frac{1}{\\pi}\\left[1+(x-\\theta)^2\\right]^{-1},\n\\end{align*}\\] and \\(\\pi(\\theta)=\\frac{1}{2} e^{-|\\theta|}\\).\nThe MAP estimator of \\(\\theta\\) is then \\(\\delta^*(x)=0\\), as the maximum of \\(\\exp (-|\\theta|)\\left[1+(x-\\theta)^2\\right]^{-1}\\) is attained for \\(\\theta=0\\), whatever the value of \\(x\\).\nThis behavior may be explained by the flatness of the likelihood function, which is not informative enough, compared with the sharp prior distribution.\nHowever, from a practical point of view, this estimator is useless."
+  },
+  {
+    "objectID": "slides/04-estimation.html#posterior-mean-vs-map",
+    "href": "slides/04-estimation.html#posterior-mean-vs-map",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Posterior mean vs MAP",
+    "text": "Posterior mean vs MAP\n\nWhich is better?\nIf we adopt the decision theory framework and confine ourselves to the squared error loss \\(L(\\theta, d) = (\\theta-d)^2\\), then of course the posterior mean is better.\nComputation: Suppose we have the posterior \\(\\pi(\\theta \\mid x)\\).\n\nMAP: \\(\\hat{\\theta} = \\argmax_{\\theta} \\pi(\\theta \\mid x)\\)\nPosterior mean: \\(\\hat{\\theta} = \\int \\theta \\pi(\\theta \\mid x)d\\theta\\)\nWhich is computationally easier?"
+  },
+  {
+    "objectID": "slides/04-estimation.html#capture-recapture-model",
+    "href": "slides/04-estimation.html#capture-recapture-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Capture-recapture model",
+    "text": "Capture-recapture model\n\nIt’s a method commonly used in ecology to estimate an animal population’s size where it is impractical to count every individual.\nIt is based on taking at least two successive samples from the population of interest.\n\n\n\n\n\nSample 1/2\nCaptured\nMissed\n\n\nCaptured\n\\(n_{11}\\)\n\\(n_{12}\\)\n\n\nMissed\n\\(n_{21}\\)\n\\(n_{22}\\)\n\n\n\n\n\nAfter the two capture experiments, the population is divided as in the table above, with \\(n_{11} +n_{12} +n_{21} +n_{22} = N\\) (the fourth sample size \\(n_{22}\\) being unknown)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#uniform-model",
+    "href": "slides/04-estimation.html#uniform-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Uniform model",
+    "text": "Uniform model\n\nFor the simplest model, called uniform, each individual has the same probability \\(p\\) of being captured in both experiments.\nTherefore, \\(p_{11}=p^2, p_{12}=p_{21}=p(1-p)\\), and \\(p_{22}=(1-p)^2\\).\nThe likelihood can be written \\[\nL\\left(N, p \\mid n_{11}, n_{12}, n_{21}\\right)=\\choose{N}{n_{11}\\;n_{12}\\;n_{21}} p^{\\tilde{n}}(1-p)^{2N-\\tilde{n}}\n\\] where \\(\\tilde{n}=2 n_{11}+n_{12}+n_{21}\\) is the total number of captured individuals.\nThere are two unknown parameters \\(N\\) and \\(p\\), which we assume a priori independent.\nThe prior is \\(\\pi(N, p) = \\pi(N)\\pi(p)\\) and we assume a Beta prior for \\(p\\).\nUnfortunately, the marginal posterior of \\(N\\) is complicated no matter we use \\(\\pi(N) = 1\\), \\(\\pi(N) = 1/N\\), or Poisson."
+  },
+  {
+    "objectID": "slides/04-estimation.html#darroch-model",
+    "href": "slides/04-estimation.html#darroch-model",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Darroch model",
+    "text": "Darroch model\n\nThe Darroch model1 is a hypergeometric model, in which the two sample sizes \\(n_1 = n_{11} + n_{12}\\) and \\(n_2 = n_{11} + n_{21}\\) are fixed.\nIn this case, the only remaining random variable is \\(n_{11}\\), with distribution \\(\\text{HyperGeo}(N, n_1, n_2)\\).\nRecall: The hypergeometric distribution \\(\\text{HyperGeo}(N, K, n)\\) has pmf \\[\n\\P(X = x) = \\frac{\\choose{K}{x}\\choose{N-K}{n-x}}{\\choose{N}{n}},\n\\] which models the number of successes in \\(n\\) draws (without replacement) from a population of size \\(N\\) with \\(K\\) successes.\n\nDarroch, J. N. (1958). The multiple-recapture census: I. Estimation of a closed population. Biometrika, 45(3/4), 343-359."
+  },
+  {
+    "objectID": "slides/04-estimation.html#darroch-model-1",
+    "href": "slides/04-estimation.html#darroch-model-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Darroch model",
+    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\left[\\frac{n_1}{\\left(n_{11} / n_2\\right)}\\right],\n\\end{align*}\\] where \\([a]\\) is the integer part of \\(a\\).\nIt identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_{11})\\) and draw an inference on \\(N\\)."
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-3",
+    "href": "slides/04-estimation.html#example-3",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\nSuppose that a prior ecological study suggests that the population size varies between 36 and 50.\nHence here we use a uniform distribution on \\(\\{36,\\ldots,50\\}\\).\nConsidering \\(n_1 = n_2 = 5\\), we have \\[\n\\pi\\left(N=n \\mid n_{11}\\right)=\\frac{\\choose{n_1}{n_{11}}\\choose{n-n_1}{n_2-n_{11}} / \\choose{n}{n_2} \\pi(N=n)}{\\sum_{k=36}^{50}\\choose{n_1}{n_{11}}\\choose{k-n_1}{n_2-n_{11}} / \\choose{k}{n_2} \\pi(N=k)}.\n\\]\n\n\n\nlibrary(tidyverse)\nlibrary(kableExtra)\nN_vec &lt;- 36:50; n_1 &lt;- 5; n_2 &lt;- 5; n_11 &lt;- 0:5\n\nout &lt;-sapply(n_11, function(x) dhyper(x, n_1, N_vec-n_1, n_2)) %&gt;%\n    apply(., 2, function(x) x/sum(x)) %&gt;%\n    data.frame() \nout %&gt;% cbind(N = N_vec, .) %&gt;%\n    kbl(format=\"markdown\", digits = 4, col.names = c(\"N\", n_11))"
+  },
+  {
+    "objectID": "slides/04-estimation.html#example-3-output",
+    "href": "slides/04-estimation.html#example-3-output",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Example",
+    "text": "Example\n\n\n\n\nN\n0\n1\n2\n3\n4\n5\n\n\n\n\n36\n0.0580\n0.0725\n0.0886\n0.1061\n0.1246\n0.1438\n\n\n37\n0.0594\n0.0716\n0.0846\n0.0979\n0.1112\n0.1244\n\n\n38\n0.0608\n0.0708\n0.0808\n0.0905\n0.0996\n0.1080\n\n\n39\n0.0621\n0.0700\n0.0772\n0.0838\n0.0895\n0.0942\n\n\n40\n0.0634\n0.0691\n0.0739\n0.0778\n0.0806\n0.0824\n\n\n41\n0.0647\n0.0683\n0.0708\n0.0723\n0.0728\n0.0723\n\n\n42\n0.0659\n0.0674\n0.0679\n0.0673\n0.0659\n0.0637\n\n\n43\n0.0670\n0.0666\n0.0651\n0.0628\n0.0598\n0.0563\n\n\n44\n0.0682\n0.0658\n0.0625\n0.0587\n0.0544\n0.0499\n\n\n45\n0.0692\n0.0650\n0.0601\n0.0549\n0.0496\n0.0444\n\n\n46\n0.0703\n0.0642\n0.0578\n0.0515\n0.0453\n0.0396\n\n\n47\n0.0713\n0.0634\n0.0556\n0.0483\n0.0415\n0.0353\n\n\n48\n0.0723\n0.0626\n0.0536\n0.0454\n0.0380\n0.0317\n\n\n49\n0.0732\n0.0618\n0.0516\n0.0427\n0.0350\n0.0284\n\n\n50\n0.0741\n0.0611\n0.0498\n0.0402\n0.0322\n0.0256"
+  },
+  {
+    "objectID": "slides/04-estimation.html#estimates-of-the-population-size",
+    "href": "slides/04-estimation.html#estimates-of-the-population-size",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Estimates of the population size",
+    "text": "Estimates of the population size\n\n\nPosterior mean:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\mathbb{E}(N\\mid n_{11})\\)\n43.32\n42.77\n42.23\n41.72\n41.23\n40.78\n\n\n\n\n\n\n\n\nMAP:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\text{argmax }\\pi(N\\mid n_{11})\\)\n50\n36\n36\n36\n36\n36"
+  },
+  {
+    "objectID": "slides/04-estimation.html#estimates-of-the-population-size-1",
+    "href": "slides/04-estimation.html#estimates-of-the-population-size-1",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Estimates of the population size",
+    "text": "Estimates of the population size\nIf, instead of the squared error, we use the loss \\[\\begin{align*}\nL(N, \\delta)= \\begin{cases}10(\\delta-N) & \\text { if } \\delta&gt;N, \\\\ N-\\delta & \\text { otherwise }\\end{cases}\n\\end{align*}\\] in order to avoid an overestimation of the population size, the Bayes estimator is the \\((1 / 11)\\)-quantile of \\(\\pi\\left(N \\mid n_{11}\\right)\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\delta(n_{11})\\)\n37\n37\n37\n36\n36\n36"
+  },
+  {
+    "objectID": "slides/04-estimation.html#summary",
+    "href": "slides/04-estimation.html#summary",
+    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "section": "Summary",
+    "text": "Summary\n\nThe decision theory framework allows us to compare different estimators, under a given loss function.\nThe determination of loss is as difficult as the determination of prior.\nFrom a decision-theoretic point of view, Bayes estimators are always admissible, while MLE might not (e.g., Stein’s paradox).\nThe MAP estimator is essentially a penalized MLE. The penalization term is determined by the prior.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#beta-binomial-model-1",
+    "href": "slides/02-intro-bayes.html#beta-binomial-model-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Beta-Binomial model",
+    "text": "Beta-Binomial model\n\nLet \\(X_1, \\ldots, X_n \\mid p \\iid \\ber(p)\\).\nConsider the prior \\(p \\sim \\text{Beta}(\\alpha, \\beta)\\) where \\(\\alpha\\) and \\(\\beta\\) are known.\nThe posterior distribution of \\(p\\) given \\(X_1, \\ldots, X_n\\) is \\[\np \\mid X_1, \\ldots, X_n \\sim \\text{Beta}\\left(\\alpha + \\sum_{i=1}^n X_i, \\beta + n - \\sum_{i=1}^n X_i \\right).\n\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#derivation",
+    "href": "slides/02-intro-bayes.html#derivation",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Derivation",
+    "text": "Derivation\n\nBayes Theorem: \\[\\begin{align*}\n\\pi(p \\mid x) & = \\frac{f(x \\mid p) \\pi(p)}{\\int f(x \\mid p) \\pi(p) dp} = \\frac{\\text{likelihood} \\times \\text{prior}}{\\text{marginal}}\\\\\n& \\propto f(x \\mid p) \\pi(p) = \\text{likelihood} \\times \\text{prior}\n\\end{align*}\\]\nThe marginal (and other normalizing constants) can be ignored.\nThe likelihood is \\[\nf(x_1, \\ldots, x_n \\mid p) = \\prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i}.\n\\]\nThe prior is \\[\n\\pi(p) = \\frac{1}{B(\\alpha, \\beta)} p^{\\alpha-1} (1-p)^{\\beta-1} \\propto p^{\\alpha-1}(1-p)^{\\beta - 1}.\n\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#derivation-1",
+    "href": "slides/02-intro-bayes.html#derivation-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Derivation",
+    "text": "Derivation\n\nHence the posterior is \\[\\begin{align*}\n\\pi(p \\mid X_1, \\ldots, X_n) & \\propto p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i} \\times p^{\\alpha-1}(1-p)^{\\beta - 1}\\\\\n& = p^{\\alpha + \\sum_{i=1}^n x_i - 1}(1-p)^{\\beta + n - \\sum_{i=1}^n x_i - 1}.\n\\end{align*}\\]\nRecognizing that this is the kernel of a Beta distribution, the posterior is \\[\np \\mid X_1, \\ldots, X_n \\sim \\text{Beta}\\left(\\alpha + \\sum_{i=1}^n X_i, \\beta + n - \\sum_{i=1}^n X_i \\right).\n\\]\nIt’s called Beta-Binomial model since the posterior only depends on \\(\\sum X_i\\) and the distribution of \\(\\sum X_i\\) is \\(\\bin(n,p)\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#kernel-of-a-pdfpmf",
+    "href": "slides/02-intro-bayes.html#kernel-of-a-pdfpmf",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Kernel of a pdf/pmf",
+    "text": "Kernel of a pdf/pmf\n\nThe kernel is the form of the pdf or pmf in which any factors that are not functions of any of the variables in the domain are omitted.\nExamples:\n\n\nNormal: \\(\\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)\\)\nGamma: \\(x^{\\alpha-1}\\exp(-\\beta x)\\)\nBeta: \\(x^{\\alpha-1}(1-x)^{\\beta-1}\\)\nPoisson: \\(\\frac{\\lambda^x}{x!}\\)\n\n\nWe can use only the kernels to simplify the computation."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#posterior-distribution",
+    "href": "slides/02-intro-bayes.html#posterior-distribution",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Posterior Distribution",
+    "text": "Posterior Distribution\n\nset.seed(2023)\nn &lt;- 15\np &lt;- 0.3\nX &lt;- rbinom(n, 1, p)\ns &lt;- sum(X)\np_mle &lt;- s/n # MLE\nprint(X)\n\n [1] 0 0 0 0 0 0 0 0 0 0 1 0 0 1 1\n\n\n\nlibrary(ggplot2)\nggplot(data = data.frame(p = c(0, 1)), aes(p)) + \n    lims(x = c(0, 1), y = c(0, 5)) + \n    labs(x = \"p\", y = \"Density\") +\n    geom_function(fun = dunif, aes(col = \"blue\")) + \n    geom_function(fun = dbeta, aes(col = \"red\"), \n                  args = list(shape1 = s + 1, shape2 = n - s + 1)) + \n    geom_vline(xintercept = p_mle, linetype = \"dashed\", col = \"darkgrey\") + \n    geom_vline(xintercept = p, linetype = \"dashed\", col = \"darkgreen\") + \n    scale_colour_manual(name = \"Distribution\", \n                        values = c(\"blue\", \"red\"),\n                        labels = c(\"Prior\", \"Posterior\"))"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#posterior-distribution-output",
+    "href": "slides/02-intro-bayes.html#posterior-distribution-output",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Posterior Distribution",
+    "text": "Posterior Distribution"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#posterior-inference",
+    "href": "slides/02-intro-bayes.html#posterior-inference",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Posterior Inference",
+    "text": "Posterior Inference\n\nThe posterior distribution of \\(p\\) contains much more information than the MLE.\nWe can use the posterior for:\n\nEstimation: \\(\\hat{p} = \\E(p \\mid X_1, \\ldots, X_n)\\) (posterior mean)\nPrediction: \\(\\P(X_{n+1} = 1 \\mid X_1, \\ldots, X_n)\\)\nInterval estimation: Find \\((L, U)\\) such that \\(\\P(L \\leq p \\leq U \\mid X_1, \\ldots, X_n) = 0.95\\)\n\nIn the Beta-Binomial model, an estimate for \\(p\\) is \\[\n\\hat{p} = \\E(p \\mid X_1, \\ldots, X_n) = \\frac{\\alpha + \\sum_{i=1}^n X_i}{\\alpha + \\beta + n}\n\\] whereas the MLE is \\(\\hat{p}_{\\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^nX_i\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#maximum-a-posteriori-estimate",
+    "href": "slides/02-intro-bayes.html#maximum-a-posteriori-estimate",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Maximum-a-posteriori Estimate",
+    "text": "Maximum-a-posteriori Estimate\n\nThe posterior mean is not the only estimate we can obtain from the posterior.\nAnother commonly used estimator is the maximum-a-posterior (MAP) estimate \\[\n\\hat{p}_{\\text{MAP}} = \\argmax_{0 &lt; p &lt; 1} \\pi(p \\mid X_1, \\ldots, X_n).\n\\]\nSince the mode of \\(\\text{Beta}(\\alpha, \\beta)\\) is \\(\\frac{\\alpha-1}{\\alpha+\\beta-2}\\) when \\(\\alpha, \\beta &gt; 1\\), \\[\n\\hat{p}_{\\text{MAP}} = \\frac{\\alpha -1 + \\sum_{i=1}^n X_i}{\\alpha + \\beta + n - 2}.\n\\]\nIf \\(\\alpha = \\beta = 1\\) and \\(\\sum X_i &gt; 1\\), then \\(\\hat{p}_{\\text{MAP}} = \\hat{p}_{\\text{MLE}} = \\bar{X}\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#recall-laplaces-rule-of-succession",
+    "href": "slides/02-intro-bayes.html#recall-laplaces-rule-of-succession",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Recall: Laplace’s Rule of Succession",
+    "text": "Recall: Laplace’s Rule of Succession\nGiven binary iid random variables \\(X_1, \\ldots, X_n\\) with \\(\\sum_{i=1}^n X_i = s\\), then \\[\\P\\left(X_{n+1}=1 \\mid X_1+\\cdots+X_n=s\\right)=\\frac{s+1}{n+2}.\\]\nDerivation:\n\nLet \\(X_1, \\ldots, X_n \\iid \\ber(p)\\) and \\(p \\sim \\text{Beta}(1,1)\\) (the uniform prior).\nThe posterior is \\(p \\mid X_1 + \\cdots + X_n = s \\sim \\text{Beta}(s + 1, n-s + 1)\\).\nAssuming \\(X_{n+1} \\sim \\ber(p)\\) and \\(X_i\\)’s are iid conditioned on \\(p\\), \\[\\begin{align*}\n\\P\\left(X_{n+1}=1 \\mid \\sum X_i=s\\right)\n& = \\int \\P(X_{n+1}=1 \\mid p)\\pi\\left(p \\mid \\sum X_i = s\\right) dp\\\\\n& = \\int p \\pi\\left(p \\mid \\sum X_i = s\\right) dp\n= \\frac{s+1}{n+2}.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#interval-estimation-credible-intervalregion",
+    "href": "slides/02-intro-bayes.html#interval-estimation-credible-intervalregion",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Interval Estimation: Credible Interval/Region",
+    "text": "Interval Estimation: Credible Interval/Region\n\nFor frequentists, it’s called confidence interval/region.\nLet \\([L(X), U(X)]\\) be an interval for \\(\\theta\\) based on sample \\(X\\).\n\\(100\\times(1-\\alpha)\\%\\) Bayesian Coverage: \\(\\P(L(x) \\leq \\theta \\leq U(x) \\mid {\\color{magenta}X = x}) = 1-\\alpha\\).\n\ndescribes your information about the location of the true value of \\(\\theta\\) after you have observed \\(X = x\\)\n\n\\(100\\times(1-\\alpha)\\%\\) Frequentist Coverage: \\(\\P(L(X) \\leq \\theta \\leq U(X) \\mid {\\color{magenta}\\theta}) = 1-\\alpha\\)\n\ndescribes the probability that the interval will cover the true value before the data are observed\n\nThere are many ways to construct a credible interval:\n\nQuantile-based method\nHighest posterior density (HPD) region"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#quantile-based-method",
+    "href": "slides/02-intro-bayes.html#quantile-based-method",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Quantile-based method",
+    "text": "Quantile-based method\nTo find a \\(100\\times(1-\\alpha)\\%\\) credible interval for \\(\\theta\\):\n\nFind numbers \\(\\theta_{\\alpha / 2} &lt; \\theta_{1-\\alpha / 2}\\) such that\n\n\n\\(\\P\\left(\\theta&lt;\\theta_{\\alpha/2} \\mid X = x\\right)=\\alpha / 2\\);\n\\(\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)=\\alpha / 2\\).\n\n\nThe numbers \\(\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\) are the \\(\\alpha / 2\\) and \\(1-\\alpha / 2\\) posterior quantiles of \\(\\theta\\), and so \\[\\begin{align*}\n\\P\\left(\\theta \\in\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) & =1-\\P\\left(\\theta \\notin\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) \\\\\n& =1-\\left[\\P\\left(\\theta&lt;\\theta_{\\alpha / 2} \\mid X=x\\right)\\right.\\\\\n& \\qquad \\left.+\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)\\right] \\\\\n& =1-\\alpha.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#binomial-example",
+    "href": "slides/02-intro-bayes.html#binomial-example",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Binomial Example",
+    "text": "Binomial Example\nSuppose we observed \\(X=2\\) from a \\(\\bin(10, p)\\). Assume the uniform prior \\(p\\).\n\nalpha &lt;- 1; beta &lt;- 1 # uniform prior\nn &lt;- 10; X &lt;- 2 # data\n\nqbeta(c(0.025, 0.975), alpha + X, beta + n - X)\n\n[1] 0.06021773 0.51775585"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
+    "href": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Highest posterior density (HPD) region",
+    "text": "Highest posterior density (HPD) region\n\nDefinition 1 A \\(100 \\times(1-\\alpha) \\%\\) HPD region consists of a subset of the parameter space, \\(s(x) \\subset \\Theta\\) such that\n\n\\(\\P(\\theta \\in s(x) \\mid X = x)=1-\\alpha\\);\nIf \\(\\theta_a \\in s(x)\\), and \\(\\theta_b \\notin s(x)\\), then \\(\\pi\\left(\\theta_a \\mid X=x\\right)&gt;\\pi\\left(\\theta_b \\mid X=x\\right)\\).\n\n\n\nAn HPD region might not be an interval if the posterior density is multimodal (having multiple peaks)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#binomial-example-1",
+    "href": "slides/02-intro-bayes.html#binomial-example-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Binomial Example",
+    "text": "Binomial Example\nLet’s compute the HPD for the previous example: \\(\\theta \\mid X = 2 \\sim \\text{Beta}(3, 9)\\).\n\nlibrary(HDInterval)\nhdi(qbeta, 0.95, shape1 = 3, shape2 = 9)\n\n     lower      upper \n0.04055517 0.48372366 \nattr(,\"credMass\")\n[1] 0.95\n\n\nThe HPD is narrower than the quantile-based interval.\n\n\n\n\nFig. 3.6 in Hoff’s book"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
+    "href": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Wrap-up for the Beta-Binomial model",
+    "text": "Wrap-up for the Beta-Binomial model\n\nThe Beta-Binomial model: \\[\\begin{align*}\nX \\mid p & \\sim \\bin(n,p)\\\\\np & \\sim \\text{Beta}(\\alpha,\\beta)\\\\\np \\mid X & \\sim \\text{Beta}(\\alpha + X, \\beta + n - X)\n\\end{align*}\\]\nNote that the posterior is in the same family of the prior: both of them are in the Beta family.\nIn this case, the Beta prior is called a conjugate prior for the Binomial model."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
+    "href": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Catalog for conjugate priors",
+    "text": "Catalog for conjugate priors\n\n\n\n\n\n\n\n\n\n\n\n\n\nSampling model\nParameter\nPrior\nPosterior\n\n\n\n\n\\(X \\sim \\bin(n, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + X, \\beta_0+n-X)\\)\n\n\n\\(X \\sim N(\\mu, \\sigma^2)\\)\n\\(\\mu\\)\n\\(N(\\mu_0, \\sigma_0^2)\\)\n\\(N\\left(\\frac{1}{\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}}\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{ X}{\\sigma^2}\\right),\\left(\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}\\right)^{-1}\\right)\\)\n\n\n\\(X \\sim \\text{Poisson}(\\lambda)\\)\n\\(\\lambda\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + X, \\beta_0+1)\\)\n\n\n\\(X \\sim \\text{Gamma}(\\alpha, \\beta)\\)\n\\(\\beta\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + \\alpha, \\beta_0+X)\\)\n\n\n\\(X \\sim \\text{NB}(r, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + r, \\beta_0+X)\\)\n\n\n\n\nMore can be found on Wiki\nExercise: Derive the posterior for the Normal-Normal model."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#real-data-example",
+    "href": "slides/02-intro-bayes.html#real-data-example",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Real Data Example",
+    "text": "Real Data Example\n\n\n2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.1711（生下男嬰機率為0.5394）。\n同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）\n根據統計，全球人類自然出生性別比1.052（生下男嬰機率為0.5122）。\n基隆市自然出生性別比是否高於台灣平均？\n\n\n\n\n性別比 ＝ 男嬰數/女嬰數；生下男嬰機率 ＝ 男嬰數/(男嬰數+女嬰數)；生下男嬰機率 ＝ 性別比/(1+性別比)\n行政院資料庫Our World in Data"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#real-data-example-1",
+    "href": "slides/02-intro-bayes.html#real-data-example-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Real Data Example",
+    "text": "Real Data Example\n\nlibrary(tidyverse)\nlibrary(knitr)\n\nm &lt;- 856; f &lt;- 731\nprior_mean &lt;- c(0.5, 0.5122, 0.5122, 0.5122, 0.5122, 0.5122)\nalpha_plus_beta &lt;- c(2, 2, 10, 100, 1000, 10000)\nalpha &lt;- prior_mean * alpha_plus_beta\nbeta &lt;- alpha_plus_beta - alpha\n\n\ndata.frame(alpha, beta, prior_mean) |&gt; \n    mutate(alpha_plus_beta = alpha + beta,\n           post_mean = (alpha+m)/(alpha+beta+m+f),\n           ratio = post_mean/(1-post_mean),\n           post_int = paste0(\"[\", round(qbeta(0.025, alpha + m, beta + f), 3),\n                             \", \", round(qbeta(0.975, alpha + m, beta + f), 3), \"]\")) |&gt;\n    select(c(prior_mean, alpha_plus_beta, post_mean, ratio, post_int)) |&gt;\n    kable(format = \"markdown\", digits = 4,\n          col.names = c(\"Prior mean $\\\\frac{\\\\alpha}{\\\\alpha+\\\\beta}$\",\n                        \"$\\\\alpha + \\\\beta$\",\n                        \"Post. mean\", \"Gender ratio\",\n                        \"Post. 95% Interval\"))"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#real-data-example-1-output",
+    "href": "slides/02-intro-bayes.html#real-data-example-1-output",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Real Data Example",
+    "text": "Real Data Example\n\n\n\n\n\n\n\n\n\n\n\nPrior mean \\(\\frac{\\alpha}{\\alpha+\\beta}\\)\n\\(\\alpha + \\beta\\)\nPost. mean\nGender ratio\nPost. 95% Interval\n\n\n\n\n0.5000\n2\n0.5393\n1.1708\n[0.515, 0.564]\n\n\n0.5122\n2\n0.5393\n1.1708\n[0.515, 0.564]\n\n\n0.5122\n10\n0.5392\n1.1702\n[0.515, 0.564]\n\n\n0.5122\n100\n0.5378\n1.1634\n[0.514, 0.562]\n\n\n0.5122\n1000\n0.5289\n1.1226\n[0.51, 0.548]\n\n\n0.5122\n10000\n0.5159\n1.0658\n[0.507, 0.525]"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#some-follow-up-questions",
+    "href": "slides/02-intro-bayes.html#some-follow-up-questions",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Some follow-up questions",
+    "text": "Some follow-up questions\n\nIs the sample size (856+731=1587) large enough?\nWhich prior? Depend on how strong your prior belief is.\n\nNo prior knowledge \\(\\Rightarrow\\) Uniform prior\nReliable prior information \\(\\Rightarrow\\) prior with larger \\(\\alpha+\\beta\\)\n\nWith prior information, we can obtain better estimates when the sample size is small:\n\nFor example, think of a really small village in which only two boys and one girl were born last year.\nIf we don’t use any prior information, the gender ratio is 2.\n\nWhat if our prior information cannot be described by a Beta distribution?\n\nEx: our prior information indicates a multimodal distribution\nThe posterior will be complicated and we need some other methods for posterior inference."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#small-area-estimation-sae",
+    "href": "slides/02-intro-bayes.html#small-area-estimation-sae",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Small Area Estimation (SAE)",
+    "text": "Small Area Estimation (SAE)\n\nThe previous example is an example of an SAE problem.\n\n\n\nSmall area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey1.\n\n\n\nThere is a hierarchical structure in SAE problems:\n\n\n\\[\n\\text{基隆} \\subset \\text{台灣} \\subset \\text{東亞} \\subset \\text{亞洲} \\subset{世界}\n\\]\n\n\nOne of the common frequentist models for SAE problems is the random effect model.\n\nWiki"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#small-area-estimation",
+    "href": "slides/02-intro-bayes.html#small-area-estimation",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Small Area Estimation",
+    "text": "Small Area Estimation\n\nBayesians typically use a hierarchical model to handle an SAE problem.\nIn this example, (conceptually) \\[\\begin{align*}\n  X \\mid p & \\sim \\bin\\left(n, p\\right)\\\\\n  p \\mid p_{\\text{TW}} & \\sim \\pi_1\\\\\n  p_{\\text{TW}} \\mid p_{\\text{World}} & \\sim \\pi_2\n\\end{align*}\\]\nNotations:\n\n\\(R = \\frac{p}{1-p}\\) is the Keelung’s gender ratio (parameter);\n\\(R_{\\text{TW}} = \\frac{p_{\\text{TW}}}{1-p_{\\text{TW}}}\\) is the Taiwan’s gender ratio (parameter);\n\\(p_{\\text{World}} = 0.5122\\)\n\nThis model is more complicated than the previous one, but descibes the data more accurately."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
+    "href": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "What is good and bad about Bayesian?",
+    "text": "What is good and bad about Bayesian?\n\nGood:\n\nconsistent and coherent: everything (sample or parameter) is a random variable\neverything is conditional: we only care about conditional independence rather than marginal independence\nstopping rule does not matter\n\nBad:\n\nthe choice of prior is subjective\ncomputationally challenging"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#exchangeability",
+    "href": "slides/02-intro-bayes.html#exchangeability",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Exchangeability",
+    "text": "Exchangeability\n\nDefinition 2 Let \\(p\\left(x_1, \\ldots, x_n\\right)\\) be the joint density of \\(X_1\\), \\(\\ldots, X_n\\). If \\(p\\left(x_1, \\ldots, x_n\\right)=p\\left(x_{\\pi(1)}, \\ldots, x_{\\pi(n)}\\right)\\) for all permutations \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\), then \\(X_1, \\ldots, X_n\\) are exchangeable.\n\n\nRoughly speaking, \\(X_1, \\ldots, X_n\\) are exchangeable if the subscript labels convey no information about the outcomes.\nApparently, independence implies exchangeability, but the converse is false.\nWhat is the relationship between conditional independence and exchangeability?"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
+    "href": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Conditional independence and exchangeability",
+    "text": "Conditional independence and exchangeability\n\nProposition 1 If \\(\\theta \\sim p(\\theta)\\) and \\(X_1, \\ldots, X_n\\) are conditionally i.i.d. given \\(\\theta\\), then marginally (unconditionally on \\(\\theta\\) ) \\(, X_1, \\ldots, X_n\\) are exchangeable.\n\n\nProof. Suppose \\(X_1, \\ldots, X_n\\) are conditionally iid given some unknown parameter \\(\\theta\\). Then for any permutation \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\) and any set of values \\(\\left(x_1, \\ldots, x_n\\right) \\in\\) \\(\\mc{X}^n\\) \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right) & =\\int p\\left(x_1, \\ldots, x_n \\mid \\theta\\right) p(\\theta) d \\theta & & \\text { (definition of marginal probability) } \\\\\n& =\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta & & \\text { ($X$'s are conditionally i.i.d.) } \\\\\n& =\\int\\left\\{\\prod_{i=1}^n p\\left(x_{\\pi(i)} \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta & & \\text { (product does not depend on order) } \\\\\n& =p\\left(x_{\\pi(1)}, \\ldots x_{\\pi(n)}\\right) & & \\text { (definition of marginal probability) } .\n\\end{align*}\\]\n\n\n\nCh. 2.7 & 2.8 in Hoff’s book."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#de-finettis-theorem",
+    "href": "slides/02-intro-bayes.html#de-finettis-theorem",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "de Finetti’s Theorem",
+    "text": "de Finetti’s Theorem\n\nWe have seen that\n\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { i.i.d } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Rightarrow X_1, \\ldots, X_n \\text { are exchangeable. }\n\\end{align*}\\]\n\n\nWhat about an arrow in the other direction?\n\n\nTheorem 1 (de Finetti) Let \\(X_i \\in \\mc{X}\\) for all \\(i \\in\\{1,2, \\ldots\\}\\). Suppose that, for any \\(n\\), \\(X_1, \\ldots, X_n\\) are exchangeable. Then our model can be written as \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right)=\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta\n\\end{align*}\\] for some parameter \\(\\theta\\), some prior distribution on \\(\\theta\\), and some sampling model \\(p(x \\mid \\theta)\\). The prior and sampling model depend on \\(p\\left(x_1, \\ldots, x_n\\right)\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#de-finettis-theorem-1",
+    "href": "slides/02-intro-bayes.html#de-finettis-theorem-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "de Finetti’s Theorem",
+    "text": "de Finetti’s Theorem\n\n\nThe conclusion is\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { are i.i.d. } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Leftrightarrow X_1, \\ldots, X_n \\text { are exchangeable for all } n \\text {. }\n\\end{align*}\\]\n\n\nThis justifies the use of prior distributions when samples are exchangeable.\nWhen is the condition “\\(X_1, \\ldots, X_n\\) are exchangeable for all \\(n\\)” reasonable?\n\n\\(X_1, \\ldots, X_n\\) are outcomes of a repeatable experiment;\n\\(X_1, \\ldots, X_n\\) are sampled from a finite population with replacement;\n\\(X_1, \\ldots, X_n\\) are sampled from an infinite population without replacement."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule",
+    "href": "slides/02-intro-bayes.html#stopping-rule",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\nLet \\(\\theta\\) be the probability of a particular coin landing on heads, and suppose we want to test the hypotheses \\[\\begin{align*}\nH_0: \\theta=1 / 2, \\quad H_1: \\theta&gt;1 / 2\n\\end{align*}\\] at a significance level of \\(\\alpha=0.05\\). Suppose we observe the following sequence of flips: \\[\n\\text{heads, heads, heads, heads, heads, tails (5 heads, 1 tails)}\n\\]\n\nTo perform a frequentist hypothesis test, we must define a random variable to describe the data.\nThe proper way to do this depends on exactly which of the following two experiments was actually performed:\n\n\n\nExample 1.1 in Essential Bayes"
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-1",
+    "href": "slides/02-intro-bayes.html#stopping-rule-1",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\nSuppose the experiment is “Flip six times and record the results.”\n\n\\(X\\) counts the number of heads, and \\(X \\sim \\bin(6, \\theta)\\).\nThe observed data was \\(x=5\\), and the \\(p\\)-value of our hypothesis test is \\[\\begin{align*}\np\\text{-value} & =\\P_{\\theta=1 / 2}(X \\geq 5) \\\\\n& =\\P_{\\theta=1 / 2}(X=5)+\\P_{\\theta=1 / 2}(X=6) \\\\\n& =\\frac{6}{64}+\\frac{1}{64}=\\frac{7}{64}=0.109375&gt;0.05 .\n\\end{align*}\\] So we fail to reject \\(H_0\\) at \\(\\alpha=0.05\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-2",
+    "href": "slides/02-intro-bayes.html#stopping-rule-2",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\nSuppose now the experiment is “Flip until we get tails.”\n\n\\(X\\) counts the number of the flip on which the first tails occurs, and \\(X \\sim \\text{Geometric}(1-\\theta)\\).\nThe observed data was \\(x=6\\), and the p-value of our hypothesis test is \\[\\begin{align*}\np \\text{-value} & = \\P_{\\theta=1 / 2}(X \\geq 6) \\\\\n& =1-\\P_{\\theta=1 / 2}(X&lt;6) \\\\\n& =1-\\sum_{x=1}^5 \\P_{\\theta=1 / 2}(X=x) \\\\\n& =1-\\left(\\frac{1}{2}+\\frac{1}{4}+\\frac{1}{8}+\\frac{1}{16}+\\frac{1}{32}\\right)=\\frac{1}{32}=0.03125&lt;0.05\n\\end{align*}\\] So we reject \\(H_0\\) at \\(\\alpha=0.05\\)."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#stopping-rule-3",
+    "href": "slides/02-intro-bayes.html#stopping-rule-3",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "Stopping Rule",
+    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under a Beta prior, the posteriors under the two stopping rules are the same."
+  },
+  {
+    "objectID": "slides/02-intro-bayes.html#more-importantly",
+    "href": "slides/02-intro-bayes.html#more-importantly",
+    "title": "Lecture 02: Introduction to Bayesian Statistics",
+    "section": "More importantly …",
+    "text": "More importantly …\n\n\n\n\n\n\n\n\nHome\n\n\nImage source: https://twitter.com/LSpakeAnthro/status/1257766583629275137"
+  },
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Resources",
+    "section": "",
+    "text": "BDA Book Website\nStan\nDoing Meta-Analysis in R\nMixed Models with R"
+  },
+  {
+    "objectID": "resources.html#links",
+    "href": "resources.html#links",
+    "title": "Resources",
+    "section": "",
+    "text": "BDA Book Website\nStan\nDoing Meta-Analysis in R\nMixed Models with R"
+  },
+  {
+    "objectID": "resources.html#other-bayesian-courses",
+    "href": "resources.html#other-bayesian-courses",
+    "title": "Resources",
+    "section": "Other Bayesian Courses",
+    "text": "Other Bayesian Courses\n\nProf. Aki Vehtari"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#course-schedule",
     "href": "index.html#course-schedule",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\n\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#important-dates",
@@ -19,20 +523,6 @@
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "Important Dates:",
     "text": "Important Dates:\n\n10/10: No class (National Holiday)\n10/24: Project proposal: you need to prepare a 10-min presentation for your project proposal\n12/12,19: Final project presentation: a 20-min presentation for your final project"
-  },
-  {
-    "objectID": "resources.html",
-    "href": "resources.html",
-    "title": "Resources",
-    "section": "",
-    "text": "BDA Book Website\nStan"
-  },
-  {
-    "objectID": "resources.html#links",
-    "href": "resources.html#links",
-    "title": "Resources",
-    "section": "",
-    "text": "BDA Book Website\nStan"
   },
   {
     "objectID": "slides/01-intro.html#course-description",
@@ -329,230 +819,6 @@
     "text": "Monte Carlo Approximation/Estimation\n\nSuppose we have function \\(f: [a, b] \\to \\R\\) and we want to compute \\(I = \\int_a^b f(x)dx\\).\nWrite \\[I = (b-a)\\int_a^b f(x)\\frac{1}{b-a}dx = (b-a)\\E(f(X)), \\quad X \\sim \\text{Unif}(a,b).\\]\nMonte Carlo approximation:\n\nGenerate \\(X_1, \\ldots, X_n \\iid \\text{Unif}(a,b)\\).\nCompute \\(\\hat{I}_n = \\frac{b-a}{n}\\sum_{i=1}^n f(X_i)\\).\nBy LLN and CLT, \\[\\hat{I}_n \\cas I \\quad \\text{and} \\quad \\sqrt{n}(\\hat{I}_n - I) \\cd N(0, (b-a)^2\\sigma^2)\\] if \\(\\sigma^2 = \\var(f(X)) &lt; \\infty\\).\n\n\n\n\nHome"
   },
   {
-    "objectID": "slides/02-intro-bayes.html#beta-binomial-model-1",
-    "href": "slides/02-intro-bayes.html#beta-binomial-model-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Beta-Binomial model",
-    "text": "Beta-Binomial model\n\nLet \\(X_1, \\ldots, X_n \\mid p \\iid \\ber(p)\\).\nConsider the prior \\(p \\sim \\text{Beta}(\\alpha, \\beta)\\) where \\(\\alpha\\) and \\(\\beta\\) are known.\nThe posterior distribution of \\(p\\) given \\(X_1, \\ldots, X_n\\) is \\[\np \\mid X_1, \\ldots, X_n \\sim \\text{Beta}\\left(\\alpha + \\sum_{i=1}^n X_i, \\beta + n - \\sum_{i=1}^n X_i \\right).\n\\]"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#derivation",
-    "href": "slides/02-intro-bayes.html#derivation",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Derivation",
-    "text": "Derivation\n\nBayes Theorem: \\[\\begin{align*}\n\\pi(p \\mid x) & = \\frac{f(x \\mid p) \\pi(p)}{\\int f(x \\mid p) \\pi(p) dp} = \\frac{\\text{likelihood} \\times \\text{prior}}{\\text{marginal}}\\\\\n& \\propto f(x \\mid p) \\pi(p) = \\text{likelihood} \\times \\text{prior}\n\\end{align*}\\]\nThe marginal (and other normalizing constants) can be ignored.\nThe likelihood is \\[\nf(x_1, \\ldots, x_n \\mid p) = \\prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i}.\n\\]\nThe prior is \\[\n\\pi(p) = \\frac{1}{B(\\alpha, \\beta)} p^{\\alpha-1} (1-p)^{\\beta-1} \\propto p^{\\alpha-1}(1-p)^{\\beta - 1}.\n\\]"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#derivation-1",
-    "href": "slides/02-intro-bayes.html#derivation-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Derivation",
-    "text": "Derivation\n\nHence the posterior is \\[\\begin{align*}\n\\pi(p \\mid X_1, \\ldots, X_n) & \\propto p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i} \\times p^{\\alpha-1}(1-p)^{\\beta - 1}\\\\\n& = p^{\\alpha + \\sum_{i=1}^n x_i - 1}(1-p)^{\\beta + n - \\sum_{i=1}^n x_i - 1}.\n\\end{align*}\\]\nRecognizing that this is the kernel of a Beta distribution, the posterior is \\[\np \\mid X_1, \\ldots, X_n \\sim \\text{Beta}\\left(\\alpha + \\sum_{i=1}^n X_i, \\beta + n - \\sum_{i=1}^n X_i \\right).\n\\]\nIt’s called Beta-Binomial model since the posterior only depends on \\(\\sum X_i\\) and the distribution of \\(\\sum X_i\\) is \\(\\bin(n,p)\\)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#kernel-of-a-pdfpmf",
-    "href": "slides/02-intro-bayes.html#kernel-of-a-pdfpmf",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Kernel of a pdf/pmf",
-    "text": "Kernel of a pdf/pmf\n\nThe kernel is the form of the pdf or pmf in which any factors that are not functions of any of the variables in the domain are omitted.\nExamples:\n\n\nNormal: \\(\\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)\\)\nGamma: \\(x^{\\alpha-1}\\exp(-\\beta x)\\)\nBeta: \\(x^{\\alpha-1}(1-x)^{\\beta-1}\\)\nPoisson: \\(\\frac{\\lambda^x}{x!}\\)\n\n\nWe can use only the kernels to simplify the computation."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#posterior-distribution",
-    "href": "slides/02-intro-bayes.html#posterior-distribution",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Posterior Distribution",
-    "text": "Posterior Distribution\n\nset.seed(2023)\nn &lt;- 15\np &lt;- 0.3\nX &lt;- rbinom(n, 1, p)\ns &lt;- sum(X)\np_mle &lt;- s/n # MLE\nprint(X)\n\n [1] 0 0 0 0 0 0 0 0 0 0 1 0 0 1 1\n\n\n\nlibrary(ggplot2)\nggplot(data = data.frame(p = c(0, 1)), aes(p)) + \n    lims(x = c(0, 1), y = c(0, 5)) + \n    labs(x = \"p\", y = \"Density\") +\n    geom_function(fun = dunif, aes(col = \"blue\")) + \n    geom_function(fun = dbeta, aes(col = \"red\"), \n                  args = list(shape1 = s + 1, shape2 = n - s + 1)) + \n    geom_vline(xintercept = p_mle, linetype = \"dashed\", col = \"darkgrey\") + \n    geom_vline(xintercept = p, linetype = \"dashed\", col = \"darkgreen\") + \n    scale_colour_manual(name = \"Distribution\", \n                        values = c(\"blue\", \"red\"),\n                        labels = c(\"Prior\", \"Posterior\"))"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#posterior-distribution-output",
-    "href": "slides/02-intro-bayes.html#posterior-distribution-output",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Posterior Distribution",
-    "text": "Posterior Distribution"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#posterior-inference",
-    "href": "slides/02-intro-bayes.html#posterior-inference",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Posterior Inference",
-    "text": "Posterior Inference\n\nThe posterior distribution of \\(p\\) contains much more information than the MLE.\nWe can use the posterior for:\n\nEstimation: \\(\\hat{p} = \\E(p \\mid X_1, \\ldots, X_n)\\) (posterior mean)\nPrediction: \\(\\P(X_{n+1} = 1 \\mid X_1, \\ldots, X_n)\\)\nInterval estimation: Find \\((L, U)\\) such that \\(\\P(L \\leq p \\leq U \\mid X_1, \\ldots, X_n) = 0.95\\)\n\nIn the Beta-Binomial model, an estimate for \\(p\\) is \\[\n\\hat{p} = \\E(p \\mid X_1, \\ldots, X_n) = \\frac{\\alpha + \\sum_{i=1}^n X_i}{\\alpha + \\beta + n}\n\\] whereas the MLE is \\(\\hat{p}_{\\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^nX_i\\)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#maximum-a-posteriori-estimate",
-    "href": "slides/02-intro-bayes.html#maximum-a-posteriori-estimate",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Maximum-a-posteriori Estimate",
-    "text": "Maximum-a-posteriori Estimate\n\nThe posterior mean is not the only estimate we can obtain from the posterior.\nAnother commonly used estimator is the maximum-a-posterior (MAP) estimate \\[\n\\hat{p}_{\\text{MAP}} = \\argmax_{0 &lt; p &lt; 1} \\pi(p \\mid X_1, \\ldots, X_n).\n\\]\nSince the mode of \\(\\text{Beta}(\\alpha, \\beta)\\) is \\(\\frac{\\alpha-1}{\\alpha+\\beta-2}\\) when \\(\\alpha, \\beta &gt; 1\\), \\[\n\\hat{p}_{\\text{MAP}} = \\frac{\\alpha -1 + \\sum_{i=1}^n X_i}{\\alpha + \\beta + n - 2}.\n\\]\nIf \\(\\alpha = \\beta = 1\\) and \\(\\sum X_i &gt; 1\\), then \\(\\hat{p}_{\\text{MAP}} = \\hat{p}_{\\text{MLE}} = \\bar{X}\\)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#recall-laplaces-rule-of-succession",
-    "href": "slides/02-intro-bayes.html#recall-laplaces-rule-of-succession",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Recall: Laplace’s Rule of Succession",
-    "text": "Recall: Laplace’s Rule of Succession\nGiven binary iid random variables \\(X_1, \\ldots, X_n\\) with \\(\\sum_{i=1}^n X_i = s\\), then \\[\\P\\left(X_{n+1}=1 \\mid X_1+\\cdots+X_n=s\\right)=\\frac{s+1}{n+2}.\\]\nDerivation:\n\nLet \\(X_1, \\ldots, X_n \\iid \\ber(p)\\) and \\(p \\sim \\text{Beta}(1,1)\\) (the uniform prior).\nThe posterior is \\(p \\mid X_1 + \\cdots + X_n = s \\sim \\text{Beta}(s + 1, n-s + 1)\\).\nAssuming \\(X_{n+1} \\sim \\ber(p)\\) and \\(X_i\\)’s are iid conditioned on \\(p\\), \\[\\begin{align*}\n\\P\\left(X_{n+1}=1 \\mid \\sum X_i=s\\right)\n& = \\int \\P(X_{n+1}=1 \\mid p)\\pi\\left(p \\mid \\sum X_i = s\\right) dp\\\\\n& = \\int p \\pi\\left(p \\mid \\sum X_i = s\\right) dp\n= \\frac{s+1}{n+2}.\n\\end{align*}\\]"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#interval-estimation-credible-intervalregion",
-    "href": "slides/02-intro-bayes.html#interval-estimation-credible-intervalregion",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Interval Estimation: Credible Interval/Region",
-    "text": "Interval Estimation: Credible Interval/Region\n\nFor frequentists, it’s called confidence interval/region.\nLet \\([L(X), U(X)]\\) be an interval for \\(\\theta\\) based on sample \\(X\\).\n\\(100\\times(1-\\alpha)\\%\\) Bayesian Coverage: \\(\\P(L(x) \\leq \\theta \\leq U(x) \\mid {\\color{magenta}X = x}) = 1-\\alpha\\).\n\ndescribes your information about the location of the true value of \\(\\theta\\) after you have observed \\(X = x\\)\n\n\\(100\\times(1-\\alpha)\\%\\) Frequentist Coverage: \\(\\P(L(X) \\leq \\theta \\leq U(X) \\mid {\\color{magenta}\\theta}) = 1-\\alpha\\)\n\ndescribes the probability that the interval will cover the true value before the data are observed\n\nThere are many ways to construct a credible interval:\n\nQuantile-based method\nHighest posterior density (HPD) region"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#quantile-based-method",
-    "href": "slides/02-intro-bayes.html#quantile-based-method",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Quantile-based method",
-    "text": "Quantile-based method\nTo find a \\(100\\times(1-\\alpha)\\%\\) credible interval for \\(\\theta\\):\n\nFind numbers \\(\\theta_{\\alpha / 2} &lt; \\theta_{1-\\alpha / 2}\\) such that\n\n\n\\(\\P\\left(\\theta&lt;\\theta_{\\alpha/2} \\mid X = x\\right)=\\alpha / 2\\);\n\\(\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)=\\alpha / 2\\).\n\n\nThe numbers \\(\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\) are the \\(\\alpha / 2\\) and \\(1-\\alpha / 2\\) posterior quantiles of \\(\\theta\\), and so \\[\\begin{align*}\n\\P\\left(\\theta \\in\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) & =1-\\P\\left(\\theta \\notin\\left[\\theta_{\\alpha / 2}, \\theta_{1-\\alpha / 2}\\right] \\mid X = x\\right) \\\\\n& =1-\\left[\\P\\left(\\theta&lt;\\theta_{\\alpha / 2} \\mid X=x\\right)\\right.\\\\\n& \\qquad \\left.+\\P\\left(\\theta&gt;\\theta_{1-\\alpha / 2} \\mid X = x\\right)\\right] \\\\\n& =1-\\alpha.\n\\end{align*}\\]"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#binomial-example",
-    "href": "slides/02-intro-bayes.html#binomial-example",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Binomial Example",
-    "text": "Binomial Example\nSuppose we observed \\(X=2\\) from a \\(\\bin(10, p)\\). Assume the uniform prior \\(p\\).\n\nalpha &lt;- 1; beta &lt;- 1 # uniform prior\nn &lt;- 10; X &lt;- 2 # data\n\nqbeta(c(0.025, 0.975), alpha + X, beta + n - X)\n\n[1] 0.06021773 0.51775585"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
-    "href": "slides/02-intro-bayes.html#highest-posterior-density-hpd-region",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Highest posterior density (HPD) region",
-    "text": "Highest posterior density (HPD) region\n\nDefinition 1 A \\(100 \\times(1-\\alpha) \\%\\) HPD region consists of a subset of the parameter space, \\(s(x) \\subset \\Theta\\) such that\n\n\\(\\P(\\theta \\in s(x) \\mid X = x)=1-\\alpha\\);\nIf \\(\\theta_a \\in s(x)\\), and \\(\\theta_b \\notin s(x)\\), then \\(\\pi\\left(\\theta_a \\mid X=x\\right)&gt;\\pi\\left(\\theta_b \\mid X=x\\right)\\).\n\n\n\nAn HPD region might not be an interval if the posterior density is multimodal (having multiple peaks)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#binomial-example-1",
-    "href": "slides/02-intro-bayes.html#binomial-example-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Binomial Example",
-    "text": "Binomial Example\nLet’s compute the HPD for the previous example: \\(\\theta \\mid X = 2 \\sim \\text{Beta}(3, 9)\\).\n\nlibrary(HDInterval)\nhdi(qbeta, 0.95, shape1 = 3, shape2 = 9)\n\n     lower      upper \n0.04055517 0.48372366 \nattr(,\"credMass\")\n[1] 0.95\n\n\nThe HPD is narrower than the quantile-based interval.\n\n\n\n\nFig. 3.6 in Hoff’s book"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
-    "href": "slides/02-intro-bayes.html#wrap-up-for-the-beta-binomial-model",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Wrap-up for the Beta-Binomial model",
-    "text": "Wrap-up for the Beta-Binomial model\n\nThe Beta-Binomial model: \\[\\begin{align*}\nX \\mid p & \\sim \\bin(n,p)\\\\\np & \\sim \\text{Beta}(\\alpha,\\beta)\\\\\np \\mid X & \\sim \\text{Beta}(\\alpha + X, \\beta + n - X)\n\\end{align*}\\]\nNote that the posterior is in the same family of the prior: both of them are in the Beta family.\nIn this case, the Beta prior is called a conjugate prior for the Binomial model."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
-    "href": "slides/02-intro-bayes.html#catalog-for-conjugate-priors",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Catalog for conjugate priors",
-    "text": "Catalog for conjugate priors\n\n\n\n\n\n\n\n\n\n\n\n\n\nSampling model\nParameter\nPrior\nPosterior\n\n\n\n\n\\(X \\sim \\bin(n, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + X, \\beta_0+n-X)\\)\n\n\n\\(X \\sim N(\\mu, \\sigma^2)\\)\n\\(\\mu\\)\n\\(N(\\mu_0, \\sigma_0^2)\\)\n\\(N\\left(\\frac{1}{\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}}\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{ X}{\\sigma^2}\\right),\\left(\\frac{1}{\\sigma_0^2}+\\frac{1}{\\sigma^2}\\right)^{-1}\\right)\\)\n\n\n\\(X \\sim \\text{Poisson}(\\lambda)\\)\n\\(\\lambda\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + X, \\beta_0+1)\\)\n\n\n\\(X \\sim \\text{Gamma}(\\alpha, \\beta)\\)\n\\(\\beta\\)\n\\(\\text{Gamma}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Gamma}(\\alpha_0 + \\alpha, \\beta_0+X)\\)\n\n\n\\(X \\sim \\text{NB}(r, p)\\)\n\\(p\\)\n\\(\\text{Beta}(\\alpha_0, \\beta_0)\\)\n\\(\\text{Beta}(\\alpha_0 + r, \\beta_0+X)\\)\n\n\n\n\nMore can be found on Wiki\nExercise: Derive the posterior for the Normal-Normal model."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#real-data-example",
-    "href": "slides/02-intro-bayes.html#real-data-example",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Real Data Example",
-    "text": "Real Data Example\n\n\n2022年，基隆市男女嬰出生數分別為856及731，性別比例為1.1711（生下男嬰機率為0.5394）。\n同年，全台灣男女嬰出生數分別為71,208及66,205，性別比例為1.076（生下男嬰機率為0.5183）\n根據統計，全球人類自然出生性別比1.052（生下男嬰機率為0.5122）。\n基隆市自然出生性別比是否高於台灣平均？\n\n\n\n\n性別比 ＝ 男嬰數/女嬰數；生下男嬰機率 ＝ 男嬰數/(男嬰數+女嬰數)；生下男嬰機率 ＝ 性別比/(1+性別比)\n行政院資料庫Our World in Data"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#real-data-example-1",
-    "href": "slides/02-intro-bayes.html#real-data-example-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Real Data Example",
-    "text": "Real Data Example\n\nlibrary(tidyverse)\nlibrary(knitr)\n\nm &lt;- 856; f &lt;- 731\nprior_mean &lt;- c(0.5, 0.5122, 0.5122, 0.5122, 0.5122, 0.5122)\nalpha_plus_beta &lt;- c(2, 2, 10, 100, 1000, 10000)\nalpha &lt;- prior_mean * alpha_plus_beta\nbeta &lt;- alpha_plus_beta - alpha\n\n\ndata.frame(alpha, beta, prior_mean) |&gt; \n    mutate(alpha_plus_beta = alpha + beta,\n           post_mean = (alpha+m)/(alpha+beta+m+f),\n           ratio = post_mean/(1-post_mean),\n           post_int = paste0(\"[\", round(qbeta(0.025, alpha + m, beta + f), 3),\n                             \", \", round(qbeta(0.975, alpha + m, beta + f), 3), \"]\")) |&gt;\n    select(c(prior_mean, alpha_plus_beta, post_mean, ratio, post_int)) |&gt;\n    kable(format = \"markdown\", digits = 4,\n          col.names = c(\"Prior mean $\\\\frac{\\\\alpha}{\\\\alpha+\\\\beta}$\",\n                        \"$\\\\alpha + \\\\beta$\",\n                        \"Post. mean\", \"Gender ratio\",\n                        \"Post. 95% Interval\"))"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#real-data-example-1-output",
-    "href": "slides/02-intro-bayes.html#real-data-example-1-output",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Real Data Example",
-    "text": "Real Data Example\n\n\n\n\n\n\n\n\n\n\n\nPrior mean \\(\\frac{\\alpha}{\\alpha+\\beta}\\)\n\\(\\alpha + \\beta\\)\nPost. mean\nGender ratio\nPost. 95% Interval\n\n\n\n\n0.5000\n2\n0.5393\n1.1708\n[0.515, 0.564]\n\n\n0.5122\n2\n0.5393\n1.1708\n[0.515, 0.564]\n\n\n0.5122\n10\n0.5392\n1.1702\n[0.515, 0.564]\n\n\n0.5122\n100\n0.5378\n1.1634\n[0.514, 0.562]\n\n\n0.5122\n1000\n0.5289\n1.1226\n[0.51, 0.548]\n\n\n0.5122\n10000\n0.5159\n1.0658\n[0.507, 0.525]"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#some-follow-up-questions",
-    "href": "slides/02-intro-bayes.html#some-follow-up-questions",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Some follow-up questions",
-    "text": "Some follow-up questions\n\nIs the sample size (856+731=1587) large enough?\nWhich prior? Depend on how strong your prior belief is.\n\nNo prior knowledge \\(\\Rightarrow\\) Uniform prior\nReliable prior information \\(\\Rightarrow\\) prior with larger \\(\\alpha+\\beta\\)\n\nWith prior information, we can obtain better estimates when the sample size is small:\n\nFor example, think of a really small village in which only two boys and one girl were born last year.\nIf we don’t use any prior information, the gender ratio is 2.\n\nWhat if our prior information cannot be described by a Beta distribution?\n\nEx: our prior information indicates a multimodal distribution\nThe posterior will be complicated and we need some other methods for posterior inference."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#small-area-estimation-sae",
-    "href": "slides/02-intro-bayes.html#small-area-estimation-sae",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Small Area Estimation (SAE)",
-    "text": "Small Area Estimation (SAE)\n\nThe previous example is an example of an SAE problem.\n\n\n\nSmall area estimation is any of several statistical techniques involving the estimation of parameters for small sub-populations, generally used when the sub-population of interest is included in a larger survey1.\n\n\n\nThere is a hierarchical structure in SAE problems:\n\n\n\\[\n\\text{基隆} \\subset \\text{台灣} \\subset \\text{東亞} \\subset \\text{亞洲} \\subset{世界}\n\\]\n\n\nOne of the common frequentist models for SAE problems is the random effect model.\n\nWiki"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#small-area-estimation",
-    "href": "slides/02-intro-bayes.html#small-area-estimation",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Small Area Estimation",
-    "text": "Small Area Estimation\n\nBayesians typically use a hierarchical model to handle an SAE problem.\nIn this example, (conceptually) \\[\\begin{align*}\n  X \\mid p & \\sim \\bin\\left(n, p\\right)\\\\\n  p \\mid p_{\\text{TW}} & \\sim \\pi_1\\\\\n  p_{\\text{TW}} \\mid p_{\\text{World}} & \\sim \\pi_2\n\\end{align*}\\]\nNotations:\n\n\\(R = \\frac{p}{1-p}\\) is the Keelung’s gender ratio (parameter);\n\\(R_{\\text{TW}} = \\frac{p_{\\text{TW}}}{1-p_{\\text{TW}}}\\) is the Taiwan’s gender ratio (parameter);\n\\(p_{\\text{World}} = 0.5122\\)\n\nThis model is more complicated than the previous one, but descibes the data more accurately."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
-    "href": "slides/02-intro-bayes.html#what-is-good-and-bad-about-bayesian",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "What is good and bad about Bayesian?",
-    "text": "What is good and bad about Bayesian?\n\nGood:\n\nconsistent and coherent: everything (sample or parameter) is a random variable\neverything is conditional: we only care about conditional independence rather than marginal independence\nstopping rule does not matter\n\nBad:\n\nthe choice of prior is subjective\ncomputationally challenging"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#exchangeability",
-    "href": "slides/02-intro-bayes.html#exchangeability",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Exchangeability",
-    "text": "Exchangeability\n\nDefinition 2 Let \\(p\\left(x_1, \\ldots, x_n\\right)\\) be the joint density of \\(X_1\\), \\(\\ldots, X_n\\). If \\(p\\left(x_1, \\ldots, x_n\\right)=p\\left(x_{\\pi(1)}, \\ldots, x_{\\pi(n)}\\right)\\) for all permutations \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\), then \\(X_1, \\ldots, X_n\\) are exchangeable.\n\n\nRoughly speaking, \\(X_1, \\ldots, X_n\\) are exchangeable if the subscript labels convey no information about the outcomes.\nApparently, independence implies exchangeability, but the converse is false.\nWhat is the relationship between conditional independence and exchangeability?"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
-    "href": "slides/02-intro-bayes.html#conditional-independence-and-exchangeability",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Conditional independence and exchangeability",
-    "text": "Conditional independence and exchangeability\n\nProposition 1 If \\(\\theta \\sim p(\\theta)\\) and \\(X_1, \\ldots, X_n\\) are conditionally i.i.d. given \\(\\theta\\), then marginally (unconditionally on \\(\\theta\\) ) \\(, X_1, \\ldots, X_n\\) are exchangeable.\n\n\nProof. Suppose \\(X_1, \\ldots, X_n\\) are conditionally iid given some unknown parameter \\(\\theta\\). Then for any permutation \\(\\pi\\) of \\(\\{1, \\ldots, n\\}\\) and any set of values \\(\\left(x_1, \\ldots, x_n\\right) \\in\\) \\(\\mc{X}^n\\) \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right) & =\\int p\\left(x_1, \\ldots, x_n \\mid \\theta\\right) p(\\theta) d \\theta & & \\text { (definition of marginal probability) } \\\\\n& =\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta & & \\text { ($X$'s are conditionally i.i.d.) } \\\\\n& =\\int\\left\\{\\prod_{i=1}^n p\\left(x_{\\pi(i)} \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta & & \\text { (product does not depend on order) } \\\\\n& =p\\left(x_{\\pi(1)}, \\ldots x_{\\pi(n)}\\right) & & \\text { (definition of marginal probability) } .\n\\end{align*}\\]\n\n\n\nCh. 2.7 & 2.8 in Hoff’s book."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#de-finettis-theorem",
-    "href": "slides/02-intro-bayes.html#de-finettis-theorem",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "de Finetti’s Theorem",
-    "text": "de Finetti’s Theorem\n\nWe have seen that\n\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { i.i.d } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Rightarrow X_1, \\ldots, X_n \\text { are exchangeable. }\n\\end{align*}\\]\n\n\nWhat about an arrow in the other direction?\n\n\nTheorem 1 (de Finetti) Let \\(X_i \\in \\mc{X}\\) for all \\(i \\in\\{1,2, \\ldots\\}\\). Suppose that, for any \\(n\\), \\(X_1, \\ldots, X_n\\) are exchangeable. Then our model can be written as \\[\\begin{align*}\np\\left(x_1, \\ldots, x_n\\right)=\\int\\left\\{\\prod_{i=1}^n p\\left(x_i \\mid \\theta\\right)\\right\\} p(\\theta) d \\theta\n\\end{align*}\\] for some parameter \\(\\theta\\), some prior distribution on \\(\\theta\\), and some sampling model \\(p(x \\mid \\theta)\\). The prior and sampling model depend on \\(p\\left(x_1, \\ldots, x_n\\right)\\)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#de-finettis-theorem-1",
-    "href": "slides/02-intro-bayes.html#de-finettis-theorem-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "de Finetti’s Theorem",
-    "text": "de Finetti’s Theorem\n\n\nThe conclusion is\n\n\\[\\begin{align*}\n\\left.\\begin{array}{l}\nX_1, \\ldots, X_n \\mid \\theta \\text { are i.i.d. } \\\\\n\\theta \\sim p(\\theta)\n\\end{array}\\right\\} \\Leftrightarrow X_1, \\ldots, X_n \\text { are exchangeable for all } n \\text {. }\n\\end{align*}\\]\n\n\nThis justifies the use of prior distributions when samples are exchangeable.\nWhen is the condition “\\(X_1, \\ldots, X_n\\) are exchangeable for all \\(n\\)” reasonable?\n\n\\(X_1, \\ldots, X_n\\) are outcomes of a repeatable experiment;\n\\(X_1, \\ldots, X_n\\) are sampled from a finite population with replacement;\n\\(X_1, \\ldots, X_n\\) are sampled from an infinite population without replacement."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#stopping-rule",
-    "href": "slides/02-intro-bayes.html#stopping-rule",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Stopping Rule",
-    "text": "Stopping Rule\nLet \\(\\theta\\) be the probability of a particular coin landing on heads, and suppose we want to test the hypotheses \\[\\begin{align*}\nH_0: \\theta=1 / 2, \\quad H_1: \\theta&gt;1 / 2\n\\end{align*}\\] at a significance level of \\(\\alpha=0.05\\). Suppose we observe the following sequence of flips: \\[\n\\text{heads, heads, heads, heads, heads, tails (5 heads, 1 tails)}\n\\]\n\nTo perform a frequentist hypothesis test, we must define a random variable to describe the data.\nThe proper way to do this depends on exactly which of the following two experiments was actually performed:\n\n\n\nExample 1.1 in Essential Bayes"
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#stopping-rule-1",
-    "href": "slides/02-intro-bayes.html#stopping-rule-1",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Stopping Rule",
-    "text": "Stopping Rule\nSuppose the experiment is “Flip six times and record the results.”\n\n\\(X\\) counts the number of heads, and \\(X \\sim \\bin(6, \\theta)\\).\nThe observed data was \\(x=5\\), and the \\(p\\)-value of our hypothesis test is \\[\\begin{align*}\np\\text{-value} & =\\P_{\\theta=1 / 2}(X \\geq 5) \\\\\n& =\\P_{\\theta=1 / 2}(X=5)+\\P_{\\theta=1 / 2}(X=6) \\\\\n& =\\frac{6}{64}+\\frac{1}{64}=\\frac{7}{64}=0.109375&gt;0.05 .\n\\end{align*}\\] So we fail to reject \\(H_0\\) at \\(\\alpha=0.05\\)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#stopping-rule-2",
-    "href": "slides/02-intro-bayes.html#stopping-rule-2",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Stopping Rule",
-    "text": "Stopping Rule\nSuppose now the experiment is “Flip until we get tails.”\n\n\\(X\\) counts the number of the flip on which the first tails occurs, and \\(X \\sim \\text{Geometric}(1-\\theta)\\).\nThe observed data was \\(x=6\\), and the p-value of our hypothesis test is \\[\\begin{align*}\np \\text{-value} & = \\P_{\\theta=1 / 2}(X \\geq 6) \\\\\n& =1-\\P_{\\theta=1 / 2}(X&lt;6) \\\\\n& =1-\\sum_{x=1}^5 \\P_{\\theta=1 / 2}(X=x) \\\\\n& =1-\\left(\\frac{1}{2}+\\frac{1}{4}+\\frac{1}{8}+\\frac{1}{16}+\\frac{1}{32}\\right)=\\frac{1}{32}=0.03125&lt;0.05\n\\end{align*}\\] So we reject \\(H_0\\) at \\(\\alpha=0.05\\)."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#stopping-rule-3",
-    "href": "slides/02-intro-bayes.html#stopping-rule-3",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "Stopping Rule",
-    "text": "Stopping Rule\n\nThe result our hypothesis test depends on whether we would have stopped flipping if we had gotten a tails sooner.\nThe tests are dependent on what we call the stopping rule.\nThe likelihood for the actual value of \\(x\\) that was observed is the same for both experiments (up to a constant): \\[\\begin{align*}\np(x \\mid \\theta) \\propto \\theta^5(1-\\theta) .\n\\end{align*}\\]\nA Bayesian approach would take the data into account only through this likelihood.\nHomework: Show that under a Beta prior, the posteriors under the two stopping rules are the same."
-  },
-  {
-    "objectID": "slides/02-intro-bayes.html#more-importantly",
-    "href": "slides/02-intro-bayes.html#more-importantly",
-    "title": "Lecture 02: Introduction to Bayesian Statistics",
-    "section": "More importantly …",
-    "text": "More importantly …\n\n\n\n\n\n\n\n\nHome\n\n\nImage source: https://twitter.com/LSpakeAnthro/status/1257766583629275137"
-  },
-  {
     "objectID": "slides/03-prior.html#introduction",
     "href": "slides/03-prior.html#introduction",
     "title": "Lecture 03: From Prior Information to Prior Distribution",
@@ -833,263 +1099,11 @@
     "text": "Some practical guides for choosing priors\n\nWith prior information:\n\nFind the MEP\nFind a (conjugate) parametric prior that approximates the prior information\n\nWithout prior information:\n\nUse conjugate priors (if applicable) or mixture of conjugate priors\nUse noninformative priors, e.g., Jeffreys prior, reference priors\n\nFinally, perform some sensitivity analysis to assess priors’ influence on the result.\n\n\n\nHome"
   },
   {
-    "objectID": "slides/04-estimation.html#introduction",
-    "href": "slides/04-estimation.html#introduction",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
+    "objectID": "slides/05-hierarchical_model.html#introduction",
+    "href": "slides/05-hierarchical_model.html#introduction",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Introduction",
-    "text": "Introduction\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nWe have seen that the determination of prior can be very complicated and different prior leads to different inference procedures.\nIn this lecture, we will see how we can evaluate and compare different inference procedures.\nMore importantly, besides offering coherent inference procedures, the Bayesian paradigm also enjoys some frequentist optimality properties.\nThe statistical inferential framework we focus in this lecture is called Decision Theory."
-  },
-  {
-    "objectID": "slides/04-estimation.html#evaluating-estimators",
-    "href": "slides/04-estimation.html#evaluating-estimators",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Evaluating estimators",
-    "text": "Evaluating estimators\n\nDecision theory can be applied to any kind of statistical problems, e.g., testing, estimation, etc.\nWe will temporarily focus on the statistical estimation setting.\nLet \\(\\Theta\\) be the parameter space and \\(\\mc{D}\\) be the decision space, which contain all possible decisions.\nIn standard estimation setting, \\(\\mc{D} = \\Theta\\).\n\n\nDefinition 1 A loss function is any function \\(L\\) from \\(\\Theta \\times \\mc{D}\\) to \\([0,+\\infty)\\)."
-  },
-  {
-    "objectID": "slides/04-estimation.html#loss-function",
-    "href": "slides/04-estimation.html#loss-function",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Loss function",
-    "text": "Loss function\n\nThis loss function is supposed to evaluate the penalty (or error) \\(L(\\theta, d)\\) associated with the decision \\(d\\) when the parameter takes the value \\(\\theta\\).\nA utility function is just the opposite of a loss function, e.g. \\(U(\\theta, d) = -L(\\theta, d)\\).\nIntuitively, a good decision \\(d\\) minimizes the loss (maximizes the utility) at every \\(\\theta\\).\nIs this possible?"
-  },
-  {
-    "objectID": "slides/04-estimation.html#bayesian-decision-theory",
-    "href": "slides/04-estimation.html#bayesian-decision-theory",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Bayesian Decision Theory",
-    "text": "Bayesian Decision Theory\n\nBayesian statistical inference should start with the rigorous determination of three factors:\n\nthe distribution family for the observations, \\(f(x\\mid\\theta)\\);\nthe prior distribution for the parameters, \\(\\pi(\\theta)\\);\nthe loss associated with the decisions, \\(L(\\theta, \\delta)\\);\n\nBad news: The determination of loss is as complicated as the determination of prior.\nActually, Lindley (1985) states that loss and prior are difficult to separate and should be analyzed simultaneously.\n\n\n\nLindley, D.V. (1985) Making Decisions (2nd edition). J. Wiley, New York."
-  },
-  {
-    "objectID": "slides/04-estimation.html#commonly-used-loss-functions",
-    "href": "slides/04-estimation.html#commonly-used-loss-functions",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Commonly used loss functions",
-    "text": "Commonly used loss functions\n\nSquared error loss: \\(L(\\theta, d) = (\\theta - d)^2\\)\nWeighted loss: \\(L(\\theta, d) = w(\\theta)(\\theta-d)^2\\)\n\nusing this loss with prior \\(\\pi(\\theta)\\) is the same as using squared error loss with prior \\(\\pi(\\theta)w(\\theta)\\)\n\nAbsolute error: \\(L(\\theta, d) = |\\theta - d|\\)\nThe 0-1 loss: \\(L(\\theta, d) = I(\\theta \\neq d)\\)\nIntrinsic loss:\n\nKullback-Leibler divergence \\(L_{\\text{KL}}(\\theta, \\delta) = \\E_\\theta\\left[\\log \\left(\\frac{f(x \\mid \\theta)}{f(x \\mid \\delta)}\\right)\\right]\\)\nHellinger loss \\(L_{\\text{H}}(\\theta, \\delta)=\\frac{1}{2} \\E_\\theta\\left[\\left(\\sqrt{\\frac{f(x \\mid \\delta)}{f(x \\mid \\theta)}}-1\\right)^2\\right] = \\frac{1}{2}\\int \\left(\\sqrt{f(x\\mid\\theta)}-\\sqrt{f(x\\mid\\delta)}\\right)^2 dx\\)"
-  },
-  {
-    "objectID": "slides/04-estimation.html#example",
-    "href": "slides/04-estimation.html#example",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Example",
-    "text": "Example\n\n\nFor \\(X \\sim N(\\theta, 1)\\), we have\n\n\\[\\begin{align*}\nL_{\\mathrm{KL}}(\\theta, \\delta) & =\\frac{1}{2} \\E_\\theta\\left[-(x-\\theta)^2+(x-\\delta)^2\\right]=\\frac{1}{2}(\\delta-\\theta)^2 \\\\\nL_{\\mathrm{H}}(\\theta, \\delta) & =1-\\exp \\left\\{-(\\delta-\\theta)^2 / 8\\right\\}.\n\\end{align*}\\]\n\n\n\nFor \\(X \\sim N(0, \\sigma^2)\\), we have\n\n\\[\\begin{align*}\nL_{\\mathrm{KL}}(\\sigma, \\delta) & =\\log \\frac{\\delta}{\\sigma}+\\frac{\\sigma^2}{2 \\delta^2}-\\frac{1}{2} \\\\\nL_{\\mathrm{H}}(\\sigma, \\delta) & =1-\\sqrt{\\frac{2 \\sigma \\delta}{\\sigma^2+\\delta^2}}.\n\\end{align*}\\]"
-  },
-  {
-    "objectID": "slides/04-estimation.html#statistical-model",
-    "href": "slides/04-estimation.html#statistical-model",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Statistical model",
-    "text": "Statistical model\n\nFrom a decision-theoretic point of view, the statistical model now involves three spaces:\n\n\\(\\mc{X}\\), observation space (or sample space),\n\\(\\Theta\\), parameter space, and\n\\(\\mc{D}\\), decision space (or action space).\n\nWe then need to determine a loss function \\(L(\\theta, d)\\).\nThe goal is to find a decision rule \\(\\delta: \\mc{X} \\to \\mc{D}\\), such that the loss \\(L(\\theta, \\delta(x))\\) is minimized.\nExcept for trivial settings, it is generally impossible to uniformly minimize (in \\(d\\)) the loss function \\(L(\\theta, d)\\) when \\(\\theta\\) is unknown."
-  },
-  {
-    "objectID": "slides/04-estimation.html#risk",
-    "href": "slides/04-estimation.html#risk",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Risk",
-    "text": "Risk\nTo derive an effective comparison criterion from the loss function, we have\n\nFrequentist Risk: average over unknown \\(x\\) (samples) \\[\\begin{align*}\nR(\\theta, \\delta)  =\\E_\\theta[L(\\theta, \\delta(X))]\n=\\int_{\\mc{X}} L(\\theta, \\delta(x)) f(x \\mid \\theta) d x\n\\end{align*}\\]\nPosterior Risk: average over unknown \\(\\theta\\) (parameters) \\[\\begin{align*}\n\\rho(\\pi, d \\mid x)  =\\E^\\pi[L(\\theta, d) \\mid x]\n=\\int_{\\Theta} L(\\theta, d) \\pi(\\theta \\mid x) d \\theta\n\\end{align*}\\]\nIntegrated Risk: average over both \\(\\theta\\) and \\(x\\) \\[\\begin{align*}\nr(\\pi, \\delta) =\\mathbb{E}^\\pi[R(\\theta, \\delta)]\n=\\int_{\\Theta} \\int_{\\mathcal{X}} \\mathrm{L}(\\theta, \\delta(x)) f(x \\mid \\theta) d x \\pi(\\theta) d \\theta\n\\end{align*}\\]"
-  },
-  {
-    "objectID": "slides/04-estimation.html#frequentist-risk",
-    "href": "slides/04-estimation.html#frequentist-risk",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Frequentist Risk",
-    "text": "Frequentist Risk\n\nGiven \\(\\delta\\), \\(R(\\theta, \\delta)\\) is a function of \\(\\theta\\).\nThe value \\(R(\\theta, \\delta)\\) is the long-run performance of \\(\\delta\\) when the true parameter is \\(\\theta\\).\nThe goal is to select a decision rule that has the best long-run performance uniformly in \\(\\theta\\), which is generally impossible.\nEven if we find a decision rule with good long-run performance, we are not able to evaluate the performance for the given observation \\(x\\).\nFinally, using this risk implicitly assumes that the same problem will be met again and again."
-  },
-  {
-    "objectID": "slides/04-estimation.html#posterior-risk",
-    "href": "slides/04-estimation.html#posterior-risk",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Posterior Risk",
-    "text": "Posterior Risk\n\nGiven \\(x\\), \\(\\rho(\\pi, d \\mid x)\\) is the average error resulting from decision \\(d\\).\nThe posterior risk is a function of \\(x\\), which is known.\nBy Fubini’s Theorem, \\[\n    r(\\pi, \\delta) = \\int \\rho(\\pi, \\delta(x) \\mid x) m(x)dx\n\\] where \\(m(x) = \\int f(x\\mid\\theta)\\pi(\\theta)d\\theta\\) is the marginal distribution.\nUnlike the frequentist risk which associates a function to \\(\\delta\\), the integrated risk associates a real number to \\(\\delta\\)."
-  },
-  {
-    "objectID": "slides/04-estimation.html#bayes-estimator",
-    "href": "slides/04-estimation.html#bayes-estimator",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Bayes Estimator",
-    "text": "Bayes Estimator\n\nGiven a prior distribution \\(\\pi\\) and a loss function \\(L\\)\nA Bayes estimator is any estimator \\(\\delta^\\pi\\) which minimizes \\(r(\\pi, \\delta)\\).\nFor every \\(x \\in \\mathcal{X}\\), it is given by \\(\\delta^\\pi(x)\\), argument of \\(\\min _d \\rho(\\pi, d \\mid x)\\).\nThe value \\(r(\\pi)=r\\left(\\pi, \\delta^\\pi\\right)\\) is then called the Bayes risk.\nFor example, posterior mean is the Bayes estimator under the squared error loss \\(L(\\theta, d) = (\\theta - d)^2\\) and posterior median is the Bayes estimator under \\(L(\\theta, d) = |\\theta-d|\\).\nWhen \\(\\pi\\) is improper, \\(r(\\pi, \\delta)\\) might not be finite. In this case, we \\(\\delta^{\\pi}(x)\\) as the minimum of the minimizer of the posterior risk and call it a generalized Bayes estimator."
-  },
-  {
-    "objectID": "slides/04-estimation.html#the-0-1-loss-and-map",
-    "href": "slides/04-estimation.html#the-0-1-loss-and-map",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "The 0-1 loss and MAP",
-    "text": "The 0-1 loss and MAP\n\nThis loss is mainly used in the classical approach to hypothesis testing.\nFor discrete parameters, the Bayes estimator under the 0-1 loss is the MAP.\nFor example, consider \\(\\Theta = \\{0, 1\\}\\) and the posterior is \\(\\pi(\\theta = 1 \\mid x) = p(x) = 1 - \\pi(\\theta = 0 \\mid x)\\).\nThe posterior risk is \\[\n    \\rho(\\pi, d \\mid x) = \\E_{\\theta\\mid x}L(\\theta, d) = \\begin{cases}\n1 - p(x), & d = 1\\\\\np(x), & d = 0\n\\end{cases}.\n\\]\nThe Bayes estimator is \\[\n    \\delta^{\\pi}(x) = \\argmin_d \\rho(\\pi, d \\mid x) =  \\begin{cases}\n1, & \\pi(\\theta = 1 \\mid x) &gt; 1/2\\\\\n0, & \\pi(\\theta = 0 \\mid x) &gt; 1/2\n\\end{cases},\n\\] which is the MAP."
-  },
-  {
-    "objectID": "slides/04-estimation.html#the-0-1-loss-and-map-1",
-    "href": "slides/04-estimation.html#the-0-1-loss-and-map-1",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "The 0-1 loss and MAP",
-    "text": "The 0-1 loss and MAP\n\nFor continuous parameters, it is slightly more complicated.\nFor any \\(d \\in \\Theta\\), the posterior risk is \\[\n\\rho(\\pi, d \\mid x) = \\E_{\\theta\\mid x}I(\\theta \\neq d) = \\P(\\theta \\neq d \\mid x) = 1,\n\\] which is independent of \\(d\\).\nHence every \\(d \\in \\Theta\\) is a minimizer of the posterior risk.\nHowever if we replace the 0-1 loss by a sequence of losses, \\(L_{\\varepsilon}(\\theta, d) = I(\\|\\theta-d\\| &gt; \\varepsilon)\\), the MAP estimate is then the limit of the Bayes estimates associated with \\(L_{\\varepsilon}\\), when \\(\\varepsilon \\to 0\\)."
-  },
-  {
-    "objectID": "slides/04-estimation.html#a-quick-wrap-up",
-    "href": "slides/04-estimation.html#a-quick-wrap-up",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "A quick wrap-up",
-    "text": "A quick wrap-up\n\nTo perform a decision-theoretic evaluation for estimators (or any other statistical inference), we need to first choose a loss function \\(L\\).\nWith \\(L\\), we can obtain different risks by averaging over different spaces.\nAs a Bayesian, only the posterior risk \\(\\rho(\\pi, d\\mid x)\\) is important.\nThe integrated risk \\(r(\\pi, \\delta)\\) actually connects the posterior risk and the frequentist risk.\nIt also explains why Bayes estimators play an important role in frequentist optimality criteria."
-  },
-  {
-    "objectID": "slides/04-estimation.html#two-optimalities",
-    "href": "slides/04-estimation.html#two-optimalities",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Two optimalities",
-    "text": "Two optimalities\n\nThere are two fundamental notions of frequentist Decision Theory: minimaxity and admissibility.\nUnder the frequentist paradigm, there is no single optimal estimator.\nWe will see that Bayes estimators are often optimal for the frequentist concepts of optimality."
-  },
-  {
-    "objectID": "slides/04-estimation.html#minimaxity",
-    "href": "slides/04-estimation.html#minimaxity",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Minimaxity",
-    "text": "Minimaxity\n\nIt is an insurance against the worst case because it aims at minimizing the expected loss in the least favorable case.\nThe minimax risk associated with a loss function \\(L\\) is the value \\[\n\\bar{R}=\\inf _{\\delta \\in \\mc{D}} \\sup _\\theta R(\\theta, \\delta)=\\inf _{\\delta \\in \\mc{D}} \\sup_\\theta \\E_\\theta[L(\\theta, \\delta(X))].\n\\]\nA minimax estimator is any estimator \\(\\delta_0\\) such that \\[\n\\sup _\\theta R\\left(\\theta, \\delta_0\\right)=\\bar{R} .\n\\]\nIn other words, a minimax estimator has the best worst-case performance.\nThe notion of minimaxity provides a good illustration of the conservative aspects of the frequentist paradigm."
-  },
-  {
-    "objectID": "slides/04-estimation.html#bayes-esitmator-and-minimaxity",
-    "href": "slides/04-estimation.html#bayes-esitmator-and-minimaxity",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Bayes esitmator and minimaxity",
-    "text": "Bayes esitmator and minimaxity\n\nIn fact, from a Bayesian point of view, it is often equivalent to take a prior concentrated on these worst cases.\nIn some cases, a minimax estimator is also a Bayes estimator, that is, there exists a prior such that the Bayes estimator is minimax.\nSuch prior is called a least favorable prior, which has the largest Bayes risk among all other priors.\nIf you need a conservative Bayes estimate, you can choose the least favorable prior (if it exists).\nEven if a minimax estimator is not Bayes, it is often the limit of Bayes estimators, e.g., the MLE for \\(N(\\theta, 1)\\).\nA useful approach to the construction of minimax estimators is called a limiting Bayes approach.1\n\nSee Theorem 1.12 in Ch. 6 of Theory of Point Estimation for example."
-  },
-  {
-    "objectID": "slides/04-estimation.html#admissibility",
-    "href": "slides/04-estimation.html#admissibility",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Admissibility",
-    "text": "Admissibility\n\nAn estimator \\(\\delta_0\\) is inadmissible if there exists an estimator \\(\\delta_1\\) which dominates \\(\\delta_0\\), that is, such that, for every \\(\\theta\\), \\[\\begin{align*}\nR\\left(\\theta, \\delta_0\\right) \\geq R\\left(\\theta, \\delta_1\\right)\n\\end{align*}\\] and, for at least one value \\(\\theta_0\\) of the parameter, \\[\\begin{align*}\nR\\left(\\theta_0, \\delta_0\\right)&gt;R\\left(\\theta_0, \\delta_1\\right) .\n\\end{align*}\\]\nOtherwise, \\(\\delta_0\\) is said to be admissible."
-  },
-  {
-    "objectID": "slides/04-estimation.html#example-1",
-    "href": "slides/04-estimation.html#example-1",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Example",
-    "text": "Example\n\n\n\nStudent\n國文\n英文\n數學\n自然\n社會\n\n\n\n\nA\n80\n90\n95\n85\n85\n\n\nB\n70\n80\n85\n75\n75\n\n\nC\n85\n90\n95\n90\n60\n\n\nD\n90\n80\n50\n60\n80\n\n\nE\n80\n80\n80\n80\n80\n\n\n\nAmong these 5 students:\n\nA and E are minimax, since their have the highest worst score, 80.\nB and E are inadmissible, since A dominates B and E; A, C, and D are admissible.\nThe Bayes estimator under the prior (1,1,1,1,1) is A; the Bayes estimator under the prior (1,0,0,0,0) is D."
-  },
-  {
-    "objectID": "slides/04-estimation.html#steins-paradox",
-    "href": "slides/04-estimation.html#steins-paradox",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Stein’s Paradox",
-    "text": "Stein’s Paradox\n\nLet \\(X \\sim N_p(\\theta, I)\\) and \\(p&gt;2\\). Then \\(X\\) is the MLE for \\(\\theta\\) and is inadmissible.\nThe MLE is dominated by the James-Stein estimator \\[\n\\hat{\\theta}^{\\text{JS}} = \\left(1 - \\frac{p-2}{\\|X\\|^2}\\right)X.\n\\]\nThe James-Stein estimator is still inadmissible and is dominated by the positive-part James-Stein estimator1 \\[\n\\hat{\\theta}^{\\text{JS+}} = \\left(1 - \\frac{p-2}{\\|X\\|^2}\\right)_+X,\n\\] where \\((x)_+ = \\max(x, 0)\\).\nThe positive-part James-Stein estimator is still inadmissible since it is not differentiable.\n\nAll these three estimators are minimax."
-  },
-  {
-    "objectID": "slides/04-estimation.html#optimality-of-bayes-estimators",
-    "href": "slides/04-estimation.html#optimality-of-bayes-estimators",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Optimality of Bayes estimators",
-    "text": "Optimality of Bayes estimators\n\nWhat is more important is whether the Bayes risk is finite rather than the propriety of the prior.\nFinite Bayes risk: (regular) Bayes estimator;\nInfinite Bayes risk: generalized Bayes estimator\nUnique (regular) Bayes \\(\\Rightarrow\\) admissible\n\nWhen \\(L(\\theta, d)\\) is strictly convex in \\(d\\), the Bayes estimator is unique.\nFor example, with a proper prior, the posterior mean is admissible.\nWith an improper prior, the posterior mean is admissible if it has finite Bayes risk."
-  },
-  {
-    "objectID": "slides/04-estimation.html#optimality-of-bayes-estimators-1",
-    "href": "slides/04-estimation.html#optimality-of-bayes-estimators-1",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Optimality of Bayes estimators",
-    "text": "Optimality of Bayes estimators\n\nUnique (regular) Bayes with constant (frequentist) risk \\(\\Rightarrow\\) admissible and minimax\n\nIf \\(X \\mid p \\sim \\bin(n, p)\\) and \\(p \\sim \\text{Beta}(\\sqrt{n}/2, \\sqrt{n}/2)\\), the posterior mean of \\(p\\) is admissible and minimax (under the squared error loss).\nThis prior \\(\\text{Beta}(\\sqrt{n}/2, \\sqrt{n}/2)\\) is called a least favorable prior.\nA least favorable prior, if it exists, gives a conservative Bayes estimate.\n\n\n\n\n\n\nConclusion\n\n\nBayes estimators are admissible. It can also be minimax with a particular prior."
-  },
-  {
-    "objectID": "slides/04-estimation.html#bayesian-estimation-1",
-    "href": "slides/04-estimation.html#bayesian-estimation-1",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Bayesian estimation",
-    "text": "Bayesian estimation\n\nWhen the prior distribution \\(\\pi(\\theta)\\) is available, the posterior distribution \\(\\pi(\\theta \\mid x)\\) can be formally derived from the observation \\(x\\) with distribution \\(f(x \\mid \\theta)\\).\nThis updated distribution integrates simultaneously prior information about \\(\\theta\\) and information brought by the observation \\(x\\).\nEven though \\(\\theta\\) is not necessarily a random variable, the distribution \\(\\pi(\\theta\\mid x)\\) can be used as a regular probability distribution to describe the properties of \\(\\theta\\).\nSummarizing indices for \\(\\pi(\\theta\\mid x)\\) such as the posterior mean, the posterior mode, the posterior variance, and the posterior median, can be used."
-  },
-  {
-    "objectID": "slides/04-estimation.html#map-estimator",
-    "href": "slides/04-estimation.html#map-estimator",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "MAP estimator",
-    "text": "MAP estimator\n\nThere is no way of selecting a best estimator, without using a loss criterion.\nNonetheless, a possible estimator of \\(\\theta\\) based on \\(\\pi(\\theta \\mid x)\\) is the maximum a posteriori (MAP) estimator, defined as the posterior mode: \\[\n\\hat{\\theta}_{\\text{MAP}} = \\argmax_\\theta \\pi(\\theta \\mid x) = \\argmax_{\\theta} \\ell(\\theta\\mid x) \\pi(\\theta)\n\\] where \\(\\ell(\\theta\\mid x)\\) is the likelihood function.\nNote that the MAP estimator also bypasses the computation of the marginal \\(m(x) = \\int \\ell(\\theta\\mid x)\\pi(\\theta)d\\theta\\).\nRecall that the MAP estimator is a Bayes estimator (in the decision-theoretic sense) under the 0-1 loss when \\(\\theta\\) is discrete and is the limit of Bayes estimators when \\(\\theta\\) is continuous."
-  },
-  {
-    "objectID": "slides/04-estimation.html#penalized-maximum-likelihood-estimator",
-    "href": "slides/04-estimation.html#penalized-maximum-likelihood-estimator",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Penalized maximum likelihood estimator",
-    "text": "Penalized maximum likelihood estimator\n\nFor frequentists, a common approach to preventing overfitting is through penalization or regularization.\nA typical penalized MLE is of the form \\[\n\\hat{\\theta} = \\argmax \\log \\ell(\\theta \\mid x) - \\text{Penalty}(\\theta).\n\\]\nThe MAP estimator can be expressed as a penalized MLE: \\[\\begin{align*}\n\\hat{\\theta}_{\\text{MAP}} & = \\argmax_{\\theta} \\ell(\\theta\\mid x) \\pi(\\theta)\n= \\argmax_{\\theta} \\log \\ell(\\theta\\mid x) + \\log \\pi(\\theta).\n\\end{align*}\\]\nThat is, the penalty of \\(\\theta\\) is given through the prior: \\(\\text{Penalty}(\\theta) = - \\log \\pi(\\theta)\\).\nSpecifying a prior is equivalent to specifying a penalty term for frequentists."
-  },
-  {
-    "objectID": "slides/04-estimation.html#penalized-regularized-regression",
-    "href": "slides/04-estimation.html#penalized-regularized-regression",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Penalized (regularized) regression",
-    "text": "Penalized (regularized) regression\n\nLinear regression: \\(Y = X \\beta + \\varepsilon\\), where \\(X\\) is a \\(k\\times p\\) covariate matrix, \\(\\beta \\in \\R^p\\) is the unknown parameter, and \\(\\varepsilon \\sim N_k(0, \\sigma^2I_k)\\).\nThe (unregularized) ordinary least-square estimator1 of \\(\\beta\\) is \\[\n    \\hat{\\beta}_{\\text{OLS}} = \\argmin_{\\beta} \\|Y - X\\beta\\|^2 = (X^TX)^{-1}X^TY.\n\\]\nSome commonly used regularization:\n\nRidge regression: \\(\\text{Penalty}(\\beta) = -\\lambda\\|\\beta\\|^2 \\Leftrightarrow \\beta_i \\iid N(0, \\lambda^{-1})\\).\nLasso2: \\(\\text{Penalty}(\\beta) = -\\lambda\\|\\beta\\|_1 = \\lambda\\sum_{i=1}^p|\\beta_i| \\Leftrightarrow \\beta_i \\iid \\text{Laplace}(0, \\lambda^{-1})\\)\n\nWhenever you’re applying regularization techniques, you are essentially doing Bayesian analysis.\n\nThe OLS estimate is the MLE under the normality assumption on \\(\\varepsilon\\).Least Absolute Shrinkage and Selection Operator"
-  },
-  {
-    "objectID": "slides/04-estimation.html#example-2",
-    "href": "slides/04-estimation.html#example-2",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Example",
-    "text": "Example\n\nHowever, the MAP might not always be useful.\nConsider \\(x \\sim \\mathcal{C}(\\theta, 1)\\), i.e., \\[\\begin{align*}\nf(x \\mid \\theta)=\\frac{1}{\\pi}\\left[1+(x-\\theta)^2\\right]^{-1},\n\\end{align*}\\] and \\(\\pi(\\theta)=\\frac{1}{2} e^{-|\\theta|}\\).\nThe MAP estimator of \\(\\theta\\) is then \\(\\delta^*(x)=0\\), as the maximum of \\(\\exp (-|\\theta|)\\left[1+(x-\\theta)^2\\right]^{-1}\\) is attained for \\(\\theta=0\\), whatever the value of \\(x\\).\nThis behavior may be explained by the flatness of the likelihood function, which is not informative enough, compared with the sharp prior distribution.\nHowever, from a practical point of view, this estimator is useless."
-  },
-  {
-    "objectID": "slides/04-estimation.html#posterior-mean-vs-map",
-    "href": "slides/04-estimation.html#posterior-mean-vs-map",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Posterior mean vs MAP",
-    "text": "Posterior mean vs MAP\n\nWhich is better?\nIf we adopt the decision theory framework and confine ourselves to the squared error loss \\(L(\\theta, d) = (\\theta-d)^2\\), then of course the posterior mean is better.\nComputation: Suppose we have the posterior \\(\\pi(\\theta \\mid x)\\).\n\nMAP: \\(\\hat{\\theta} = \\argmax_{\\theta} \\pi(\\theta \\mid x)\\)\nPosterior mean: \\(\\hat{\\theta} = \\int \\theta \\pi(\\theta \\mid x)d\\theta\\)\nWhich is computationally easier?"
-  },
-  {
-    "objectID": "slides/04-estimation.html#capture-recapture-model",
-    "href": "slides/04-estimation.html#capture-recapture-model",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Capture-recapture model",
-    "text": "Capture-recapture model\n\nIt’s a method commonly used in ecology to estimate an animal population’s size where it is impractical to count every individual.\nIt is based on taking at least two successive samples from the population of interest.\n\n\n\n\n\nSample 1/2\nCaptured\nMissed\n\n\nCaptured\n\\(n_{11}\\)\n\\(n_{12}\\)\n\n\nMissed\n\\(n_{21}\\)\n\\(n_{22}\\)\n\n\n\n\n\nAfter the two capture experiments, the population is divided as in the table above, with \\(n_{11} +n_{12} +n_{21} +n_{22} = N\\) (the fourth sample size \\(n_{22}\\) being unknown)."
-  },
-  {
-    "objectID": "slides/04-estimation.html#uniform-model",
-    "href": "slides/04-estimation.html#uniform-model",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Uniform model",
-    "text": "Uniform model\n\nFor the simplest model, called uniform, each individual has the same probability \\(p\\) of being captured in both experiments.\nTherefore, \\(p_{11}=p^2, p_{12}=p_{21}=p(1-p)\\), and \\(p_{22}=(1-p)^2\\).\nThe likelihood can be written \\[\nL\\left(N, p \\mid n_{11}, n_{12}, n_{21}\\right)=\\choose{N}{n_{11}\\;n_{12}\\;n_{21}} p^{\\tilde{n}}(1-p)^{2N-\\tilde{n}}\n\\] where \\(\\tilde{n}=2 n_{11}+n_{12}+n_{21}\\) is the total number of captured individuals.\nThere are two unknown parameters \\(N\\) and \\(p\\), which we assume a priori independent.\nThe prior is \\(\\pi(N, p) = \\pi(N)\\pi(p)\\) and we assume a Beta prior for \\(p\\).\nUnfortunately, the marginal posterior of \\(N\\) is complicated no matter we use \\(\\pi(N) = 1\\), \\(\\pi(N) = 1/N\\), or Poisson."
-  },
-  {
-    "objectID": "slides/04-estimation.html#darroch-model",
-    "href": "slides/04-estimation.html#darroch-model",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Darroch model",
-    "text": "Darroch model\n\nThe Darroch model1 is a hypergeometric model, in which the two sample sizes \\(n_1 = n_{11} + n_{12}\\) and \\(n_2 = n_{11} + n_{21}\\) are fixed.\nIn this case, the only remaining random variable is \\(n_{11}\\), with distribution \\(\\text{HyperGeo}(N, n_1, n_2)\\).\nRecall: The hypergeometric distribution \\(\\text{HyperGeo}(N, K, n)\\) has pmf \\[\n\\P(X = x) = \\frac{\\choose{K}{x}\\choose{N-K}{n-x}}{\\choose{N}{n}},\n\\] which models the number of successes in \\(n\\) draws (without replacement) from a population of size \\(N\\) with \\(K\\) successes.\n\nDarroch, J. N. (1958). The multiple-recapture census: I. Estimation of a closed population. Biometrika, 45(3/4), 343-359."
-  },
-  {
-    "objectID": "slides/04-estimation.html#darroch-model-1",
-    "href": "slides/04-estimation.html#darroch-model-1",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Darroch model",
-    "text": "Darroch model\n\nThe MLE of \\(N\\) is \\[\\begin{align*}\n\\hat{N}=\\left[\\frac{n_1}{\\left(n_{11} / n_2\\right)}\\right],\n\\end{align*}\\] where \\([a]\\) is the integer part of \\(a\\).\nIt identifies the proportion in the population \\(\\left(n_1 / N\\right)\\) and the proportion in the sample \\(\\left(n_{11} / n_2\\right)\\).\nA major drawback is that it cannot be used when \\(n_{11} = 0\\).\nA Bayesian analysis does not suffer from this defect because it reaches a conclusion even when \\(n_{11} = 0\\).\nGiven a prior distribution \\(\\pi\\) on \\(N\\), it is formally easy to derive the posterior \\(\\pi(N = n\\mid n_{11})\\) and draw an inference on \\(N\\)."
-  },
-  {
-    "objectID": "slides/04-estimation.html#example-3",
-    "href": "slides/04-estimation.html#example-3",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Example",
-    "text": "Example\n\nSuppose that a prior ecological study suggests that the population size varies between 36 and 50.\nHence here we use a uniform distribution on \\(\\{36,\\ldots,50\\}\\).\nConsidering \\(n_1 = n_2 = 5\\), we have \\[\n\\pi\\left(N=n \\mid n_{11}\\right)=\\frac{\\choose{n_1}{n_{11}}\\choose{n-n_1}{n_2-n_{11}} / \\choose{n}{n_2} \\pi(N=n)}{\\sum_{k=36}^{50}\\choose{n_1}{n_{11}}\\choose{k-n_1}{n_2-n_{11}} / \\choose{k}{n_2} \\pi(N=k)}.\n\\]\n\n\n\nlibrary(tidyverse)\nlibrary(kableExtra)\nN_vec &lt;- 36:50; n_1 &lt;- 5; n_2 &lt;- 5; n_11 &lt;- 0:5\n\nout &lt;-sapply(n_11, function(x) dhyper(x, n_1, N_vec-n_1, n_2)) %&gt;%\n    apply(., 2, function(x) x/sum(x)) %&gt;%\n    data.frame() \nout %&gt;% cbind(N = N_vec, .) %&gt;%\n    kbl(format=\"markdown\", digits = 4, col.names = c(\"N\", n_11))"
-  },
-  {
-    "objectID": "slides/04-estimation.html#example-3-output",
-    "href": "slides/04-estimation.html#example-3-output",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Example",
-    "text": "Example\n\n\n\n\nN\n0\n1\n2\n3\n4\n5\n\n\n\n\n36\n0.0580\n0.0725\n0.0886\n0.1061\n0.1246\n0.1438\n\n\n37\n0.0594\n0.0716\n0.0846\n0.0979\n0.1112\n0.1244\n\n\n38\n0.0608\n0.0708\n0.0808\n0.0905\n0.0996\n0.1080\n\n\n39\n0.0621\n0.0700\n0.0772\n0.0838\n0.0895\n0.0942\n\n\n40\n0.0634\n0.0691\n0.0739\n0.0778\n0.0806\n0.0824\n\n\n41\n0.0647\n0.0683\n0.0708\n0.0723\n0.0728\n0.0723\n\n\n42\n0.0659\n0.0674\n0.0679\n0.0673\n0.0659\n0.0637\n\n\n43\n0.0670\n0.0666\n0.0651\n0.0628\n0.0598\n0.0563\n\n\n44\n0.0682\n0.0658\n0.0625\n0.0587\n0.0544\n0.0499\n\n\n45\n0.0692\n0.0650\n0.0601\n0.0549\n0.0496\n0.0444\n\n\n46\n0.0703\n0.0642\n0.0578\n0.0515\n0.0453\n0.0396\n\n\n47\n0.0713\n0.0634\n0.0556\n0.0483\n0.0415\n0.0353\n\n\n48\n0.0723\n0.0626\n0.0536\n0.0454\n0.0380\n0.0317\n\n\n49\n0.0732\n0.0618\n0.0516\n0.0427\n0.0350\n0.0284\n\n\n50\n0.0741\n0.0611\n0.0498\n0.0402\n0.0322\n0.0256"
-  },
-  {
-    "objectID": "slides/04-estimation.html#estimates-of-the-population-size",
-    "href": "slides/04-estimation.html#estimates-of-the-population-size",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Estimates of the population size",
-    "text": "Estimates of the population size\n\n\nPosterior mean:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\mathbb{E}(N\\mid n_{11})\\)\n43.32\n42.77\n42.23\n41.72\n41.23\n40.78\n\n\n\n\n\n\n\n\nMAP:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\text{argmax }\\pi(N\\mid n_{11})\\)\n50\n36\n36\n36\n36\n36"
-  },
-  {
-    "objectID": "slides/04-estimation.html#estimates-of-the-population-size-1",
-    "href": "slides/04-estimation.html#estimates-of-the-population-size-1",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Estimates of the population size",
-    "text": "Estimates of the population size\nIf, instead of the squared error, we use the loss \\[\\begin{align*}\nL(N, \\delta)= \\begin{cases}10(\\delta-N) & \\text { if } \\delta&gt;N, \\\\ N-\\delta & \\text { otherwise }\\end{cases}\n\\end{align*}\\] in order to avoid an overestimation of the population size, the Bayes estimator is the \\((1 / 11)\\)-quantile of \\(\\pi\\left(N \\mid n_{11}\\right)\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(n_{11}\\)\n0\n1\n2\n3\n4\n5\n\n\n\n\n\\(\\delta(n_{11})\\)\n37\n37\n37\n36\n36\n36"
-  },
-  {
-    "objectID": "slides/04-estimation.html#summary",
-    "href": "slides/04-estimation.html#summary",
-    "title": "Lecture 04: Decision Theory and Bayesian Estimation",
-    "section": "Summary",
-    "text": "Summary\n\nThe decision theory framework allows us to compare different estimators, under a given loss function.\nThe determination of loss is as difficult as the determination of prior.\nFrom a decision-theoretic point of view, Bayes estimators are always admissible, while MLE might not (e.g., Stein’s paradox).\nThe MAP estimator is essentially a penalized MLE. The penalization term is determined by the prior.\n\n\n\nHome"
+    "text": "Introduction\n\nIn the previous lecture, we saw that MLE and MAP are related.\nWe will discuss this relationship in more details and explore how this relationship benefits us.\nMLE and MAP are not the only connection between Bayesian and non-Bayesian analysis.\nWe will discuss two other examples: bootstrap and random effect model."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#mle-vs-map",
@@ -1099,53 +1113,18 @@
     "text": "MLE vs MAP\n\n\nGiven \\(X_1, \\ldots, X_n \\iid f(x\\mid\\theta)\\), the likelihood function is\n\n\\[\\ell(\\theta\\mid x_1,\\ldots,x_n) = \\prod_{i=1}^n f(x_i\\mid\\theta) = f(x_1,\\ldots,x_n\\mid\\theta).\\]\n\n\n\nSuppose we choose \\(\\pi(\\theta) \\propto 1\\). The posterior is1\n\n\\[\n    \\pi(\\theta \\mid x_1, \\ldots, x_n) \\propto f(x_1,\\ldots,x_n\\mid\\theta)\\pi(\\theta) = f(x_1,\\ldots,x_n\\mid\\theta).\n\\]\n\n\n\nTherefore\n\n\\[\n\\hat{\\theta}_{\\text{MAP}} = \\argmax_{\\theta}\\pi(\\theta \\mid x_1, \\ldots, x_n)\n    = \\argmax_{\\theta}\\ell(\\theta\\mid x_1,\\ldots,x_n) = \\hat{\\theta}_{\\text{MLE}}.\n\\]\n\nWe need to make sure that the posterior is proper; otherwise, this equation is meaningless."
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#mle-vs-map-1",
-    "href": "slides/05-hierarchical_model.html#mle-vs-map-1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "MLE vs MAP",
-    "text": "MLE vs MAP\n\nMLE is actually a special case of MAP."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference1",
-    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bootstrap and Bayesian Inference1",
-    "text": "Bootstrap and Bayesian Inference1\nCh. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction. New York: springer."
-  },
-  {
     "objectID": "slides/05-hierarchical_model.html#asymptotics-of-mle",
     "href": "slides/05-hierarchical_model.html#asymptotics-of-mle",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Asymptotics of MLE",
-    "text": "Asymptotics of MLE"
+    "text": "Asymptotics of MLE\n\nLet \\(X_1, \\ldots, X_n \\iid f(x\\mid \\theta)\\) and \\(\\hat{\\theta}_n\\) be the MLE of \\(\\theta\\).\nUnder some regularity conditions on \\(f(x\\mid\\theta)\\), the MLE is asymptotically normally distributed and efficient (having the smallest variance).\nThat is, \\[\n\\sqrt{n}\\left(\\hat{\\theta}_n-\\theta\\right) \\stackrel{d}{\\rightarrow} N\\left(0, I(\\theta)^{-1}\\right)\n\\] where \\(I(\\theta)\\) is the Fisher information of \\(f(x\\mid\\theta)\\).\nAn important application of this result is the approximate confidence interval for \\(\\theta\\) \\[\n\\P\\left(\\hat{\\theta}_n - z_{\\alpha/2}[nI(\\hat{\\theta}_n)]^{-1/2} \\leq \\theta \\leq \\hat{\\theta}_n + z_{\\alpha/2}[nI(\\hat{\\theta}_n)]^{-1/2} \\right) \\approx \\alpha.\n\\]"
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#asymptotics-of-bayesion-inference",
-    "href": "slides/05-hierarchical_model.html#asymptotics-of-bayesion-inference",
+    "objectID": "slides/05-hierarchical_model.html#asymptotics-of-bayesian-inference",
+    "href": "slides/05-hierarchical_model.html#asymptotics-of-bayesian-inference",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Asymptotics of Bayesion inference",
-    "text": "Asymptotics of Bayesion inference"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference2",
-    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference2",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bootstrap and Bayesian Inference1",
-    "text": "Bootstrap and Bayesian Inference1\n\nBootstrap is a method proposed by Efron (1979)2 for deriving the sampling distribution of a statistic.\nIt is based on resampling from the empirical distribution, which converges to the true population distribution (Glivenko-Cantelli theorem).\nExample: \\(X_1, \\ldots, X_n \\iid F\\) and \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i\\).\nA bootstrap sample \\(X_1^*, \\ldots, X_n^*\\) is obtained from \\(X_1, \\ldots, X_n\\) using sampling with replacement.\nThe sampling distribution of \\(\\bar{X}_n\\) can be estimated/approximated by the distribution of \\(\\bar{X}^*_n = \\frac{1}{n}\\sum_{i=1}^n X_i^*\\), which is called the bootstrap distribution.\n\nCh. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction.B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. Annals of Statistics 7(1) 1 - 26."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#random-effect-models",
-    "href": "slides/05-hierarchical_model.html#random-effect-models",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Random effect models",
-    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\varepsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bernstein-von-mises-theorem",
-    "href": "slides/05-hierarchical_model.html#bernstein-von-mises-theorem",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bernstein-von Mises Theorem",
-    "text": "Bernstein-von Mises Theorem"
+    "section": "Asymptotics of Bayesian inference",
+    "text": "Asymptotics of Bayesian inference\n\nThe Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.\nSee Section 10.2 of Van der Vaart (2000) for rigorous arguments.\nThe regularity conditions include:\n\nthe posterior must be proper, and\nthe prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.\n\nRoughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect1.\n\n\n\nVan der Vaart, A. W. (2000). Asymptotic statistics.\nSee this blog post for an interesting discussion on Bernstein-von Mises Theoerm."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior",
@@ -1155,25 +1134,18 @@
     "text": "Normal approximation to the posterior\n\nIf the posterior \\(\\pi(\\theta\\mid x)\\) is unimodal and roughly symmetric, it can be convenient to approximate it by a normal distribution.\nThat is, the logarithm of the posterior density is approximated by a quadratic function of \\(\\theta\\).\nConsider Taylor series expansion of \\(\\log \\pi(\\theta\\mid x)\\) centered at the posterior mode (MAP) \\(\\hat{\\theta}\\) \\[\n\\log \\pi(\\theta \\mid x)=\\log \\pi(\\hat{\\theta} \\mid x)+\\frac{1}{2}(\\theta-\\hat{\\theta})^T\\left[\\frac{d^2}{d \\theta^2} \\log \\pi(\\theta \\mid x)\\right]_{\\theta=\\hat{\\theta}}(\\theta-\\hat{\\theta})+\\cdots\n\\]\nThat is, \\[\\begin{align*}\n\\pi(\\theta \\mid x) \\approx N\\left(\\hat{\\theta},[I(\\hat{\\theta})]^{-1}\\right)\n\\end{align*}\\] where \\(I(\\theta)\\) is the observed information, \\(I(\\theta)=-\\frac{d^2}{d \\theta^2} \\log \\pi(\\theta \\mid x)\\)."
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#if-the-approximation-is-good-we-can",
-    "href": "slides/05-hierarchical_model.html#if-the-approximation-is-good-we-can",
+    "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior-1",
+    "href": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "IF the approximation is good, we can",
-    "text": "IF the approximation is good, we can\n\nconstruct a approximate credible region\nthe MAP and the observed Fisher information are sufficient"
+    "section": "Normal approximation to the posterior",
+    "text": "Normal approximation to the posterior\n\nIf the approximation is good, we can construct an approximate credible interval without resorting to sampling techniques.\nIn practice, however, it is almost impossible to check how good or bad the approximation is, especially when the parameter is high-dimensional.\nEven for low-dimensional parameter, if the posterior is multi-modal, the normal approximation will be terrible.\nIn a later lecture, we will introduce a technique, called variational inference, which allows us to approximate the posterior using any parametric family, not just normal."
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#motivation",
-    "href": "slides/05-hierarchical_model.html#motivation",
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference2",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference2",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Motivation",
-    "text": "Motivation\n\nSome problems have intrinsic hierarchical structures, e.g., samples are grouped by some covariates (gender, ethnicity, etc.).\nIn practice, simple nonhierarchical models are usually inappropriate for hierarchical data: with few parameters, they generally cannot fit large datasets accurately, whereas with many parameters, they tend to ‘overfit’.\nWhen parameters are only exchangeable rather than independent, a hyperprior is needed (de Finetti’s Theorem). That is, the subscripts of the parameters convey no information."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#meta-analysis",
-    "href": "slides/05-hierarchical_model.html#meta-analysis",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Meta-analysis",
-    "text": "Meta-analysis\n\nMeta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.\nYou can find a detailed introduction to meat-analysis and different approaches to meta-analysis in https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/."
+    "section": "Bootstrap and Bayesian Inference1",
+    "text": "Bootstrap and Bayesian Inference1\n\nBootstrap is a method proposed by Efron (1979)2 for deriving the sampling distribution of a statistic.\nIt is based on resampling from the empirical distribution, which converges to the true population distribution (Glivenko-Cantelli theorem).\nExample: \\(X_1, \\ldots, X_n \\iid F\\) and \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i\\).\nA bootstrap sample \\(X_1^*, \\ldots, X_n^*\\) is obtained from \\(X_1, \\ldots, X_n\\) using sampling with replacement.\nThe sampling distribution of \\(\\bar{X}_n\\) can be estimated/approximated by the distribution of \\(\\bar{X}^*_n = \\frac{1}{n}\\sum_{i=1}^n X_i^*\\), which is called the bootstrap distribution.\n\nCh. 8.4 in Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction.B. Efron. (1979) Bootstrap Methods: Another Look at the Jackknife. Annals of Statistics 7(1) 1 - 26."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference",
@@ -1197,32 +1169,18 @@
     "text": "Bootstrap and Bayesian Inference\n\nset.seed(124)\np &lt;- 0.4; n &lt;- 100; X &lt;- rbinom(n, 1, p)\np_hat &lt;- mean(X)\n\n# bootstrap\nB &lt;- 10^3\np_boot &lt;- rep(0, B)\nfor(i in 1:B){\n    X_boot &lt;- sample(X, size = n, replace = TRUE)\n    p_boot[i] &lt;- mean(X_boot)\n}\n\nhist(p_boot, freq = FALSE, main = \"Bootstrap Distribution\", xlab = \"p\")\ncurve(dbeta(x, n*p_hat, n*(1-p_hat)), add = T, col = \"red\")\nabline(v = p, lty = 2, col = \"green\", lwd = 4)\nabline(v = p_hat, lty = 2, col = \"blue\", lwd = 4)"
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-3",
-    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-3",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bootstrap and Bayesian Inference",
-    "text": "Bootstrap and Bayesian Inference\n\nIn this sense, the bootstrap distribution represents an (approximate) nonparametric posterior distribution under a noninformative prior.\nBut this bootstrap distribution is obtained painlessly – without having to formally specify a prior and without having to sample from the posterior distribution.\nHence we might think of the bootstrap distribution as a “poor man’s” posterior."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-4",
-    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-4",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bootstrap and Bayesian Inference",
-    "text": "Bootstrap and Bayesian Inference"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-5",
-    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-5",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bootstrap and Bayesian Inference",
-    "text": "Bootstrap and Bayesian Inference\n\nIn this sense, the bootstrap distribution represents an (approximate) nonparametric posterior distribution under a noninformative prior.\nBut this bootstrap distribution is obtained painlessly – without having to formally specify a prior and without having to sample from the posterior distribution.\nHence we might think of the bootstrap distribution as a “poor man’s” posterior."
-  },
-  {
     "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-2-output",
     "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-2-output",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Bootstrap and Bayesian Inference",
     "text": "Bootstrap and Bayesian Inference\n\n\n\n\nThe red curve is the posterior distribution; the blue dashed line is the MLE."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-3",
+    "href": "slides/05-hierarchical_model.html#bootstrap-and-bayesian-inference-3",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bootstrap and Bayesian Inference",
+    "text": "Bootstrap and Bayesian Inference\n\nIn this sense, the bootstrap distribution represents an (approximate) nonparametric posterior distribution under a noninformative prior.\nBut this bootstrap distribution is obtained painlessly – without having to formally specify a prior and without having to sample from the posterior distribution.\nHence we might think of the bootstrap distribution as a “poor man’s” posterior."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#distributional-estimates",
@@ -1232,18 +1190,11 @@
     "text": "Distributional estimates\n\nOne of the advantages of Bayesian inference is that the entire inference is based the posterior distribution, rather than a single point estimate or an interval.\nThe posterior distribution is just one example of distributional estimate, which use a distribution for inference.\nBootstrap distribution is another example.\nThere is a frequentist concept, called the confidence distribution, proposed by Neyman (1939)1.\nThe confidence distribution contains confidence interval of any level.\nFraser (2011)2 also discussed how the Bayesian posterior and the confidence distribution are related.\n\nNeyman, J. (1937). Outline of a theory of statistical estimation based on the classical theory of probability. Phil. Trans. Roy. SocFraser, D. A. S. (2011). Is Bayes Posterior just Quick and Dirty Confidence? Statistical Science, 26(3), 299–316."
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#introduction",
-    "href": "slides/05-hierarchical_model.html#introduction",
+    "objectID": "slides/05-hierarchical_model.html#random-effect-models",
+    "href": "slides/05-hierarchical_model.html#random-effect-models",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Introduction",
-    "text": "Introduction\n\nIn the previous lecture, we saw that MLE and MAP are related.\nWe will discuss this relationship in more details and explore how this relationship benefits us.\nMLE and MAP are not the only connection between Bayesian and non-Bayesian analysis.\nWe will discuss two other examples: bootstrap and random effect model."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example",
-    "href": "slides/05-hierarchical_model.html#example",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\nWe use the sleepstudy dataset in the lme4 R package.\n\nThe average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.\n\n\nThere are 18 subjects and 10 measurements per subject (day 0 is normal sleep; day 1~9 is reduced sleep).\n\n\n\nSee more examples in https://m-clark.github.io/mixed-models-with-R"
+    "section": "Random effect models",
+    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\varepsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#mixed-effect-model",
@@ -1251,139 +1202,6 @@
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Mixed effect model",
     "text": "Mixed effect model\n\nA model with both fixed effects and random effects is called a mixed effect model.\nThis model is commonly used in biostatistics, psychology, economics, etc.\nA typical mixed effect model: \\[\nY = X\\beta + Z\\gamma + \\varepsilon, \\quad \\varepsilon \\sim N(0, \\sigma^2)  \n\\] where \\(\\beta\\) is the unknown fixed effect and \\(\\gamma \\sim N(\\nu, \\Psi)\\) is the unknown random effect."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior-1",
-    "href": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior-1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Normal approximation to the posterior",
-    "text": "Normal approximation to the posterior\nIf the approximation is good, we can - construct a approximate credible region"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example-output",
-    "href": "slides/05-hierarchical_model.html#example-output",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\n\n   Reaction Days Subject\n1  249.5600    0     308\n2  258.7047    1     308\n3  250.8006    2     308\n4  321.4398    3     308\n5  356.8519    4     308\n6  414.6901    5     308\n7  382.2038    6     308\n8  290.1486    7     308\n9  430.5853    8     308\n10 466.3535    9     308"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example-1",
-    "href": "slides/05-hierarchical_model.html#example-1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\n\nlibrary(lme4)\nlibrary(tidyverse)\ndata(\"sleepstudy\")\nsleepstudy[1:15,]\n\n   Reaction Days Subject\n1  249.5600    0     308\n2  258.7047    1     308\n3  250.8006    2     308\n4  321.4398    3     308\n5  356.8519    4     308\n6  414.6901    5     308\n7  382.2038    6     308\n8  290.1486    7     308\n9  430.5853    8     308\n10 466.3535    9     308\n11 222.7339    0     309\n12 205.2658    1     309\n13 202.9778    2     309\n14 204.7070    3     309\n15 207.7161    4     309"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example-1-output",
-    "href": "slides/05-hierarchical_model.html#example-1-output",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\n\n   Reaction Days Subject\n1  249.5600    0     308\n2  258.7047    1     308\n3  250.8006    2     308\n4  321.4398    3     308\n5  356.8519    4     308\n6  414.6901    5     308\n7  382.2038    6     308\n8  290.1486    7     308\n9  430.5853    8     308\n10 466.3535    9     308\n11 222.7339    0     309\n12 205.2658    1     309\n13 202.9778    2     309\n14 204.7070    3     309\n15 207.7161    4     309"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example-2",
-    "href": "slides/05-hierarchical_model.html#example-2",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple model would be \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy %&gt;%\n    lm(Reaction ~ Days, data = .) %&gt;% \n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n238.36 – 264.45\n&lt;0.001\n\n\nDays\n10.47\n8.02 – 12.91\n&lt;0.001\n\n\nObservations\n180\n\n\nR2 / R2 adjusted\n0.286 / 0.282"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example-3",
-    "href": "slides/05-hierarchical_model.html#example-3",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\n\nHowever, this does not take into account the individual difference, i.e., the difference between subjects.\n\n\n\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1 + Days | Subject), data = .) %&gt;%\n    tab_model()"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#example-3-output",
-    "href": "slides/05-hierarchical_model.html#example-3-output",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Example",
-    "text": "Example\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n237.94 – 264.87\n&lt;0.001\n\n\nDays\n10.47\n7.42 – 13.52\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n654.94\n\n\n\nτ00 Subject\n612.10\n\n\nτ11 Subject.Days\n35.07\n\n\nρ01 Subject\n0.07\n\n\nICC\n0.72\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.799"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\nWe use the sleepstudy dataset in the lme4 R package.\n\nThis dataset contains the average reaction time per day (in milliseconds) for subjects in a sleep deprivation study described in Belenky et al. (2003)1, for the most sleep-deprived group (3 hours time-in-bed; 18 subjects) and for the first 10 days of the study. Days 0-1 were adaptation and training (T1/T2), and day 2 was baseline (B); sleep deprivation started after day 2.\n\nGregory Belenky, Nancy J. Wesensten, David R. Thorne, Maria L. Thomas, Helen C. Sing, Daniel P. Redmond, Michael B. Russo and Thomas J. Balkin (2003) Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study. Journal of Sleep Research 12, 1–12."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-1",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\nlibrary(lme4)\ndata(\"sleepstudy\")\nsleepstudy %&gt;% head() %&gt;% kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-2",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-2",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple linear model: \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy %&gt;%\n    lm(Reaction ~ Days, data = ., subset=Days&gt;=2) %&gt;% \n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n223.31 – 266.88\n&lt;0.001\n\n\nDays\n11.44\n7.78 – 15.09\n&lt;0.001\n\n\nObservations\n144\n\n\nR2 / R2 adjusted\n0.212 / 0.207"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-3",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-3",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\nHowever, this model does not take into account the individual difference, i.e., the difference between subjects."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-3-output",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-3-output",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n243.47 – 259.34\n&lt;0.001\n\n\nDays\n10.47\n6.78 – 14.16\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n842.03\n\n\n\nτ00\n \n\n\nτ00\n \n\n\nτ11 Subject.Days\n52.71\n\n\nρ01\n \n\n\nρ01\n \n\n\nICC\n0.64\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.741"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-4",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-4",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\nWe allow each subject to have its own intercept and effect: \\[\n    Y_{ij} = b_{0,i} + b_{1,i} X_{j}, \\quad i = 1,\\ldots, 18, j = 0,\\ldots, 9\n\\] where \\(Y_{ij}\\) is the reaction time of \\(i\\)th subject in Day \\(j\\).\nNote that we are not interested in the effects for each individuals.\nWe just want to identify how much the individual difference contributes to the un-explained variation of the model.\nWe assume that \\(b_{0,i} \\iid N(\\beta_0, \\tau_0^2)\\) and \\(b_{1,i} \\iid N(\\beta_1, \\tau_1^2)\\) are independent.\nThe frequentist interpretation of this assumption is that the subjects are randomly selected, so there is randomness in the individual coefficients.\nThe parameters \\(\\beta_0\\) and \\(\\beta_1\\) are unknown and fixed."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-4-output",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-4-output",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n243.47 – 259.34\n&lt;0.001\n\n\nDays\n10.47\n6.78 – 14.16\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n842.03\n\n\n\nτ00\n \n\n\nτ00\n \n\n\nτ11 Subject.Days\n52.71\n\n\nρ01\n \n\n\nρ01\n \n\n\nICC\n0.64\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.741"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
-    "href": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bayesian approach to mixed effect models",
-    "text": "Bayesian approach to mixed effect models\n\nThe random effect assumption looks like a prior distribution on the coefficients.\nA mixed model \\[\nY = X\\beta + Z\\gamma + \\varepsilon, \\quad\\gamma \\sim N(\\nu, \\Psi), \\varepsilon \\sim N(0, \\sigma^2)  \n\\] can be rewritten as \\[\\begin{align*}\n    Y \\mid \\gamma & \\sim N(X\\beta + Z\\gamma, \\sigma^2)\\\\\n    \\gamma & \\sim N(\\nu, \\Psi)\n\\end{align*}\\]\nA Bayesian approach puts priors on the parameters: \\[\\begin{align*}\n    Y \\mid \\gamma, \\beta, \\sigma^2 & \\sim N(X\\beta + Z\\gamma, \\sigma^2)\\\\\n    \\gamma \\mid \\nu, \\Psi & \\sim N(\\nu, \\Psi)\\\\\n    \\beta, \\nu, \\sigma^2, \\Psi & \\sim \\pi(\\beta, \\nu, \\sigma^2, \\Psi)\n\\end{align*}\\]"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-5",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-5",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = ., subset=Days&gt;=2) %&gt;%\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n227.71 – 262.49\n&lt;0.001\n\n\nDays\n11.44\n7.97 – 14.90\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n662.92\n\n\n\nτ00 Subject\n831.93\n\n\nτ11 Subject.Days\n39.50\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.316 / 0.697"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#sleep-deprivation-study-5-output",
-    "href": "slides/05-hierarchical_model.html#sleep-deprivation-study-5-output",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Sleep deprivation study",
-    "text": "Sleep deprivation study\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n251.41\n243.47 – 259.34\n&lt;0.001\n\n\nDays\n10.47\n6.78 – 14.16\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n842.03\n\n\n\nτ00\n \n\n\nτ00\n \n\n\nτ11 Subject.Days\n52.71\n\n\nρ01\n \n\n\nρ01\n \n\n\nICC\n0.64\n\n\nN Subject\n18\n\nObservations\n180\n\n\nMarginal R2 / Conditional R2\n0.279 / 0.741"
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#wrap-up",
-    "href": "slides/05-hierarchical_model.html#wrap-up",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Wrap-up",
-    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model."
-  },
-  {
-    "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models-1",
-    "href": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models-1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Bayesian approach to mixed effect models",
-    "text": "Bayesian approach to mixed effect models\nUse stan_lmer to fit a Bayesian mixed effect model\n\nlibrary(rstanarm)\nsleep_lmer_B &lt;- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n                          data = sleepstudy)\n\n\nUse summary(sleep_lmer_B) to check the fitted result\nUse prior_summary(sleep_lmer_B) to check the priors used in the model"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#data-description",
@@ -1397,7 +1215,7 @@
     "href": "slides/05-hierarchical_model.html#data-description-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Data description",
-    "text": "Data description\n\nlibrary(lme4)\ndata(\"sleepstudy\")\nsleepstudy %&gt;% head() %&gt;% kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
+    "text": "Data description\n\nlibrary(lme4)\nlibrary(tidyverse)\nlibrary(kableExtra)\ndata(\"sleepstudy\")\nsleepstudy %&gt;% head() %&gt;% kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#first-attempt-simple-linear-regression",
@@ -1428,6 +1246,41 @@
     "text": "Second attempt: Mixed effect model\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = ., subset=Days&gt;=2) %&gt;%\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n227.71 – 262.49\n&lt;0.001\n\n\nDays\n11.44\n7.97 – 14.90\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n662.92\n\n\n\nτ00 Subject\n831.93\n\n\nτ11 Subject.Days\n39.50\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.316 / 0.697"
   },
   {
+    "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
+    "href": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bayesian approach to mixed effect models",
+    "text": "Bayesian approach to mixed effect models\n\nThe random effect assumption looks like a prior distribution on the coefficients.\nA mixed model \\[\nY = X\\beta + Z\\gamma + \\varepsilon, \\quad\\gamma \\sim N(\\nu, \\Psi), \\varepsilon \\sim N(0, \\sigma^2)  \n\\] can be rewritten as \\[\\begin{align*}\n    Y \\mid \\gamma & \\sim N(X\\beta + Z\\gamma, \\sigma^2)\\\\\n    \\gamma & \\sim N(\\nu, \\Psi)\n\\end{align*}\\]\nA Bayesian approach puts priors on the parameters: \\[\\begin{align*}\n    Y \\mid \\gamma, \\beta, \\sigma^2 & \\sim N(X\\beta + Z\\gamma, \\sigma^2)\\\\\n    \\gamma \\mid \\nu, \\Psi & \\sim N(\\nu, \\Psi)\\\\\n    \\beta, \\nu, \\sigma^2, \\Psi & \\sim \\pi(\\beta, \\nu, \\sigma^2, \\Psi)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models-1",
+    "href": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models-1",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Bayesian approach to mixed effect models",
+    "text": "Bayesian approach to mixed effect models\nUse stan_lmer to fit a Bayesian mixed effect model\n\nlibrary(rstanarm)\nsleep_lmer_B &lt;- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n                          data = sleepstudy)\n\n\nUse summary(sleep_lmer_B) to check the fitted result\nUse prior_summary(sleep_lmer_B) to check the priors used in the model"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#wrap-up",
+    "href": "slides/05-hierarchical_model.html#wrap-up",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Wrap-up",
+    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#motivation",
+    "href": "slides/05-hierarchical_model.html#motivation",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Motivation",
+    "text": "Motivation\n\nSome problems have intrinsic hierarchical structures, e.g., samples are grouped by some covariates (gender, ethnicity, etc.).\nIn practice, simple nonhierarchical models are usually inappropriate for hierarchical data: with few parameters, they generally cannot fit large datasets accurately, whereas with many parameters, they tend to ‘overfit’.\nWhen parameters are only exchangeable rather than independent, a hyperprior is needed (de Finetti’s Theorem). That is, the subscripts of the parameters convey no information."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#meta-analysis",
+    "href": "slides/05-hierarchical_model.html#meta-analysis",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Meta-analysis",
+    "text": "Meta-analysis\n\nMeta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.\nThe article “Why Science Is Not Necessarily Self-Correcting” by Ioannidis (2012) pointed out that sometimes fundamental fallacies remain unchallenged and are only perpetuated.\nYou can find a detailed introduction to meat-analysis and different approaches to meta-analysis in https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/.\n\n\n\nIoannidis, J. P. (2012). Why science is not necessarily self-correcting. Perspectives on Psychological Science, 7(6), 645-654."
+  },
+  {
     "objectID": "slides/05-hierarchical_model.html#data-description-2",
     "href": "slides/05-hierarchical_model.html#data-description-2",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
@@ -1449,13 +1302,6 @@
     "text": "Odds ratio\n\nThe odds ratio is the ratio of the odds death in the treatment group and the odds of death in the control group \\[\n\\rho = \\left. \\frac{p_{\\text{treat}}}{1-p_{\\text{treat}}} \\middle/ \\frac{p_{\\text{con}}}{1-p_{\\text{con}}} \\right. .\n\\]\nWe concentrate the inference on the log of the odds ratios \\(\\theta = \\log \\rho\\) for each clinical trial."
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#odds-ratio-1",
-    "href": "slides/05-hierarchical_model.html#odds-ratio-1",
-    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Odds ratio",
-    "text": "Odds ratio\n\nmeta_summary &lt;- meta %&gt;% \n    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),\n           control.odds = control.deaths/(control.total - control.deaths),\n           log.odds.ratio = log(treated.odds) - log(control.odds), \n           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + \n               1/control.deaths + 1/(control.total - control.deaths)) %&gt;%\n    select(c(study, log.odds.ratio, var)) \nmeta_summary %&gt;% head() %&gt;% kbl(digits = 4)\n\n\n\n\nstudy\nlog.odds.ratio\nvar\n\n\n\n\n1\n0.0282\n0.7230\n\n\n2\n-0.7410\n0.2334\n\n\n3\n-0.5406\n0.3187\n\n\n4\n-0.2461\n0.0191\n\n\n5\n0.0695\n0.0788\n\n\n6\n-0.5842\n0.4566"
-  },
-  {
     "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-likelihood",
     "href": "slides/05-hierarchical_model.html#normal-approximation-to-the-likelihood",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
@@ -1463,10 +1309,31 @@
     "text": "Normal approximation to the likelihood\n\nLet \\(y_{ij}\\) and \\(n_{ij}\\) be the number of deaths and subjects of the \\(i\\)th group (\\(1=\\) treated, \\(0 =\\) control) in study \\(j\\).\nFor each study \\(j\\), we estimate \\(\\theta_j\\) by \\[\n\\hat{\\theta}_j=\\log \\left(\\frac{y_{1 j}}{n_{1 j}-y_{1 j}}\\right)-\\log \\left(\\frac{y_{0 j}}{n_{0 j}-y_{0 j}}\\right),\n\\] with approximate sampling variance \\[\n\\sigma_j^2=\\frac{1}{y_{1 j}}+\\frac{1}{n_{1 j}-y_{1 j}}+\\frac{1}{y_{0 j}}+\\frac{1}{n_{0 j}-y_{0 j}}.\n\\]\nThus \\(\\hat{\\theta}_j \\sim N(\\theta_j, \\sigma_j^2)\\) approximately."
   },
   {
-    "objectID": "slides/05-hierarchical_model.html#goal-of-inference",
-    "href": "slides/05-hierarchical_model.html#goal-of-inference",
+    "objectID": "slides/05-hierarchical_model.html#odds-ratio-1",
+    "href": "slides/05-hierarchical_model.html#odds-ratio-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
-    "section": "Goal of inference",
-    "text": "Goal of inference\n\nNow we have the log odds ratios and their sampling variances from 22 studies.\n\n\n\nHome"
+    "section": "Odds ratio",
+    "text": "Odds ratio\n\nmeta_summary &lt;- meta %&gt;% \n    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),\n           control.odds = control.deaths/(control.total - control.deaths),\n           log.odds.ratio = log(treated.odds) - log(control.odds), \n           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + \n               1/control.deaths + 1/(control.total - control.deaths)) %&gt;%\n    select(c(study, log.odds.ratio, var)) \nmeta_summary %&gt;% head() %&gt;% kbl(digits = 4)\n\n\n\n\nstudy\nlog.odds.ratio\nvar\n\n\n\n\n1\n0.0282\n0.7230\n\n\n2\n-0.7410\n0.2334\n\n\n3\n-0.5406\n0.3187\n\n\n4\n-0.2461\n0.0191\n\n\n5\n0.0695\n0.0788\n\n\n6\n-0.5842\n0.4566"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#goal-of-the-inference",
+    "href": "slides/05-hierarchical_model.html#goal-of-the-inference",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Goal of the inference",
+    "text": "Goal of the inference\n\nNow we have the log odds ratios and their sampling variances from 22 studies.\nHow are these studies related to each other?\n\nAre they identical replications of each other, i.e., the studies are independent samples from a common population?\nAre they completely unrelated?\n\nA more realistic assumption is that they are somewhere between the two extremes.\nExchangeablity assumption: the parameters \\(\\theta_j\\) are exchangeable.\n\nWe cannot distinguish \\(\\theta_j\\)’s before we see that data.\nTherefore \\[\n(\\theta_1, \\ldots, \\theta_{22}) \\sim \\pi \\Leftrightarrow\n\\theta_i \\iid \\pi(\\theta\\mid\\phi), \\phi \\sim \\nu.\n\\]"
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#a-hierarchical-model",
+    "href": "slides/05-hierarchical_model.html#a-hierarchical-model",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "A hierarchical model",
+    "text": "A hierarchical model\n\nLikelihood: \\(\\hat{\\theta}_j \\sim N(\\theta_j, \\sigma^2_j)\\), \\(j = 1,\\ldots, 22\\).\n\nAssume the \\(\\sigma^2_j\\)’s are known (given by the sampling variance computed before).\n\nPrior: we use the exchangeable normal prior for \\(\\theta_j\\), \\[\n\\theta_j \\mid \\mu, \\tau \\iid N(\\mu, \\tau^2)\n\\] where \\(\\mu\\) and \\(\\tau\\) are unknown hyperparameters.\nHyperprior: for \\(\\mu\\) and \\(\\tau\\) \\[\\begin{align*}\n\\mu & \\sim \\pi(\\mu) \\propto 1\\\\\n\\tau & \\sim \\text{Unif}(0, A)\n\\end{align*}\\] for some large \\(A\\).\nComputation is left as homework."
+  },
+  {
+    "objectID": "slides/05-hierarchical_model.html#weakly-informative-priors-for-variance-parameters",
+    "href": "slides/05-hierarchical_model.html#weakly-informative-priors-for-variance-parameters",
+    "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
+    "section": "Weakly informative priors for variance parameters",
+    "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\mu\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
   }
 ]
