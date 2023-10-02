@@ -1,20 +1,5 @@
 ---
 title: "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: auto
 ---
 
 # Connections to non-Bayesian Analysis
@@ -186,7 +171,7 @@ man's" posterior.
 -   One of the advantages of Bayesian inference is that the entire inference is based the posterior distribution, rather than a single point estimate or an interval.
 -   The posterior distribution is just one example of **distributional estimate**, which use a distribution for inference.
 -   Bootstrap distribution is another example.
--   There is a frequentist concept, called the **confidence distribution**, proposed by Neyman (1939)[^neyman].
+-   There is a frequentist concept, called the **confidence distribution**, proposed by Neyman (1937)[^neyman].
 -   The confidence distribution contains confidence interval of any level.
 -   Fraser (2011)[^fraser] also discussed how the Bayesian posterior and the confidence distribution are related.
 
