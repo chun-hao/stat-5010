@@ -5,3 +5,8 @@ title: "Resources"
 ## Links
 - [BDA Book Website](http://www.stat.columbia.edu/~gelman/book/)
 - [Stan](https://mc-stan.org/)
+- [Doing Meta-Analysis in R](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/)
+- [Mixed Models with R](https://m-clark.github.io/mixed-models-with-R/)
+
+## Other Bayesian Courses
+- [Prof. Aki Vehtari](https://avehtari.github.io/BDA_course_Aalto/index.html)  

@@ -387,6 +387,9 @@
       margin-right: 0; 
     }
   </style>
+  
+  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -536,7 +539,7 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 </section>
 <section id="bootstrap-and-bayesian-inference-2" class="slide level2">
 <h2>Bootstrap and Bayesian Inference</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-1_4ac1537cc6421f63702602c27c74dd6b">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/binomial_bootstrap_9050daada72740a8929212c8f2d4adfc">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">124</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>p <span class="ot">&lt;-</span> <span class="fl">0.4</span>; n <span class="ot">&lt;-</span> <span class="dv">100</span>; X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span>
@@ -556,11 +559,11 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 </div>
 
 </section>
-<section id="bootstrap-and-bayesian-inference-2-output" class="slide level2 output-location-slide"><h2>Bootstrap and Bayesian Inference</h2><div class="cell output-location-slide" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-1_4ac1537cc6421f63702602c27c74dd6b">
+<section id="bootstrap-and-bayesian-inference-2-output" class="slide level2 output-location-slide"><h2>Bootstrap and Bayesian Inference</h2><div class="cell output-location-slide" data-hash="05-hierarchical_model_cache/revealjs/binomial_bootstrap_9050daada72740a8929212c8f2d4adfc">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="05-hierarchical_model_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
+<p><img data-src="05-hierarchical_model_files/figure-revealjs/binomial_bootstrap-1.png" width="960"></p>
 <figcaption>The red curve is the posterior distribution; the blue dashed line is the MLE.</figcaption>
 </figure>
 </div>
@@ -606,24 +609,26 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 <ul>
 <li class="fragment">A model with both fixed effects and random effects is called a <strong>mixed effect model</strong>.</li>
 <li class="fragment">This model is commonly used in biostatistics, psychology, economics, etc.</li>
-<li class="fragment">A typical mixed model: <span class="math display">\[
+<li class="fragment">A typical mixed effect model: <span class="math display">\[
 Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)  
 \]</span> where <span class="math inline">\(\beta\)</span> is the unknown fixed effect and <span class="math inline">\(\gamma \sim N(\nu, \Psi)\)</span> is the unknown random effect.</li>
 </ul>
+</section></section>
+<section>
+<section id="sleep-deprivation-study" class="title-slide slide level1 center">
+<h1>Sleep deprivation study</h1>
+
 </section>
-<section id="sleep-deprivation-study" class="slide level2">
-<h2>Sleep deprivation study</h2>
+<section id="data-description" class="slide level2">
+<h2>Data description</h2>
 <p>We use the <code>sleepstudy</code> dataset in the <code>lme4</code> R package.</p>
 <blockquote>
-<p>The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.</p>
+<p>This dataset contains the average reaction time per day (in milliseconds) for subjects in a sleep deprivation study described in Belenky et al.&nbsp;(2003)<sup>1</sup>, for the most sleep-deprived group (3 hours time-in-bed; 18 subjects) and for the first 10 days of the study. Days 0-1 were adaptation and training (T1/T2), and day 2 was baseline (B); sleep deprivation started after day 2.</p>
 </blockquote>
-<ul>
-<li class="fragment">There are 18 subjects and 10 measurements per subject (day 0 is normal sleep; day 1~9 is reduced sleep).</li>
-</ul>
-</section>
-<section id="sleep-deprivation-study-1" class="slide level2">
-<h2>Sleep deprivation study</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-2_3e6cd6ad7166e68fbde3dad0f0e52805">
+<aside><ol class="aside-footnotes"><li id="fn6"><p>Gregory Belenky, Nancy J. Wesensten, David R. Thorne, Maria L. Thomas, Helen C. Sing, Daniel P. Redmond, Michael B. Russo and Thomas J. Balkin (2003) Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study. <em>Journal of Sleep Research</em> <strong>12</strong>, 1–12.</p></li></ol></aside></section>
+<section id="data-description-1" class="slide level2">
+<h2>Data description</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_data_3d68973f55335a6c69f2734131595f07">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(lme4)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">data</span>(<span class="st">"sleepstudy"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>sleepstudy <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -672,18 +677,18 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 </div>
 </div>
 </section>
-<section id="sleep-deprivation-study-2" class="slide level2">
-<h2>Sleep deprivation study</h2>
+<section id="first-attempt-simple-linear-regression" class="slide level2">
+<h2>First attempt: simple linear regression</h2>
 <ul>
 <li class="fragment">Let <span class="math inline">\(Y\)</span> be the reaction time and <span class="math inline">\(X\)</span> be the Day variable.</li>
 <li class="fragment">We want to see the negative impact of consecutive sleep loss in reaction time.</li>
 <li class="fragment">A simple linear model: <span class="math inline">\(Y = \beta_0 + \beta_1 X\)</span>.</li>
 </ul>
 <div class="fragment">
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-3_53589e30ee4ce9eaafa7089efc162ccd">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_lm_246c30673b1d341e9d8f71118179b200">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(sjPlot)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>sleepstudy <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> .) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> ., <span class="at">subset=</span>Days<span class="sc">&gt;=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-4"><a href="#cb3-4"></a>    <span class="fu">tab_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" style="border-collapse:collapse; border:none;">
@@ -700,23 +705,23 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">251.41</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">238.36&nbsp;–&nbsp;264.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">245.10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">223.31&nbsp;–&nbsp;266.88</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Days</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10.47</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8.02&nbsp;–&nbsp;12.91</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">11.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">7.78&nbsp;–&nbsp;15.09</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">180</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">144</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.286 / 0.282</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.212 / 0.207</td>
 </tr>
 </tbody>
 </table>
@@ -726,13 +731,13 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 </div>
 </div>
 </section>
-<section id="sleep-deprivation-study-3" class="slide level2">
-<h2>Sleep deprivation study</h2>
+<section id="individual-difference" class="slide level2">
+<h2>Individual difference</h2>
 <p>However, this model does not take into account the individual difference, i.e., the difference between subjects.</p>
 
-<img data-src="05-hierarchical_model_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"></section>
-<section id="sleep-deprivation-study-4" class="slide level2">
-<h2>Sleep deprivation study</h2>
+<img data-src="05-hierarchical_model_files/figure-revealjs/sleep_plot-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="second-attempt-mixed-effect-model" class="slide level2">
+<h2>Second attempt: Mixed effect model</h2>
 <ul>
 <li class="fragment">We allow each subject to have its own intercept and effect: <span class="math display">\[
     Y_{ij} = b_{0,i} + b_{1,i} X_{j}, \quad i = 1,\ldots, 18, j = 0,\ldots, 9
@@ -744,12 +749,12 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 <li class="fragment">The parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are unknown and fixed.</li>
 </ul>
 </section>
-<section id="sleep-deprivation-study-5" class="slide level2">
-<h2>Sleep deprivation study</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-5_5a15b92300807d0c2b88a7b510e618cb">
+<section id="second-attempt-mixed-effect-model-1" class="slide level2">
+<h2>Second attempt: Mixed effect model</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_lmer_549f33975615e094fe8cb01e239b957f">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sleepstudy <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">0</span><span class="sc">+</span>Days<span class="sc">|</span>Subject), </span>
-<span id="cb4-3"><a href="#cb4-3"></a>         <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>         <span class="at">data =</span> ., <span class="at">subset=</span>Days<span class="sc">&gt;=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">tab_model</span>(<span class="at">show.icc =</span> <span class="cn">FALSE</span>,<span class="at">show.obs =</span> <span class="cn">FALSE</span>, <span class="at">show.ngroups =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
@@ -766,14 +771,14 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">251.41</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">237.82&nbsp;–&nbsp;264.99</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">245.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">227.71&nbsp;–&nbsp;262.49</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Days</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">10.47</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">7.39&nbsp;–&nbsp;13.55</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">11.44</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">7.97&nbsp;–&nbsp;14.90</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
@@ -782,16 +787,16 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">σ<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">653.58</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">662.92</td>
 </tr>
 
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>00</sub> <sub>Subject</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">627.57</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">831.93</td>
 
 </tr><tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>11</sub> <sub>Subject.Days</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">35.86</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">39.50</td>
 
 </tr><tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ρ<sub>01</sub></td>
@@ -802,7 +807,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">&nbsp;</td>
 </tr><tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">0.415 / 0.702</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">0.316 / 0.697</td>
 </tr>
 
 </tbody></table>
@@ -830,7 +835,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <section id="bayesian-approach-to-mixed-effect-models-1" class="slide level2">
 <h2>Bayesian approach to mixed effect models</h2>
 <p>Use <code>stan_lmer</code> to fit a Bayesian mixed effect model</p>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/unnamed-chunk-6_5eeeac5d3096b45298a71024118006f9">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_Bayes_lmer_e742b3881ea764309b4d4c5c858eafd9">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(rstanarm)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>sleep_lmer_B <span class="ot">&lt;-</span> <span class="fu">stan_lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">0</span><span class="sc">+</span>Days<span class="sc">|</span>Subject), </span>
 <span id="cb5-3"><a href="#cb5-3"></a>                          <span class="at">data =</span> sleepstudy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -858,14 +863,183 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <section id="motivation" class="slide level2">
 <h2>Motivation</h2>
 <ul>
-<li class="fragment">Some problems have intrinsic hierarchical structures and simple nonhierarchical models (with only few parameters) cannot describe such problems accurately.</li>
-<li class="fragment">Exchangeable parameters</li>
+<li class="fragment">Some problems have intrinsic hierarchical structures, e.g., samples are grouped by some covariates (gender, ethnicity, etc.).</li>
+<li class="fragment">In practice, simple nonhierarchical models are usually inappropriate for hierarchical data: with few parameters, they generally cannot fit large datasets accurately, whereas with many parameters, they tend to ‘overfit’.</li>
+<li class="fragment">When parameters are only exchangeable rather than independent, a <em>hyperprior</em> is needed (de Finetti’s Theorem). That is, the subscripts of the parameters convey no information.</li>
 </ul>
 </section>
 <section id="meta-analysis" class="slide level2">
 <h2>Meta-analysis</h2>
 <ul>
-<li class="fragment">Meta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.</li>
+<li class="fragment"><p>Meta-analysis is an increasingly popular and important process of summarizing and integrating the findings of research studies in a particular area.</p></li>
+<li class="fragment"><p>You can find a detailed introduction to meat-analysis and different approaches to meta-analysis in <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/" class="uri">https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/</a>.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="clinical-trials-of-beta-blockers" class="title-slide slide level1 center">
+<h1>Clinical trials of beta-blockers</h1>
+
+</section>
+<section id="data-description-2" class="slide level2">
+<h2>Data description</h2>
+<ul>
+<li class="fragment">Beta-blocker is a family of drugs that affect the central nervous system and can relax the heart muscles.</li>
+<li class="fragment">This dataset summarizes mortality after myocardial infarction in 22 clinical trials.</li>
+<li class="fragment">Each clinical trial consists of two groups of heart attack patients randomly allocated to receive or not receive beta-blockers.</li>
+<li class="fragment">The dataset is available at <a href="http://www.stat.columbia.edu/~gelman/book/data/meta.asc" class="uri">http://www.stat.columbia.edu/~gelman/book/data/meta.asc</a>.</li>
+<li class="fragment">The aim of a meta-analysis is to provide a combined analysis of the studies that indicates the overall strength of the evidence for a beneficial effect of the treatment under study.</li>
+</ul>
+</section>
+<section id="data-description-3" class="slide level2">
+<h2>Data description</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/meta_data_c4535061f130f0f7c8e5410292763526">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.stat.columbia.edu/~gelman/book/data/meta.asc"</span>, </span>
+<span id="cb6-2"><a href="#cb6-2"></a>                  <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">skip =</span> <span class="dv">4</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>meta <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">study</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">control.deaths</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">control.total</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">treated.deaths</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">treated.total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">114</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: right;">1520</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">1533</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">365</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">355</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">59</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="odds-ratio" class="slide level2">
+<h2>Odds ratio</h2>
+<ul>
+<li class="fragment">The odds ratio is the ratio of the odds death in the treatment group and the odds of death in the control group <span class="math display">\[
+\rho = \left. \frac{p_{\text{treat}}}{1-p_{\text{treat}}} \middle/ \frac{p_{\text{con}}}{1-p_{\text{con}}} \right. .
+\]</span></li>
+<li class="fragment">We concentrate the inference on the log of the odds ratios <span class="math inline">\(\theta = \log \rho\)</span> for each clinical trial.</li>
+</ul>
+</section>
+<section id="normal-approximation-to-the-likelihood" class="slide level2">
+<h2>Normal approximation to the likelihood</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(y_{ij}\)</span> and <span class="math inline">\(n_{ij}\)</span> be the number of deaths and subjects of the <span class="math inline">\(i\)</span>th group (<span class="math inline">\(1=\)</span> treated, <span class="math inline">\(0 =\)</span> control) in study <span class="math inline">\(j\)</span>.</li>
+<li class="fragment">For each study <span class="math inline">\(j\)</span>, we estimate <span class="math inline">\(\theta_j\)</span> by <span class="math display">\[
+\hat{\theta}_j=\log \left(\frac{y_{1 j}}{n_{1 j}-y_{1 j}}\right)-\log \left(\frac{y_{0 j}}{n_{0 j}-y_{0 j}}\right),
+\]</span> with approximate sampling variance <span class="math display">\[
+\sigma_j^2=\frac{1}{y_{1 j}}+\frac{1}{n_{1 j}-y_{1 j}}+\frac{1}{y_{0 j}}+\frac{1}{n_{0 j}-y_{0 j}}.
+\]</span></li>
+<li class="fragment">Thus <span class="math inline">\(\hat{\theta}_j \sim N(\theta_j, \sigma_j^2)\)</span> approximately.</li>
+</ul>
+</section>
+<section id="odds-ratio-1" class="slide level2">
+<h2>Odds ratio</h2>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/meta_odds_ratio_66041436bc44a5e07ad3db486ceee59b">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>meta_summary <span class="ot">&lt;-</span> meta <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2"></a>    <span class="fu">mutate</span>(<span class="at">treated.odds =</span> treated.deaths<span class="sc">/</span>(treated.total <span class="sc">-</span> treated.deaths),</span>
+<span id="cb7-3"><a href="#cb7-3"></a>           <span class="at">control.odds =</span> control.deaths<span class="sc">/</span>(control.total <span class="sc">-</span> control.deaths),</span>
+<span id="cb7-4"><a href="#cb7-4"></a>           <span class="at">log.odds.ratio =</span> <span class="fu">log</span>(treated.odds) <span class="sc">-</span> <span class="fu">log</span>(control.odds), </span>
+<span id="cb7-5"><a href="#cb7-5"></a>           <span class="at">var =</span> <span class="dv">1</span><span class="sc">/</span>treated.deaths <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>(treated.total <span class="sc">-</span> treated.deaths) <span class="sc">+</span> </span>
+<span id="cb7-6"><a href="#cb7-6"></a>               <span class="dv">1</span><span class="sc">/</span>control.deaths <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>(control.total <span class="sc">-</span> control.deaths)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="fu">select</span>(<span class="fu">c</span>(study, log.odds.ratio, var)) </span>
+<span id="cb7-8"><a href="#cb7-8"></a>meta_summary <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">study</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">log.odds.ratio</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">var</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0282</td>
+<td style="text-align: right;">0.7230</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-0.7410</td>
+<td style="text-align: right;">0.2334</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">-0.5406</td>
+<td style="text-align: right;">0.3187</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">-0.2461</td>
+<td style="text-align: right;">0.0191</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.0695</td>
+<td style="text-align: right;">0.0788</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">-0.5842</td>
+<td style="text-align: right;">0.4566</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="goal-of-inference" class="slide level2">
+<h2>Goal of inference</h2>
+<ul>
+<li class="fragment">Now we have the log odds ratios and their sampling variances from 22 studies.</li>
 </ul>
 
 <div class="footer footer-default">

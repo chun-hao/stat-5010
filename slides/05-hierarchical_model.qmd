@@ -126,6 +126,7 @@ $$
 ## Bootstrap and Bayesian Inference
 
 ```{r}
+#| label: binomial_bootstrap
 #| echo: true
 #| cache: true
 #| output-location: slide
@@ -186,7 +187,7 @@ man's" posterior.
 
 -   A model with both fixed effects and random effects is called a **mixed effect model**.
 -   This model is commonly used in biostatistics, psychology, economics, etc.
--   A typical mixed model:
+-   A typical mixed effect model:
     $$
     Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)  
     $$
@@ -194,24 +195,28 @@ man's" posterior.
 
 
 
-## Sleep deprivation study
+# Sleep deprivation study
+
+## Data description
 
 We use the `sleepstudy` dataset in the `lme4` R package.
 
-> The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.
-
--    There are 18 subjects and 10 measurements per subject (day 0 is normal sleep; day 1~9 is reduced sleep).
+> This dataset contains the average reaction time per day (in milliseconds) for subjects in a sleep deprivation study described in Belenky et al. (2003)[^belenky], for the most sleep-deprived group (3 hours time-in-bed; 18 subjects) and for the first 10 days of the study. Days 0-1 were adaptation and training (T1/T2), and day 2 was baseline (B); sleep deprivation started after day 2.
 
 
-## Sleep deprivation study
+[^belenky]: Gregory Belenky, Nancy J. Wesensten, David R. Thorne, Maria L. Thomas, Helen C. Sing, Daniel P. Redmond, Michael B. Russo and Thomas J. Balkin (2003) Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study. *Journal of Sleep Research* **12**, 1–12.
+
+
+## Data description
 ```{r}
+#| label: sleep_data
 #| echo: true
 library(lme4)
 data("sleepstudy")
 sleepstudy %>% head() %>% kbl(format="markdown")
 ```
 
-## Sleep deprivation study
+## First attempt: simple linear regression
 
 -    Let $Y$ be the reaction time and $X$ be the Day variable.
 -    We want to see the negative impact of consecutive sleep loss in reaction time.
@@ -219,20 +224,22 @@ sleepstudy %>% head() %>% kbl(format="markdown")
 
 ::: {.fragment}
 ```{r}
+#| label: sleep_lm
 #| echo: true
 library(sjPlot)
 sleepstudy %>%
-    lm(Reaction ~ Days, data = .) %>% 
+    lm(Reaction ~ Days, data = ., subset=Days>=2) %>% 
     tab_model()
 ```
 :::
 
-## Sleep deprivation study
+## Individual difference
 
 However, this model does not take into account the individual difference, i.e., the difference between subjects.
 
 
 ```{r}
+#| label: sleep_plot
 #| fig-align: center
 library(lattice)
 xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"),
@@ -242,7 +249,7 @@ xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"),
 ```
 
 
-## Sleep deprivation study
+## Second attempt: Mixed effect model
 
 -   We allow each subject to have its own intercept and effect:
     $$
@@ -255,16 +262,16 @@ xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"),
 -   The frequentist interpretation of this assumption is that the subjects are randomly selected, so there is randomness in the individual coefficients.
 -   The parameters $\beta_0$ and $\beta_1$ are unknown and fixed.
 
-## Sleep deprivation study
+## Second attempt: Mixed effect model
 
 ```{r}
+#| label: sleep_lmer
 #| echo: true
 sleepstudy %>%
     lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), 
-         data = .) %>%
+         data = ., subset=Days>=2) %>%
     tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)
 ```
-
 
 ## Bayesian approach to mixed effect models
 
@@ -289,6 +296,7 @@ sleepstudy %>%
 
 Use `stan_lmer` to fit a Bayesian mixed effect model 
 ```{r}
+#| label: sleep_Bayes_lmer
 #| echo: true
 #| message: false
 #| results: false
@@ -312,8 +320,9 @@ sleep_lmer_B <- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject),
 
 ## Motivation
 
--   Some problems have intrinsic hierarchical structures and simple nonhierarchical models (with only few parameters) cannot describe such problems accurately.
--   Exchangeable parameters
+-   Some problems have intrinsic hierarchical structures, e.g., samples are grouped by some covariates (gender, ethnicity, etc.).
+-   In practice, simple nonhierarchical models are usually inappropriate for hierarchical data: with few parameters, they generally cannot fit large datasets accurately, whereas with many parameters, they tend to 'overfit'.
+-   When parameters are only exchangeable rather than independent, a *hyperprior* is needed (de Finetti's Theorem). That is, the subscripts of the parameters convey no information.
 
 
 
@@ -321,3 +330,70 @@ sleep_lmer_B <- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject),
 
 -   Meta-analysis is an increasingly popular and important process of summarizing and integrating
 the findings of research studies in a particular area.
+
+-   You can find a detailed introduction to meat-analysis and different approaches to meta-analysis in <https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/>.
+
+# Clinical trials of beta-blockers
+
+## Data description
+
+-   Beta-blocker is a family of drugs that affect the central nervous system and can relax the heart muscles.
+-   This dataset summarizes mortality after myocardial infarction in 22 clinical trials.
+-   Each clinical trial consists of two groups of heart attack patients randomly allocated to receive or not receive beta-blockers.
+-   The dataset is available at <http://www.stat.columbia.edu/~gelman/book/data/meta.asc>.
+-   The aim of a meta-analysis
+is to provide a combined analysis of the studies that indicates the overall strength
+of the evidence for a beneficial effect of the treatment under study.
+
+## Data description
+
+```{r}
+#| label: meta_data
+#| echo: true
+meta <- read.table("http://www.stat.columbia.edu/~gelman/book/data/meta.asc", 
+                  header = TRUE, skip = 4)
+meta %>% head() %>% kbl()
+```
+
+## Odds ratio
+
+-   The odds ratio is the ratio of the odds death in the treatment group and the odds of death in the control group
+    $$
+    \rho = \left. \frac{p_{\text{treat}}}{1-p_{\text{treat}}} \middle/ \frac{p_{\text{con}}}{1-p_{\text{con}}} \right. .
+    $$
+-   We concentrate the inference on the log of the odds ratios $\theta = \log \rho$ for each clinical trial.
+
+## Normal approximation to the likelihood
+
+-   Let $y_{ij}$ and $n_{ij}$ be the number of deaths and subjects of the $i$th group ($1=$ treated, $0 =$ control) in study $j$. 
+-   For each study $j$, we estimate $\theta_j$ by 
+    $$
+    \hat{\theta}_j=\log \left(\frac{y_{1 j}}{n_{1 j}-y_{1 j}}\right)-\log \left(\frac{y_{0 j}}{n_{0 j}-y_{0 j}}\right), 
+    $$
+    with approximate sampling variance
+    $$
+    \sigma_j^2=\frac{1}{y_{1 j}}+\frac{1}{n_{1 j}-y_{1 j}}+\frac{1}{y_{0 j}}+\frac{1}{n_{0 j}-y_{0 j}}.
+    $$
+-   Thus $\hat{\theta}_j \sim N(\theta_j, \sigma_j^2)$ approximately.    
+
+## Odds ratio
+
+```{r}
+#| label: meta_odds_ratio
+#| echo: true
+meta_summary <- meta %>% 
+    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),
+           control.odds = control.deaths/(control.total - control.deaths),
+           log.odds.ratio = log(treated.odds) - log(control.odds), 
+           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + 
+               1/control.deaths + 1/(control.total - control.deaths)) %>%
+    select(c(study, log.odds.ratio, var)) 
+meta_summary %>% head() %>% kbl(digits = 4)
+```
+    
+## Goal of the inference
+
+-   Now we have the log odds ratios and their sampling variances from 22 studies.
+    
+    
+    
