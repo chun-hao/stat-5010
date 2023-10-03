@@ -135,7 +135,6 @@ $$
 ```{r}
 #| label: binomial_bootstrap
 #| echo: true
-#| cache: true
 #| output-location: slide
 #| fig-cap: The red curve is the posterior distribution; the blue dashed line is the MLE.
 set.seed(124)
@@ -445,8 +444,4 @@ meta_summary %>% head() %>% kbl(digits = 4)
     +    Both steps are difficult!!
 -   A bad news is that the posterior of $\tau$ is sensitive to the choice of prior. You will see this in your homework.
 -   Read Section 5.7 of BDA for more details.
-
-
-    
-    
     

@@ -1335,5 +1335,54 @@
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Weakly informative priors for variance parameters",
     "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\theta\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/06-testing.html#likelihood-ratio-test",
+    "href": "slides/06-testing.html#likelihood-ratio-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Likelihood Ratio test",
+    "text": "Likelihood Ratio test"
+  },
+  {
+    "objectID": "slides/06-testing.html#bayesian-test",
+    "href": "slides/06-testing.html#bayesian-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayesian test",
+    "text": "Bayesian test"
+  },
+  {
+    "objectID": "slides/06-testing.html#bayes-factor",
+    "href": "slides/06-testing.html#bayes-factor",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayes Factor",
+    "text": "Bayes Factor"
+  },
+  {
+    "objectID": "slides/06-testing.html#p-value-bc-5.3.4",
+    "href": "slides/06-testing.html#p-value-bc-5.3.4",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "p-value (BC 5.3.4)",
+    "text": "p-value (BC 5.3.4)"
+  },
+  {
+    "objectID": "slides/06-testing.html#information-criterion",
+    "href": "slides/06-testing.html#information-criterion",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Information criterion",
+    "text": "Information criterion"
+  },
+  {
+    "objectID": "slides/06-testing.html#cross-validation",
+    "href": "slides/06-testing.html#cross-validation",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Cross-validation",
+    "text": "Cross-validation"
+  },
+  {
+    "objectID": "slides/06-testing.html#bayes-factor-1",
+    "href": "slides/06-testing.html#bayes-factor-1",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayes Factor",
+    "text": "Bayes Factor\n\n\nHome"
   }
 ]
