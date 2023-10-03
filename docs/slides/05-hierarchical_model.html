@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Chun-Hao Yang">
   <title>STAT 5010 - Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models</title>
@@ -492,7 +492,7 @@ Chun-Hao Yang
 <li class="fragment">the posterior must be proper, and</li>
 <li class="fragment">the prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.</li>
 </ul></li>
-<li class="fragment">Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect<sup>1</sup>.</li>
+<li class="fragment">Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems like nonparametric problems, it might not work as well as you expect<sup>1</sup>.</li>
 </ul>
 
 <aside><div>
@@ -616,10 +616,10 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 <li class="fragment">Use (regularized) least squares to obtain an estimate for <span class="math inline">\(\beta\)</span>.</li>
 <li class="fragment">The effect is <u>the same for each observation</u></li>
 </ul></li>
-<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + U_i + \varepsilon_i\)</span>, <span class="math inline">\(U_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\varepsilon_i \iid N(0, \sigma^2)\)</span>
+<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + \gamma_iX_i + \varepsilon_i\)</span>, <span class="math inline">\(\gamma_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\varepsilon_i \iid N(0, \sigma^2)\)</span>
 <ul>
-<li class="fragment"><span class="math inline">\(U_i\)</span> is the <strong>random effect</strong> in this model</li>
-<li class="fragment">The effect is different for each observation and, on average, <span class="math inline">\(Y\)</span> is increase by <span class="math inline">\(\beta\)</span> with the presence of this effect.</li>
+<li class="fragment"><span class="math inline">\(\gamma_i\)</span> is the <strong>random effect</strong> in this model</li>
+<li class="fragment">The effect is different for each observation and, <u>on average</u>, <span class="math inline">\(Y\)</span> is increase by <span class="math inline">\(\beta\)</span> with a unit increase in <span class="math inline">\(X\)</span>.</li>
 </ul></li>
 </ul>
 </section>
@@ -873,7 +873,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <li class="fragment">Mixed effect model is just one example of <strong>hierarchical models</strong> (or <strong>multi-level models</strong>).</li>
 <li class="fragment">A hierarchical model contains many sub-models that are linked by some hierarchical relations.</li>
 <li class="fragment">In the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.</li>
-<li class="fragment">Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.</li>
+<li class="fragment">Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is a natural way to fit a hierarchical model.</li>
 </ul>
 </section></section>
 <section>
@@ -1105,7 +1105,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <li class="fragment">Another choice is Inverse-Gamma<span class="math inline">\((\epsilon, \epsilon)\)</span>, with small <span class="math inline">\(\epsilon\)</span>.</li>
 <li class="fragment">How about the Jeffreys prior?
 <ul>
-<li class="fragment">To compute the Jeffreys prior, you need to first find the marginal distribution <span class="math inline">\(f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\mu\)</span>.</li>
+<li class="fragment">To compute the Jeffreys prior, you need to first find the marginal distribution <span class="math inline">\(f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\theta\)</span>.</li>
 <li class="fragment">Then compute the Fisher information of <span class="math inline">\(f(x \mid \mu, \tau)\)</span>.</li>
 <li class="fragment">Both steps are difficult!!</li>
 </ul></li>

@@ -63,7 +63,7 @@ where $I(\theta)$ is the Fisher information of $f(x\mid\theta)$.
 -   The regularity conditions include:
     +   the posterior must be proper, and
     +   the prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.
--   Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect[^BvM].
+-   Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems like nonparametric problems, it might not work as well as you expect[^BvM].
 
 
 [^BvM]: See this [blog post](https://statmodeling.stat.columbia.edu/2017/11/27/asymptotically-we-are-all-dead/) for an interesting discussion on Bernstein-von Mises Theoerm.
@@ -186,9 +186,9 @@ man's" posterior.
     -   With a unit increase in $X$, $Y$ is expected to increase by $\beta$.
     -   Use (regularized) least squares to obtain an estimate for $\beta$.
     -   The effect is [the same for each observation]{.underline}
--   Random effect model: $Y_i = \beta_0 + U_i + \varepsilon_i$, $U_i \sim N(\beta, \tau^2)$, $\varepsilon_i \iid N(0, \sigma^2)$
-    -   $U_i$ is the **random effect** in this model
-    -   The effect is different for each observation and, on average, $Y$ is increase by $\beta$ with the presence of this effect.
+-   Random effect model: $Y_i = \beta_0 + \gamma_iX_i + \varepsilon_i$, $\gamma_i \sim N(\beta, \tau^2)$, $\varepsilon_i \iid N(0, \sigma^2)$
+    -   $\gamma_i$ is the **random effect** in this model
+    -   The effect is different for each observation and, [on average]{.underline}, $Y$ is increase by $\beta$ with a unit increase in $X$.
     
 ## Mixed effect model
 
@@ -323,7 +323,7 @@ sleep_lmer_B <- stan_lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject),
 -   Mixed effect model is just one example of **hierarchical models** (or **multi-level models**).
 -   A hierarchical model contains many sub-models that are linked by some hierarchical relations.
 -   In the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.
--   Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.
+-   Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is a natural way to fit a hierarchical model.
 
 # Hierarchical Models
 
@@ -440,7 +440,7 @@ meta_summary %>% head() %>% kbl(digits = 4)
 -   For the variance parameter $\tau$, we use the uniform prior $\text{Unif}(0, A)$, which is a proper noninformative prior.
 -   Another choice is Inverse-Gamma$(\epsilon, \epsilon)$, with small $\epsilon$.
 -   How about the Jeffreys prior?
-    +    To compute the Jeffreys prior, you need to first find the marginal distribution $f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\mu$.
+    +    To compute the Jeffreys prior, you need to first find the marginal distribution $f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\theta$.
     +    Then compute the Fisher information of $f(x \mid \mu, \tau)$.
     +    Both steps are difficult!!
 -   A bad news is that the posterior of $\tau$ is sensitive to the choice of prior. You will see this in your homework.
