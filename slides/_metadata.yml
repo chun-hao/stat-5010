@@ -8,6 +8,9 @@ format:
         html-math-method: mathjax
         incremental: true
         scrollable: true
+        include-in-header: 
+            - text: 
+                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
 execute:
     echo: false
     warning: false

@@ -2,7 +2,9 @@ project:
   type: website
   output-dir: docs
   render: 
-    - "*.qmd"
+    - "index.qmd"
+    - "resources.qmd"
+    - "slides/*.qmd"
     - "!slides/macro.qmd"
   
 website:

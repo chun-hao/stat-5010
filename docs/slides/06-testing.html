@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Chun-Hao Yang">
   <title>STAT 5010 - Lecture 06: Testing and Model Selection</title>
@@ -322,6 +322,7 @@
       margin-right: 0; 
     }
   </style>
+  <link href="https://fonts.googleapis.com/css?family=Fira Code" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -339,8 +340,90 @@ Chun-Hao Yang
 </div>
 
 </section>
+<section id="project-proposal" class="slide level2">
+<h2>Project Proposal</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+<div>
+<ul>
+<li>A 10-15 min presentation describing your final project, including
+<ul>
+<li>the dataset</li>
+<li>the scientific questions</li>
+<li>what statistical methods do you think can help you answer the questions</li>
+</ul></li>
+<li>Upload your slides to NTU cool on 10/23.</li>
+<li>This presentation weights 20% of your final grade.</li>
+<li>Asking questions during other groups’ presentation will earn you extra credits.</li>
+</ul>
+</div>
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<ul>
+<li class="fragment">In the last lecture, we saw that hierarchical structures allow us to construct models with high flexibility.</li>
+<li class="fragment">In practice, there are more than one way to build a hierarchical models, especially when you use latent variables.</li>
+<li class="fragment">Is a model with more hierarchy always “better” than one with less hierarchy? Not necessarily.</li>
+<li class="fragment">What does it mean by saying “a model is better than the other?”</li>
+<li class="fragment">You can evaluate models by
+<ul>
+<li class="fragment">how well it fits the data,</li>
+<li class="fragment">how good it is at prediction,</li>
+<li class="fragment">how we can interpret this model,</li>
+<li class="fragment">how robust it is to the presence of outliers, etc.</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<section id="hypothesis-testing" class="title-slide slide level1 center">
+<h1>Hypothesis Testing</h1>
+
+</section>
+<section id="hypothesis-testing-1" class="slide level2">
+<h2>Hypothesis testing</h2>
+<ul>
+<li class="fragment">The goal of a hypothesis test is to decide whether you can reject the null hypothesis <span class="math inline">\(H_0\)</span> and accept the alternative hypothesis <span class="math inline">\(H_1\)</span> or not.</li>
+<li class="fragment">Usually, the hypotheses are of the form <span class="math display">\[
+H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1.
+\]</span></li>
+<li class="fragment">The philosophy is that we first assume <span class="math inline">\(H_0\)</span> to be true, and see how strong the data is against <span class="math inline">\(H_0\)</span>. If it is strong enough, we reject <span class="math inline">\(H_0\)</span> and accept <span class="math inline">\(H_1\)</span>.</li>
+</ul>
+</section>
 <section id="likelihood-ratio-test" class="slide level2">
-<h2>Likelihood Ratio test</h2>
+<h2>Likelihood Ratio Test</h2>
+<ul>
+<li class="fragment">One of the frequentist approaches to hypothesis testing is the <strong>likelihood ratio test</strong> (LRT).</li>
+<li class="fragment">Suppose <span class="math inline">\(X_1, \ldots, X_n \iid f(x\mid \theta)\)</span> and <span class="math inline">\(L(\theta \mid x) = \prod_{i=1}^n f(x_i \mid \theta)\)</span> is the likelihood function.</li>
+<li class="fragment">The LRT statistic is <span class="math display">\[
+    \lambda = \frac{\max_{\theta \in \Theta_0} L(\theta \mid x)}{\max_{\theta \in \Theta_0 \cup \Theta_1} L(\theta \mid x)}.
+\]</span></li>
+<li class="fragment">Apparently, <span class="math inline">\(0 \leq \lambda \leq 1\)</span> and small values of <span class="math inline">\(\lambda\)</span> provide evidence <u>against</u> <span class="math inline">\(H_0\)</span>.</li>
+<li class="fragment">When should we reject <span class="math inline">\(H_0\)</span>?</li>
+</ul>
+</section>
+<section id="two-types-of-error" class="slide level2">
+<h2>Two Types of error</h2>
 </section>
 <section id="bayesian-test" class="slide level2">
 <h2>Bayesian test</h2>
@@ -350,12 +433,21 @@ Chun-Hao Yang
 </section>
 <section id="p-value-bc-5.3.4" class="slide level2">
 <h2>p-value (BC 5.3.4)</h2>
-</section>
+</section></section>
+<section>
 <section id="model-disagnostics" class="title-slide slide level1 center">
 <h1>Model Disagnostics</h1>
 
 </section>
-
+<section id="what-do-we-need-to-check" class="slide level2">
+<h2>What do we need to check?</h2>
+<ul>
+<li class="fragment">A ‘model’ encompasses the <strong>sampling distribution</strong>, the <strong>prior distribution</strong>, any <strong>hierarchical structure</strong>, and issues such as which explanatory variables have been included in a regression.</li>
+<li class="fragment"><em>Sensitivity analysis</em>: how much do posterior inferences change when other reasonable probability models are used in place of the present model?</li>
+<li class="fragment"><em>External validation</em>: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.</li>
+<li class="fragment">What do you want to predict?</li>
+</ul>
+</section></section>
 <section>
 <section id="model-selection" class="title-slide slide level1 center">
 <h1>Model Selection</h1>

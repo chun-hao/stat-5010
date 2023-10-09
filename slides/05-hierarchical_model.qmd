@@ -221,7 +221,7 @@ library(lme4)
 library(tidyverse)
 library(kableExtra)
 data("sleepstudy")
-sleepstudy %>% head() %>% kbl(format="markdown")
+sleepstudy |> head() |> kbl(format="markdown")
 ```
 
 ## First attempt: simple linear regression
@@ -235,8 +235,8 @@ sleepstudy %>% head() %>% kbl(format="markdown")
 #| label: sleep_lm
 #| echo: true
 library(sjPlot)
-sleepstudy %>%
-    lm(Reaction ~ Days, data = ., subset=Days>=2) %>% 
+sleepstudy |>
+    lm(Reaction ~ Days, data = _, subset=Days>=2) |>
     tab_model()
 ```
 :::
@@ -275,9 +275,9 @@ xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"),
 ```{r}
 #| label: sleep_lmer
 #| echo: true
-sleepstudy %>%
+sleepstudy |>
     lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), 
-         data = ., subset=Days>=2) %>%
+         data = _, subset=Days>=2) |>
     tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)
 ```
 
@@ -363,7 +363,7 @@ of the evidence for a beneficial effect of the treatment under study.
 #| echo: true
 meta <- read.table("http://www.stat.columbia.edu/~gelman/book/data/meta.asc", 
                   header = TRUE, skip = 4)
-meta %>% head() %>% kbl()
+meta |> head() |> kbl()
 ```
 
 ## Odds ratio
@@ -392,14 +392,14 @@ meta %>% head() %>% kbl()
 ```{r}
 #| label: meta_odds_ratio
 #| echo: true
-meta_summary <- meta %>% 
+meta_summary <- meta |>
     mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),
            control.odds = control.deaths/(control.total - control.deaths),
            log.odds.ratio = log(treated.odds) - log(control.odds), 
            var = 1/treated.deaths + 1/(treated.total - treated.deaths) + 
-               1/control.deaths + 1/(control.total - control.deaths)) %>%
+               1/control.deaths + 1/(control.total - control.deaths)) |>
     select(c(study, log.odds.ratio, var)) 
-meta_summary %>% head() %>% kbl(digits = 4)
+meta_summary |> head() |> kbl(digits = 4)
 ```
     
 ## Goal of the inference

@@ -18,7 +18,57 @@ execute:
 ---
 
 
-## Likelihood Ratio test
+## Project Proposal
+
+{{< include macro.qmd >}}
+
+:::{.nonincremental}
+
+-   A 10-15 min presentation describing your final project, including
+    +   the dataset
+    +   the scientific questions
+    +   what statistical methods do you think can help you answer the questions
+-   Upload your slides to NTU cool on 10/23.
+-   This presentation weights 20% of your final grade.
+-   Asking questions during other groups' presentation will earn you extra credits.
+
+:::
+
+## Introduction
+
+-   In the last lecture, we saw that hierarchical structures allow us to construct models with high flexibility.
+-   In practice, there are more than one way to build a hierarchical models, especially when you use latent variables.
+-   Is a model with more hierarchy always "better" than one with less hierarchy? Not necessarily.
+-   What does it mean by saying "a model is better than the other?"
+-   You can evaluate models by
+    +   how well it fits the data,
+    +   how good it is at prediction,
+    +   how we can interpret this model,
+    +   how robust it is to the presence of outliers, etc.
+
+# Hypothesis Testing
+
+## Hypothesis testing 
+
+-   The goal of a hypothesis test is to decide whether you can reject the null hypothesis $H_0$ and accept the alternative hypothesis $H_1$ or not.
+-   Usually, the hypotheses are of the form
+    $$
+    H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1. 
+    $$
+-   The philosophy is that we first assume $H_0$ to be true, and see how strong the data is against $H_0$. If it is strong enough, we reject $H_0$ and accept $H_1$.
+
+## Likelihood Ratio Test
+
+-   One of the frequentist approaches to hypothesis testing is the **likelihood ratio test** (LRT).
+-   Suppose $X_1, \ldots, X_n \iid f(x\mid \theta)$ and $L(\theta \mid x) = \prod_{i=1}^n f(x_i \mid \theta)$ is the likelihood function.
+-   The LRT statistic is 
+    $$
+        \lambda = \frac{\max_{\theta \in \Theta_0} L(\theta \mid x)}{\max_{\theta \in \Theta_0 \cup \Theta_1} L(\theta \mid x)}.
+    $$
+-   Apparently, $0 \leq \lambda \leq 1$ and small values of $\lambda$ provide evidence [against]{.underline} $H_0$.
+-   When should we reject $H_0$?
+
+## Two Types of error
 
 ## Bayesian test
 
@@ -27,6 +77,14 @@ execute:
 ## p-value (BC 5.3.4)
 
 # Model Disagnostics
+
+## What do we need to check?
+
+-   A 'model' encompasses the **sampling distribution**, the **prior distribution**, any **hierarchical structure**, and issues such as which explanatory variables have been included in a regression.
+-   *Sensitivity analysis*: how much do posterior inferences change when other reasonable probability models are used in place of the present model?
+-   *External validation*: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.
+-   What do you want to predict?
+
 
 
 
