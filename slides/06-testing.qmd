@@ -28,9 +28,9 @@ execute:
     +   the dataset
     +   the scientific questions
     +   what statistical methods do you think can help you answer the questions
--   Upload your slides to NTU cool on 10/23.
+-   Upload your slides to NTU cool by 10/23.
 -   This presentation weights 20% of your final grade.
--   Asking questions during other groups' presentation will earn you extra credits.
+
 
 :::
 
@@ -38,7 +38,7 @@ execute:
 
 -   In the last lecture, we saw that hierarchical structures allow us to construct models with high flexibility.
 -   In practice, there are more than one way to build a hierarchical models, especially when you use latent variables.
--   Is a model with more hierarchy always "better" than one with less hierarchy? Not necessarily.
+-   Is a model with more hierarchy always "better" than one with less hierarchy?
 -   What does it mean by saying "a model is better than the other?"
 -   You can evaluate models by
     +   how well it fits the data,
@@ -53,7 +53,7 @@ execute:
 -   The goal of a hypothesis test is to decide whether you can reject the null hypothesis $H_0$ and accept the alternative hypothesis $H_1$ or not.
 -   Usually, the hypotheses are of the form
     $$
-    H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1. 
+    H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1 = \Theta_0^c. 
     $$
 -   The philosophy is that we first assume $H_0$ to be true, and see how strong the data is against $H_0$. If it is strong enough, we reject $H_0$ and accept $H_1$.
 
@@ -68,9 +68,34 @@ execute:
 -   Apparently, $0 \leq \lambda \leq 1$ and small values of $\lambda$ provide evidence [against]{.underline} $H_0$.
 -   When should we reject $H_0$?
 
-## Two Types of error
+## Two types of error
+
+-   False rejection (Type I error) and False acceptance (Type II error)
+-   The decision space is $\mc{D} = \{\text{accept}, \text{reject}\} = \{0, 1\}$.
+-   A typical loss is the 0-1 loss
+    $$
+    L(\theta, d)= \begin{cases}1 & \text { if } d = \mathbb{I}_{\Theta_0}(\theta) \\ 0 & \text { otherwise }\end{cases}.
+    $$
+-   The frequentist risk is 
+    \begin{align*}
+    R(\theta, \delta) & = \E L(\theta, \delta(X)) = \P(\delta(X) = 1 \mid \theta \in \Theta_0) + \P(\delta(X) = 0 \mid \theta \notin \Theta_0)\\
+    & = \text{Type I error} + \text{Type II error}
+    \end{align*}
+
+-   Under this loss, the Bayesian solution 
+    $$
+    \varphi^\pi(x)= \begin{cases}1 & \text { if } \P^\pi\left(\theta \in \Theta_1 \mid x\right) > \P^\pi\left(\theta \in \Theta_0 \mid x\right) \\ 0 & \text { otherwise }\end{cases}.
+    $$
 
 ## Bayesian test
+
+-   A Bayesian test with prior $\pi$ rejects $H_0: \theta \in \Theta_0$ if 
+    $$
+    \P^\pi\left(\theta \in \Theta_1 \mid x\right) > \P^\pi\left(\theta \in \Theta_0 \mid x\right).
+    $$
+-   What are the Type I and Type II errors?
+-   What is the power of the test?
+-   What if we have a point null hypothesis $H_0: \theta = \theta_0$? For continuous parameter, a Bayesian test will [always reject $H_0$]{.underline}.
 
 ## Bayes Factor
 

@@ -373,9 +373,8 @@ Chun-Hao Yang
 <li>the scientific questions</li>
 <li>what statistical methods do you think can help you answer the questions</li>
 </ul></li>
-<li>Upload your slides to NTU cool on 10/23.</li>
+<li>Upload your slides to NTU cool by 10/23.</li>
 <li>This presentation weights 20% of your final grade.</li>
-<li>Asking questions during other groups’ presentation will earn you extra credits.</li>
 </ul>
 </div>
 </section>
@@ -384,7 +383,7 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">In the last lecture, we saw that hierarchical structures allow us to construct models with high flexibility.</li>
 <li class="fragment">In practice, there are more than one way to build a hierarchical models, especially when you use latent variables.</li>
-<li class="fragment">Is a model with more hierarchy always “better” than one with less hierarchy? Not necessarily.</li>
+<li class="fragment">Is a model with more hierarchy always “better” than one with less hierarchy?</li>
 <li class="fragment">What does it mean by saying “a model is better than the other?”</li>
 <li class="fragment">You can evaluate models by
 <ul>
@@ -405,7 +404,7 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">The goal of a hypothesis test is to decide whether you can reject the null hypothesis <span class="math inline">\(H_0\)</span> and accept the alternative hypothesis <span class="math inline">\(H_1\)</span> or not.</li>
 <li class="fragment">Usually, the hypotheses are of the form <span class="math display">\[
-H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1.
+H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1 = \Theta_0^c.
 \]</span></li>
 <li class="fragment">The philosophy is that we first assume <span class="math inline">\(H_0\)</span> to be true, and see how strong the data is against <span class="math inline">\(H_0\)</span>. If it is strong enough, we reject <span class="math inline">\(H_0\)</span> and accept <span class="math inline">\(H_1\)</span>.</li>
 </ul>
@@ -423,10 +422,32 @@ H_0: \theta \in \Theta_0\quad \text{vs.} \quad H_1: \theta \in \Theta_1.
 </ul>
 </section>
 <section id="two-types-of-error" class="slide level2">
-<h2>Two Types of error</h2>
+<h2>Two types of error</h2>
+<ul>
+<li class="fragment"><p>False rejection (Type I error) and False acceptance (Type II error)</p></li>
+<li class="fragment"><p>The decision space is <span class="math inline">\(\mc{D} = \{\text{accept}, \text{reject}\} = \{0, 1\}\)</span>.</p></li>
+<li class="fragment"><p>A typical loss is the 0-1 loss <span class="math display">\[
+L(\theta, d)= \begin{cases}1 &amp; \text { if } d = \mathbb{I}_{\Theta_0}(\theta) \\ 0 &amp; \text { otherwise }\end{cases}.
+\]</span></p></li>
+<li class="fragment"><p>The frequentist risk is <span class="math display">\[\begin{align*}
+R(\theta, \delta) &amp; = \E L(\theta, \delta(X)) = \P(\delta(X) = 1 \mid \theta \in \Theta_0) + \P(\delta(X) = 0 \mid \theta \notin \Theta_0)\\
+&amp; = \text{Type I error} + \text{Type II error}
+\end{align*}\]</span></p></li>
+<li class="fragment"><p>Under this loss, the Bayesian solution <span class="math display">\[
+\varphi^\pi(x)= \begin{cases}1 &amp; \text { if } \P^\pi\left(\theta \in \Theta_1 \mid x\right) &gt; \P^\pi\left(\theta \in \Theta_0 \mid x\right) \\ 0 &amp; \text { otherwise }\end{cases}.
+\]</span></p></li>
+</ul>
 </section>
 <section id="bayesian-test" class="slide level2">
 <h2>Bayesian test</h2>
+<ul>
+<li class="fragment">A Bayesian test with prior <span class="math inline">\(\pi\)</span> rejects <span class="math inline">\(H_0: \theta \in \Theta_0\)</span> if <span class="math display">\[
+\P^\pi\left(\theta \in \Theta_1 \mid x\right) &gt; \P^\pi\left(\theta \in \Theta_0 \mid x\right).
+\]</span></li>
+<li class="fragment">What are the Type I and Type II errors?</li>
+<li class="fragment">What is the power of the test?</li>
+<li class="fragment">What if we have a point null hypothesis <span class="math inline">\(H_0: \theta = \theta_0\)</span>? For continuous parameter, a Bayesian test will <u>always reject <span class="math inline">\(H_0\)</span></u>.</li>
+</ul>
 </section>
 <section id="bayes-factor" class="slide level2">
 <h2>Bayes Factor</h2>

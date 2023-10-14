@@ -4,21 +4,21 @@
     "href": "slides/06-testing.html#project-proposal",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Project Proposal",
-    "text": "Project Proposal\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\n\nA 10-15 min presentation describing your final project, including\n\nthe dataset\nthe scientific questions\nwhat statistical methods do you think can help you answer the questions\n\nUpload your slides to NTU cool on 10/23.\nThis presentation weights 20% of your final grade.\nAsking questions during other groups’ presentation will earn you extra credits."
+    "text": "Project Proposal\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\n\nA 10-15 min presentation describing your final project, including\n\nthe dataset\nthe scientific questions\nwhat statistical methods do you think can help you answer the questions\n\nUpload your slides to NTU cool by 10/23.\nThis presentation weights 20% of your final grade."
   },
   {
     "objectID": "slides/06-testing.html#introduction",
     "href": "slides/06-testing.html#introduction",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Introduction",
-    "text": "Introduction\n\nIn the last lecture, we saw that hierarchical structures allow us to construct models with high flexibility.\nIn practice, there are more than one way to build a hierarchical models, especially when you use latent variables.\nIs a model with more hierarchy always “better” than one with less hierarchy? Not necessarily.\nWhat does it mean by saying “a model is better than the other?”\nYou can evaluate models by\n\nhow well it fits the data,\nhow good it is at prediction,\nhow we can interpret this model,\nhow robust it is to the presence of outliers, etc."
+    "text": "Introduction\n\nIn the last lecture, we saw that hierarchical structures allow us to construct models with high flexibility.\nIn practice, there are more than one way to build a hierarchical models, especially when you use latent variables.\nIs a model with more hierarchy always “better” than one with less hierarchy?\nWhat does it mean by saying “a model is better than the other?”\nYou can evaluate models by\n\nhow well it fits the data,\nhow good it is at prediction,\nhow we can interpret this model,\nhow robust it is to the presence of outliers, etc."
   },
   {
     "objectID": "slides/06-testing.html#hypothesis-testing-1",
     "href": "slides/06-testing.html#hypothesis-testing-1",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Hypothesis testing",
-    "text": "Hypothesis testing\n\nThe goal of a hypothesis test is to decide whether you can reject the null hypothesis \\(H_0\\) and accept the alternative hypothesis \\(H_1\\) or not.\nUsually, the hypotheses are of the form \\[\nH_0: \\theta \\in \\Theta_0\\quad \\text{vs.} \\quad H_1: \\theta \\in \\Theta_1.\n\\]\nThe philosophy is that we first assume \\(H_0\\) to be true, and see how strong the data is against \\(H_0\\). If it is strong enough, we reject \\(H_0\\) and accept \\(H_1\\)."
+    "text": "Hypothesis testing\n\nThe goal of a hypothesis test is to decide whether you can reject the null hypothesis \\(H_0\\) and accept the alternative hypothesis \\(H_1\\) or not.\nUsually, the hypotheses are of the form \\[\nH_0: \\theta \\in \\Theta_0\\quad \\text{vs.} \\quad H_1: \\theta \\in \\Theta_1 = \\Theta_0^c.\n\\]\nThe philosophy is that we first assume \\(H_0\\) to be true, and see how strong the data is against \\(H_0\\). If it is strong enough, we reject \\(H_0\\) and accept \\(H_1\\)."
   },
   {
     "objectID": "slides/06-testing.html#likelihood-ratio-test",
@@ -31,15 +31,15 @@
     "objectID": "slides/06-testing.html#two-types-of-error",
     "href": "slides/06-testing.html#two-types-of-error",
     "title": "Lecture 06: Testing and Model Selection",
-    "section": "Two Types of error",
-    "text": "Two Types of error"
+    "section": "Two types of error",
+    "text": "Two types of error\n\nFalse rejection (Type I error) and False acceptance (Type II error)\nThe decision space is \\(\\mc{D} = \\{\\text{accept}, \\text{reject}\\} = \\{0, 1\\}\\).\nA typical loss is the 0-1 loss \\[\nL(\\theta, d)= \\begin{cases}1 & \\text { if } d = \\mathbb{I}_{\\Theta_0}(\\theta) \\\\ 0 & \\text { otherwise }\\end{cases}.\n\\]\nThe frequentist risk is \\[\\begin{align*}\nR(\\theta, \\delta) & = \\E L(\\theta, \\delta(X)) = \\P(\\delta(X) = 1 \\mid \\theta \\in \\Theta_0) + \\P(\\delta(X) = 0 \\mid \\theta \\notin \\Theta_0)\\\\\n& = \\text{Type I error} + \\text{Type II error}\n\\end{align*}\\]\nUnder this loss, the Bayesian solution \\[\n\\varphi^\\pi(x)= \\begin{cases}1 & \\text { if } \\P^\\pi\\left(\\theta \\in \\Theta_1 \\mid x\\right) &gt; \\P^\\pi\\left(\\theta \\in \\Theta_0 \\mid x\\right) \\\\ 0 & \\text { otherwise }\\end{cases}.\n\\]"
   },
   {
     "objectID": "slides/06-testing.html#bayesian-test",
     "href": "slides/06-testing.html#bayesian-test",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Bayesian test",
-    "text": "Bayesian test"
+    "text": "Bayesian test\n\nA Bayesian test with prior \\(\\pi\\) rejects \\(H_0: \\theta \\in \\Theta_0\\) if \\[\n\\P^\\pi\\left(\\theta \\in \\Theta_1 \\mid x\\right) &gt; \\P^\\pi\\left(\\theta \\in \\Theta_0 \\mid x\\right).\n\\]\nWhat are the Type I and Type II errors?\nWhat is the power of the test?\nWhat if we have a point null hypothesis \\(H_0: \\theta = \\theta_0\\)? For continuous parameter, a Bayesian test will always reject \\(H_0\\)."
   },
   {
     "objectID": "slides/06-testing.html#bayes-factor",
