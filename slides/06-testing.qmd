@@ -99,7 +99,45 @@ execute:
 
 ## Bayes Factor
 
+-   The Bayes factor is the ratio of the marginal likelihoods of the two models
+    $$
+    \text{BF} = \frac{\int_{\Theta_0} f(x \mid \theta) \pi(\theta) \, d\theta}{\int_{\Theta_1} f(x \mid \theta) \pi(\theta) \, d\theta}.
+    $$
+
+## Type I error and Type II error for Bayesian test
+
+-   The Type I error is
+    $$
+    \alpha = \P^\pi\left(\theta \in \Theta_1 \mid \theta \in \Theta_0\right) = \frac{\int_{\Theta_0} f(x \mid \theta) \pi(\theta) \, d\theta}{\int_{\Theta} f(x \mid \theta) \pi(\theta) \, d\theta}.
+    $$
+-   The Type II error is
+    $$
+    \beta = \P^\pi\left(\theta \in \Theta_0 \mid \theta \in \Theta_1\right) = \frac{\int_{\Theta_1} f(x \mid \theta) \pi(\theta) \, d\theta}{\int_{\Theta} f(x \mid \theta) \pi(\theta) \, d\theta}.
+    $$
+-   The power of the test is $1 - \beta$.
+-   The Bayes factor is the ratio of the prior odds to the posterior odds.
+
 ## p-value (BC 5.3.4)
+
+## Bayesian t-test
+-   Suppose $X_1, \ldots, X_n \iid N(\mu, \sigma^2)$ and $\sigma^2$ is known.
+-   The null hypothesis is $H_0: \mu = \mu_0$ and the alternative hypothesis is $H_1: \mu \neq \mu_0$.
+-   The likelihood function is
+    $$
+    L(\mu \mid x) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right) = \frac{1}{(2\pi\sigma^2)^{n/2}} \exp\left(-\frac{\sum_{i=1}^n (x_i - \mu)^2}{2\sigma^2}\right).
+    $$
+-   The posterior distribution is
+    $$
+    \pi(\mu \mid x) \propto \exp\left(-\frac{\sum_{i=1}^n (x_i - \mu)^2}{2\sigma^2}\right) \cdot \mathbb{I}_{\mu \in \Theta_0}(\mu).
+    $$
+-   The posterior mean is
+    $$
+    \E(\mu \mid x) = \frac{\sum_{i=1}^n x_i + \mu_0/\sigma^2}{n + 1/\sigma^2}.
+    $$
+-   The posterior variance is
+    $$
+    \Var(\mu \mid x) = \frac{\sigma^2}{n + 1/\sigma^2}.
+    $$
 
 # Model Disagnostics
 
@@ -117,6 +155,59 @@ execute:
 
 ## Information criterion
 
+-   The **deviance** is defined as
+    $$
+    D(\theta) = -2 \log f(x \mid \theta).
+    $$
+-   The **Bayesian information criterion** (BIC) is defined as
+    $$
+    \text{BIC} = -2 \log f(x \mid \hat{\theta}) + \log n \cdot \text{df},
+    $$
+    where $\hat{\theta}$ is the MLE and $\text{df}$ is the number of parameters in the model.
+    
+-   The **Akaike information criterion** (AIC) is defined as
+    $$
+    \text{AIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot \text{df}.
+    $$
+-   The **deviance information criterion** (DIC) is defined as
+    $$
+    \text{DIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot p_D,
+    $$
+    where $p_D = \E_{\theta \mid x} \left[D(\theta)\right] - D(\E_{\theta \mid x}[\theta])$ is the effective number of parameters.
+    
+    
+## Model averaging
+
+-   Model averaging is a way to combine the results from multiple models.
+-   The idea is to average the posterior distributions of the parameters over all models.
+-   The posterior probability of model $M_i$ is
+    $$
+    \P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}.
+    $$
+-   The posterior distribution of $\theta$ is
+    $$
+    \P(\theta \mid x) = \sum_{i=1}^k \P(M_i \mid x) \P(\theta \mid x, M_i).
+    $$
+    
+    
+    
+    
 ## Cross-validation
 
+-   Cross-validation is a way to evaluate the predictive performance of a model.
+-   The idea is to split the data into two parts: a training set and a test set.
+-   The model is fit to the training set, and then the predictive performance is evaluated on the test set.
+-   The predictive performance is measured by the predictive mean squared error (PMSE)
+    $$
+    \text{PMSE} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
+    $$
+    where $\hat{y}_i$ is the prediction of $y_i$ based on the training set.
+    
+-   The **leave-one-out cross-validation** (LOO-CV) is defined as
+    $$
+    \text{LOO-CV} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
+    $$
+    where $\hat{y}_i$ is the prediction of $y_i$ based on the training set without $x_i$.
+    
+    
 ## Bayes Factor
