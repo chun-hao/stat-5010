@@ -30,7 +30,8 @@ execute:
     +   what statistical methods do you think can help you answer the questions
 -   Upload your slides to NTU cool by 10/23.
 -   This presentation weights 20% of your final grade.
-
+-   You can work in groups of 2-3 people.
+-   You can choose a topic related to your own research.
 
 :::
 
@@ -141,91 +142,158 @@ of the data to transform the priors into proper distributions.
 ## Bayesian one sample t-test
 -   Suppose $X_1, \ldots, X_n \iid N(\mu, \sigma^2)$ and $\sigma^2$ is known.
 -   The null hypothesis is $H_0: \mu = \mu_0$ and the alternative hypothesis is $H_1: \mu \neq \mu_0$.
+-   We can use the normal prior or Cauchy piror centered at $\mu_0$ (since it has heavy tails) for $\mu$.
+-   For the variance $\sigma^2$, it is okay to use the Jeffreys prior.
+-   Then we can use sampling techniques (e.g., MCMC) to sample from the posterior and compute the Bayes factor.
+
+
 
 ## Example 
 
+This is a dataset which shows the effect of two soporific drugs (increase in hours of sleep compared to control) on 10 patients.
 
-# Model Disagnostics
+```{r}
+#| label: sleep_data
+#| echo: true
+#| fig-align: center
 
-## What do we need to check?
+library(BayesFactor)
+library(ggplot2)
+library(tidyverse)
 
--   A 'model' encompasses the **sampling distribution**, the **prior distribution**, any **hierarchical structure**, and issues such as which explanatory variables have been included in a regression.
--   *Sensitivity analysis*: how much do posterior inferences change when other reasonable probability models are used in place of the present model?
--   *External validation*: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.
--   What do you want to predict?
+data(sleep)
+ggplot(sleep, aes(x = group, y = extra)) + geom_boxplot()
 
+```
 
+## Example
 
+We want to see the difference in efficacy of the drugs.
+```{r}
+#| label: sleep_data_BF
+#| echo: true
+
+ttestBF(x = sleep$extra[sleep$group==1], 
+        y = sleep$extra[sleep$group==2], 
+        paired=TRUE)
+```
+
+Priors: 
+
+:::{.nonincremental}
+
+-   Jeffreys prior for the variance
+-   Cauchy prior for the mean (effect size)
+
+:::
+You can change the priors and see how the results change. This might require you to implement the sampling process yourself.
+
+## Example 
+
+To check the quality of the posterior samples, you can ask the function to return posterior rather than the Bayes factor.
+```{r}
+#| label: sleep_data_posterior
+#| echo: true
+#| fig-align: center
+
+samples <- ttestBF(x = sleep$extra[sleep$group==1],
+                   y = sleep$extra[sleep$group==2], 
+                   paired=TRUE, 
+                   posterior = TRUE, iterations = 1000)
+plot(samples[, "mu"])
+```
 
 # Model Selection
 
 ## Model selection
 
 -   Hypothesis testing is a special case of model selection. 
--   A general model selection problem is to choose between two models $M_1$ and $M_2$.
+-   A general model selection problem is to choose between a collection of models $M_1, \ldots, M_k$.
 -   For example, we can choose whether we want to use a linear regression model or a quadratic regression model.
 -   The choice can be based on the $R^2$ or the adjusted $R^2$, i.e., choose the one with highest adjusted $R^2$.
+-   For general models (e.g., non-linear regression), we can use     +   information criterion (e.g., AIC, BIC) 
+    +   Bayes factor 
 
 
 
 ## Information criterion
 
--   The **deviance** is defined as
+-   The general form of an information criterion is
     $$
-    D(\theta) = -2 \log f(x \mid \theta).
+    -\text{Model fit} + \text{Penalty}.
     $$
--   The **Bayesian information criterion** (BIC) is defined as
-    $$
-    \text{BIC} = -2 \log f(x \mid \hat{\theta}) + \log n \cdot \text{df},
-    $$
-    where $\hat{\theta}$ is the MLE and $\text{df}$ is the number of parameters in the model.
-    
--   The **Akaike information criterion** (AIC) is defined as
-    $$
-    \text{AIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot \text{df}.
-    $$
--   The **deviance information criterion** (DIC) is defined as
-    $$
-    \text{DIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot p_D,
-    $$
-    where $p_D = \E_{\theta \mid x} \left[D(\theta)\right] - D(\E_{\theta \mid x}[\theta])$ is the effective number of parameters.
-    
-    
-    
-    
-    
+-   We choose the model with the smallest value of the information criterion.
+-   The 'Model fit' is typically chosen as the log-likelihood of the model.
+-   The 'Penalty' is typically chosen as a function of the number of parameters in the model.
+-   For **Bayesian information criterion** (BIC), $\text{Penalty} = p\log n$.
+-   For **Akaike information criterion** (AIC), $\text{Penalty} = 2p$.
+-   However, a small value of the information criterion only indicates a good model fit of the dataset.
     
 ## Cross-validation
 
--   Cross-validation is a way to evaluate the predictive performance of a model.
--   The idea is to split the data into two parts: a training set and a test set.
--   The model is fit to the training set, and then the predictive performance is evaluated on the test set.
--   The predictive performance is measured by the predictive mean squared error (PMSE)
-    $$
-    \text{PMSE} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
-    $$
-    where $\hat{y}_i$ is the prediction of $y_i$ based on the training set.
-    
--   The **leave-one-out cross-validation** (LOO-CV) is defined as
-    $$
-    \text{LOO-CV} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
-    $$
-    where $\hat{y}_i$ is the prediction of $y_i$ based on the training set without $x_i$.
-    
-    
+-   Cross-validation is a way to evaluate the **predictive performance** of a model.
+-   The idea is to split the data into two parts: a training set and a validation set.
+-   The model is fit to the training set, and then the predictive performance is evaluated on the validation set.
+-   Commonly used approaches are **$k$-fold cross-validation** and **leave-one-out cross-validation**.
+
+
 ## Bayes Factor
 
--   
+-   Although BIC has "Bayesian" in its name, it is not technically a Bayesian method. It just has a Bayesian interpretation.
+-   The Bayes factor can be defined in the general model selection setting:
+    $$
+    \text{BF}_{ij} = \left.\frac{\P(M_i \mid x)}{\P(M_j \mid x)}\middle/\frac{\P(M_i)}{\P(M_j)}\right.
+    $$
+    where $\P(M_i)$ is the prior belief of the model $M_i$.
+-   If $\text{BF}_{ij}$ is large enough, than we prefer model $M_i$ over model $M_j$.
+-   If we don't have any preference between models, $\P(M_i) = 1/k$ and comparison of Bayes factor is equivalent to comparison of posterior probability of models.
+-   If you prefer simpler models, you can assign higher prior preference to simpler models and see if the posterior outweighs your preference.
+
+## Bayes Factor
+
+-   Usually not only do we have priors for difference models, we also have priors for the parameters in each model. 
+-   For example, if model $M_i$ is indexed by the parameter $\theta_i$ and $\theta_i$ has prior $\pi_i(\theta_i)$, then
+    $$
+    \P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}
+    $$
+    where
+    $$
+    \P(x \mid M_i) = \int \P(x \mid \theta_i, M_i) \pi_i(\theta_i) \, d\theta_i.
+    $$ 
+-   If we assume $\P(M_i) = 1/k$, then the Bayes factor is
+    $$
+    \text{BF}_{ij} = \frac{\P(x \mid M_i)}{\P(x \mid M_j)} = \frac{\int \P(x \mid \theta_i, M_i) \pi_i(\theta_i) \, d\theta_i}{\int \P(x \mid \theta_j, M_j) \pi_j(\theta_j) \, d\theta_j}.
+    $$
+
 
 ## Model averaging
 
 -   Model averaging is a way to combine the results from multiple models.
 -   The idea is to average the posterior distributions of the parameters over all models.
--   The posterior probability of model $M_i$ is
+-   For prediction, we can use the posterior predictive distribution
     $$
-    \P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}.
+    \P(x_{\text{new}} \mid x) = \sum_{i=1}^k \P(x_{\text{new}} \mid x, M_i) \P(M_i \mid x).
     $$
--   The posterior distribution of $\theta$ is
+-   A commonly used trick in machine learning, called **ensemble**, is to use a weighted average of the predictions from different models:
     $$
-    \P(\theta \mid x) = \sum_{i=1}^k \P(M_i \mid x) \P(\theta \mid x, M_i).
+    x_{\text{new}} = \sum_{i=1}^k w_i x_{\text{new},i}
     $$
+where $x_{\text{new},i}$ is the prediction from model $M_i$ and $w_i$ is the weight for model $M_i$.
+-   Usually the weights are chosen to be $1/k$ or through cross-validation.
+
+
+## Model diagnostics
+
+-   Model diagnostics is a way to check whether the model is appropriate for the data.
+-   If we have a collection of candidate models, we can choose the best model based on the techniques we discussed earlier.
+-   However, the selected model may not be a good model.
+-   We have to check whether the model is good not just by comparing with other models.
+
+## What do we need to check?
+
+-   A 'model' encompasses the **sampling distribution**, the **prior distribution**, any **hierarchical structure**, and issues such as which explanatory variables have been included in a regression.
+-   **Sensitivity analysis**: how much do posterior inferences change when other reasonable probability models are used in place of the present model?
+-   **External validation**: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.
+-   **Robustness**: how do the model performs when every assumption we made is wrong? 
+-   There is no general recipe for model checking. It depends on the model and the purpose of the model.
+-   However, we can do simulation, which uses the worst data you can possibly imagine, to diagnose the model.

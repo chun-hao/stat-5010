@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -375,6 +440,8 @@ Chun-Hao Yang
 </ul></li>
 <li>Upload your slides to NTU cool by 10/23.</li>
 <li>This presentation weights 20% of your final grade.</li>
+<li>You can work in groups of 2-3 people.</li>
+<li>You can choose a topic related to your own research.</li>
 </ul>
 </div>
 </section>
@@ -498,25 +565,63 @@ B_{01}^\pi(x)=\left.\frac{P\left(\theta \in \Theta_0 \mid x\right)}{P\left(\thet
 <ul>
 <li class="fragment">Suppose <span class="math inline">\(X_1, \ldots, X_n \iid N(\mu, \sigma^2)\)</span> and <span class="math inline">\(\sigma^2\)</span> is known.</li>
 <li class="fragment">The null hypothesis is <span class="math inline">\(H_0: \mu = \mu_0\)</span> and the alternative hypothesis is <span class="math inline">\(H_1: \mu \neq \mu_0\)</span>.</li>
+<li class="fragment">We can use the normal prior or Cauchy piror centered at <span class="math inline">\(\mu_0\)</span> (since it has heavy tails) for <span class="math inline">\(\mu\)</span>.</li>
+<li class="fragment">For the variance <span class="math inline">\(\sigma^2\)</span>, it is okay to use the Jeffreys prior.</li>
+<li class="fragment">Then we can use sampling techniques (e.g., MCMC) to sample from the posterior and compute the Bayes factor.</li>
 </ul>
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-</section></section>
-<section>
-<section id="model-disagnostics" class="title-slide slide level1 center">
-<h1>Model Disagnostics</h1>
+<p>This is a dataset which shows the effect of two soporific drugs (increase in hours of sleep compared to control) on 10 patients.</p>
+<div class="cell" data-layout-align="center" data-hash="06-testing_cache/revealjs/sleep_data_fe5a012a2bb43a4c18cfd927e6d13b4d">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">data</span>(sleep)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">ggplot</span>(sleep, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> extra)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-</section>
-<section id="what-do-we-need-to-check" class="slide level2">
-<h2>What do we need to check?</h2>
+</div>
+<img data-src="06-testing_files/figure-revealjs/sleep_data-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+<p>We want to see the difference in efficacy of the drugs.</p>
+<div class="cell" data-hash="06-testing_cache/revealjs/sleep_data_BF_dfa303fa8ab658dc0de9e64d2bea4154">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">ttestBF</span>(<span class="at">x =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">1</span>], </span>
+<span id="cb2-2"><a href="#cb2-2"></a>        <span class="at">y =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">2</span>], </span>
+<span id="cb2-3"><a href="#cb2-3"></a>        <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bayes factor analysis
+--------------
+[1] Alt., r=0.707 : 17.25888 ±0%
+
+Against denominator:
+  Null, mu = 0 
+---
+Bayes factor type: BFoneSample, JZS</code></pre>
+</div>
+</div>
+<p>Priors:</p>
+<div>
 <ul>
-<li class="fragment">A ‘model’ encompasses the <strong>sampling distribution</strong>, the <strong>prior distribution</strong>, any <strong>hierarchical structure</strong>, and issues such as which explanatory variables have been included in a regression.</li>
-<li class="fragment"><em>Sensitivity analysis</em>: how much do posterior inferences change when other reasonable probability models are used in place of the present model?</li>
-<li class="fragment"><em>External validation</em>: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.</li>
-<li class="fragment">What do you want to predict?</li>
+<li>Jeffreys prior for the variance</li>
+<li>Cauchy prior for the mean (effect size)</li>
 </ul>
-</section></section>
+</div>
+<p>You can change the priors and see how the results change. This might require you to implement the sampling process yourself.</p>
+</section>
+<section id="example-2" class="slide level2">
+<h2>Example</h2>
+<p>To check the quality of the posterior samples, you can ask the function to return posterior rather than the Bayes factor.</p>
+<div class="cell" data-layout-align="center" data-hash="06-testing_cache/revealjs/sleep_data_posterior_4bea42658b1543631fd862778e57865f">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(<span class="at">x =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">1</span>],</span>
+<span id="cb4-2"><a href="#cb4-2"></a>                   <span class="at">y =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">2</span>], </span>
+<span id="cb4-3"><a href="#cb4-3"></a>                   <span class="at">paired=</span><span class="cn">TRUE</span>, </span>
+<span id="cb4-4"><a href="#cb4-4"></a>                   <span class="at">posterior =</span> <span class="cn">TRUE</span>, <span class="at">iterations =</span> <span class="dv">1000</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="fu">plot</span>(samples[, <span class="st">"mu"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="06-testing_files/figure-revealjs/sleep_data_posterior-1.png" width="960" class="r-stretch quarto-figure-center"></section></section>
 <section>
 <section id="model-selection" class="title-slide slide level1 center">
 <h1>Model Selection</h1>
@@ -526,26 +631,62 @@ B_{01}^\pi(x)=\left.\frac{P\left(\theta \in \Theta_0 \mid x\right)}{P\left(\thet
 <h2>Model selection</h2>
 <ul>
 <li class="fragment">Hypothesis testing is a special case of model selection.</li>
-<li class="fragment">A general model selection problem is to choose between two models <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span>.</li>
+<li class="fragment">A general model selection problem is to choose between a collection of models <span class="math inline">\(M_1, \ldots, M_k\)</span>.</li>
 <li class="fragment">For example, we can choose whether we want to use a linear regression model or a quadratic regression model.</li>
 <li class="fragment">The choice can be based on the <span class="math inline">\(R^2\)</span> or the adjusted <span class="math inline">\(R^2\)</span>, i.e., choose the one with highest adjusted <span class="math inline">\(R^2\)</span>.</li>
+<li class="fragment">For general models (e.g., non-linear regression), we can use + information criterion (e.g., AIC, BIC)
+<ul>
+<li class="fragment">Bayes factor</li>
+</ul></li>
 </ul>
 </section>
 <section id="information-criterion" class="slide level2">
 <h2>Information criterion</h2>
 <ul>
-<li class="fragment"><p>The <strong>deviance</strong> is defined as <span class="math display">\[
-D(\theta) = -2 \log f(x \mid \theta).
-\]</span></p></li>
-<li class="fragment"><p>The <strong>Bayesian information criterion</strong> (BIC) is defined as <span class="math display">\[
-\text{BIC} = -2 \log f(x \mid \hat{\theta}) + \log n \cdot \text{df},
-\]</span> where <span class="math inline">\(\hat{\theta}\)</span> is the MLE and <span class="math inline">\(\text{df}\)</span> is the number of parameters in the model.</p></li>
-<li class="fragment"><p>The <strong>Akaike information criterion</strong> (AIC) is defined as <span class="math display">\[
-\text{AIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot \text{df}.
-\]</span></p></li>
-<li class="fragment"><p>The <strong>deviance information criterion</strong> (DIC) is defined as <span class="math display">\[
-\text{DIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot p_D,
-\]</span> where <span class="math inline">\(p_D = \E_{\theta \mid x} \left[D(\theta)\right] - D(\E_{\theta \mid x}[\theta])\)</span> is the effective number of parameters.</p></li>
+<li class="fragment">The general form of an information criterion is <span class="math display">\[
+-\text{Model fit} + \text{Penalty}.
+\]</span></li>
+<li class="fragment">We choose the model with the smallest value of the information criterion.</li>
+<li class="fragment">The ‘Model fit’ is typically chosen as the log-likelihood of the model.</li>
+<li class="fragment">The ‘Penalty’ is typically chosen as a function of the number of parameters in the model.</li>
+<li class="fragment">For <strong>Bayesian information criterion</strong> (BIC), <span class="math inline">\(\text{Penalty} = p\log n\)</span>.</li>
+<li class="fragment">For <strong>Akaike information criterion</strong> (AIC), <span class="math inline">\(\text{Penalty} = 2p\)</span>.</li>
+<li class="fragment">However, a small value of the information criterion only indicates a good model fit of the dataset.</li>
+</ul>
+</section>
+<section id="cross-validation" class="slide level2">
+<h2>Cross-validation</h2>
+<ul>
+<li class="fragment">Cross-validation is a way to evaluate the <strong>predictive performance</strong> of a model.</li>
+<li class="fragment">The idea is to split the data into two parts: a training set and a validation set.</li>
+<li class="fragment">The model is fit to the training set, and then the predictive performance is evaluated on the validation set.</li>
+<li class="fragment">Commonly used approaches are <strong><span class="math inline">\(k\)</span>-fold cross-validation</strong> and <strong>leave-one-out cross-validation</strong>.</li>
+</ul>
+</section>
+<section id="bayes-factor-1" class="slide level2">
+<h2>Bayes Factor</h2>
+<ul>
+<li class="fragment">Although BIC has “Bayesian” in its name, it is not technically a Bayesian method. It just has a Bayesian interpretation.</li>
+<li class="fragment">The Bayes factor can be defined in the general model selection setting: <span class="math display">\[
+\text{BF}_{ij} = \left.\frac{\P(M_i \mid x)}{\P(M_j \mid x)}\middle/\frac{\P(M_i)}{\P(M_j)}\right.
+\]</span> where <span class="math inline">\(\P(M_i)\)</span> is the prior belief of the model <span class="math inline">\(M_i\)</span>.</li>
+<li class="fragment">If <span class="math inline">\(\text{BF}_{ij}\)</span> is large enough, than we prefer model <span class="math inline">\(M_i\)</span> over model <span class="math inline">\(M_j\)</span>.</li>
+<li class="fragment">If we don’t have any preference between models, <span class="math inline">\(\P(M_i) = 1/k\)</span> and comparison of Bayes factor is equivalent to comparison of posterior probability of models.</li>
+<li class="fragment">If you prefer simpler models, you can assign higher prior preference to simpler models and see if the posterior outweighs your preference.</li>
+</ul>
+</section>
+<section id="bayes-factor-2" class="slide level2">
+<h2>Bayes Factor</h2>
+<ul>
+<li class="fragment">Usually not only do we have priors for difference models, we also have priors for the parameters in each model.</li>
+<li class="fragment">For example, if model <span class="math inline">\(M_i\)</span> is indexed by the parameter <span class="math inline">\(\theta_i\)</span> and <span class="math inline">\(\theta_i\)</span> has prior <span class="math inline">\(\pi_i(\theta_i)\)</span>, then <span class="math display">\[
+\P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}
+\]</span> where <span class="math display">\[
+\P(x \mid M_i) = \int \P(x \mid \theta_i, M_i) \pi_i(\theta_i) \, d\theta_i.
+\]</span></li>
+<li class="fragment">If we assume <span class="math inline">\(\P(M_i) = 1/k\)</span>, then the Bayes factor is <span class="math display">\[
+\text{BF}_{ij} = \frac{\P(x \mid M_i)}{\P(x \mid M_j)} = \frac{\int \P(x \mid \theta_i, M_i) \pi_i(\theta_i) \, d\theta_i}{\int \P(x \mid \theta_j, M_j) \pi_j(\theta_j) \, d\theta_j}.
+\]</span></li>
 </ul>
 </section>
 <section id="model-averaging" class="slide level2">
@@ -553,32 +694,33 @@ D(\theta) = -2 \log f(x \mid \theta).
 <ul>
 <li class="fragment">Model averaging is a way to combine the results from multiple models.</li>
 <li class="fragment">The idea is to average the posterior distributions of the parameters over all models.</li>
-<li class="fragment">The posterior probability of model <span class="math inline">\(M_i\)</span> is <span class="math display">\[
-\P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}.
+<li class="fragment">For prediction, we can use the posterior predictive distribution <span class="math display">\[
+\P(x_{\text{new}} \mid x) = \sum_{i=1}^k \P(x_{\text{new}} \mid x, M_i) \P(M_i \mid x).
 \]</span></li>
-<li class="fragment">The posterior distribution of <span class="math inline">\(\theta\)</span> is <span class="math display">\[
-\P(\theta \mid x) = \sum_{i=1}^k \P(M_i \mid x) \P(\theta \mid x, M_i).
-\]</span></li>
+<li class="fragment">A commonly used trick in machine learning, called <strong>ensemble</strong>, is to use a weighted average of the predictions from different models: <span class="math display">\[
+x_{\text{new}} = \sum_{i=1}^k w_i x_{\text{new},i}
+\]</span> where <span class="math inline">\(x_{\text{new},i}\)</span> is the prediction from model <span class="math inline">\(M_i\)</span> and <span class="math inline">\(w_i\)</span> is the weight for model <span class="math inline">\(M_i\)</span>.</li>
+<li class="fragment">Usually the weights are chosen to be <span class="math inline">\(1/k\)</span> or through cross-validation.</li>
 </ul>
 </section>
-<section id="cross-validation" class="slide level2">
-<h2>Cross-validation</h2>
+<section id="model-diagnostics" class="slide level2">
+<h2>Model diagnostics</h2>
 <ul>
-<li class="fragment"><p>Cross-validation is a way to evaluate the predictive performance of a model.</p></li>
-<li class="fragment"><p>The idea is to split the data into two parts: a training set and a test set.</p></li>
-<li class="fragment"><p>The model is fit to the training set, and then the predictive performance is evaluated on the test set.</p></li>
-<li class="fragment"><p>The predictive performance is measured by the predictive mean squared error (PMSE) <span class="math display">\[
-\text{PMSE} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
-\]</span> where <span class="math inline">\(\hat{y}_i\)</span> is the prediction of <span class="math inline">\(y_i\)</span> based on the training set.</p></li>
-<li class="fragment"><p>The <strong>leave-one-out cross-validation</strong> (LOO-CV) is defined as <span class="math display">\[
-\text{LOO-CV} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
-\]</span> where <span class="math inline">\(\hat{y}_i\)</span> is the prediction of <span class="math inline">\(y_i\)</span> based on the training set without <span class="math inline">\(x_i\)</span>.</p></li>
+<li class="fragment">Model diagnostics is a way to check whether the model is appropriate for the data.</li>
+<li class="fragment">If we have a collection of candidate models, we can choose the best model based on the techniques we discussed earlier.</li>
+<li class="fragment">However, the selected model may not be a good model.</li>
+<li class="fragment">We have to check whether the model is good not just by comparing with other models.</li>
 </ul>
 </section>
-<section id="bayes-factor-1" class="slide level2">
-<h2>Bayes Factor</h2>
+<section id="what-do-we-need-to-check" class="slide level2">
+<h2>What do we need to check?</h2>
 <ul>
-<li class="fragment"></li>
+<li class="fragment">A ‘model’ encompasses the <strong>sampling distribution</strong>, the <strong>prior distribution</strong>, any <strong>hierarchical structure</strong>, and issues such as which explanatory variables have been included in a regression.</li>
+<li class="fragment"><strong>Sensitivity analysis</strong>: how much do posterior inferences change when other reasonable probability models are used in place of the present model?</li>
+<li class="fragment"><strong>External validation</strong>: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.</li>
+<li class="fragment"><strong>Robustness</strong>: how do the model performs when every assumption we made is wrong?</li>
+<li class="fragment">There is no general recipe for model checking. It depends on the model and the purpose of the model.</li>
+<li class="fragment">However, we can do simulation, which uses the worst data you can possibly imagine, to diagnose the model.</li>
 </ul>
 
 <div class="footer footer-default">
@@ -798,6 +940,44 @@ D(\theta) = -2 \log f(x \mid \theta).
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

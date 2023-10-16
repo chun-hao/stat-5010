@@ -4,7 +4,7 @@
     "href": "slides/06-testing.html#project-proposal",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Project Proposal",
-    "text": "Project Proposal\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\n\nA 10-15 min presentation describing your final project, including\n\nthe dataset\nthe scientific questions\nwhat statistical methods do you think can help you answer the questions\n\nUpload your slides to NTU cool by 10/23.\nThis presentation weights 20% of your final grade."
+    "text": "Project Proposal\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\n\nA 10-15 min presentation describing your final project, including\n\nthe dataset\nthe scientific questions\nwhat statistical methods do you think can help you answer the questions\n\nUpload your slides to NTU cool by 10/23.\nThis presentation weights 20% of your final grade.\nYou can work in groups of 2-3 people.\nYou can choose a topic related to your own research."
   },
   {
     "objectID": "slides/06-testing.html#introduction",
@@ -49,39 +49,109 @@
     "text": "Bayes Factor\n\nThe Bayes factor is the ratio of posterior odds to the prior odds \\[\nB_{01}^\\pi(x)=\\left.\\frac{P\\left(\\theta \\in \\Theta_0 \\mid x\\right)}{P\\left(\\theta \\in \\Theta_1 \\mid x\\right)} \\middle/ \\frac{\\pi\\left(\\theta \\in \\Theta_0\\right)}{\\pi\\left(\\theta \\in \\Theta_1\\right)}\\right..\n\\]\nIt is an “objective” answer, since it partly eliminates the influence of the prior modeling and emphasizes the role of the observations.\nIf the Bayes factor is 1, the observation does not provide information in favor of either hypothesis.\nIf the Bayes factor is greater than 1, the observation favors \\(H_0\\) and hence we accept \\(H_0\\) when the Bayes factor is large.\nThe Bayes factor offers a continuum of evidence, rather than a dichotomous decision."
   },
   {
-    "objectID": "slides/06-testing.html#p-value-bc-5.3.4",
-    "href": "slides/06-testing.html#p-value-bc-5.3.4",
+    "objectID": "slides/06-testing.html#differences-between-bayes-factor-and-p-value",
+    "href": "slides/06-testing.html#differences-between-bayes-factor-and-p-value",
     "title": "Lecture 06: Testing and Model Selection",
-    "section": "p-value (BC 5.3.4)",
-    "text": "p-value (BC 5.3.4)"
+    "section": "Differences between Bayes factor and \\(p\\)-value",
+    "text": "Differences between Bayes factor and \\(p\\)-value\n\n\\(p\\)-value is the probability of observing a test statistic at least as extreme as the one observed, given that \\(H_0\\) is true.\nSo small \\(p\\)-values provide evidence against \\(H_0\\), but large \\(p\\)-values do not provide evidence in favor of \\(H_0\\) (or against \\(H_1\\)).\nIn contrast, large Bayes factors provide evidence in favor of \\(H_0\\), and small Bayes factors provide evidence in favor of \\(H_1\\) (or against \\(H_0\\)).\nThe \\(p\\)-value bases rejection of \\(H_0\\) on unlikely events that did not occur."
   },
   {
-    "objectID": "slides/06-testing.html#what-do-we-need-to-check",
-    "href": "slides/06-testing.html#what-do-we-need-to-check",
+    "objectID": "slides/06-testing.html#type-i-and-type-ii-errors-for-bayesian-test",
+    "href": "slides/06-testing.html#type-i-and-type-ii-errors-for-bayesian-test",
     "title": "Lecture 06: Testing and Model Selection",
-    "section": "What do we need to check?",
-    "text": "What do we need to check?\n\nA ‘model’ encompasses the sampling distribution, the prior distribution, any hierarchical structure, and issues such as which explanatory variables have been included in a regression.\nSensitivity analysis: how much do posterior inferences change when other reasonable probability models are used in place of the present model?\nExternal validation: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.\nWhat do you want to predict?"
+    "section": "Type I and Type II errors for Bayesian test",
+    "text": "Type I and Type II errors for Bayesian test\n\nAlthough it is possible to define Type I and Type II errors for Bayesian tests, the concept is not compatible with Bayesian paradigm.\nIn Bayesian inference, we tend not to give a simple, dichotomous answer to the question of whether a hypothesis is true or false.\nWe compute the posterior probability of the two hypotheses and choose the hypothesis when you think the evidence (e.g., Bayes factor) is strong enough."
+  },
+  {
+    "objectID": "slides/06-testing.html#improper-prior-for-testing",
+    "href": "slides/06-testing.html#improper-prior-for-testing",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Improper prior for testing",
+    "text": "Improper prior for testing\n\nFor Bayesian estimation, improper priors (e.g., noninformative priors) sometimes give us good estimates, although we are required to check the propriety of the posterior.\nFor testing, it is not recommended to use improper prior for a couple of reasons.\n\nImproper priors make the Bayes factor undefined.\nThe testing setting is not coherent with an absolute lack of information since we need to decide our hypotheses.\n\nThere are still some solutions proposed to overcome the difficulties related to the use of improper priors.\nMost of them are based on the idea to use part of the data to transform the priors into proper distributions.\nFor example, partial Bayes factor uses a subset of samples (training sample) to construct a proper prior, and use the rest to compute the Bayes factor."
+  },
+  {
+    "objectID": "slides/06-testing.html#bayesian-one-sample-t-test",
+    "href": "slides/06-testing.html#bayesian-one-sample-t-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayesian one sample t-test",
+    "text": "Bayesian one sample t-test\n\nSuppose \\(X_1, \\ldots, X_n \\iid N(\\mu, \\sigma^2)\\) and \\(\\sigma^2\\) is known.\nThe null hypothesis is \\(H_0: \\mu = \\mu_0\\) and the alternative hypothesis is \\(H_1: \\mu \\neq \\mu_0\\).\nWe can use the normal prior or Cauchy piror centered at \\(\\mu_0\\) (since it has heavy tails) for \\(\\mu\\).\nFor the variance \\(\\sigma^2\\), it is okay to use the Jeffreys prior.\nThen we can use sampling techniques (e.g., MCMC) to sample from the posterior and compute the Bayes factor."
+  },
+  {
+    "objectID": "slides/06-testing.html#example",
+    "href": "slides/06-testing.html#example",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Example",
+    "text": "Example\nThis is a dataset which shows the effect of two soporific drugs (increase in hours of sleep compared to control) on 10 patients.\n\nlibrary(BayesFactor)\nlibrary(ggplot2)\nlibrary(tidyverse)\n\ndata(sleep)\nggplot(sleep, aes(x = group, y = extra)) + geom_boxplot()"
+  },
+  {
+    "objectID": "slides/06-testing.html#example-1",
+    "href": "slides/06-testing.html#example-1",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Example",
+    "text": "Example\nWe want to see the difference in efficacy of the drugs.\n\nttestBF(x = sleep$extra[sleep$group==1], \n        y = sleep$extra[sleep$group==2], \n        paired=TRUE)\n\nBayes factor analysis\n--------------\n[1] Alt., r=0.707 : 17.25888 ±0%\n\nAgainst denominator:\n  Null, mu = 0 \n---\nBayes factor type: BFoneSample, JZS\n\n\nPriors:\n\n\nJeffreys prior for the variance\nCauchy prior for the mean (effect size)\n\n\nYou can change the priors and see how the results change. This might require you to implement the sampling process yourself."
+  },
+  {
+    "objectID": "slides/06-testing.html#example-2",
+    "href": "slides/06-testing.html#example-2",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Example",
+    "text": "Example\nTo check the quality of the posterior samples, you can ask the function to return posterior rather than the Bayes factor.\n\nsamples &lt;- ttestBF(x = sleep$extra[sleep$group==1],\n                   y = sleep$extra[sleep$group==2], \n                   paired=TRUE, \n                   posterior = TRUE, iterations = 1000)\nplot(samples[, \"mu\"])"
+  },
+  {
+    "objectID": "slides/06-testing.html#model-selection-1",
+    "href": "slides/06-testing.html#model-selection-1",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Model selection",
+    "text": "Model selection\n\nHypothesis testing is a special case of model selection.\nA general model selection problem is to choose between a collection of models \\(M_1, \\ldots, M_k\\).\nFor example, we can choose whether we want to use a linear regression model or a quadratic regression model.\nThe choice can be based on the \\(R^2\\) or the adjusted \\(R^2\\), i.e., choose the one with highest adjusted \\(R^2\\).\nFor general models (e.g., non-linear regression), we can use + information criterion (e.g., AIC, BIC)\n\nBayes factor"
   },
   {
     "objectID": "slides/06-testing.html#information-criterion",
     "href": "slides/06-testing.html#information-criterion",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Information criterion",
-    "text": "Information criterion\n\nThe deviance is defined as \\[\nD(\\theta) = -2 \\log f(x \\mid \\theta).\n\\]\nThe Bayesian information criterion (BIC) is defined as \\[\n\\text{BIC} = -2 \\log f(x \\mid \\hat{\\theta}) + \\log n \\cdot \\text{df},\n\\] where \\(\\hat{\\theta}\\) is the MLE and \\(\\text{df}\\) is the number of parameters in the model.\nThe Akaike information criterion (AIC) is defined as \\[\n\\text{AIC} = -2 \\log f(x \\mid \\hat{\\theta}) + 2 \\cdot \\text{df}.\n\\]\nThe deviance information criterion (DIC) is defined as \\[\n\\text{DIC} = -2 \\log f(x \\mid \\hat{\\theta}) + 2 \\cdot p_D,\n\\] where \\(p_D = \\E_{\\theta \\mid x} \\left[D(\\theta)\\right] - D(\\E_{\\theta \\mid x}[\\theta])\\) is the effective number of parameters."
+    "text": "Information criterion\n\nThe general form of an information criterion is \\[\n-\\text{Model fit} + \\text{Penalty}.\n\\]\nWe choose the model with the smallest value of the information criterion.\nThe ‘Model fit’ is typically chosen as the log-likelihood of the model.\nThe ‘Penalty’ is typically chosen as a function of the number of parameters in the model.\nFor Bayesian information criterion (BIC), \\(\\text{Penalty} = p\\log n\\).\nFor Akaike information criterion (AIC), \\(\\text{Penalty} = 2p\\).\nHowever, a small value of the information criterion only indicates a good model fit of the dataset."
   },
   {
     "objectID": "slides/06-testing.html#cross-validation",
     "href": "slides/06-testing.html#cross-validation",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Cross-validation",
-    "text": "Cross-validation\n\nCross-validation is a way to evaluate the predictive performance of a model.\nThe idea is to split the data into two parts: a training set and a test set.\nThe model is fit to the training set, and then the predictive performance is evaluated on the test set.\nThe predictive performance is measured by the predictive mean squared error (PMSE) \\[\n\\text{PMSE} = \\frac{1}{n} \\sum_{i=1}^n \\E_{\\theta \\mid x} \\left[(y_i - \\hat{y}_i)^2 \\mid x_i\\right],\n\\] where \\(\\hat{y}_i\\) is the prediction of \\(y_i\\) based on the training set.\nThe leave-one-out cross-validation (LOO-CV) is defined as \\[\n\\text{LOO-CV} = \\frac{1}{n} \\sum_{i=1}^n \\E_{\\theta \\mid x} \\left[(y_i - \\hat{y}_i)^2 \\mid x_i\\right],\n\\] where \\(\\hat{y}_i\\) is the prediction of \\(y_i\\) based on the training set without \\(x_i\\)."
+    "text": "Cross-validation\n\nCross-validation is a way to evaluate the predictive performance of a model.\nThe idea is to split the data into two parts: a training set and a validation set.\nThe model is fit to the training set, and then the predictive performance is evaluated on the validation set.\nCommonly used approaches are \\(k\\)-fold cross-validation and leave-one-out cross-validation."
   },
   {
     "objectID": "slides/06-testing.html#bayes-factor-1",
     "href": "slides/06-testing.html#bayes-factor-1",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Bayes Factor",
-    "text": "Bayes Factor\n\n\n\n\n\nHome"
+    "text": "Bayes Factor\n\nAlthough BIC has “Bayesian” in its name, it is not technically a Bayesian method. It just has a Bayesian interpretation.\nThe Bayes factor can be defined in the general model selection setting: \\[\n\\text{BF}_{ij} = \\left.\\frac{\\P(M_i \\mid x)}{\\P(M_j \\mid x)}\\middle/\\frac{\\P(M_i)}{\\P(M_j)}\\right.\n\\] where \\(\\P(M_i)\\) is the prior belief of the model \\(M_i\\).\nIf \\(\\text{BF}_{ij}\\) is large enough, than we prefer model \\(M_i\\) over model \\(M_j\\).\nIf we don’t have any preference between models, \\(\\P(M_i) = 1/k\\) and comparison of Bayes factor is equivalent to comparison of posterior probability of models.\nIf you prefer simpler models, you can assign higher prior preference to simpler models and see if the posterior outweighs your preference."
+  },
+  {
+    "objectID": "slides/06-testing.html#bayes-factor-2",
+    "href": "slides/06-testing.html#bayes-factor-2",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayes Factor",
+    "text": "Bayes Factor\n\nUsually not only do we have priors for difference models, we also have priors for the parameters in each model.\nFor example, if model \\(M_i\\) is indexed by the parameter \\(\\theta_i\\) and \\(\\theta_i\\) has prior \\(\\pi_i(\\theta_i)\\), then \\[\n\\P(M_i \\mid x) = \\frac{\\P(M_i) \\P(x \\mid M_i)}{\\sum_{j=1}^k \\P(M_j) \\P(x \\mid M_j)}\n\\] where \\[\n\\P(x \\mid M_i) = \\int \\P(x \\mid \\theta_i, M_i) \\pi_i(\\theta_i) \\, d\\theta_i.\n\\]\nIf we assume \\(\\P(M_i) = 1/k\\), then the Bayes factor is \\[\n\\text{BF}_{ij} = \\frac{\\P(x \\mid M_i)}{\\P(x \\mid M_j)} = \\frac{\\int \\P(x \\mid \\theta_i, M_i) \\pi_i(\\theta_i) \\, d\\theta_i}{\\int \\P(x \\mid \\theta_j, M_j) \\pi_j(\\theta_j) \\, d\\theta_j}.\n\\]"
+  },
+  {
+    "objectID": "slides/06-testing.html#model-averaging",
+    "href": "slides/06-testing.html#model-averaging",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Model averaging",
+    "text": "Model averaging\n\nModel averaging is a way to combine the results from multiple models.\nThe idea is to average the posterior distributions of the parameters over all models.\nFor prediction, we can use the posterior predictive distribution \\[\n\\P(x_{\\text{new}} \\mid x) = \\sum_{i=1}^k \\P(x_{\\text{new}} \\mid x, M_i) \\P(M_i \\mid x).\n\\]\nA commonly used trick in machine learning, called ensemble, is to use a weighted average of the predictions from different models: \\[\nx_{\\text{new}} = \\sum_{i=1}^k w_i x_{\\text{new},i}\n\\] where \\(x_{\\text{new},i}\\) is the prediction from model \\(M_i\\) and \\(w_i\\) is the weight for model \\(M_i\\).\nUsually the weights are chosen to be \\(1/k\\) or through cross-validation."
+  },
+  {
+    "objectID": "slides/06-testing.html#model-diagnostics",
+    "href": "slides/06-testing.html#model-diagnostics",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Model diagnostics",
+    "text": "Model diagnostics\n\nModel diagnostics is a way to check whether the model is appropriate for the data.\nIf we have a collection of candidate models, we can choose the best model based on the techniques we discussed earlier.\nHowever, the selected model may not be a good model.\nWe have to check whether the model is good not just by comparing with other models."
+  },
+  {
+    "objectID": "slides/06-testing.html#what-do-we-need-to-check",
+    "href": "slides/06-testing.html#what-do-we-need-to-check",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "What do we need to check?",
+    "text": "What do we need to check?\n\nA ‘model’ encompasses the sampling distribution, the prior distribution, any hierarchical structure, and issues such as which explanatory variables have been included in a regression.\nSensitivity analysis: how much do posterior inferences change when other reasonable probability models are used in place of the present model?\nExternal validation: using the model to make predictions about future data, and then collecting those data and comparing to their predictions.\nRobustness: how do the model performs when every assumption we made is wrong?\nThere is no general recipe for model checking. It depends on the model and the purpose of the model.\nHowever, we can do simulation, which uses the worst data you can possibly imagine, to diagnose the model.\n\n\n\nHome"
   },
   {
     "objectID": "slides/04-estimation.html#introduction",
@@ -592,14 +662,14 @@
     "href": "index.html",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#course-schedule",
     "href": "index.html#course-schedule",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\n\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\n\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\n\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#important-dates",
@@ -1208,7 +1278,7 @@
     "href": "slides/05-hierarchical_model.html#asymptotics-of-bayesian-inference",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Asymptotics of Bayesian inference",
-    "text": "Asymptotics of Bayesian inference\n\nThe Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.\nSee Section 10.2 of Van der Vaart (2000) for rigorous arguments.\nThe regularity conditions include:\n\nthe posterior must be proper, and\nthe prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.\n\nRoughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems like nonparametric problems, it might not work as well as you expect1.\n\n\n\nVan der Vaart, A. W. (2000). Asymptotic statistics.\nSee this blog post for an interesting discussion on Bernstein-von Mises Theoerm."
+    "text": "Asymptotics of Bayesian inference\n\nThe Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.\nSee Section 10.2 of Van der Vaart (2000) for rigorous arguments.\nThe regularity conditions include:\n\nthe posterior must be proper, and\nthe prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.\n\nRoughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect1.\n\n\n\nVan der Vaart, A. W. (2000). Asymptotic statistics.\nSee this blog post for an interesting discussion on Bernstein-von Mises Theoerm."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior",
@@ -1278,7 +1348,7 @@
     "href": "slides/05-hierarchical_model.html#random-effect-models",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Random effect models",
-    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + \\gamma_iX_i + \\varepsilon_i\\), \\(\\gamma_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(\\gamma_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with a unit increase in \\(X\\)."
+    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\varepsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#mixed-effect-model",
@@ -1299,14 +1369,14 @@
     "href": "slides/05-hierarchical_model.html#data-description-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Data description",
-    "text": "Data description\n\nlibrary(lme4)\nlibrary(tidyverse)\nlibrary(kableExtra)\ndata(\"sleepstudy\")\nsleepstudy |&gt; head() |&gt; kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
+    "text": "Data description\n\nlibrary(lme4)\nlibrary(tidyverse)\nlibrary(kableExtra)\ndata(\"sleepstudy\")\nsleepstudy %&gt;% head() %&gt;% kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#first-attempt-simple-linear-regression",
     "href": "slides/05-hierarchical_model.html#first-attempt-simple-linear-regression",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "First attempt: simple linear regression",
-    "text": "First attempt: simple linear regression\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple linear model: \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy |&gt;\n    lm(Reaction ~ Days, data = _, subset=Days&gt;=2) |&gt;\n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n223.31 – 266.88\n&lt;0.001\n\n\nDays\n11.44\n7.78 – 15.09\n&lt;0.001\n\n\nObservations\n144\n\n\nR2 / R2 adjusted\n0.212 / 0.207"
+    "text": "First attempt: simple linear regression\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple linear model: \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy %&gt;%\n    lm(Reaction ~ Days, data = ., subset=Days&gt;=2) %&gt;% \n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n223.31 – 266.88\n&lt;0.001\n\n\nDays\n11.44\n7.78 – 15.09\n&lt;0.001\n\n\nObservations\n144\n\n\nR2 / R2 adjusted\n0.212 / 0.207"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#individual-difference",
@@ -1327,7 +1397,7 @@
     "href": "slides/05-hierarchical_model.html#second-attempt-mixed-effect-model-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Second attempt: Mixed effect model",
-    "text": "Second attempt: Mixed effect model\n\nsleepstudy |&gt;\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = _, subset=Days&gt;=2) |&gt;\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n227.71 – 262.49\n&lt;0.001\n\n\nDays\n11.44\n7.97 – 14.90\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n662.92\n\n\n\nτ00 Subject\n831.93\n\n\nτ11 Subject.Days\n39.50\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.316 / 0.697"
+    "text": "Second attempt: Mixed effect model\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = ., subset=Days&gt;=2) %&gt;%\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n227.71 – 262.49\n&lt;0.001\n\n\nDays\n11.44\n7.97 – 14.90\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n662.92\n\n\n\nτ00 Subject\n831.93\n\n\nτ11 Subject.Days\n39.50\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.316 / 0.697"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
@@ -1348,7 +1418,7 @@
     "href": "slides/05-hierarchical_model.html#wrap-up",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Wrap-up",
-    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote that a hierarchical model need not be a Bayesian model. However, Bayesian approach is a natural way to fit a hierarchical model."
+    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#motivation",
@@ -1376,7 +1446,7 @@
     "href": "slides/05-hierarchical_model.html#data-description-3",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Data description",
-    "text": "Data description\n\nmeta &lt;- read.table(\"http://www.stat.columbia.edu/~gelman/book/data/meta.asc\", \n                  header = TRUE, skip = 4)\nmeta |&gt; head() |&gt; kbl()\n\n\n\n\nstudy\ncontrol.deaths\ncontrol.total\ntreated.deaths\ntreated.total\n\n\n\n\n1\n3\n39\n3\n38\n\n\n2\n14\n116\n7\n114\n\n\n3\n11\n93\n5\n69\n\n\n4\n127\n1520\n102\n1533\n\n\n5\n27\n365\n28\n355\n\n\n6\n6\n52\n4\n59"
+    "text": "Data description\n\nmeta &lt;- read.table(\"http://www.stat.columbia.edu/~gelman/book/data/meta.asc\", \n                  header = TRUE, skip = 4)\nmeta %&gt;% head() %&gt;% kbl()\n\n\n\n\nstudy\ncontrol.deaths\ncontrol.total\ntreated.deaths\ntreated.total\n\n\n\n\n1\n3\n39\n3\n38\n\n\n2\n14\n116\n7\n114\n\n\n3\n11\n93\n5\n69\n\n\n4\n127\n1520\n102\n1533\n\n\n5\n27\n365\n28\n355\n\n\n6\n6\n52\n4\n59"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#odds-ratio",
@@ -1397,7 +1467,7 @@
     "href": "slides/05-hierarchical_model.html#odds-ratio-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Odds ratio",
-    "text": "Odds ratio\n\nmeta_summary &lt;- meta |&gt;\n    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),\n           control.odds = control.deaths/(control.total - control.deaths),\n           log.odds.ratio = log(treated.odds) - log(control.odds), \n           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + \n               1/control.deaths + 1/(control.total - control.deaths)) |&gt;\n    select(c(study, log.odds.ratio, var)) \nmeta_summary |&gt; head() |&gt; kbl(digits = 4)\n\n\n\n\nstudy\nlog.odds.ratio\nvar\n\n\n\n\n1\n0.0282\n0.7230\n\n\n2\n-0.7410\n0.2334\n\n\n3\n-0.5406\n0.3187\n\n\n4\n-0.2461\n0.0191\n\n\n5\n0.0695\n0.0788\n\n\n6\n-0.5842\n0.4566"
+    "text": "Odds ratio\n\nmeta_summary &lt;- meta %&gt;% \n    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),\n           control.odds = control.deaths/(control.total - control.deaths),\n           log.odds.ratio = log(treated.odds) - log(control.odds), \n           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + \n               1/control.deaths + 1/(control.total - control.deaths)) %&gt;%\n    select(c(study, log.odds.ratio, var)) \nmeta_summary %&gt;% head() %&gt;% kbl(digits = 4)\n\n\n\n\nstudy\nlog.odds.ratio\nvar\n\n\n\n\n1\n0.0282\n0.7230\n\n\n2\n-0.7410\n0.2334\n\n\n3\n-0.5406\n0.3187\n\n\n4\n-0.2461\n0.0191\n\n\n5\n0.0695\n0.0788\n\n\n6\n-0.5842\n0.4566"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#goal-of-the-inference",
@@ -1418,69 +1488,6 @@
     "href": "slides/05-hierarchical_model.html#weakly-informative-priors-for-variance-parameters",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Weakly informative priors for variance parameters",
-    "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\theta\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
-  },
-  {
-    "objectID": "slides/06-testing.html#type-i-error-and-type-ii-error-for-bayesian-test",
-    "href": "slides/06-testing.html#type-i-error-and-type-ii-error-for-bayesian-test",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Type I error and Type II error for Bayesian test",
-    "text": "Type I error and Type II error for Bayesian test\n\nThe Type I error is \\[\n\\alpha = \\P^\\pi\\left(\\theta \\in \\Theta_1 \\mid \\theta \\in \\Theta_0\\right) = \\frac{\\int_{\\Theta_0} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}{\\int_{\\Theta} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}.\n\\]\nThe Type II error is \\[\n\\beta = \\P^\\pi\\left(\\theta \\in \\Theta_0 \\mid \\theta \\in \\Theta_1\\right) = \\frac{\\int_{\\Theta_1} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}{\\int_{\\Theta} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}.\n\\]\nThe power of the test is \\(1 - \\beta\\).\nThe Bayes factor is the ratio of the prior odds to the posterior odds."
-  },
-  {
-    "objectID": "slides/06-testing.html#bayesian-t-test",
-    "href": "slides/06-testing.html#bayesian-t-test",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Bayesian t-test",
-    "text": "Bayesian t-test\n\nSuppose \\(X_1, \\ldots, X_n \\iid N(\\mu, \\sigma^2)\\) and \\(\\sigma^2\\) is known.\nThe null hypothesis is \\(H_0: \\mu = \\mu_0\\) and the alternative hypothesis is \\(H_1: \\mu \\neq \\mu_0\\).\nThe likelihood function is \\[\nL(\\mu \\mid x) = \\prod_{i=1}^n \\frac{1}{\\sqrt{2\\pi}\\sigma} \\exp\\left(-\\frac{(x_i - \\mu)^2}{2\\sigma^2}\\right) = \\frac{1}{(2\\pi\\sigma^2)^{n/2}} \\exp\\left(-\\frac{\\sum_{i=1}^n (x_i - \\mu)^2}{2\\sigma^2}\\right).\n\\]\nThe posterior distribution is \\[\n\\pi(\\mu \\mid x) \\propto \\exp\\left(-\\frac{\\sum_{i=1}^n (x_i - \\mu)^2}{2\\sigma^2}\\right) \\cdot \\mathbb{I}_{\\mu \\in \\Theta_0}(\\mu).\n\\]\nThe posterior mean is \\[\n\\E(\\mu \\mid x) = \\frac{\\sum_{i=1}^n x_i + \\mu_0/\\sigma^2}{n + 1/\\sigma^2}.\n\\]\nThe posterior variance is \\[\n\\Var(\\mu \\mid x) = \\frac{\\sigma^2}{n + 1/\\sigma^2}.\n\\]"
-  },
-  {
-    "objectID": "slides/06-testing.html#model-averaging",
-    "href": "slides/06-testing.html#model-averaging",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Model averaging",
-    "text": "Model averaging\n\nModel averaging is a way to combine the results from multiple models.\nThe idea is to average the posterior distributions of the parameters over all models.\nThe posterior probability of model \\(M_i\\) is \\[\n\\P(M_i \\mid x) = \\frac{\\P(M_i) \\P(x \\mid M_i)}{\\sum_{j=1}^k \\P(M_j) \\P(x \\mid M_j)}.\n\\]\nThe posterior distribution of \\(\\theta\\) is \\[\n\\P(\\theta \\mid x) = \\sum_{i=1}^k \\P(M_i \\mid x) \\P(\\theta \\mid x, M_i).\n\\]"
-  },
-  {
-    "objectID": "slides/06-testing.html#differences-between-bayes-factor-and-p-value",
-    "href": "slides/06-testing.html#differences-between-bayes-factor-and-p-value",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Differences between Bayes factor and \\(p\\)-value",
-    "text": "Differences between Bayes factor and \\(p\\)-value\n\n\\(p\\)-value is the probability of observing a test statistic at least as extreme as the one observed, given that \\(H_0\\) is true.\nSo small \\(p\\)-values provide evidence against \\(H_0\\), but large \\(p\\)-values do not provide evidence in favor of \\(H_0\\) (or against \\(H_1\\)).\nIn contrast, large Bayes factors provide evidence in favor of \\(H_0\\), and small Bayes factors provide evidence in favor of \\(H_1\\) (or against \\(H_0\\)).\nThe \\(p\\)-value bases rejection of \\(H_0\\) on unlikely events that did not occur."
-  },
-  {
-    "objectID": "slides/06-testing.html#example",
-    "href": "slides/06-testing.html#example",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Example",
-    "text": "Example"
-  },
-  {
-    "objectID": "slides/06-testing.html#improper-prior-for-testing",
-    "href": "slides/06-testing.html#improper-prior-for-testing",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Improper prior for testing",
-    "text": "Improper prior for testing\n\nFor Bayesian estimation, improper priors (e.g., noninformative priors) sometimes give us good estimates, although we are required to check the propriety of the posterior.\nFor testing, it is not recommended to use improper prior for a couple of reasons.\n\nImproper priors make the Bayes factor undefined.\nThe testing setting is not coherent with an absolute lack of information since we need to decide our hypotheses.\n\nThere are still some solutions proposed to overcome the difficulties related to the use of improper priors.\nMost of them are based on the idea to use part of the data to transform the priors into proper distributions.\nFor example, partial Bayes factor uses a subset of samples (training sample) to construct a proper prior, and use the rest to compute the Bayes factor."
-  },
-  {
-    "objectID": "slides/06-testing.html#bayesian-one-sample-t-test",
-    "href": "slides/06-testing.html#bayesian-one-sample-t-test",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Bayesian one sample t-test",
-    "text": "Bayesian one sample t-test\n\nSuppose \\(X_1, \\ldots, X_n \\iid N(\\mu, \\sigma^2)\\) and \\(\\sigma^2\\) is known.\nThe null hypothesis is \\(H_0: \\mu = \\mu_0\\) and the alternative hypothesis is \\(H_1: \\mu \\neq \\mu_0\\)."
-  },
-  {
-    "objectID": "slides/06-testing.html#type-i-and-type-ii-errors-for-bayesian-test",
-    "href": "slides/06-testing.html#type-i-and-type-ii-errors-for-bayesian-test",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Type I and Type II errors for Bayesian test",
-    "text": "Type I and Type II errors for Bayesian test\n\nAlthough it is possible to define Type I and Type II errors for Bayesian tests, the concept is not compatible with Bayesian paradigm.\nIn Bayesian inference, we tend not to give a simple, dichotomous answer to the question of whether a hypothesis is true or false.\nWe compute the posterior probability of the two hypotheses and choose the hypothesis when you think the evidence (e.g., Bayes factor) is strong enough."
-  },
-  {
-    "objectID": "slides/06-testing.html#model-selection-1",
-    "href": "slides/06-testing.html#model-selection-1",
-    "title": "Lecture 06: Testing and Model Selection",
-    "section": "Model selection",
-    "text": "Model selection\n\nHypothesis testing is a special case of model selection.\nA general model selection problem is to choose between two models \\(M_1\\) and \\(M_2\\).\nFor example, we can choose whether we want to use a linear regression model or a quadratic regression model.\nThe choice can be based on the \\(R^2\\) or the adjusted \\(R^2\\), i.e., choose the one with highest adjusted \\(R^2\\)."
+    "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\mu\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
   }
 ]

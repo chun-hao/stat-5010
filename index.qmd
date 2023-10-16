@@ -12,7 +12,7 @@ title: "Bayesian Statistical Methods (Fall 2023)"
 |  4   | 9/26  | Decision Theory and Bayesian Estimation                   | [Slide](slides/04-estimation.qmd)  | BC Ch. 2, 4               |
 |  5   | 10/3  | Connections to non-Bayesian Analysis; Hierarchical Models | [Slide](slides/05-hierarchical_model.qmd) | BDA Ch. 4, 5              |
 |  6   | 10/10 | No class (National Holiday)                               |                                    |                           |
-|  7   | 10/17 | Testing and Model Comparison                              |                                    | BC Ch. 5, 7, BDA Ch. 6, 7 |
+|  7   | 10/17 | Testing and Model Comparison                              | [Slide](slides/06-testing.qmd)     | BC Ch. 5, 7, BDA Ch. 6, 7 |
 |  8   | 10/24 | Project Proposal                                          |                                    |                           |
 |  9   | 10/31 | Metropolis-Hastings algorithms; Gibbs sampler             |                                    | BDA Ch. 10-11             |
 |  10  | 11/7  | Hamiltonian Monte Carlo; Variational Inference            |                                    | BDA Ch. 12-13             |
