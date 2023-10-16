@@ -447,13 +447,61 @@ R(\theta, \delta) &amp; = \E L(\theta, \delta(X)) = \P(\delta(X) = 1 \mid \theta
 <li class="fragment">What are the Type I and Type II errors?</li>
 <li class="fragment">What is the power of the test?</li>
 <li class="fragment">What if we have a point null hypothesis <span class="math inline">\(H_0: \theta = \theta_0\)</span>? For continuous parameter, a Bayesian test will <u>always reject <span class="math inline">\(H_0\)</span></u>.</li>
+<li class="fragment">Is this rejection due to the prior or the observation?</li>
 </ul>
 </section>
 <section id="bayes-factor" class="slide level2">
 <h2>Bayes Factor</h2>
+<ul>
+<li class="fragment">The Bayes factor is the ratio of posterior odds to the prior odds <span class="math display">\[
+B_{01}^\pi(x)=\left.\frac{P\left(\theta \in \Theta_0 \mid x\right)}{P\left(\theta \in \Theta_1 \mid x\right)} \middle/ \frac{\pi\left(\theta \in \Theta_0\right)}{\pi\left(\theta \in \Theta_1\right)}\right..
+\]</span></li>
+<li class="fragment">It is an “objective” answer, since it partly eliminates the influence of the prior modeling and emphasizes the role of the observations.</li>
+<li class="fragment">If the Bayes factor is 1, the observation does not provide information in favor of either hypothesis.</li>
+<li class="fragment">If the Bayes factor is greater than 1, the observation favors <span class="math inline">\(H_0\)</span> and hence we accept <span class="math inline">\(H_0\)</span> when the Bayes factor is large.</li>
+<li class="fragment">The Bayes factor offers a continuum of evidence, rather than a dichotomous decision.</li>
+</ul>
 </section>
-<section id="p-value-bc-5.3.4" class="slide level2">
-<h2>p-value (BC 5.3.4)</h2>
+<section id="differences-between-bayes-factor-and-p-value" class="slide level2">
+<h2>Differences between Bayes factor and <span class="math inline">\(p\)</span>-value</h2>
+<ul>
+<li class="fragment"><span class="math inline">\(p\)</span>-value is the probability of observing a test statistic at least as extreme as the one observed, given that <span class="math inline">\(H_0\)</span> is true.</li>
+<li class="fragment">So small <span class="math inline">\(p\)</span>-values provide evidence against <span class="math inline">\(H_0\)</span>, but large <span class="math inline">\(p\)</span>-values do not provide evidence in favor of <span class="math inline">\(H_0\)</span> (or against <span class="math inline">\(H_1\)</span>).</li>
+<li class="fragment">In contrast, large Bayes factors provide evidence in favor of <span class="math inline">\(H_0\)</span>, and small Bayes factors provide evidence in favor of <span class="math inline">\(H_1\)</span> (or against <span class="math inline">\(H_0\)</span>).</li>
+<li class="fragment">The <span class="math inline">\(p\)</span>-value bases rejection of <span class="math inline">\(H_0\)</span> on <strong>unlikely events that did not occur</strong>.</li>
+</ul>
+</section>
+<section id="type-i-and-type-ii-errors-for-bayesian-test" class="slide level2">
+<h2>Type I and Type II errors for Bayesian test</h2>
+<ul>
+<li class="fragment">Although it is possible to define Type I and Type II errors for Bayesian tests, the concept is not compatible with Bayesian paradigm.</li>
+<li class="fragment">In Bayesian inference, we tend not to give a simple, dichotomous answer to the question of whether a hypothesis is true or false.</li>
+<li class="fragment">We compute the posterior probability of the two hypotheses and choose the hypothesis when you think the evidence (e.g., Bayes factor) is strong enough.</li>
+</ul>
+</section>
+<section id="improper-prior-for-testing" class="slide level2">
+<h2>Improper prior for testing</h2>
+<ul>
+<li class="fragment">For Bayesian estimation, improper priors (e.g., noninformative priors) sometimes give us good estimates, although we are required to check the propriety of the posterior.</li>
+<li class="fragment">For testing, it is not recommended to use improper prior for a couple of reasons.
+<ol type="1">
+<li class="fragment">Improper priors make the Bayes factor undefined.</li>
+<li class="fragment">The testing setting is not coherent with an absolute lack of information since we need to decide our hypotheses.</li>
+</ol></li>
+<li class="fragment">There are still some solutions proposed to overcome the difficulties related to the use of improper priors.</li>
+<li class="fragment">Most of them are based on the idea to use part of the data to transform the priors into proper distributions.</li>
+<li class="fragment">For example, partial Bayes factor uses a subset of samples (training sample) to construct a proper prior, and use the rest to compute the Bayes factor.</li>
+</ul>
+</section>
+<section id="bayesian-one-sample-t-test" class="slide level2">
+<h2>Bayesian one sample t-test</h2>
+<ul>
+<li class="fragment">Suppose <span class="math inline">\(X_1, \ldots, X_n \iid N(\mu, \sigma^2)\)</span> and <span class="math inline">\(\sigma^2\)</span> is known.</li>
+<li class="fragment">The null hypothesis is <span class="math inline">\(H_0: \mu = \mu_0\)</span> and the alternative hypothesis is <span class="math inline">\(H_1: \mu \neq \mu_0\)</span>.</li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
 </section></section>
 <section>
 <section id="model-disagnostics" class="title-slide slide level1 center">
@@ -474,14 +522,64 @@ R(\theta, \delta) &amp; = \E L(\theta, \delta(X)) = \P(\delta(X) = 1 \mid \theta
 <h1>Model Selection</h1>
 
 </section>
+<section id="model-selection-1" class="slide level2">
+<h2>Model selection</h2>
+<ul>
+<li class="fragment">Hypothesis testing is a special case of model selection.</li>
+<li class="fragment">A general model selection problem is to choose between two models <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span>.</li>
+<li class="fragment">For example, we can choose whether we want to use a linear regression model or a quadratic regression model.</li>
+<li class="fragment">The choice can be based on the <span class="math inline">\(R^2\)</span> or the adjusted <span class="math inline">\(R^2\)</span>, i.e., choose the one with highest adjusted <span class="math inline">\(R^2\)</span>.</li>
+</ul>
+</section>
 <section id="information-criterion" class="slide level2">
 <h2>Information criterion</h2>
+<ul>
+<li class="fragment"><p>The <strong>deviance</strong> is defined as <span class="math display">\[
+D(\theta) = -2 \log f(x \mid \theta).
+\]</span></p></li>
+<li class="fragment"><p>The <strong>Bayesian information criterion</strong> (BIC) is defined as <span class="math display">\[
+\text{BIC} = -2 \log f(x \mid \hat{\theta}) + \log n \cdot \text{df},
+\]</span> where <span class="math inline">\(\hat{\theta}\)</span> is the MLE and <span class="math inline">\(\text{df}\)</span> is the number of parameters in the model.</p></li>
+<li class="fragment"><p>The <strong>Akaike information criterion</strong> (AIC) is defined as <span class="math display">\[
+\text{AIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot \text{df}.
+\]</span></p></li>
+<li class="fragment"><p>The <strong>deviance information criterion</strong> (DIC) is defined as <span class="math display">\[
+\text{DIC} = -2 \log f(x \mid \hat{\theta}) + 2 \cdot p_D,
+\]</span> where <span class="math inline">\(p_D = \E_{\theta \mid x} \left[D(\theta)\right] - D(\E_{\theta \mid x}[\theta])\)</span> is the effective number of parameters.</p></li>
+</ul>
+</section>
+<section id="model-averaging" class="slide level2">
+<h2>Model averaging</h2>
+<ul>
+<li class="fragment">Model averaging is a way to combine the results from multiple models.</li>
+<li class="fragment">The idea is to average the posterior distributions of the parameters over all models.</li>
+<li class="fragment">The posterior probability of model <span class="math inline">\(M_i\)</span> is <span class="math display">\[
+\P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}.
+\]</span></li>
+<li class="fragment">The posterior distribution of <span class="math inline">\(\theta\)</span> is <span class="math display">\[
+\P(\theta \mid x) = \sum_{i=1}^k \P(M_i \mid x) \P(\theta \mid x, M_i).
+\]</span></li>
+</ul>
 </section>
 <section id="cross-validation" class="slide level2">
 <h2>Cross-validation</h2>
+<ul>
+<li class="fragment"><p>Cross-validation is a way to evaluate the predictive performance of a model.</p></li>
+<li class="fragment"><p>The idea is to split the data into two parts: a training set and a test set.</p></li>
+<li class="fragment"><p>The model is fit to the training set, and then the predictive performance is evaluated on the test set.</p></li>
+<li class="fragment"><p>The predictive performance is measured by the predictive mean squared error (PMSE) <span class="math display">\[
+\text{PMSE} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
+\]</span> where <span class="math inline">\(\hat{y}_i\)</span> is the prediction of <span class="math inline">\(y_i\)</span> based on the training set.</p></li>
+<li class="fragment"><p>The <strong>leave-one-out cross-validation</strong> (LOO-CV) is defined as <span class="math display">\[
+\text{LOO-CV} = \frac{1}{n} \sum_{i=1}^n \E_{\theta \mid x} \left[(y_i - \hat{y}_i)^2 \mid x_i\right],
+\]</span> where <span class="math inline">\(\hat{y}_i\)</span> is the prediction of <span class="math inline">\(y_i\)</span> based on the training set without <span class="math inline">\(x_i\)</span>.</p></li>
+</ul>
 </section>
 <section id="bayes-factor-1" class="slide level2">
 <h2>Bayes Factor</h2>
+<ul>
+<li class="fragment"></li>
+</ul>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>

@@ -39,14 +39,14 @@
     "href": "slides/06-testing.html#bayesian-test",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Bayesian test",
-    "text": "Bayesian test\n\nA Bayesian test with prior \\(\\pi\\) rejects \\(H_0: \\theta \\in \\Theta_0\\) if \\[\n\\P^\\pi\\left(\\theta \\in \\Theta_1 \\mid x\\right) &gt; \\P^\\pi\\left(\\theta \\in \\Theta_0 \\mid x\\right).\n\\]\nWhat are the Type I and Type II errors?\nWhat is the power of the test?\nWhat if we have a point null hypothesis \\(H_0: \\theta = \\theta_0\\)? For continuous parameter, a Bayesian test will always reject \\(H_0\\)."
+    "text": "Bayesian test\n\nA Bayesian test with prior \\(\\pi\\) rejects \\(H_0: \\theta \\in \\Theta_0\\) if \\[\n\\P^\\pi\\left(\\theta \\in \\Theta_1 \\mid x\\right) &gt; \\P^\\pi\\left(\\theta \\in \\Theta_0 \\mid x\\right).\n\\]\nWhat are the Type I and Type II errors?\nWhat is the power of the test?\nWhat if we have a point null hypothesis \\(H_0: \\theta = \\theta_0\\)? For continuous parameter, a Bayesian test will always reject \\(H_0\\).\nIs this rejection due to the prior or the observation?"
   },
   {
     "objectID": "slides/06-testing.html#bayes-factor",
     "href": "slides/06-testing.html#bayes-factor",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Bayes Factor",
-    "text": "Bayes Factor"
+    "text": "Bayes Factor\n\nThe Bayes factor is the ratio of posterior odds to the prior odds \\[\nB_{01}^\\pi(x)=\\left.\\frac{P\\left(\\theta \\in \\Theta_0 \\mid x\\right)}{P\\left(\\theta \\in \\Theta_1 \\mid x\\right)} \\middle/ \\frac{\\pi\\left(\\theta \\in \\Theta_0\\right)}{\\pi\\left(\\theta \\in \\Theta_1\\right)}\\right..\n\\]\nIt is an “objective” answer, since it partly eliminates the influence of the prior modeling and emphasizes the role of the observations.\nIf the Bayes factor is 1, the observation does not provide information in favor of either hypothesis.\nIf the Bayes factor is greater than 1, the observation favors \\(H_0\\) and hence we accept \\(H_0\\) when the Bayes factor is large.\nThe Bayes factor offers a continuum of evidence, rather than a dichotomous decision."
   },
   {
     "objectID": "slides/06-testing.html#p-value-bc-5.3.4",
@@ -67,21 +67,21 @@
     "href": "slides/06-testing.html#information-criterion",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Information criterion",
-    "text": "Information criterion"
+    "text": "Information criterion\n\nThe deviance is defined as \\[\nD(\\theta) = -2 \\log f(x \\mid \\theta).\n\\]\nThe Bayesian information criterion (BIC) is defined as \\[\n\\text{BIC} = -2 \\log f(x \\mid \\hat{\\theta}) + \\log n \\cdot \\text{df},\n\\] where \\(\\hat{\\theta}\\) is the MLE and \\(\\text{df}\\) is the number of parameters in the model.\nThe Akaike information criterion (AIC) is defined as \\[\n\\text{AIC} = -2 \\log f(x \\mid \\hat{\\theta}) + 2 \\cdot \\text{df}.\n\\]\nThe deviance information criterion (DIC) is defined as \\[\n\\text{DIC} = -2 \\log f(x \\mid \\hat{\\theta}) + 2 \\cdot p_D,\n\\] where \\(p_D = \\E_{\\theta \\mid x} \\left[D(\\theta)\\right] - D(\\E_{\\theta \\mid x}[\\theta])\\) is the effective number of parameters."
   },
   {
     "objectID": "slides/06-testing.html#cross-validation",
     "href": "slides/06-testing.html#cross-validation",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Cross-validation",
-    "text": "Cross-validation"
+    "text": "Cross-validation\n\nCross-validation is a way to evaluate the predictive performance of a model.\nThe idea is to split the data into two parts: a training set and a test set.\nThe model is fit to the training set, and then the predictive performance is evaluated on the test set.\nThe predictive performance is measured by the predictive mean squared error (PMSE) \\[\n\\text{PMSE} = \\frac{1}{n} \\sum_{i=1}^n \\E_{\\theta \\mid x} \\left[(y_i - \\hat{y}_i)^2 \\mid x_i\\right],\n\\] where \\(\\hat{y}_i\\) is the prediction of \\(y_i\\) based on the training set.\nThe leave-one-out cross-validation (LOO-CV) is defined as \\[\n\\text{LOO-CV} = \\frac{1}{n} \\sum_{i=1}^n \\E_{\\theta \\mid x} \\left[(y_i - \\hat{y}_i)^2 \\mid x_i\\right],\n\\] where \\(\\hat{y}_i\\) is the prediction of \\(y_i\\) based on the training set without \\(x_i\\)."
   },
   {
     "objectID": "slides/06-testing.html#bayes-factor-1",
     "href": "slides/06-testing.html#bayes-factor-1",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Bayes Factor",
-    "text": "Bayes Factor\n\n\nHome"
+    "text": "Bayes Factor\n\n\n\n\n\nHome"
   },
   {
     "objectID": "slides/04-estimation.html#introduction",
@@ -1419,5 +1419,68 @@
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Weakly informative priors for variance parameters",
     "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\theta\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/06-testing.html#type-i-error-and-type-ii-error-for-bayesian-test",
+    "href": "slides/06-testing.html#type-i-error-and-type-ii-error-for-bayesian-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Type I error and Type II error for Bayesian test",
+    "text": "Type I error and Type II error for Bayesian test\n\nThe Type I error is \\[\n\\alpha = \\P^\\pi\\left(\\theta \\in \\Theta_1 \\mid \\theta \\in \\Theta_0\\right) = \\frac{\\int_{\\Theta_0} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}{\\int_{\\Theta} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}.\n\\]\nThe Type II error is \\[\n\\beta = \\P^\\pi\\left(\\theta \\in \\Theta_0 \\mid \\theta \\in \\Theta_1\\right) = \\frac{\\int_{\\Theta_1} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}{\\int_{\\Theta} f(x \\mid \\theta) \\pi(\\theta) \\, d\\theta}.\n\\]\nThe power of the test is \\(1 - \\beta\\).\nThe Bayes factor is the ratio of the prior odds to the posterior odds."
+  },
+  {
+    "objectID": "slides/06-testing.html#bayesian-t-test",
+    "href": "slides/06-testing.html#bayesian-t-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayesian t-test",
+    "text": "Bayesian t-test\n\nSuppose \\(X_1, \\ldots, X_n \\iid N(\\mu, \\sigma^2)\\) and \\(\\sigma^2\\) is known.\nThe null hypothesis is \\(H_0: \\mu = \\mu_0\\) and the alternative hypothesis is \\(H_1: \\mu \\neq \\mu_0\\).\nThe likelihood function is \\[\nL(\\mu \\mid x) = \\prod_{i=1}^n \\frac{1}{\\sqrt{2\\pi}\\sigma} \\exp\\left(-\\frac{(x_i - \\mu)^2}{2\\sigma^2}\\right) = \\frac{1}{(2\\pi\\sigma^2)^{n/2}} \\exp\\left(-\\frac{\\sum_{i=1}^n (x_i - \\mu)^2}{2\\sigma^2}\\right).\n\\]\nThe posterior distribution is \\[\n\\pi(\\mu \\mid x) \\propto \\exp\\left(-\\frac{\\sum_{i=1}^n (x_i - \\mu)^2}{2\\sigma^2}\\right) \\cdot \\mathbb{I}_{\\mu \\in \\Theta_0}(\\mu).\n\\]\nThe posterior mean is \\[\n\\E(\\mu \\mid x) = \\frac{\\sum_{i=1}^n x_i + \\mu_0/\\sigma^2}{n + 1/\\sigma^2}.\n\\]\nThe posterior variance is \\[\n\\Var(\\mu \\mid x) = \\frac{\\sigma^2}{n + 1/\\sigma^2}.\n\\]"
+  },
+  {
+    "objectID": "slides/06-testing.html#model-averaging",
+    "href": "slides/06-testing.html#model-averaging",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Model averaging",
+    "text": "Model averaging\n\nModel averaging is a way to combine the results from multiple models.\nThe idea is to average the posterior distributions of the parameters over all models.\nThe posterior probability of model \\(M_i\\) is \\[\n\\P(M_i \\mid x) = \\frac{\\P(M_i) \\P(x \\mid M_i)}{\\sum_{j=1}^k \\P(M_j) \\P(x \\mid M_j)}.\n\\]\nThe posterior distribution of \\(\\theta\\) is \\[\n\\P(\\theta \\mid x) = \\sum_{i=1}^k \\P(M_i \\mid x) \\P(\\theta \\mid x, M_i).\n\\]"
+  },
+  {
+    "objectID": "slides/06-testing.html#differences-between-bayes-factor-and-p-value",
+    "href": "slides/06-testing.html#differences-between-bayes-factor-and-p-value",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Differences between Bayes factor and \\(p\\)-value",
+    "text": "Differences between Bayes factor and \\(p\\)-value\n\n\\(p\\)-value is the probability of observing a test statistic at least as extreme as the one observed, given that \\(H_0\\) is true.\nSo small \\(p\\)-values provide evidence against \\(H_0\\), but large \\(p\\)-values do not provide evidence in favor of \\(H_0\\) (or against \\(H_1\\)).\nIn contrast, large Bayes factors provide evidence in favor of \\(H_0\\), and small Bayes factors provide evidence in favor of \\(H_1\\) (or against \\(H_0\\)).\nThe \\(p\\)-value bases rejection of \\(H_0\\) on unlikely events that did not occur."
+  },
+  {
+    "objectID": "slides/06-testing.html#example",
+    "href": "slides/06-testing.html#example",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "slides/06-testing.html#improper-prior-for-testing",
+    "href": "slides/06-testing.html#improper-prior-for-testing",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Improper prior for testing",
+    "text": "Improper prior for testing\n\nFor Bayesian estimation, improper priors (e.g., noninformative priors) sometimes give us good estimates, although we are required to check the propriety of the posterior.\nFor testing, it is not recommended to use improper prior for a couple of reasons.\n\nImproper priors make the Bayes factor undefined.\nThe testing setting is not coherent with an absolute lack of information since we need to decide our hypotheses.\n\nThere are still some solutions proposed to overcome the difficulties related to the use of improper priors.\nMost of them are based on the idea to use part of the data to transform the priors into proper distributions.\nFor example, partial Bayes factor uses a subset of samples (training sample) to construct a proper prior, and use the rest to compute the Bayes factor."
+  },
+  {
+    "objectID": "slides/06-testing.html#bayesian-one-sample-t-test",
+    "href": "slides/06-testing.html#bayesian-one-sample-t-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Bayesian one sample t-test",
+    "text": "Bayesian one sample t-test\n\nSuppose \\(X_1, \\ldots, X_n \\iid N(\\mu, \\sigma^2)\\) and \\(\\sigma^2\\) is known.\nThe null hypothesis is \\(H_0: \\mu = \\mu_0\\) and the alternative hypothesis is \\(H_1: \\mu \\neq \\mu_0\\)."
+  },
+  {
+    "objectID": "slides/06-testing.html#type-i-and-type-ii-errors-for-bayesian-test",
+    "href": "slides/06-testing.html#type-i-and-type-ii-errors-for-bayesian-test",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Type I and Type II errors for Bayesian test",
+    "text": "Type I and Type II errors for Bayesian test\n\nAlthough it is possible to define Type I and Type II errors for Bayesian tests, the concept is not compatible with Bayesian paradigm.\nIn Bayesian inference, we tend not to give a simple, dichotomous answer to the question of whether a hypothesis is true or false.\nWe compute the posterior probability of the two hypotheses and choose the hypothesis when you think the evidence (e.g., Bayes factor) is strong enough."
+  },
+  {
+    "objectID": "slides/06-testing.html#model-selection-1",
+    "href": "slides/06-testing.html#model-selection-1",
+    "title": "Lecture 06: Testing and Model Selection",
+    "section": "Model selection",
+    "text": "Model selection\n\nHypothesis testing is a special case of model selection.\nA general model selection problem is to choose between two models \\(M_1\\) and \\(M_2\\).\nFor example, we can choose whether we want to use a linear regression model or a quadratic regression model.\nThe choice can be based on the \\(R^2\\) or the adjusted \\(R^2\\), i.e., choose the one with highest adjusted \\(R^2\\)."
   }
 ]

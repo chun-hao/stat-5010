@@ -96,48 +96,54 @@ execute:
 -   What are the Type I and Type II errors?
 -   What is the power of the test?
 -   What if we have a point null hypothesis $H_0: \theta = \theta_0$? For continuous parameter, a Bayesian test will [always reject $H_0$]{.underline}.
+-   Is this rejection due to the prior or the observation?
 
 ## Bayes Factor
 
--   The Bayes factor is the ratio of the marginal likelihoods of the two models
+-   The Bayes factor is the ratio of posterior odds to the prior odds
     $$
-    \text{BF} = \frac{\int_{\Theta_0} f(x \mid \theta) \pi(\theta) \, d\theta}{\int_{\Theta_1} f(x \mid \theta) \pi(\theta) \, d\theta}.
+    B_{01}^\pi(x)=\left.\frac{P\left(\theta \in \Theta_0 \mid x\right)}{P\left(\theta \in \Theta_1 \mid x\right)} \middle/ \frac{\pi\left(\theta \in \Theta_0\right)}{\pi\left(\theta \in \Theta_1\right)}\right..
     $$
+-   It is an "objective" answer, since it partly eliminates the
+influence of the prior modeling and emphasizes the role of the observations.
+-   If the Bayes factor is 1, the observation does not provide information in favor of either hypothesis.
+-   If the Bayes factor is greater than 1, the observation favors $H_0$ and hence we accept $H_0$ when the Bayes factor is large.
+-   The Bayes factor offers a continuum of evidence, rather than a dichotomous decision.
 
-## Type I error and Type II error for Bayesian test
+## Differences between Bayes factor and $p$-value
 
--   The Type I error is
-    $$
-    \alpha = \P^\pi\left(\theta \in \Theta_1 \mid \theta \in \Theta_0\right) = \frac{\int_{\Theta_0} f(x \mid \theta) \pi(\theta) \, d\theta}{\int_{\Theta} f(x \mid \theta) \pi(\theta) \, d\theta}.
-    $$
--   The Type II error is
-    $$
-    \beta = \P^\pi\left(\theta \in \Theta_0 \mid \theta \in \Theta_1\right) = \frac{\int_{\Theta_1} f(x \mid \theta) \pi(\theta) \, d\theta}{\int_{\Theta} f(x \mid \theta) \pi(\theta) \, d\theta}.
-    $$
--   The power of the test is $1 - \beta$.
--   The Bayes factor is the ratio of the prior odds to the posterior odds.
+-   $p$-value is the probability of observing a test statistic at least as extreme as the one observed, given that $H_0$ is true.
+-   So small $p$-values provide evidence against $H_0$, but large $p$-values do not provide evidence in favor of $H_0$ (or against $H_1$).
+-   In contrast, large Bayes factors provide evidence in favor of $H_0$, and small Bayes factors provide evidence in favor of $H_1$ (or against $H_0$).
+-   The $p$-value bases rejection of $H_0$ on **unlikely events that did not occur**.
 
-## p-value (BC 5.3.4)
+## Type I and Type II errors for Bayesian test
 
-## Bayesian t-test
+-   Although it is possible to define Type I and Type II errors for Bayesian tests, the concept is not compatible with Bayesian paradigm.
+-   In Bayesian inference, we tend not to give a simple, dichotomous answer to the question of whether a hypothesis is true or false.
+-   We compute the posterior probability of the two hypotheses and choose the hypothesis when you think the evidence (e.g., Bayes factor) is strong enough.
+
+
+
+
+## Improper prior for testing
+
+-   For Bayesian estimation, improper priors (e.g., noninformative priors) sometimes give us good estimates, although we are required to check the propriety of the posterior.
+-   For testing, it is not recommended to use improper prior for a couple of reasons.
+    1.   Improper priors make the Bayes factor undefined.
+    2.   The testing setting is not coherent with an absolute lack of information since we need to decide our hypotheses.
+-   There are still some solutions proposed to overcome the difficulties related to the
+use of improper priors. 
+-   Most of them are based on the idea to use part
+of the data to transform the priors into proper distributions.
+-   For example, partial Bayes factor uses a subset of samples (training sample) to construct a proper prior, and use the rest to compute the Bayes factor.
+
+## Bayesian one sample t-test
 -   Suppose $X_1, \ldots, X_n \iid N(\mu, \sigma^2)$ and $\sigma^2$ is known.
 -   The null hypothesis is $H_0: \mu = \mu_0$ and the alternative hypothesis is $H_1: \mu \neq \mu_0$.
--   The likelihood function is
-    $$
-    L(\mu \mid x) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right) = \frac{1}{(2\pi\sigma^2)^{n/2}} \exp\left(-\frac{\sum_{i=1}^n (x_i - \mu)^2}{2\sigma^2}\right).
-    $$
--   The posterior distribution is
-    $$
-    \pi(\mu \mid x) \propto \exp\left(-\frac{\sum_{i=1}^n (x_i - \mu)^2}{2\sigma^2}\right) \cdot \mathbb{I}_{\mu \in \Theta_0}(\mu).
-    $$
--   The posterior mean is
-    $$
-    \E(\mu \mid x) = \frac{\sum_{i=1}^n x_i + \mu_0/\sigma^2}{n + 1/\sigma^2}.
-    $$
--   The posterior variance is
-    $$
-    \Var(\mu \mid x) = \frac{\sigma^2}{n + 1/\sigma^2}.
-    $$
+
+## Example 
+
 
 # Model Disagnostics
 
@@ -152,6 +158,15 @@ execute:
 
 
 # Model Selection
+
+## Model selection
+
+-   Hypothesis testing is a special case of model selection. 
+-   A general model selection problem is to choose between two models $M_1$ and $M_2$.
+-   For example, we can choose whether we want to use a linear regression model or a quadratic regression model.
+-   The choice can be based on the $R^2$ or the adjusted $R^2$, i.e., choose the one with highest adjusted $R^2$.
+
+
 
 ## Information criterion
 
@@ -176,18 +191,6 @@ execute:
     where $p_D = \E_{\theta \mid x} \left[D(\theta)\right] - D(\E_{\theta \mid x}[\theta])$ is the effective number of parameters.
     
     
-## Model averaging
-
--   Model averaging is a way to combine the results from multiple models.
--   The idea is to average the posterior distributions of the parameters over all models.
--   The posterior probability of model $M_i$ is
-    $$
-    \P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}.
-    $$
--   The posterior distribution of $\theta$ is
-    $$
-    \P(\theta \mid x) = \sum_{i=1}^k \P(M_i \mid x) \P(\theta \mid x, M_i).
-    $$
     
     
     
@@ -211,3 +214,18 @@ execute:
     
     
 ## Bayes Factor
+
+-   
+
+## Model averaging
+
+-   Model averaging is a way to combine the results from multiple models.
+-   The idea is to average the posterior distributions of the parameters over all models.
+-   The posterior probability of model $M_i$ is
+    $$
+    \P(M_i \mid x) = \frac{\P(M_i) \P(x \mid M_i)}{\sum_{j=1}^k \P(M_j) \P(x \mid M_j)}.
+    $$
+-   The posterior distribution of $\theta$ is
+    $$
+    \P(\theta \mid x) = \sum_{i=1}^k \P(M_i \mid x) \P(\theta \mid x, M_i).
+    $$
