@@ -211,7 +211,8 @@ plot(samples[, "mu"])
 -   A general model selection problem is to choose between a collection of models $M_1, \ldots, M_k$.
 -   For example, we can choose whether we want to use a linear regression model or a quadratic regression model.
 -   The choice can be based on the $R^2$ or the adjusted $R^2$, i.e., choose the one with highest adjusted $R^2$.
--   For general models (e.g., non-linear regression), we can use     +   information criterion (e.g., AIC, BIC) 
+-   For general models (e.g., non-linear regression), we can use 
+    +   information criterion (e.g., AIC, BIC) 
     +   Bayes factor 
 
 
@@ -274,11 +275,7 @@ plot(samples[, "mu"])
     $$
     \P(x_{\text{new}} \mid x) = \sum_{i=1}^k \P(x_{\text{new}} \mid x, M_i) \P(M_i \mid x).
     $$
--   A commonly used trick in machine learning, called **ensemble**, is to use a weighted average of the predictions from different models:
-    $$
-    x_{\text{new}} = \sum_{i=1}^k w_i x_{\text{new},i}
-    $$
-where $x_{\text{new},i}$ is the prediction from model $M_i$ and $w_i$ is the weight for model $M_i$.
+-   A commonly used trick in machine learning, called **ensemble**, is to use a weighted average of the predictions from different models: $x_{\text{new}} = \sum_{i=1}^k w_i x_{\text{new},i}$ where $x_{\text{new},i}$ is the prediction from model $M_i$ and $w_i$ is the weight for model $M_i$.
 -   Usually the weights are chosen to be $1/k$ or through cross-validation.
 
 
