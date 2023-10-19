@@ -1,20 +1,5 @@
 ---
 title: "Lecture 06: Testing and Model Selection"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: auto
 ---
 
 

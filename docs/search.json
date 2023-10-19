@@ -1489,5 +1489,54 @@
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Weakly informative priors for variance parameters",
     "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\theta\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#motivation",
+    "href": "slides/07-mcmc.html#motivation",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Motivation",
+    "text": "Motivation\n\nWe have seen that in many cases, the posterior is only available upto a normalizing constant.\nTo compute the posterior mean, we need to numerically (i) compute the normalizing constant and (ii) compute the posterior mean.\nNumerical integration in high dimension is very difficult and we will resort to Monte Carlo methods, which use random numbers to compute/approximate the integral.\nThe idea is to generate a large number of (iid) random samples from the posterior distribution and use the sample mean as an approximation to the posterior mean.\nThere are a few questions:\n\nhow to generate iid random samples from an arbitrary distribution?\nhow to do it without knowing the normalizing constant?"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#markov-chain-monte-carlo-mcmc",
+    "href": "slides/07-mcmc.html#markov-chain-monte-carlo-mcmc",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Markov Chain Monte Carlo (MCMC)",
+    "text": "Markov Chain Monte Carlo (MCMC)\n\nMCMC uses samples from a Markov chain whose stationary distribution is the target distribution.\nHence the samples are not independent and not from the target distribution.\nThey are only iid from the target distribution asymptotically.\nThe problem is now how to construct a Markov chain whose stationary distribution is the posterior.\nWe will introduce three algorithms:\n\nGibbs sampler\nMetropolis-Hastings algorithm\nHamiltonian Monte Carlo (HMC)"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#gibbs-sampler-1",
+    "href": "slides/07-mcmc.html#gibbs-sampler-1",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Gibbs Sampler",
+    "text": "Gibbs Sampler"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#metropolis-algorithm",
+    "href": "slides/07-mcmc.html#metropolis-algorithm",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Metropolis Algorithm",
+    "text": "Metropolis Algorithm"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#metropolis-hastings-algorithm",
+    "href": "slides/07-mcmc.html#metropolis-hastings-algorithm",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Metropolis-Hastings Algorithm",
+    "text": "Metropolis-Hastings Algorithm"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#diagnostic-of-mcmc",
+    "href": "slides/07-mcmc.html#diagnostic-of-mcmc",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Diagnostic of MCMC",
+    "text": "Diagnostic of MCMC\n\nconvergence\nmixing\nautocorrelation\neffective sample size\nburn-in\nthinning\nautocorrelation time"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#example",
+    "href": "slides/07-mcmc.html#example",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Example",
+    "text": "Example\nGibbs sampler for a bivariate normal distribution\n\n\n                x          y\n [1,] -0.56047565 -0.4795774\n [2,]  1.11009231  0.6161082\n [3,]  0.42002057  1.6953001\n [4,]  1.24681521 -0.4721676\n [5,] -0.83091580 -0.8014125\n [6,]  0.65937969  0.6412978\n [7,]  0.66772714  0.4297176\n [8,] -0.26651374  1.4142553\n [9,]  1.13827881 -1.1340010\n[10,]  0.04039152 -0.3892536\n\n\n\n\n\n\n\n\n\n\nHome"
   }
 ]

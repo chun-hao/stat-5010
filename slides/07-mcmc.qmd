@@ -1,3 +1,108 @@
 ---
 title: "Lecture 07: Markov Chain Monte Carlo"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+        scrollable: true
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: auto
 ---
+
+## Motivation 
+
+-   We have seen that in many cases, the posterior is only available upto a normalizing constant.
+-   To compute the posterior mean, we need to numerically (i) compute the normalizing constant and (ii) compute the posterior mean.
+-   Numerical integration in high dimension is very difficult and we will resort to Monte Carlo methods, which use random numbers to compute/approximate the integral.
+-   The idea is to generate a large number of (iid) random samples from the posterior distribution and use the sample mean as an approximation to the posterior mean.
+-   There are a few questions:
+    +   how to generate iid random samples from an arbitrary distribution?
+    +   how to do it without knowing the normalizing constant?
+
+## Markov Chain Monte Carlo (MCMC)
+
+-   MCMC uses samples from a Markov chain whose stationary distribution is the target distribution.
+-   Hence the samples are **not** independent and **not** from the target distribution.
+-   They are only [iid from the target distribution]{.underline} asymptotically.
+-   The problem is now how to construct a Markov chain whose stationary distribution is the posterior.
+-   We will introduce three algorithms:
+    +   Gibbs sampler
+    +   Metropolis-Hastings algorithm
+    +   Hamiltonian Monte Carlo (HMC)
+
+# Gibbs Sampler
+
+## Gibbs Sampler
+
+## Metropolis Algorithm
+
+
+## Metropolis-Hastings Algorithm
+
+## Diagnostic of MCMC
+
+-   convergence
+-   mixing
+-   autocorrelation
+-   effective sample size
+-   burn-in
+-   thinning
+-   autocorrelation time
+
+
+## Example
+
+Gibbs sampler for a bivariate normal distribution
+```{r}
+# Write a function that generate random samples from a bivariate normal distribution using Gibbs sampler
+# Input: mu, sigma, rho, n
+# Output: a n by 2 matrix of random samples
+
+rnorm_Gibbs <- function(n, mu, sigma, rho){
+  # initialize
+  x <- rep(0, n)
+  y <- rep(0, n)
+  x[1] <- rnorm(1, mu[1], sigma[1])
+  y[1] <- rnorm(1, mu[2] + rho * sigma[2] / sigma[1] * (x[1] - mu[1]), sqrt(1 - rho^2) * sigma[2])
+  for (i in 2:n){
+    x[i] <- rnorm(1, mu[1] + rho * sigma[1] / sigma[2] * (y[i - 1] - mu[2]), sqrt(1 - rho^2) * sigma[1])
+    y[i] <- rnorm(1, mu[2] + rho * sigma[2] / sigma[1] * (x[i] - mu[1]), sqrt(1 - rho^2) * sigma[2])
+  }
+  return(cbind(x, y))
+}
+
+# test the function
+set.seed(123)
+rnorm_Gibbs(10, c(0, 0), c(1, 1), 0.5)
+
+# plot the samples
+library(ggplot2)
+library(gridExtra)
+set.seed(123)
+samples <- rnorm_Gibbs(1000, c(0, 0), c(1, 1), 0.5)
+p1 <- ggplot(data.frame(samples), aes(x = x, y = y)) + geom_point() + theme_bw()
+p2 <- ggplot(data.frame(samples), aes(x = x)) + geom_density() + theme_bw()
+p3 <- ggplot(data.frame(samples), aes(x = y)) + geom_density() + theme_bw()
+grid.arrange(p1, p2, p3, ncol = 3)
+
+# compare with the true density
+library(mvtnorm)
+p4 <- ggplot(data.frame(samples), aes(x = x)) + geom_density() + theme_bw() + 
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), col = "red")
+p5 <- ggplot(data.frame(samples), aes(x = y)) + geom_density() + theme_bw() +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), col = "red")
+grid.arrange(p4, p5, ncol = 2)
+
+
+```
+
+
+

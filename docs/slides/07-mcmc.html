@@ -340,13 +340,90 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
+<section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<ul>
+<li class="fragment">We have seen that in many cases, the posterior is only available upto a normalizing constant.</li>
+<li class="fragment">To compute the posterior mean, we need to numerically (i) compute the normalizing constant and (ii) compute the posterior mean.</li>
+<li class="fragment">Numerical integration in high dimension is very difficult and we will resort to Monte Carlo methods, which use random numbers to compute/approximate the integral.</li>
+<li class="fragment">The idea is to generate a large number of (iid) random samples from the posterior distribution and use the sample mean as an approximation to the posterior mean.</li>
+<li class="fragment">There are a few questions:
+<ul>
+<li class="fragment">how to generate iid random samples from an arbitrary distribution?</li>
+<li class="fragment">how to do it without knowing the normalizing constant?</li>
+</ul></li>
+</ul>
+</section>
+<section id="markov-chain-monte-carlo-mcmc" class="slide level2">
+<h2>Markov Chain Monte Carlo (MCMC)</h2>
+<ul>
+<li class="fragment">MCMC uses samples from a Markov chain whose stationary distribution is the target distribution.</li>
+<li class="fragment">Hence the samples are <strong>not</strong> independent and <strong>not</strong> from the target distribution.</li>
+<li class="fragment">They are only <u>iid from the target distribution</u> asymptotically.</li>
+<li class="fragment">The problem is now how to construct a Markov chain whose stationary distribution is the posterior.</li>
+<li class="fragment">We will introduce three algorithms:
+<ul>
+<li class="fragment">Gibbs sampler</li>
+<li class="fragment">Metropolis-Hastings algorithm</li>
+<li class="fragment">Hamiltonian Monte Carlo (HMC)</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<section id="gibbs-sampler" class="title-slide slide level1 center">
+<h1>Gibbs Sampler</h1>
 
+</section>
+<section id="gibbs-sampler-1" class="slide level2">
+<h2>Gibbs Sampler</h2>
+</section>
+<section id="metropolis-algorithm" class="slide level2">
+<h2>Metropolis Algorithm</h2>
+</section>
+<section id="metropolis-hastings-algorithm" class="slide level2">
+<h2>Metropolis-Hastings Algorithm</h2>
+</section>
+<section id="diagnostic-of-mcmc" class="slide level2">
+<h2>Diagnostic of MCMC</h2>
+<ul>
+<li class="fragment">convergence</li>
+<li class="fragment">mixing</li>
+<li class="fragment">autocorrelation</li>
+<li class="fragment">effective sample size</li>
+<li class="fragment">burn-in</li>
+<li class="fragment">thinning</li>
+<li class="fragment">autocorrelation time</li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p>Gibbs sampler for a bivariate normal distribution</p>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-1_09d2689483f77454baf946c0c368947b">
+<div class="cell-output cell-output-stdout">
+<pre><code>                x          y
+ [1,] -0.56047565 -0.4795774
+ [2,]  1.11009231  0.6161082
+ [3,]  0.42002057  1.6953001
+ [4,]  1.24681521 -0.4721676
+ [5,] -0.83091580 -0.8014125
+ [6,]  0.65937969  0.6412978
+ [7,]  0.66772714  0.4297176
+ [8,] -0.26651374  1.4142553
+ [9,]  1.13827881 -1.1340010
+[10,]  0.04039152 -0.3892536</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
+</div>
+<div class="cell-output-display">
+<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-1-2.png" width="960"></p>
+</div>
+</div>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -560,6 +637,44 @@ Chun-Hao Yang
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
