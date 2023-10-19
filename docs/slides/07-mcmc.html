@@ -376,15 +376,21 @@ Chun-Hao Yang
 </section>
 <section id="gibbs-sampler-1" class="slide level2">
 <h2>Gibbs Sampler</h2>
+</section></section>
+<section>
+<section id="metropolis-hastings-algorithm" class="title-slide slide level1 center">
+<h1>Metropolis-Hastings Algorithm</h1>
+
 </section>
 <section id="metropolis-algorithm" class="slide level2">
 <h2>Metropolis Algorithm</h2>
 </section>
-<section id="metropolis-hastings-algorithm" class="slide level2">
+<section id="metropolis-hastings-algorithm-1" class="slide level2">
 <h2>Metropolis-Hastings Algorithm</h2>
-</section>
-<section id="diagnostic-of-mcmc" class="slide level2">
-<h2>Diagnostic of MCMC</h2>
+</section></section>
+<section>
+<section id="diagnostic-of-mcmc" class="title-slide slide level1 center">
+<h1>Diagnostic of MCMC</h1>
 <ul>
 <li class="fragment">convergence</li>
 <li class="fragment">mixing</li>
@@ -397,28 +403,6 @@ Chun-Hao Yang
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<p>Gibbs sampler for a bivariate normal distribution</p>
-<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-1_09d2689483f77454baf946c0c368947b">
-<div class="cell-output cell-output-stdout">
-<pre><code>                x          y
- [1,] -0.56047565 -0.4795774
- [2,]  1.11009231  0.6161082
- [3,]  0.42002057  1.6953001
- [4,]  1.24681521 -0.4721676
- [5,] -0.83091580 -0.8014125
- [6,]  0.65937969  0.6412978
- [7,]  0.66772714  0.4297176
- [8,] -0.26651374  1.4142553
- [9,]  1.13827881 -1.1340010
-[10,]  0.04039152 -0.3892536</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
-</div>
-<div class="cell-output-display">
-<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-1-2.png" width="960"></p>
-</div>
-</div>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
@@ -637,44 +621,6 @@ Chun-Hao Yang
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

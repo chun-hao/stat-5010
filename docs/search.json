@@ -1537,6 +1537,13 @@
     "href": "slides/07-mcmc.html#example",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Example",
-    "text": "Example\nGibbs sampler for a bivariate normal distribution\n\n\n                x          y\n [1,] -0.56047565 -0.4795774\n [2,]  1.11009231  0.6161082\n [3,]  0.42002057  1.6953001\n [4,]  1.24681521 -0.4721676\n [5,] -0.83091580 -0.8014125\n [6,]  0.65937969  0.6412978\n [7,]  0.66772714  0.4297176\n [8,] -0.26651374  1.4142553\n [9,]  1.13827881 -1.1340010\n[10,]  0.04039152 -0.3892536\n\n\n\n\n\n\n\n\n\n\nHome"
+    "text": "Example\n\n\nHome"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#metropolis-hastings-algorithm-1",
+    "href": "slides/07-mcmc.html#metropolis-hastings-algorithm-1",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Metropolis-Hastings Algorithm",
+    "text": "Metropolis-Hastings Algorithm"
   }
 ]

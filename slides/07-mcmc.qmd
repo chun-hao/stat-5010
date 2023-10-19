@@ -42,12 +42,13 @@ execute:
 
 ## Gibbs Sampler
 
-## Metropolis Algorithm
+# Metropolis-Hastings Algorithm
 
+## Metropolis Algorithm
 
 ## Metropolis-Hastings Algorithm
 
-## Diagnostic of MCMC
+# Diagnostic of MCMC
 
 -   convergence
 -   mixing
@@ -59,50 +60,4 @@ execute:
 
 
 ## Example
-
-Gibbs sampler for a bivariate normal distribution
-```{r}
-# Write a function that generate random samples from a bivariate normal distribution using Gibbs sampler
-# Input: mu, sigma, rho, n
-# Output: a n by 2 matrix of random samples
-
-rnorm_Gibbs <- function(n, mu, sigma, rho){
-  # initialize
-  x <- rep(0, n)
-  y <- rep(0, n)
-  x[1] <- rnorm(1, mu[1], sigma[1])
-  y[1] <- rnorm(1, mu[2] + rho * sigma[2] / sigma[1] * (x[1] - mu[1]), sqrt(1 - rho^2) * sigma[2])
-  for (i in 2:n){
-    x[i] <- rnorm(1, mu[1] + rho * sigma[1] / sigma[2] * (y[i - 1] - mu[2]), sqrt(1 - rho^2) * sigma[1])
-    y[i] <- rnorm(1, mu[2] + rho * sigma[2] / sigma[1] * (x[i] - mu[1]), sqrt(1 - rho^2) * sigma[2])
-  }
-  return(cbind(x, y))
-}
-
-# test the function
-set.seed(123)
-rnorm_Gibbs(10, c(0, 0), c(1, 1), 0.5)
-
-# plot the samples
-library(ggplot2)
-library(gridExtra)
-set.seed(123)
-samples <- rnorm_Gibbs(1000, c(0, 0), c(1, 1), 0.5)
-p1 <- ggplot(data.frame(samples), aes(x = x, y = y)) + geom_point() + theme_bw()
-p2 <- ggplot(data.frame(samples), aes(x = x)) + geom_density() + theme_bw()
-p3 <- ggplot(data.frame(samples), aes(x = y)) + geom_density() + theme_bw()
-grid.arrange(p1, p2, p3, ncol = 3)
-
-# compare with the true density
-library(mvtnorm)
-p4 <- ggplot(data.frame(samples), aes(x = x)) + geom_density() + theme_bw() + 
-  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), col = "red")
-p5 <- ggplot(data.frame(samples), aes(x = y)) + geom_density() + theme_bw() +
-  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), col = "red")
-grid.arrange(p4, p5, ncol = 2)
-
-
-```
-
-
 
