@@ -1509,7 +1509,7 @@
     "href": "slides/07-mcmc.html#gibbs-sampler-1",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Gibbs Sampler",
-    "text": "Gibbs Sampler"
+    "text": "Gibbs Sampler\n\nConsider a parameter vector \\(\\theta = (\\theta_1, \\theta_2, \\ldots, \\theta_p)\\) with posterior \\(\\pi(\\theta|y)\\).\nIf we can sample from the full conditional distributions \\(\\pi(\\theta_i|\\theta_{-i}, y)\\), then we can construct a Markov chain whose stationary distribution is the posterior.\nAlgorithm:\n\nInitialize \\(\\theta^{(0)} = (\\theta_1^{(0)}, \\theta_2^{(0)}, \\ldots, \\theta_p^{(0)})\\).\nFor \\(t = 1, 2, \\ldots, T\\):\n\nSample \\(\\theta_1^{(t)} \\sim \\pi(\\theta_1|\\theta_2^{(t-1)}, \\theta_3^{(t-1)}, \\ldots, \\theta_p^{(t-1)}, y)\\).\nSample \\(\\theta_j^{(t)} \\sim \\pi(\\theta_2|\\theta_1^{(t)}, \\ldots, \\theta_{j-1}^{(t)}, \\theta_{j+1}^{(t-1)}, \\ldots, \\theta_p^{(t-1)}, y)\\).\n\nReturn \\(\\theta^{(1)}, \\theta^{(2)}, \\ldots, \\theta^{(T)}\\)."
   },
   {
     "objectID": "slides/07-mcmc.html#metropolis-algorithm",
@@ -1545,5 +1545,33 @@
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Metropolis-Hastings Algorithm",
     "text": "Metropolis-Hastings Algorithm"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#example-bivariate-normal",
+    "href": "slides/07-mcmc.html#example-bivariate-normal",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Example: Bivariate Normal",
+    "text": "Example: Bivariate Normal\n\nSuppose we want to generate samples from a bivariate normal with mean \\(\\mu = (\\mu_1, \\mu_2)\\) and covariance matrix \\(\\Sigma\\).\nLet \\([X_1, X_2]^T \\sim N(\\mu, \\Sigma)\\). The full conditionals are:\n\n\\(X_1|X_2 \\sim N(\\mu_1 + \\Sigma_{12}\\Sigma_{22}^{-1}(X_2 - \\mu_2), \\Sigma_{11} - \\Sigma_{12}\\Sigma_{22}^{-1}\\Sigma_{21})\\).\n\\(X_2|X_1 \\sim N(\\mu_2 + \\Sigma_{21}\\Sigma_{11}^{-1}(X_1 - \\mu_1), \\Sigma_{22} - \\Sigma_{21}\\Sigma_{11}^{-1}\\Sigma_{12})\\).\n\n\n\n\n# initialize\nmu &lt;- c(0, 0)\nSigma &lt;- matrix(c(1, 0.5, 0.5, 1), nrow = 2)\nX &lt;- matrix(0, nrow = 2, ncol = 1000)\n\n# Gibbs sampler\nfor (t in 2:1000) {\n    X[1, t] &lt;- rnorm(1, mu[1] + Sigma[1, 2] / Sigma[2, 2] * (X[2, t-1] - mu[2]), \n                     sqrt(Sigma[1, 1] - Sigma[1, 2] / Sigma[2, 2] * Sigma[2, 1]))\n    X[2, t] &lt;- rnorm(1, mu[2] + Sigma[2, 1] / Sigma[1, 1] * (X[1, t] - mu[1]), \n                     sqrt(Sigma[2, 2] - Sigma[2, 1] / Sigma[1, 1] * Sigma[1, 2]))\n}"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#checking-convergence",
+    "href": "slides/07-mcmc.html#checking-convergence",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Checking Convergence",
+    "text": "Checking Convergence\n\n# trace plot\npar(mfrow = c(1,2))\nplot(X[1, ], type = \"l\", ylab = expression(X[1]), xlab = \"Iteration\")\nplot(X[2, ], type = \"l\", ylab = expression(X[2]), xlab = \"Iteration\")"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#when-to-use-gibbs-sampler",
+    "href": "slides/07-mcmc.html#when-to-use-gibbs-sampler",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "When to use Gibbs sampler?",
+    "text": "When to use Gibbs sampler?"
+  },
+  {
+    "objectID": "slides/07-mcmc.html#checking-convergence-1",
+    "href": "slides/07-mcmc.html#checking-convergence-1",
+    "title": "Lecture 07: Markov Chain Monte Carlo",
+    "section": "Checking Convergence",
+    "text": "Checking Convergence\n\n# contour plot\npar(mfrow = c(1,2))\nplot(X[1, ], X[2, ], xlab = expression(X[1]), ylab = expression(X[2]))"
   }
 ]
