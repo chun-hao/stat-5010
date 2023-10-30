@@ -407,17 +407,141 @@ Chun-Hao Yang
 </section>
 <section id="motivation" class="slide level2">
 <h2>Motivation</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
 <ul>
+<li class="fragment">Suppose now we have the posterior distribution <span class="math inline">\(\pi(\theta \mid x)\)</span> for our problem.</li>
+<li class="fragment">We need to derive some quantities from the posterior for statistical inference, for example
+<ul>
+<li class="fragment">posterior mean, variance, quantiles, and</li>
+<li class="fragment">posterior predictive distribution.</li>
+</ul></li>
 <li class="fragment">We have seen that in many cases, the posterior is only available upto a normalizing constant.</li>
-<li class="fragment">To compute the posterior mean, we need to numerically (i) compute the normalizing constant and (ii) compute the posterior mean.</li>
-<li class="fragment">Numerical integration in high dimension is very difficult and we will resort to Monte Carlo methods, which use random numbers to compute/approximate the integral.</li>
-<li class="fragment">The idea is to generate a large number of (iid) random samples from the posterior distribution and use the sample mean as an approximation to the posterior mean.</li>
-<li class="fragment">There are a few questions:
+<li class="fragment">There are three types of methods:
 <ul>
-<li class="fragment">how to generate iid random samples from an arbitrary distribution?</li>
-<li class="fragment">how to do it without knowing the normalizing constant?</li>
+<li class="fragment">numerical integration,</li>
+<li class="fragment">distributional approximations, and</li>
+<li class="fragment">sampling-based methods (Monte Carlo methods).</li>
 </ul></li>
 </ul>
+</section>
+<section id="monte-carlo-methods" class="slide level2">
+<h2>Monte Carlo Methods</h2>
+<ul>
+<li class="fragment"><p>Suppose we need to compute <span class="math inline">\(\E(h(\theta) \mid x)\)</span>.</p></li>
+<li class="fragment"><p>The Monte Carlo approximation is <span class="math display">\[
+\E(h(\theta) \mid x) \approx \frac{1}{m}\sum_{i=1}^m h(\theta^{(i)}),
+\]</span> where <span class="math inline">\(\theta^{(1)}, \ldots, \theta^{(m)} \iid \pi(\theta \mid x)\)</span>.</p></li>
+<li class="fragment"><p>How to generate iid random samples from an arbitrary distribution?</p></li>
+<li class="fragment"><p>How to do it without knowing the normalizing constant?</p></li>
+</ul>
+</section>
+<section id="discretization" class="slide level2">
+<h2>Discretization</h2>
+<ul>
+<li class="fragment">Fix a set of grid values <span class="math inline">\(\theta_1, \ldots, \theta_N\)</span>.</li>
+<li class="fragment">Compute <span class="math inline">\(\pi(\theta_1 \mid x), \ldots \pi(\theta_N \mid x)\)</span> and normalize them such that <span class="math display">\[
+\sum_{i=1}^N \pi(\theta_i \mid x) = 1.
+\]</span></li>
+<li class="fragment">Generate <span class="math inline">\(m\)</span> samples from the multinomial distribution with probabilities <span class="math inline">\(\pi(\theta_1 \mid x), \ldots \pi(\theta_N \mid x)\)</span>.</li>
+<li class="fragment">That is, we approximate <span class="math inline">\(\pi(\theta \mid x)\)</span> on <span class="math inline">\(\Theta\)</span> with a multinomial distribution on <span class="math inline">\(\{\theta_1, \ldots, \theta_N\}\)</span>.</li>
+</ul>
+</section>
+<section id="rejection-sampling" class="slide level2">
+<h2>Rejection sampling</h2>
+<ul>
+<li class="fragment">Target distribution: <span class="math inline">\(\pi(\theta \mid x)\)</span> (possibly unnormalized)</li>
+<li class="fragment">We need a <strong>proposal distribution</strong> <span class="math inline">\(q(\theta)\)</span> such that
+<ul>
+<li class="fragment">it is easy to sample from <span class="math inline">\(q(\theta)\)</span>, and</li>
+<li class="fragment">the <strong>importance ratio</strong> <span class="math inline">\(\pi(\theta \mid x) / q(\theta)\)</span> is bounded, i.e., <span class="math display">\[
+\frac{\pi(\theta \mid x)}{q(\theta)} \leq M &lt; \infty, \quad \text{for all } \theta \in \Theta.
+\]</span></li>
+</ul></li>
+<li class="fragment">Algorithm:
+<ol type="1">
+<li class="fragment">Sample <span class="math inline">\(\theta \sim q(\theta)\)</span>.</li>
+<li class="fragment">With probability <span class="math inline">\(\frac{\pi(\theta \mid x)}{M q(\theta)}\)</span>, <em>accept</em> <span class="math inline">\(\theta\)</span> as a draw from <span class="math inline">\(\pi(\theta \mid x)\)</span>. If the drawn <span class="math inline">\(\theta\)</span> is rejected, return to step 1.</li>
+<li class="fragment">Repeat steps 1 and 2 until <span class="math inline">\(m\)</span> samples are obtained.</li>
+</ol></li>
+</ul>
+
+<aside><div>
+<p>See Theorem 5.6.8 in <em>Statistical Inference</em> by Casella &amp; Berger (2002) for the proof.</p>
+</div></aside></section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p>Generate random samples from <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span>, <span class="math inline">\(\alpha = 3\)</span> and <span class="math inline">\(\beta = 4\)</span>.</p>
+<div>
+<ul>
+<li>Proposal distribution: <span class="math inline">\(\text{Unif}(0, 1)\)</span>.</li>
+<li><span class="math inline">\(M = 3\)</span>.</li>
+</ul>
+</div>
+
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-2_71350957dd6da5cc8978ddf28223a760">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>m <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m){</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    v <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>) <span class="co"># proposal</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>    </span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="co"># rejection step</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="cf">if</span>(u <span class="sc">&lt;=</span> <span class="fu">dbeta</span>(v, alpha, beta) <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">*</span> <span class="fu">dunif</span>(v))){</span>
+<span id="cb1-10"><a href="#cb1-10"></a>        x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, v)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>    }</span>
+<span id="cb1-12"><a href="#cb1-12"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">hist</span>(x, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="fu">curve</span>(<span class="fu">dbeta</span>(x, alpha, beta), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="dv">2</span>, <span class="fu">substitute</span>(<span class="st">"accept. rate"</span> <span class="sc">==</span> a, </span>
+<span id="cb1-17"><a href="#cb1-17"></a>                        <span class="fu">list</span>(<span class="at">a =</span> <span class="fu">round</span>(<span class="fu">length</span>(x)<span class="sc">/</span>m, <span class="dv">2</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="example-1-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-2_71350957dd6da5cc8978ddf28223a760">
+<div class="cell-output-display">
+<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+</div>
+</div></section><section id="problems-with-rejection-sampling" class="slide level2">
+<h2>Problems with rejection sampling</h2>
+<ul>
+<li class="fragment">If <span class="math inline">\(M\)</span> is large, then the acceptance rate is low, and hence the algorithm is inefficient.</li>
+<li class="fragment">You have to know <span class="math inline">\(\pi(\theta \mid x)\)</span> well to find a good proposal distribution, with reasonable <span class="math inline">\(M\)</span>.</li>
+<li class="fragment">For multivariate distributions, it is virtually impossible to find a good proposal distribution.</li>
+<li class="fragment">However, it can be used for simple univariate distributions or truncated distributions.</li>
+<li class="fragment">Although rejection sampling produces iid samples from the target distribution, it is inefficient.</li>
+</ul>
+</section>
+<section>
+<section id="markov-chain-monte-carlo" class="title-slide slide level1 center">
+<h1>Markov Chain Monte Carlo</h1>
+
 </section>
 <section id="markov-chain-monte-carlo-mcmc" class="slide level2">
 <h2>Markov Chain Monte Carlo (MCMC)</h2>
@@ -434,12 +558,7 @@ Chun-Hao Yang
 </ul></li>
 </ul>
 </section>
-<section>
-<section id="gibbs-sampler" class="title-slide slide level1 center">
-<h1>Gibbs Sampler</h1>
-
-</section>
-<section id="gibbs-sampler-1" class="slide level2">
+<section id="gibbs-sampler" class="slide level2">
 <h2>Gibbs Sampler</h2>
 <ul>
 <li class="fragment">Consider a parameter vector <span class="math inline">\(\theta = (\theta_1, \theta_2, \ldots, \theta_p)\)</span> with posterior <span class="math inline">\(\pi(\theta|y)\)</span>.</li>
@@ -467,75 +586,376 @@ Chun-Hao Yang
 </ul></li>
 </ul>
 <div class="fragment">
-<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-1_d7c5089c11ae63427cd17a91045a915b">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># initialize</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">1000</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Gibbs sampler</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    X[<span class="dv">1</span>, t] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, mu[<span class="dv">1</span>] <span class="sc">+</span> Sigma[<span class="dv">1</span>, <span class="dv">2</span>] <span class="sc">/</span> Sigma[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">*</span> (X[<span class="dv">2</span>, t<span class="dv">-1</span>] <span class="sc">-</span> mu[<span class="dv">2</span>]), </span>
-<span id="cb1-9"><a href="#cb1-9"></a>                     <span class="fu">sqrt</span>(Sigma[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">-</span> Sigma[<span class="dv">1</span>, <span class="dv">2</span>] <span class="sc">/</span> Sigma[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">*</span> Sigma[<span class="dv">2</span>, <span class="dv">1</span>]))</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    X[<span class="dv">2</span>, t] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, mu[<span class="dv">2</span>] <span class="sc">+</span> Sigma[<span class="dv">2</span>, <span class="dv">1</span>] <span class="sc">/</span> Sigma[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">*</span> (X[<span class="dv">1</span>, t] <span class="sc">-</span> mu[<span class="dv">1</span>]), </span>
-<span id="cb1-11"><a href="#cb1-11"></a>                     <span class="fu">sqrt</span>(Sigma[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">-</span> Sigma[<span class="dv">2</span>, <span class="dv">1</span>] <span class="sc">/</span> Sigma[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">*</span> Sigma[<span class="dv">1</span>, <span class="dv">2</span>]))</span>
-<span id="cb1-12"><a href="#cb1-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-3_bfc4c14be1ca0b184d323ef112e16c14">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># initialize</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">1000</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co"># Gibbs sampler</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    X[<span class="dv">1</span>, t] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, mu[<span class="dv">1</span>] <span class="sc">+</span> Sigma[<span class="dv">1</span>, <span class="dv">2</span>] <span class="sc">/</span> Sigma[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">*</span> (X[<span class="dv">2</span>, t<span class="dv">-1</span>] <span class="sc">-</span> mu[<span class="dv">2</span>]), </span>
+<span id="cb2-9"><a href="#cb2-9"></a>                     <span class="fu">sqrt</span>(Sigma[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">-</span> Sigma[<span class="dv">1</span>, <span class="dv">2</span>] <span class="sc">/</span> Sigma[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">*</span> Sigma[<span class="dv">2</span>, <span class="dv">1</span>]))</span>
+<span id="cb2-10"><a href="#cb2-10"></a>    X[<span class="dv">2</span>, t] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, mu[<span class="dv">2</span>] <span class="sc">+</span> Sigma[<span class="dv">2</span>, <span class="dv">1</span>] <span class="sc">/</span> Sigma[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">*</span> (X[<span class="dv">1</span>, t] <span class="sc">-</span> mu[<span class="dv">1</span>]), </span>
+<span id="cb2-11"><a href="#cb2-11"></a>                     <span class="fu">sqrt</span>(Sigma[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">-</span> Sigma[<span class="dv">2</span>, <span class="dv">1</span>] <span class="sc">/</span> Sigma[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">*</span> Sigma[<span class="dv">1</span>, <span class="dv">2</span>]))</span>
+<span id="cb2-12"><a href="#cb2-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="checking-convergence" class="slide level2">
 <h2>Checking Convergence</h2>
-<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-2_fb6b13a82af24db98bd605a0b0846009">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># trace plot</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">plot</span>(X[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">1</span>]), <span class="at">xlab =</span> <span class="st">"Iteration"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">plot</span>(X[<span class="dv">2</span>, ], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">2</span>]), <span class="at">xlab =</span> <span class="st">"Iteration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-4_d4e9bd94fcf58ce811e4585b628d670e">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># trace plot</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">plot</span>(X[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">1</span>]), <span class="at">xlab =</span> <span class="st">"Iteration"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">plot</span>(X[<span class="dv">2</span>, ], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">2</span>]), <span class="at">xlab =</span> <span class="st">"Iteration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="checking-convergence-1" class="slide level2">
 <h2>Checking Convergence</h2>
-<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-3_6178c0d4231dd7ca76c60d6cff813e16">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># contour plot</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">plot</span>(X[<span class="dv">1</span>, ], X[<span class="dv">2</span>, ], <span class="at">xlab =</span> <span class="fu">expression</span>(X[<span class="dv">1</span>]), <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-6_87b2a74ef8b83d3739dfbe8f0591c653">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>X <span class="sc">%&lt;&gt;%</span> <span class="fu">t</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">X1 =</span> V1, <span class="at">X2 =</span> V2) </span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">ggplot</span>(X, <span class="fu">aes</span>(<span class="at">x =</span> X1, <span class="at">y =</span> X2)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="fu">geom_density_2d</span>() <span class="sc">+</span> </span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb4-7"><a href="#cb4-7"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">TeX</span>(<span class="st">"Joint distribution of $X_1$ and $X_2$"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="when-to-use-gibbs-sampler" class="slide level2">
 <h2>When to use Gibbs sampler?</h2>
-</section></section>
-<section>
-<section id="metropolis-hastings-algorithm" class="title-slide slide level1 center">
-<h1>Metropolis-Hastings Algorithm</h1>
-
+<ul>
+<li class="fragment">It is useful for multidimensional distributions, especially when the full conditionals are easy to sample from.</li>
+<li class="fragment">Even if the full conditionals are not easy to sample from, we can use other algorithms to sample from the conditionals.</li>
+</ul>
 </section>
 <section id="metropolis-algorithm" class="slide level2">
 <h2>Metropolis Algorithm</h2>
+<ul>
+<li class="fragment">Target distribution: <span class="math inline">\(\pi(\theta \mid x)\)</span>.</li>
+<li class="fragment">Proposal distribution at <span class="math inline">\(t\)</span>th iteration: <span class="math inline">\(J_t(\theta^* \mid \theta^{t-1})\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(J_t\)</span> needs to be symmetric, i.e., <span class="math inline">\(J_t(\theta_1 \mid \theta_2) = J_t(\theta_2\mid\theta_1)\)</span>.</li>
+</ul></li>
+<li class="fragment">Algorithm:
+<ol type="1">
+<li class="fragment">At <span class="math inline">\(t\)</span>th iteration, sample <span class="math inline">\(\theta^*\)</span> from <span class="math inline">\(J_t(\theta^* \mid \theta^{t-1})\)</span>.</li>
+<li class="fragment">Compute the acceptance ratio <span class="math inline">\(\rho(\theta^{t-1}, \theta^{*})=\min\left\{\frac{\pi(\theta^* \mid x)}{\pi(\theta^{t-1} \mid x)}, 1\right\}\)</span>.</li>
+<li class="fragment">Set <span class="math display">\[
+\theta^t= \begin{cases}\theta^* &amp; \text { with prob. } \rho(\theta^{t-1}, \theta^{*}) \\ \theta^{t-1} &amp; \text { with prob. } 1-\rho(\theta^{t-1}, \theta^{*}).\end{cases}
+\]</span></li>
+</ol></li>
+<li class="fragment">Intuition: if <span class="math inline">\(\theta^*\)</span> is more likely than <span class="math inline">\(\theta^{t-1}\)</span>, then accept <span class="math inline">\(\theta^*\)</span>; otherwise, accept <span class="math inline">\(\theta^*\)</span> with probability <span class="math inline">\(r\)</span>.</li>
+</ul>
 </section>
-<section id="metropolis-hastings-algorithm-1" class="slide level2">
+<section id="example-2" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">Suppose <span class="math inline">\(X \mid \theta \sim N(\theta, 1)\)</span> and <span class="math inline">\(\theta \sim \text{Cauchy}(0, 1)\)</span>.</li>
+<li class="fragment">The posterior is <span class="math inline">\(\pi(\theta \mid x) \propto \frac{1}{1+\theta^2}\exp\left(-\frac{1}{2}(x-\theta)^2\right)\)</span>.</li>
+<li class="fragment">A commonly used proposal is <span class="math inline">\(J_t(\cdot \mid\theta^{t-1}) = N(\theta^{t-1}, \sigma^2)\)</span>, where <span class="math inline">\(\sigma^2\)</span> is a tuning parameter.</li>
+</ul>
+<div class="fragment">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-7_1dba7c5e967f33573e50b62a808017c8">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># generate sample</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>theta_0 <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, theta_0, <span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># log posterior</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>log_post <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, x) {</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="sc">-</span><span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> theta<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> (x <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="fu">curve</span>(<span class="fu">exp</span>(<span class="fu">log_post</span>(x, X)), <span class="dv">5</span>, <span class="dv">15</span>, </span>
+<span id="cb5-11"><a href="#cb5-11"></a>      <span class="at">ylab =</span> <span class="fu">TeX</span>(<span class="st">"unnormalized $</span><span class="sc">\\</span><span class="st">pi(</span><span class="sc">\\</span><span class="st">theta | x)$"</span>), </span>
+<span id="cb5-12"><a href="#cb5-12"></a>      <span class="at">xlab =</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">theta$"</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</div>
+</section>
+<section id="example-2-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-7_1dba7c5e967f33573e50b62a808017c8">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="example-3" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-8_b38544d2bf1bffa973136564c298d00f">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Metropolis algorithm</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>T <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>theta <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, T)</span>
+<span id="cb6-4"><a href="#cb6-4"></a>theta[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5"></a>accept <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>T) {</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    theta_star <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, theta[t<span class="dv">-1</span>], <span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    r <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log_post</span>(theta_star, X) <span class="sc">-</span> <span class="fu">log_post</span>(theta[t<span class="dv">-1</span>], X))</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    theta[t] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> r, </span>
+<span id="cb6-10"><a href="#cb6-10"></a>                       {accept <span class="ot">&lt;-</span> accept <span class="sc">+</span> <span class="dv">1</span>; theta_star},</span>
+<span id="cb6-11"><a href="#cb6-11"></a>                       theta[t<span class="dv">-1</span>])</span>
+<span id="cb6-12"><a href="#cb6-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Acceptance rate: 0.702.</li>
+<li class="fragment">Autocorrelation (lag 1): 0.823, i.e., the correlation between <span class="math inline">\(\theta^{t-1}\)</span> and <span class="math inline">\(\theta^t\)</span>.</li>
+<li class="fragment">Posterior mean: 8.635.</li>
+</ul>
+</section>
+<section id="example-4" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-9_dea814691d1fddf2a2c4bd1a5badba90">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># normalizing constant</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>Z <span class="ot">&lt;-</span> <span class="fu">integrate</span>(<span class="cf">function</span>(theta) <span class="fu">exp</span>(<span class="fu">log_post</span>(theta, X)), <span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span>)<span class="sc">$</span>value</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">hist</span>(theta, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>))</span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">curve</span>(<span class="fu">exp</span>(<span class="fu">log_post</span>(x, X))<span class="sc">/</span>Z, <span class="dv">5</span>, <span class="dv">15</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="fu">plot</span>(theta, <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="advantages-of-metropolis-algorithm" class="slide level2">
+<h2>Advantages of Metropolis Algorithm</h2>
+<ul>
+<li class="fragment">It can be seen as a improvement of rejection sampling.</li>
+<li class="fragment">We don’t need to know the target distribution well to choose a proposal distribution.</li>
+<li class="fragment">The trade-off is that the generated samples are not longer iid.</li>
+<li class="fragment">We can tune the proposal distribution to improve the acceptance rate making the algorithm more efficient.</li>
+</ul>
+</section>
+<section id="metropolis-hastings-algorithm" class="slide level2">
 <h2>Metropolis-Hastings Algorithm</h2>
+<ul>
+<li class="fragment">Metropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposal.</li>
+<li class="fragment">For a proposal distribution <span class="math inline">\(J_t(\theta_a \mid \theta_b)\)</span>, the <strong>unconditional</strong> probability from <span class="math inline">\(\theta_a\)</span> to <span class="math inline">\(\theta_b\)</span> is <span class="math display">\[
+p(\theta^{t-1} = \theta_a, \theta^{t} = \theta_b) = J_t(\theta_b \mid \theta_a)\pi(\theta_a \mid x).
+\]</span></li>
+<li class="fragment">Hence the acceptance ratio becomes <span class="math display">\[\begin{align*}
+\rho(\theta^{t-1}, \theta^{*}) &amp; = \min\left\{\frac{p(\theta^{t-1} = \theta^{t-1}, \theta^{t} = \theta^{*})}{p(\theta^{t-1} = \theta^{*}, \theta^{t} = \theta^{t-1})},1\right\}\\
+&amp; = \min\left\{\frac{J_t(\theta^{t-1} \mid \theta^{*})\pi(\theta^{*} \mid x)}{J_t(\theta^{*} \mid \theta^{t-1})\pi(\theta^{t-1} \mid x)},1\right\}.
+\end{align*}\]</span></li>
+<li class="fragment">This modification allows us to use a wider range of proposal distributions and hence improve the efficiency of the algorithm.</li>
+</ul>
+</section>
+<section id="why-it-works" class="slide level2">
+<h2>Why it works?</h2>
+<ul>
+<li class="fragment">It is obvious that MH generates a Markov chain. Why does it converge to the target distribution?</li>
+<li class="fragment"><strong>Detailed balance condition</strong><sup>1</sup>: A Markov chain has a stationary distribution <span class="math inline">\(\pi\)</span> if it satisfies the equation <span class="math display">\[
+\pi(\theta_a)\P(X_t = \theta_b \mid X_{t-1} = \theta_a) = \pi(\theta_b)\P(X_t = \theta_a \mid X_{t-1} = \theta_b).
+\]</span></li>
+<li class="fragment">Proof (sketch): <span class="math display">\[\begin{align*}
+&amp; \quad \pi(\theta_a \mid x)\P(X_t = \theta_b \mid X_{t-1} = \theta_a)\\
+&amp;= \pi(\theta_a \mid x)J_t(\theta_b \mid \theta_a) \rho(\theta_a, \theta_b) \\
+&amp; = \pi(\theta_a \mid x)J_t(\theta_b \mid \theta_a)
+\min\left\{\frac{J_t(\theta_a \mid \theta_b)\pi(\theta_b \mid x)}{J_t(\theta_b \mid \theta_a)\pi(\theta_a \mid x)},1\right\}\\
+&amp; = \min\left\{J_t(\theta_a \mid \theta_b)\pi(\theta_b \mid x), J_t(\theta_b \mid \theta_a)\pi(\theta_a \mid x)\right\}
+\end{align*}\]</span></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>The detailed balance condition implies the existence of a stationary distribution, but not the other way around.</p></li></ol></aside></section>
+<section id="ergodic-theorems" class="slide level2">
+<h2>Ergodic Theorems</h2>
+<ul>
+<li class="fragment">Now we know that the MH algorithm generates a Markov chain <span class="math inline">\(\theta_1, \theta_2, \ldots\)</span> with a stationary distribution <span class="math inline">\(\pi(\theta \mid x)\)</span>.</li>
+<li class="fragment">We need to use these MCMC samples to estimate posterior quantities, for example, <span class="math display">\[
+\frac{1}{M}\sum_{i=1}^M h(\theta_i).
+\]</span></li>
+<li class="fragment">If the <span class="math inline">\(\theta_i\)</span>’s are <strong>iid</strong>, then we can use the CLT to obtain the consistency and the asymptotic distribution of the above estimator.</li>
+<li class="fragment">For Markov chains, we have ergodic theorems, which state that if <span class="math inline">\(\theta_1,\theta_2,\ldots\)</span> is <strong>ergodic</strong>, we have the CLT.</li>
+<li class="fragment">See Ch. 6 &amp; 7 of <em>Monte Carlo Statistical Methods</em> by Robert &amp; Casella (2004) for details.</li>
+</ul>
+</section>
+<section id="guidelines-for-choosing-proposal-distribution" class="slide level2">
+<h2>Guidelines for choosing proposal distribution</h2>
+<ul>
+<li class="fragment">For any <span class="math inline">\(\theta\)</span>, it is easy to sample from <span class="math inline">\(J\left(\theta^* \mid \theta\right)\)</span>.</li>
+<li class="fragment">It is easy to compute the ratio <span class="math inline">\(\rho\)</span>.</li>
+<li class="fragment">Each jump goes a reasonable distance in the parameter space (otherwise the random walk moves too slowly).</li>
+<li class="fragment">The jumps are not rejected too frequently (otherwise the random walk wastes too much time standing still).</li>
+</ul>
+</section>
+<section id="combining-gibbs-and-mh" class="slide level2">
+<h2>Combining Gibbs and MH</h2>
+<ul>
+<li class="fragment">In fact, Gibbs sampler is a special case of MH, with the proposal being the conditional distribution: <span class="math display">\[
+J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{t-1}\right)= \begin{cases}\pi\left(\theta_j^* \mid \theta_{-j}^{t-1}, x\right) &amp; \text { if } \theta_{-j}^*=\theta_{-j}^{t-1} \\ 0 &amp; \text { otherwise. }\end{cases}
+\]</span></li>
+<li class="fragment">We can use MH to sample from <span class="math inline">\(\pi\left(\theta_j^* \mid \theta_{-j}^{t-1}, x\right)\)</span>. This is called <strong>Metropolis-within-Gibbs</strong>.</li>
+<li class="fragment">In some cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH.</li>
+</ul>
 </section></section>
 <section>
 <section id="diagnostic-of-mcmc" class="title-slide slide level1 center">
 <h1>Diagnostic of MCMC</h1>
+
+</section>
+<section id="diagnostic-of-mcmc-samples" class="slide level2">
+<h2>Diagnostic of MCMC samples</h2>
+<p>Suppose now we have a sequence of MCMC samples: <span class="math inline">\(\theta_1, \ldots, \theta_m\)</span>.</p>
 <ul>
-<li class="fragment">convergence</li>
-<li class="fragment">mixing</li>
-<li class="fragment">autocorrelation</li>
-<li class="fragment">effective sample size</li>
-<li class="fragment">burn-in</li>
-<li class="fragment">thinning</li>
-<li class="fragment">autocorrelation time</li>
+<li class="fragment">Did I run the chain long enough so that the samples are roughly from the target distribution?</li>
+<li class="fragment">How strong is the dependence between the samples?</li>
+<li class="fragment">How to fix these problems?</li>
 </ul>
 </section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
+<section id="mixing-and-convergence" class="slide level2">
+<h2>Mixing and convergence</h2>
+<div>
+<ul>
+<li><strong>Convergence</strong>: whether the chain has converged to the target distribution.</li>
+<li><strong>Mixing</strong>: Multiple chains should mix together.</li>
+</ul>
+</div>
 
-<div class="footer footer-default">
+<img data-src="images/lec07/mixing.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption">Fig 11.3 of BDA</p></section>
+<section id="autocorrelation" class="slide level2">
+<h2>Autocorrelation</h2>
+<p><strong>Lag-<span class="math inline">\(k\)</span> Autocorrelation</strong>: the correlation between <span class="math inline">\(\theta_t\)</span> and <span class="math inline">\(\theta_{t+k}\)</span> for <span class="math inline">\(k &gt; 0\)</span>.</p>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-10_3706c09171ce072280c77fa9d8a4e84d">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">acf</span>(theta, <span class="at">lag.max =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="effective-sample-size" class="slide level2">
+<h2>Effective sample size</h2>
+<div>
+<ul>
+<li>We can compute an approximate ‘effective number of independent simulation draws’ for any estimand of interest <span class="math inline">\(\psi\)</span>.</li>
+<li>The effective sample size is defined as <span class="math display">\[
+\text{ESS} = \frac{m}{1 + 2\sum_{k=1}^\infty \rho_k},
+\]</span> where <span class="math inline">\(m\)</span> is the length of a chain and <span class="math inline">\(\rho_k\)</span> is the lag-<span class="math inline">\(k\)</span> autocorrelation.</li>
+<li>Different estimates of <span class="math inline">\(\rho_k\)</span>’s give different ESS’s.</li>
+</ul>
+</div>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-11_c24f5c748370a647a754b4edc824c28b">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(coda)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">library</span>(mcmcse)</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"ESS:"</span>, <span class="fu">round</span>(coda<span class="sc">::</span><span class="fu">effectiveSize</span>(theta), <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ESS: 96.85"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"ESS:"</span>, <span class="fu">round</span>(mcmcse<span class="sc">::</span><span class="fu">ess</span>(theta), <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ESS: 113.83"</code></pre>
+</div>
+</div>
+</section>
+<section id="practical-tricks" class="slide level2">
+<h2>Practical tricks</h2>
+<ul>
+<li class="fragment"><strong>Burn-in</strong>: discard the first few samples.</li>
+<li class="fragment"><strong>Thinning</strong>: keep only every <span class="math inline">\(k\)</span>-th sample.</li>
+<li class="fragment"><strong>Multiple chains</strong>: run multiple chains and combine them.</li>
+<li class="fragment"><strong>Simulated annealing</strong>: start with a large variance (of proposal) and gradually reduce it.</li>
+<li class="fragment"><strong>Parallel tempering</strong>: run multiple chains with different temperatures and swap chains occasionally: for <span class="math inline">\(1 &lt; T_1 &lt; T_2 &lt; \cdots &lt; T_n\)</span>, the <span class="math inline">\(i\)</span>-th chain has target distribution <span class="math display">\[
+\pi_i(\theta) \propto \pi(\theta)^{1/T_i} = \exp\left\{\frac{1}{T_i}\log\pi(\theta)\right\}.
+\]</span></li>
+<li class="fragment"><strong>Data augmentation</strong>: introduce latent variables to make the target distribution more tractable, i.e., find <span class="math inline">\(\nu\)</span> such that <span class="math display">\[
+\pi(\theta \mid x) = \int \pi(\theta \mid \xi, x) \nu(\xi)d\xi.
+\]</span></li>
+</ul>
+</section>
+<section id="example-5" class="slide level2">
+<h2>Example</h2>
+<p>Suppose the target distribution is <span class="math inline">\(\pi(\theta) = \frac{1}{2}N(10,1) + \frac{1}{2}N(-10, 1)\)</span>.</p>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-12_de345c92d3e805e170066012a2f8303c">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>log_post <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    <span class="fu">log</span>(<span class="fu">dnorm</span>(x, <span class="dv">10</span>, <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">dnorm</span>(x, <span class="sc">-</span><span class="dv">10</span>, <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a>}</span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="fu">curve</span>(<span class="fu">exp</span>(<span class="fu">log_post</span>(x)), <span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="vanilla-metropolis" class="slide level2">
+<h2>Vanilla Metropolis</h2>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-13_d1278b2f3f453666f4e1f25ee1f1c5c3">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>M <span class="ot">&lt;-</span> <span class="dv">1000</span>; n_chain <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> M)</span>
+<span id="cb14-4"><a href="#cb14-4"></a></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_chain){</span>
+<span id="cb14-6"><a href="#cb14-6"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>M){</span>
+<span id="cb14-7"><a href="#cb14-7"></a>        theta.star <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, theta[i<span class="dv">-1</span>,j], <span class="dv">1</span>)</span>
+<span id="cb14-8"><a href="#cb14-8"></a>        rho <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log_post</span>(theta.star) <span class="sc">-</span> <span class="fu">log_post</span>(theta[i<span class="dv">-1</span>,j]))</span>
+<span id="cb14-9"><a href="#cb14-9"></a>        <span class="cf">if</span> (<span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> rho){</span>
+<span id="cb14-10"><a href="#cb14-10"></a>            theta[i,j] <span class="ot">&lt;-</span> theta.star</span>
+<span id="cb14-11"><a href="#cb14-11"></a>        } <span class="cf">else</span> {</span>
+<span id="cb14-12"><a href="#cb14-12"></a>            theta[i,j] <span class="ot">&lt;-</span> theta[i<span class="dv">-1</span>,j]</span>
+<span id="cb14-13"><a href="#cb14-13"></a>        }</span>
+<span id="cb14-14"><a href="#cb14-14"></a>    }</span>
+<span id="cb14-15"><a href="#cb14-15"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="vanilla-metropolis-1" class="slide level2">
+<h2>Vanilla Metropolis</h2>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-14_5e568f4a3f43aced67472c3cff1f7e48">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_chain){</span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="fu">plot</span>(theta[,j], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb15-4"><a href="#cb15-4"></a>         <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>), <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Chain"</span>, j))</span>
+<span id="cb15-5"><a href="#cb15-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="parallel-tempering" class="slide level2">
+<h2>Parallel tempering</h2>
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-15_431a927bb57003864fafbe756c152089">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>M <span class="ot">&lt;-</span> <span class="dv">1000</span>; n_chain <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> M)</span>
+<span id="cb16-4"><a href="#cb16-4"></a>temp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>); swap_int <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>M){</span>
+<span id="cb16-7"><a href="#cb16-7"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_chain){</span>
+<span id="cb16-8"><a href="#cb16-8"></a>        theta.star <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, theta[i<span class="dv">-1</span>,j], <span class="dv">1</span>)</span>
+<span id="cb16-9"><a href="#cb16-9"></a>        rho <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log_post</span>(theta.star)<span class="sc">/</span>temp[j] <span class="sc">-</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>                       <span class="fu">log_post</span>(theta[i<span class="dv">-1</span>,j])<span class="sc">/</span>temp[j])</span>
+<span id="cb16-11"><a href="#cb16-11"></a>        <span class="cf">if</span> (<span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> rho){</span>
+<span id="cb16-12"><a href="#cb16-12"></a>            theta[i,j] <span class="ot">&lt;-</span> theta.star</span>
+<span id="cb16-13"><a href="#cb16-13"></a>        } <span class="cf">else</span> {</span>
+<span id="cb16-14"><a href="#cb16-14"></a>            theta[i,j] <span class="ot">&lt;-</span> theta[i<span class="dv">-1</span>,j]</span>
+<span id="cb16-15"><a href="#cb16-15"></a>        }</span>
+<span id="cb16-16"><a href="#cb16-16"></a>    }</span>
+<span id="cb16-17"><a href="#cb16-17"></a>    <span class="co"># Swap chains</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a>    <span class="cf">if</span>(i <span class="sc">%%</span> swap_int <span class="sc">==</span> <span class="dv">0</span>){</span>
+<span id="cb16-19"><a href="#cb16-19"></a>        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n_chain<span class="dv">-1</span>)){</span>
+<span id="cb16-20"><a href="#cb16-20"></a>            rho <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log_post</span>(theta[i,j])<span class="sc">/</span>temp[j<span class="sc">+</span><span class="dv">1</span>] <span class="sc">+</span></span>
+<span id="cb16-21"><a href="#cb16-21"></a>                           <span class="fu">log_post</span>(theta[i,j<span class="sc">+</span><span class="dv">1</span>])<span class="sc">/</span>temp[j] <span class="sc">-</span> </span>
+<span id="cb16-22"><a href="#cb16-22"></a>                           <span class="fu">log_post</span>(theta[i,j])<span class="sc">/</span>temp[j]<span class="sc">-</span></span>
+<span id="cb16-23"><a href="#cb16-23"></a>                           <span class="fu">log_post</span>(theta[i,j<span class="sc">+</span><span class="dv">1</span>])<span class="sc">/</span>temp[j<span class="sc">+</span><span class="dv">1</span>])</span>
+<span id="cb16-24"><a href="#cb16-24"></a>            <span class="cf">if</span> (<span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> rho){</span>
+<span id="cb16-25"><a href="#cb16-25"></a>                theta[i,] <span class="ot">&lt;-</span> theta[i, <span class="fu">c</span>(j<span class="sc">+</span><span class="dv">1</span>, j)]</span>
+<span id="cb16-26"><a href="#cb16-26"></a>            }</span>
+<span id="cb16-27"><a href="#cb16-27"></a>        }</span>
+<span id="cb16-28"><a href="#cb16-28"></a>    }</span>
+<span id="cb16-29"><a href="#cb16-29"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="parallel-tempering-1" class="slide level2">
+<h2>Parallel tempering</h2>
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-16_02d371b0444301efc0f4867ac830cfd7">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">plot</span>(theta[,<span class="dv">1</span>], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb17-3"><a href="#cb17-3"></a>         <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>), <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Chain"</span>, <span class="dv">1</span>))</span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="fu">hist</span>(theta[,<span class="dv">1</span>], <span class="at">freq =</span> F, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>), </span>
+<span id="cb17-5"><a href="#cb17-5"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>), <span class="at">main =</span> <span class="st">"Chain 1"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="fu">curve</span>(<span class="fu">exp</span>(<span class="fu">log_post</span>(x)), <span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
+
     </div>
   </div>
 
