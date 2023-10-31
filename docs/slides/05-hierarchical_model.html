@@ -493,7 +493,7 @@ Chun-Hao Yang
 <li class="fragment">the posterior must be proper, and</li>
 <li class="fragment">the prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.</li>
 </ul></li>
-<li class="fragment">Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect<sup>1</sup>.</li>
+<li class="fragment">Roughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems like nonparametric problems, it might not work as well as you expect<sup>1</sup>.</li>
 </ul>
 
 <aside><div>
@@ -559,7 +559,7 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 </section>
 <section id="bootstrap-and-bayesian-inference-2" class="slide level2">
 <h2>Bootstrap and Bayesian Inference</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/binomial_bootstrap_9050daada72740a8929212c8f2d4adfc">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/binomial_bootstrap_8d24f5e85294650feb19f0a898a4ca5b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">124</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>p <span class="ot">&lt;-</span> <span class="fl">0.4</span>; n <span class="ot">&lt;-</span> <span class="dv">100</span>; X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span>
@@ -579,7 +579,7 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 </div>
 
 </section>
-<section id="bootstrap-and-bayesian-inference-2-output" class="slide level2 output-location-slide"><h2>Bootstrap and Bayesian Inference</h2><div class="cell output-location-slide" data-hash="05-hierarchical_model_cache/revealjs/binomial_bootstrap_9050daada72740a8929212c8f2d4adfc">
+<section id="bootstrap-and-bayesian-inference-2-output" class="slide level2 output-location-slide"><h2>Bootstrap and Bayesian Inference</h2><div class="cell output-location-slide" data-hash="05-hierarchical_model_cache/revealjs/binomial_bootstrap_8d24f5e85294650feb19f0a898a4ca5b">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -617,10 +617,10 @@ p \mid X_1,\ldots, X_n \sim \text{Beta}\left(\sum X_i, n-\sum X_i\right).
 <li class="fragment">Use (regularized) least squares to obtain an estimate for <span class="math inline">\(\beta\)</span>.</li>
 <li class="fragment">The effect is <u>the same for each observation</u></li>
 </ul></li>
-<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + U_i + \varepsilon_i\)</span>, <span class="math inline">\(U_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\varepsilon_i \iid N(0, \sigma^2)\)</span>
+<li class="fragment">Random effect model: <span class="math inline">\(Y_i = \beta_0 + \gamma_iX_i + \varepsilon_i\)</span>, <span class="math inline">\(\gamma_i \sim N(\beta, \tau^2)\)</span>, <span class="math inline">\(\varepsilon_i \iid N(0, \sigma^2)\)</span>
 <ul>
-<li class="fragment"><span class="math inline">\(U_i\)</span> is the <strong>random effect</strong> in this model</li>
-<li class="fragment">The effect is different for each observation and, on average, <span class="math inline">\(Y\)</span> is increase by <span class="math inline">\(\beta\)</span> with the presence of this effect.</li>
+<li class="fragment"><span class="math inline">\(\gamma_i\)</span> is the <strong>random effect</strong> in this model</li>
+<li class="fragment">The effect is different for each observation and, <u>on average</u>, <span class="math inline">\(Y\)</span> is increase by <span class="math inline">\(\beta\)</span> with a unit increase in <span class="math inline">\(X\)</span>.</li>
 </ul></li>
 </ul>
 </section>
@@ -648,12 +648,12 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 <aside><ol class="aside-footnotes"><li id="fn7"><p>Gregory Belenky, Nancy J. Wesensten, David R. Thorne, Maria L. Thomas, Helen C. Sing, Daniel P. Redmond, Michael B. Russo and Thomas J. Balkin (2003) Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study. <em>Journal of Sleep Research</em> <strong>12</strong>, 1–12.</p></li></ol></aside></section>
 <section id="data-description-1" class="slide level2">
 <h2>Data description</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_data_5868c2ddc99a0af06b517038ca416135">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_data_9951bb6df14b7e24e68308145e020645">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(lme4)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">library</span>(kableExtra)</span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="fu">data</span>(<span class="st">"sleepstudy"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a>sleepstudy <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5"></a>sleepstudy <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">kbl</span>(<span class="at">format=</span><span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table>
 <thead>
@@ -707,10 +707,10 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 <li class="fragment">A simple linear model: <span class="math inline">\(Y = \beta_0 + \beta_1 X\)</span>.</li>
 </ul>
 <div class="fragment">
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_lm_246c30673b1d341e9d8f71118179b200">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_lm_65ac57ebb9ecbb4d41053adef034231e">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(sjPlot)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>sleepstudy <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> ., <span class="at">subset=</span>Days<span class="sc">&gt;=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2"></a>sleepstudy <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> _, <span class="at">subset=</span>Days<span class="sc">&gt;=</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
 <span id="cb3-4"><a href="#cb3-4"></a>    <span class="fu">tab_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" style="border-collapse:collapse; border:none;">
@@ -773,10 +773,10 @@ Y = X\beta + Z\gamma + \varepsilon, \quad \varepsilon \sim N(0, \sigma^2)
 </section>
 <section id="second-attempt-mixed-effect-model-1" class="slide level2">
 <h2>Second attempt: Mixed effect model</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_lmer_549f33975615e094fe8cb01e239b957f">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sleepstudy <span class="sc">%&gt;%</span></span>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_lmer_d714a608d4030a01cb8529de061402a1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sleepstudy <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">0</span><span class="sc">+</span>Days<span class="sc">|</span>Subject), </span>
-<span id="cb4-3"><a href="#cb4-3"></a>         <span class="at">data =</span> ., <span class="at">subset=</span>Days<span class="sc">&gt;=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>         <span class="at">data =</span> _, <span class="at">subset=</span>Days<span class="sc">&gt;=</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">tab_model</span>(<span class="at">show.icc =</span> <span class="cn">FALSE</span>,<span class="at">show.obs =</span> <span class="cn">FALSE</span>, <span class="at">show.ngroups =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
@@ -857,7 +857,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <section id="bayesian-approach-to-mixed-effect-models-1" class="slide level2">
 <h2>Bayesian approach to mixed effect models</h2>
 <p>Use <code>stan_lmer</code> to fit a Bayesian mixed effect model</p>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_Bayes_lmer_e742b3881ea764309b4d4c5c858eafd9">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/sleep_Bayes_lmer_184f0dcda1b3be78d2a73e1f2cd77818">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(rstanarm)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>sleep_lmer_B <span class="ot">&lt;-</span> <span class="fu">stan_lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject) <span class="sc">+</span> (<span class="dv">0</span><span class="sc">+</span>Days<span class="sc">|</span>Subject), </span>
 <span id="cb5-3"><a href="#cb5-3"></a>                          <span class="at">data =</span> sleepstudy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -874,7 +874,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <li class="fragment">Mixed effect model is just one example of <strong>hierarchical models</strong> (or <strong>multi-level models</strong>).</li>
 <li class="fragment">A hierarchical model contains many sub-models that are linked by some hierarchical relations.</li>
 <li class="fragment">In the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.</li>
-<li class="fragment">Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model.</li>
+<li class="fragment">Note that a hierarchical model need not be a Bayesian model. However, Bayesian approach is a natural way to fit a hierarchical model.</li>
 </ul>
 </section></section>
 <section>
@@ -918,10 +918,10 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 </section>
 <section id="data-description-3" class="slide level2">
 <h2>Data description</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/meta_data_c4535061f130f0f7c8e5410292763526">
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/meta_data_dcaebdc0adf5cf7afe7c45733971728d">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.stat.columbia.edu/~gelman/book/data/meta.asc"</span>, </span>
 <span id="cb6-2"><a href="#cb6-2"></a>                  <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">skip =</span> <span class="dv">4</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>meta <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3"></a>meta <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true">
 <thead>
@@ -1006,15 +1006,15 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 </section>
 <section id="odds-ratio-1" class="slide level2">
 <h2>Odds ratio</h2>
-<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/meta_odds_ratio_66041436bc44a5e07ad3db486ceee59b">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>meta_summary <span class="ot">&lt;-</span> meta <span class="sc">%&gt;%</span> </span>
+<div class="cell" data-hash="05-hierarchical_model_cache/revealjs/meta_odds_ratio_a596826feba1d23a127774e52e72870b">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>meta_summary <span class="ot">&lt;-</span> meta <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>    <span class="fu">mutate</span>(<span class="at">treated.odds =</span> treated.deaths<span class="sc">/</span>(treated.total <span class="sc">-</span> treated.deaths),</span>
 <span id="cb7-3"><a href="#cb7-3"></a>           <span class="at">control.odds =</span> control.deaths<span class="sc">/</span>(control.total <span class="sc">-</span> control.deaths),</span>
 <span id="cb7-4"><a href="#cb7-4"></a>           <span class="at">log.odds.ratio =</span> <span class="fu">log</span>(treated.odds) <span class="sc">-</span> <span class="fu">log</span>(control.odds), </span>
 <span id="cb7-5"><a href="#cb7-5"></a>           <span class="at">var =</span> <span class="dv">1</span><span class="sc">/</span>treated.deaths <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>(treated.total <span class="sc">-</span> treated.deaths) <span class="sc">+</span> </span>
-<span id="cb7-6"><a href="#cb7-6"></a>               <span class="dv">1</span><span class="sc">/</span>control.deaths <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>(control.total <span class="sc">-</span> control.deaths)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>               <span class="dv">1</span><span class="sc">/</span>control.deaths <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>(control.total <span class="sc">-</span> control.deaths)) <span class="sc">|&gt;</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a>    <span class="fu">select</span>(<span class="fu">c</span>(study, log.odds.ratio, var)) </span>
-<span id="cb7-8"><a href="#cb7-8"></a>meta_summary <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-8"><a href="#cb7-8"></a>meta_summary <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true">
 <thead>
@@ -1106,7 +1106,7 @@ Y = X\beta + Z\gamma + \varepsilon, \quad\gamma \sim N(\nu, \Psi), \varepsilon \
 <li class="fragment">Another choice is Inverse-Gamma<span class="math inline">\((\epsilon, \epsilon)\)</span>, with small <span class="math inline">\(\epsilon\)</span>.</li>
 <li class="fragment">How about the Jeffreys prior?
 <ul>
-<li class="fragment">To compute the Jeffreys prior, you need to first find the marginal distribution <span class="math inline">\(f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\mu\)</span>.</li>
+<li class="fragment">To compute the Jeffreys prior, you need to first find the marginal distribution <span class="math inline">\(f(x\mid \mu, \tau) = \int f(x \mid \theta) \pi(\theta \mid \mu, \tau) d\theta\)</span>.</li>
 <li class="fragment">Then compute the Fisher information of <span class="math inline">\(f(x \mid \mu, \tau)\)</span>.</li>
 <li class="fragment">Both steps are difficult!!</li>
 </ul></li>

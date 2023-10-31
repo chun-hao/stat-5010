@@ -464,7 +464,7 @@ Chun-Hao Yang
 <li class="fragment">Compute <span class="math inline">\(\pi(\theta_1 \mid x), \ldots \pi(\theta_N \mid x)\)</span> and normalize them such that <span class="math display">\[
 \sum_{i=1}^N \pi(\theta_i \mid x) = 1.
 \]</span></li>
-<li class="fragment">Generate <span class="math inline">\(m\)</span> samples from the multinomial distribution with probabilities <span class="math inline">\(\pi(\theta_1 \mid x), \ldots \pi(\theta_N \mid x)\)</span>.</li>
+<li class="fragment">Generate <span class="math inline">\(m\)</span> samples from the multinomial distribution with probabilities <span class="math inline">\(\pi(\theta_1 \mid x), \ldots, \pi(\theta_N \mid x)\)</span>.</li>
 <li class="fragment">That is, we approximate <span class="math inline">\(\pi(\theta \mid x)\)</span> on <span class="math inline">\(\Theta\)</span> with a multinomial distribution on <span class="math inline">\(\{\theta_1, \ldots, \theta_N\}\)</span>.</li>
 </ul>
 </section>
@@ -532,7 +532,7 @@ Chun-Hao Yang
 <h2>Problems with rejection sampling</h2>
 <ul>
 <li class="fragment">If <span class="math inline">\(M\)</span> is large, then the acceptance rate is low, and hence the algorithm is inefficient.</li>
-<li class="fragment">You have to know <span class="math inline">\(\pi(\theta \mid x)\)</span> well to find a good proposal distribution, with reasonable <span class="math inline">\(M\)</span>.</li>
+<li class="fragment">You have to know <span class="math inline">\(\pi(\theta \mid x)\)</span> well to find a good proposal distribution, with a reasonable <span class="math inline">\(M\)</span>.</li>
 <li class="fragment">For multivariate distributions, it is virtually impossible to find a good proposal distribution.</li>
 <li class="fragment">However, it can be used for simple univariate distributions or truncated distributions.</li>
 <li class="fragment">Although rejection sampling produces iid samples from the target distribution, it is inefficient.</li>
@@ -636,19 +636,19 @@ Chun-Hao Yang
 <h2>Metropolis Algorithm</h2>
 <ul>
 <li class="fragment">Target distribution: <span class="math inline">\(\pi(\theta \mid x)\)</span>.</li>
-<li class="fragment">Proposal distribution at <span class="math inline">\(t\)</span>th iteration: <span class="math inline">\(J_t(\theta^* \mid \theta^{t-1})\)</span>
+<li class="fragment">Proposal distribution at <span class="math inline">\(t\)</span>th iteration: <span class="math inline">\(J_t(\theta^* \mid \theta^{(t-1)})\)</span>
 <ul>
 <li class="fragment"><span class="math inline">\(J_t\)</span> needs to be symmetric, i.e., <span class="math inline">\(J_t(\theta_1 \mid \theta_2) = J_t(\theta_2\mid\theta_1)\)</span>.</li>
 </ul></li>
 <li class="fragment">Algorithm:
 <ol type="1">
-<li class="fragment">At <span class="math inline">\(t\)</span>th iteration, sample <span class="math inline">\(\theta^*\)</span> from <span class="math inline">\(J_t(\theta^* \mid \theta^{t-1})\)</span>.</li>
-<li class="fragment">Compute the acceptance ratio <span class="math inline">\(\rho(\theta^{t-1}, \theta^{*})=\min\left\{\frac{\pi(\theta^* \mid x)}{\pi(\theta^{t-1} \mid x)}, 1\right\}\)</span>.</li>
+<li class="fragment">At <span class="math inline">\(t\)</span>th iteration, sample <span class="math inline">\(\theta^*\)</span> from <span class="math inline">\(J_t(\theta^* \mid \theta^{(t-1)})\)</span>.</li>
+<li class="fragment">Compute the acceptance ratio <span class="math inline">\(\rho(\theta^{(t-1)}, \theta^{*})=\min\left\{\frac{\pi(\theta^* \mid x)}{\pi(\theta^{(t-1)} \mid x)}, 1\right\}\)</span>.</li>
 <li class="fragment">Set <span class="math display">\[
-\theta^t= \begin{cases}\theta^* &amp; \text { with prob. } \rho(\theta^{t-1}, \theta^{*}) \\ \theta^{t-1} &amp; \text { with prob. } 1-\rho(\theta^{t-1}, \theta^{*}).\end{cases}
+\theta^{(t)}= \begin{cases}\theta^* &amp; \text { with prob. } \rho(\theta^{t-1}, \theta^{*}) \\ \theta^{(t-1)} &amp; \text { with prob. } 1-\rho(\theta^{(t-1)}, \theta^{*}).\end{cases}
 \]</span></li>
 </ol></li>
-<li class="fragment">Intuition: if <span class="math inline">\(\theta^*\)</span> is more likely than <span class="math inline">\(\theta^{t-1}\)</span>, then accept <span class="math inline">\(\theta^*\)</span>; otherwise, accept <span class="math inline">\(\theta^*\)</span> with probability <span class="math inline">\(r\)</span>.</li>
+<li class="fragment">Intuition: if <span class="math inline">\(\theta^*\)</span> is more likely than <span class="math inline">\(\theta^{(t-1)}\)</span>, then accept <span class="math inline">\(\theta^*\)</span>; otherwise, accept <span class="math inline">\(\theta^*\)</span> with probability <span class="math inline">\(\rho(\theta^{(t-1)}, \theta^{*})\)</span>.</li>
 </ul>
 </section>
 <section id="example-2" class="slide level2">
@@ -656,7 +656,7 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">Suppose <span class="math inline">\(X \mid \theta \sim N(\theta, 1)\)</span> and <span class="math inline">\(\theta \sim \text{Cauchy}(0, 1)\)</span>.</li>
 <li class="fragment">The posterior is <span class="math inline">\(\pi(\theta \mid x) \propto \frac{1}{1+\theta^2}\exp\left(-\frac{1}{2}(x-\theta)^2\right)\)</span>.</li>
-<li class="fragment">A commonly used proposal is <span class="math inline">\(J_t(\cdot \mid\theta^{t-1}) = N(\theta^{t-1}, \sigma^2)\)</span>, where <span class="math inline">\(\sigma^2\)</span> is a tuning parameter.</li>
+<li class="fragment">A commonly used proposal is <span class="math inline">\(J_t(\cdot \mid\theta^{(t-1)}) = N(\theta^{(t-1)}, \sigma^2)\)</span>, where <span class="math inline">\(\sigma^2\)</span> is a tuning parameter.</li>
 </ul>
 <div class="fragment">
 <div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-7_1dba7c5e967f33573e50b62a808017c8">
@@ -702,7 +702,7 @@ Chun-Hao Yang
 </div>
 <ul>
 <li class="fragment">Acceptance rate: 0.702.</li>
-<li class="fragment">Autocorrelation (lag 1): 0.823, i.e., the correlation between <span class="math inline">\(\theta^{t-1}\)</span> and <span class="math inline">\(\theta^t\)</span>.</li>
+<li class="fragment">Autocorrelation (lag 1): 0.823, i.e., the correlation between <span class="math inline">\(\theta^{(t-1)}\)</span> and <span class="math inline">\(\theta^{(t)}\)</span>.</li>
 <li class="fragment">Posterior mean: 8.635.</li>
 </ul>
 </section>
@@ -733,7 +733,7 @@ Chun-Hao Yang
 <section id="metropolis-hastings-algorithm" class="slide level2">
 <h2>Metropolis-Hastings Algorithm</h2>
 <ul>
-<li class="fragment">Metropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposal.</li>
+<li class="fragment">Metropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposals.</li>
 <li class="fragment">For a proposal distribution <span class="math inline">\(J_t(\theta_a \mid \theta_b)\)</span>, the <strong>unconditional</strong> probability from <span class="math inline">\(\theta_a\)</span> to <span class="math inline">\(\theta_b\)</span> is <span class="math display">\[
 p(\theta^{t-1} = \theta_a, \theta^{t} = \theta_b) = J_t(\theta_b \mid \theta_a)\pi(\theta_a \mid x).
 \]</span></li>
@@ -785,10 +785,10 @@ p(\theta^{t-1} = \theta_a, \theta^{t} = \theta_b) = J_t(\theta_b \mid \theta_a)\
 <h2>Combining Gibbs and MH</h2>
 <ul>
 <li class="fragment">In fact, Gibbs sampler is a special case of MH, with the proposal being the conditional distribution: <span class="math display">\[
-J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{t-1}\right)= \begin{cases}\pi\left(\theta_j^* \mid \theta_{-j}^{t-1}, x\right) &amp; \text { if } \theta_{-j}^*=\theta_{-j}^{t-1} \\ 0 &amp; \text { otherwise. }\end{cases}
+J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases}\pi\left(\theta_j^* \mid \theta_{-j}^{(t-1)}, x\right) &amp; \text { if } \theta_{-j}^*=\theta_{-j}^{(t-1)} \\ 0 &amp; \text { otherwise. }\end{cases}
 \]</span></li>
-<li class="fragment">We can use MH to sample from <span class="math inline">\(\pi\left(\theta_j^* \mid \theta_{-j}^{t-1}, x\right)\)</span>. This is called <strong>Metropolis-within-Gibbs</strong>.</li>
-<li class="fragment">In some cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH.</li>
+<li class="fragment">We can use MH to sample from <span class="math inline">\(\pi\left(\theta_j^* \mid \theta_{-j}^{(t-1)}, x\right)\)</span>. This is called <strong>Metropolis-within-Gibbs</strong>.</li>
+<li class="fragment">In cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH.</li>
 </ul>
 </section></section>
 <section>
@@ -817,7 +817,7 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{t-1}\right)= \begin{cases}\
 <img data-src="images/lec07/mixing.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption">Fig 11.3 of BDA</p></section>
 <section id="autocorrelation" class="slide level2">
 <h2>Autocorrelation</h2>
-<p><strong>Lag-<span class="math inline">\(k\)</span> Autocorrelation</strong>: the correlation between <span class="math inline">\(\theta_t\)</span> and <span class="math inline">\(\theta_{t+k}\)</span> for <span class="math inline">\(k &gt; 0\)</span>.</p>
+<p><strong>Lag-<span class="math inline">\(k\)</span> Autocorrelation</strong>: the correlation between <span class="math inline">\(\theta^{(t)}\)</span> and <span class="math inline">\(\theta^{(t+k)}\)</span> for <span class="math inline">\(k &gt; 0\)</span>.</p>
 <div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-10_3706c09171ce072280c77fa9d8a4e84d">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">acf</span>(theta, <span class="at">lag.max =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -827,7 +827,7 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{t-1}\right)= \begin{cases}\
 <h2>Effective sample size</h2>
 <div>
 <ul>
-<li>We can compute an approximate ‘effective number of independent simulation draws’ for any estimand of interest <span class="math inline">\(\psi\)</span>.</li>
+<li>We can compute an approximate ``effective number of independent simulation draws’’ for any estimand of interest <span class="math inline">\(\psi\)</span>.</li>
 <li>The effective sample size is defined as <span class="math display">\[
 \text{ESS} = \frac{m}{1 + 2\sum_{k=1}^\infty \rho_k},
 \]</span> where <span class="math inline">\(m\)</span> is the length of a chain and <span class="math inline">\(\rho_k\)</span> is the lag-<span class="math inline">\(k\)</span> autocorrelation.</li>
@@ -853,7 +853,6 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{t-1}\right)= \begin{cases}\
 <ul>
 <li class="fragment"><strong>Burn-in</strong>: discard the first few samples.</li>
 <li class="fragment"><strong>Thinning</strong>: keep only every <span class="math inline">\(k\)</span>-th sample.</li>
-<li class="fragment"><strong>Multiple chains</strong>: run multiple chains and combine them.</li>
 <li class="fragment"><strong>Simulated annealing</strong>: start with a large variance (of proposal) and gradually reduce it.</li>
 <li class="fragment"><strong>Parallel tempering</strong>: run multiple chains with different temperatures and swap chains occasionally: for <span class="math inline">\(1 &lt; T_1 &lt; T_2 &lt; \cdots &lt; T_n\)</span>, the <span class="math inline">\(i\)</span>-th chain has target distribution <span class="math display">\[
 \pi_i(\theta) \propto \pi(\theta)^{1/T_i} = \exp\left\{\frac{1}{T_i}\log\pi(\theta)\right\}.

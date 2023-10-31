@@ -102,7 +102,7 @@
     "href": "slides/06-testing.html#model-selection-1",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Model selection",
-    "text": "Model selection\n\nHypothesis testing is a special case of model selection.\nA general model selection problem is to choose between a collection of models \\(M_1, \\ldots, M_k\\).\nFor example, we can choose whether we want to use a linear regression model or a quadratic regression model.\nThe choice can be based on the \\(R^2\\) or the adjusted \\(R^2\\), i.e., choose the one with highest adjusted \\(R^2\\).\nFor general models (e.g., non-linear regression), we can use + information criterion (e.g., AIC, BIC)\n\nBayes factor"
+    "text": "Model selection\n\nHypothesis testing is a special case of model selection.\nA general model selection problem is to choose between a collection of models \\(M_1, \\ldots, M_k\\).\nFor example, we can choose whether we want to use a linear regression model or a quadratic regression model.\nThe choice can be based on the \\(R^2\\) or the adjusted \\(R^2\\), i.e., choose the one with highest adjusted \\(R^2\\).\nFor general models (e.g., non-linear regression), we can use\n\ninformation criterion (e.g., AIC, BIC)\nBayes factor"
   },
   {
     "objectID": "slides/06-testing.html#information-criterion",
@@ -137,7 +137,7 @@
     "href": "slides/06-testing.html#model-averaging",
     "title": "Lecture 06: Testing and Model Selection",
     "section": "Model averaging",
-    "text": "Model averaging\n\nModel averaging is a way to combine the results from multiple models.\nThe idea is to average the posterior distributions of the parameters over all models.\nFor prediction, we can use the posterior predictive distribution \\[\n\\P(x_{\\text{new}} \\mid x) = \\sum_{i=1}^k \\P(x_{\\text{new}} \\mid x, M_i) \\P(M_i \\mid x).\n\\]\nA commonly used trick in machine learning, called ensemble, is to use a weighted average of the predictions from different models: \\[\nx_{\\text{new}} = \\sum_{i=1}^k w_i x_{\\text{new},i}\n\\] where \\(x_{\\text{new},i}\\) is the prediction from model \\(M_i\\) and \\(w_i\\) is the weight for model \\(M_i\\).\nUsually the weights are chosen to be \\(1/k\\) or through cross-validation."
+    "text": "Model averaging\n\nModel averaging is a way to combine the results from multiple models.\nThe idea is to average the posterior distributions of the parameters over all models.\nFor prediction, we can use the posterior predictive distribution \\[\n\\P(x_{\\text{new}} \\mid x) = \\sum_{i=1}^k \\P(x_{\\text{new}} \\mid x, M_i) \\P(M_i \\mid x).\n\\]\nA commonly used trick in machine learning, called ensemble, is to use a weighted average of the predictions from different models: \\(x_{\\text{new}} = \\sum_{i=1}^k w_i x_{\\text{new},i}\\) where \\(x_{\\text{new},i}\\) is the prediction from model \\(M_i\\) and \\(w_i\\) is the weight for model \\(M_i\\).\nUsually the weights are chosen to be \\(1/k\\) or through cross-validation."
   },
   {
     "objectID": "slides/06-testing.html#model-diagnostics",
@@ -1278,7 +1278,7 @@
     "href": "slides/05-hierarchical_model.html#asymptotics-of-bayesian-inference",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Asymptotics of Bayesian inference",
-    "text": "Asymptotics of Bayesian inference\n\nThe Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.\nSee Section 10.2 of Van der Vaart (2000) for rigorous arguments.\nThe regularity conditions include:\n\nthe posterior must be proper, and\nthe prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.\n\nRoughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems, it is not as useful as you expect1.\n\n\n\nVan der Vaart, A. W. (2000). Asymptotic statistics.\nSee this blog post for an interesting discussion on Bernstein-von Mises Theoerm."
+    "text": "Asymptotics of Bayesian inference\n\nThe Bernstein-von Mises Theorem states that under some regularity conditions, the posterior distribution is asymptotically normal centered at the MLE.\nSee Section 10.2 of Van der Vaart (2000) for rigorous arguments.\nThe regularity conditions include:\n\nthe posterior must be proper, and\nthe prior is (strictly) positive in a neighborhood around the true parameter (this is a strong condition in high dimensions), etc.\n\nRoughly speaking, the Bernstein-von Mises theorem works well on a problem with few parameters and large dataset containing iid samples. For complicated problems like nonparametric problems, it might not work as well as you expect1.\n\n\n\nVan der Vaart, A. W. (2000). Asymptotic statistics.\nSee this blog post for an interesting discussion on Bernstein-von Mises Theoerm."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#normal-approximation-to-the-posterior",
@@ -1348,7 +1348,7 @@
     "href": "slides/05-hierarchical_model.html#random-effect-models",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Random effect models",
-    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + U_i + \\varepsilon_i\\), \\(U_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(U_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with the presence of this effect."
+    "text": "Random effect models\n\nFixed effect model: \\(Y_i = \\beta_0 + \\beta X_i + \\varepsilon_i\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\nThe parameter \\(\\beta\\) is the fixed effect of the factors \\(X\\).\nWith a unit increase in \\(X\\), \\(Y\\) is expected to increase by \\(\\beta\\).\nUse (regularized) least squares to obtain an estimate for \\(\\beta\\).\nThe effect is the same for each observation\n\nRandom effect model: \\(Y_i = \\beta_0 + \\gamma_iX_i + \\varepsilon_i\\), \\(\\gamma_i \\sim N(\\beta, \\tau^2)\\), \\(\\varepsilon_i \\iid N(0, \\sigma^2)\\)\n\n\\(\\gamma_i\\) is the random effect in this model\nThe effect is different for each observation and, on average, \\(Y\\) is increase by \\(\\beta\\) with a unit increase in \\(X\\)."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#mixed-effect-model",
@@ -1369,14 +1369,14 @@
     "href": "slides/05-hierarchical_model.html#data-description-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Data description",
-    "text": "Data description\n\nlibrary(lme4)\nlibrary(tidyverse)\nlibrary(kableExtra)\ndata(\"sleepstudy\")\nsleepstudy %&gt;% head() %&gt;% kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
+    "text": "Data description\n\nlibrary(lme4)\nlibrary(tidyverse)\nlibrary(kableExtra)\ndata(\"sleepstudy\")\nsleepstudy |&gt; head() |&gt; kbl(format=\"markdown\")\n\n\n\n\nReaction\nDays\nSubject\n\n\n\n\n249.5600\n0\n308\n\n\n258.7047\n1\n308\n\n\n250.8006\n2\n308\n\n\n321.4398\n3\n308\n\n\n356.8519\n4\n308\n\n\n414.6901\n5\n308"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#first-attempt-simple-linear-regression",
     "href": "slides/05-hierarchical_model.html#first-attempt-simple-linear-regression",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "First attempt: simple linear regression",
-    "text": "First attempt: simple linear regression\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple linear model: \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy %&gt;%\n    lm(Reaction ~ Days, data = ., subset=Days&gt;=2) %&gt;% \n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n223.31 – 266.88\n&lt;0.001\n\n\nDays\n11.44\n7.78 – 15.09\n&lt;0.001\n\n\nObservations\n144\n\n\nR2 / R2 adjusted\n0.212 / 0.207"
+    "text": "First attempt: simple linear regression\n\nLet \\(Y\\) be the reaction time and \\(X\\) be the Day variable.\nWe want to see the negative impact of consecutive sleep loss in reaction time.\nA simple linear model: \\(Y = \\beta_0 + \\beta_1 X\\).\n\n\n\nlibrary(sjPlot)\nsleepstudy |&gt;\n    lm(Reaction ~ Days, data = _, subset=Days&gt;=2) |&gt;\n    tab_model()\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n223.31 – 266.88\n&lt;0.001\n\n\nDays\n11.44\n7.78 – 15.09\n&lt;0.001\n\n\nObservations\n144\n\n\nR2 / R2 adjusted\n0.212 / 0.207"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#individual-difference",
@@ -1397,7 +1397,7 @@
     "href": "slides/05-hierarchical_model.html#second-attempt-mixed-effect-model-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Second attempt: Mixed effect model",
-    "text": "Second attempt: Mixed effect model\n\nsleepstudy %&gt;%\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = ., subset=Days&gt;=2) %&gt;%\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n227.71 – 262.49\n&lt;0.001\n\n\nDays\n11.44\n7.97 – 14.90\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n662.92\n\n\n\nτ00 Subject\n831.93\n\n\nτ11 Subject.Days\n39.50\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.316 / 0.697"
+    "text": "Second attempt: Mixed effect model\n\nsleepstudy |&gt;\n    lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), \n         data = _, subset=Days&gt;=2) |&gt;\n    tab_model(show.icc = FALSE,show.obs = FALSE, show.ngroups = FALSE)\n\n\n\n\n \nReaction\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n245.10\n227.71 – 262.49\n&lt;0.001\n\n\nDays\n11.44\n7.97 – 14.90\n&lt;0.001\n\n\nRandom Effects\n\n\n\nσ2\n662.92\n\n\n\nτ00 Subject\n831.93\n\n\nτ11 Subject.Days\n39.50\n\n\nρ01\n \n\n\nρ01\n \n\nMarginal R2 / Conditional R2\n0.316 / 0.697"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#bayesian-approach-to-mixed-effect-models",
@@ -1418,7 +1418,7 @@
     "href": "slides/05-hierarchical_model.html#wrap-up",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Wrap-up",
-    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote that a hierarchical model need not be a Bayesian model. However, Bayesian approach is the easiest and most natural way to fit a hierarchical model."
+    "text": "Wrap-up\n\nRandom effects are also called variance components, since we are more interested in the variance of the random effect rather than the effect itself.\nMixed effect model is just one example of hierarchical models (or multi-level models).\nA hierarchical model contains many sub-models that are linked by some hierarchical relations.\nIn the previous example, we can partition the dataset into smaller pieces by subject and hence subject is a hierarchy in this dataset.\nNote that a hierarchical model need not be a Bayesian model. However, Bayesian approach is a natural way to fit a hierarchical model."
   },
   {
     "objectID": "slides/05-hierarchical_model.html#motivation",
@@ -1446,7 +1446,7 @@
     "href": "slides/05-hierarchical_model.html#data-description-3",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Data description",
-    "text": "Data description\n\nmeta &lt;- read.table(\"http://www.stat.columbia.edu/~gelman/book/data/meta.asc\", \n                  header = TRUE, skip = 4)\nmeta %&gt;% head() %&gt;% kbl()\n\n\n\n\nstudy\ncontrol.deaths\ncontrol.total\ntreated.deaths\ntreated.total\n\n\n\n\n1\n3\n39\n3\n38\n\n\n2\n14\n116\n7\n114\n\n\n3\n11\n93\n5\n69\n\n\n4\n127\n1520\n102\n1533\n\n\n5\n27\n365\n28\n355\n\n\n6\n6\n52\n4\n59"
+    "text": "Data description\n\nmeta &lt;- read.table(\"http://www.stat.columbia.edu/~gelman/book/data/meta.asc\", \n                  header = TRUE, skip = 4)\nmeta |&gt; head() |&gt; kbl()\n\n\n\n\nstudy\ncontrol.deaths\ncontrol.total\ntreated.deaths\ntreated.total\n\n\n\n\n1\n3\n39\n3\n38\n\n\n2\n14\n116\n7\n114\n\n\n3\n11\n93\n5\n69\n\n\n4\n127\n1520\n102\n1533\n\n\n5\n27\n365\n28\n355\n\n\n6\n6\n52\n4\n59"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#odds-ratio",
@@ -1467,7 +1467,7 @@
     "href": "slides/05-hierarchical_model.html#odds-ratio-1",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Odds ratio",
-    "text": "Odds ratio\n\nmeta_summary &lt;- meta %&gt;% \n    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),\n           control.odds = control.deaths/(control.total - control.deaths),\n           log.odds.ratio = log(treated.odds) - log(control.odds), \n           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + \n               1/control.deaths + 1/(control.total - control.deaths)) %&gt;%\n    select(c(study, log.odds.ratio, var)) \nmeta_summary %&gt;% head() %&gt;% kbl(digits = 4)\n\n\n\n\nstudy\nlog.odds.ratio\nvar\n\n\n\n\n1\n0.0282\n0.7230\n\n\n2\n-0.7410\n0.2334\n\n\n3\n-0.5406\n0.3187\n\n\n4\n-0.2461\n0.0191\n\n\n5\n0.0695\n0.0788\n\n\n6\n-0.5842\n0.4566"
+    "text": "Odds ratio\n\nmeta_summary &lt;- meta |&gt;\n    mutate(treated.odds = treated.deaths/(treated.total - treated.deaths),\n           control.odds = control.deaths/(control.total - control.deaths),\n           log.odds.ratio = log(treated.odds) - log(control.odds), \n           var = 1/treated.deaths + 1/(treated.total - treated.deaths) + \n               1/control.deaths + 1/(control.total - control.deaths)) |&gt;\n    select(c(study, log.odds.ratio, var)) \nmeta_summary |&gt; head() |&gt; kbl(digits = 4)\n\n\n\n\nstudy\nlog.odds.ratio\nvar\n\n\n\n\n1\n0.0282\n0.7230\n\n\n2\n-0.7410\n0.2334\n\n\n3\n-0.5406\n0.3187\n\n\n4\n-0.2461\n0.0191\n\n\n5\n0.0695\n0.0788\n\n\n6\n-0.5842\n0.4566"
   },
   {
     "objectID": "slides/05-hierarchical_model.html#goal-of-the-inference",
@@ -1488,7 +1488,7 @@
     "href": "slides/05-hierarchical_model.html#weakly-informative-priors-for-variance-parameters",
     "title": "Lecture 05: Connections to non-Bayesian Analysis and Hierarchical Models",
     "section": "Weakly informative priors for variance parameters",
-    "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\mu\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
+    "text": "Weakly informative priors for variance parameters\n\nFor the variance parameter \\(\\tau\\), we use the uniform prior \\(\\text{Unif}(0, A)\\), which is a proper noninformative prior.\nAnother choice is Inverse-Gamma\\((\\epsilon, \\epsilon)\\), with small \\(\\epsilon\\).\nHow about the Jeffreys prior?\n\nTo compute the Jeffreys prior, you need to first find the marginal distribution \\(f(x\\mid \\mu, \\tau) = \\int f(x \\mid \\theta) \\pi(\\theta \\mid \\mu, \\tau) d\\theta\\).\nThen compute the Fisher information of \\(f(x \\mid \\mu, \\tau)\\).\nBoth steps are difficult!!\n\nA bad news is that the posterior of \\(\\tau\\) is sensitive to the choice of prior. You will see this in your homework.\nRead Section 5.7 of BDA for more details.\n\n\n\nHome"
   },
   {
     "objectID": "slides/07-mcmc.html#motivation",
@@ -1509,7 +1509,7 @@
     "href": "slides/07-mcmc.html#discretization",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Discretization",
-    "text": "Discretization\n\nFix a set of grid values \\(\\theta_1, \\ldots, \\theta_N\\).\nCompute \\(\\pi(\\theta_1 \\mid x), \\ldots \\pi(\\theta_N \\mid x)\\) and normalize them such that \\[\n\\sum_{i=1}^N \\pi(\\theta_i \\mid x) = 1.\n\\]\nGenerate \\(m\\) samples from the multinomial distribution with probabilities \\(\\pi(\\theta_1 \\mid x), \\ldots \\pi(\\theta_N \\mid x)\\).\nThat is, we approximate \\(\\pi(\\theta \\mid x)\\) on \\(\\Theta\\) with a multinomial distribution on \\(\\{\\theta_1, \\ldots, \\theta_N\\}\\)."
+    "text": "Discretization\n\nFix a set of grid values \\(\\theta_1, \\ldots, \\theta_N\\).\nCompute \\(\\pi(\\theta_1 \\mid x), \\ldots \\pi(\\theta_N \\mid x)\\) and normalize them such that \\[\n\\sum_{i=1}^N \\pi(\\theta_i \\mid x) = 1.\n\\]\nGenerate \\(m\\) samples from the multinomial distribution with probabilities \\(\\pi(\\theta_1 \\mid x), \\ldots, \\pi(\\theta_N \\mid x)\\).\nThat is, we approximate \\(\\pi(\\theta \\mid x)\\) on \\(\\Theta\\) with a multinomial distribution on \\(\\{\\theta_1, \\ldots, \\theta_N\\}\\)."
   },
   {
     "objectID": "slides/07-mcmc.html#rejection-sampling",
@@ -1544,7 +1544,7 @@
     "href": "slides/07-mcmc.html#problems-with-rejection-sampling",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Problems with rejection sampling",
-    "text": "Problems with rejection sampling\n\nIf \\(M\\) is large, then the acceptance rate is low, and hence the algorithm is inefficient.\nYou have to know \\(\\pi(\\theta \\mid x)\\) well to find a good proposal distribution, with reasonable \\(M\\).\nFor multivariate distributions, it is virtually impossible to find a good proposal distribution.\nHowever, it can be used for simple univariate distributions or truncated distributions.\nAlthough rejection sampling produces iid samples from the target distribution, it is inefficient."
+    "text": "Problems with rejection sampling\n\nIf \\(M\\) is large, then the acceptance rate is low, and hence the algorithm is inefficient.\nYou have to know \\(\\pi(\\theta \\mid x)\\) well to find a good proposal distribution, with a reasonable \\(M\\).\nFor multivariate distributions, it is virtually impossible to find a good proposal distribution.\nHowever, it can be used for simple univariate distributions or truncated distributions.\nAlthough rejection sampling produces iid samples from the target distribution, it is inefficient."
   },
   {
     "objectID": "slides/07-mcmc.html#markov-chain-monte-carlo-mcmc",
@@ -1593,14 +1593,14 @@
     "href": "slides/07-mcmc.html#metropolis-algorithm",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Metropolis Algorithm",
-    "text": "Metropolis Algorithm\n\nTarget distribution: \\(\\pi(\\theta \\mid x)\\).\nProposal distribution at \\(t\\)th iteration: \\(J_t(\\theta^* \\mid \\theta^{t-1})\\)\n\n\\(J_t\\) needs to be symmetric, i.e., \\(J_t(\\theta_1 \\mid \\theta_2) = J_t(\\theta_2\\mid\\theta_1)\\).\n\nAlgorithm:\n\nAt \\(t\\)th iteration, sample \\(\\theta^*\\) from \\(J_t(\\theta^* \\mid \\theta^{t-1})\\).\nCompute the acceptance ratio \\(\\rho(\\theta^{t-1}, \\theta^{*})=\\min\\left\\{\\frac{\\pi(\\theta^* \\mid x)}{\\pi(\\theta^{t-1} \\mid x)}, 1\\right\\}\\).\nSet \\[\n\\theta^t= \\begin{cases}\\theta^* & \\text { with prob. } \\rho(\\theta^{t-1}, \\theta^{*}) \\\\ \\theta^{t-1} & \\text { with prob. } 1-\\rho(\\theta^{t-1}, \\theta^{*}).\\end{cases}\n\\]\n\nIntuition: if \\(\\theta^*\\) is more likely than \\(\\theta^{t-1}\\), then accept \\(\\theta^*\\); otherwise, accept \\(\\theta^*\\) with probability \\(r\\)."
+    "text": "Metropolis Algorithm\n\nTarget distribution: \\(\\pi(\\theta \\mid x)\\).\nProposal distribution at \\(t\\)th iteration: \\(J_t(\\theta^* \\mid \\theta^{(t-1)})\\)\n\n\\(J_t\\) needs to be symmetric, i.e., \\(J_t(\\theta_1 \\mid \\theta_2) = J_t(\\theta_2\\mid\\theta_1)\\).\n\nAlgorithm:\n\nAt \\(t\\)th iteration, sample \\(\\theta^*\\) from \\(J_t(\\theta^* \\mid \\theta^{(t-1)})\\).\nCompute the acceptance ratio \\(\\rho(\\theta^{(t-1)}, \\theta^{*})=\\min\\left\\{\\frac{\\pi(\\theta^* \\mid x)}{\\pi(\\theta^{(t-1)} \\mid x)}, 1\\right\\}\\).\nSet \\[\n\\theta^{(t)}= \\begin{cases}\\theta^* & \\text { with prob. } \\rho(\\theta^{t-1}, \\theta^{*}) \\\\ \\theta^{(t-1)} & \\text { with prob. } 1-\\rho(\\theta^{(t-1)}, \\theta^{*}).\\end{cases}\n\\]\n\nIntuition: if \\(\\theta^*\\) is more likely than \\(\\theta^{(t-1)}\\), then accept \\(\\theta^*\\); otherwise, accept \\(\\theta^*\\) with probability \\(\\rho(\\theta^{(t-1)}, \\theta^{*})\\)."
   },
   {
     "objectID": "slides/07-mcmc.html#example-2",
     "href": "slides/07-mcmc.html#example-2",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Example",
-    "text": "Example\n\nSuppose \\(X \\mid \\theta \\sim N(\\theta, 1)\\) and \\(\\theta \\sim \\text{Cauchy}(0, 1)\\).\nThe posterior is \\(\\pi(\\theta \\mid x) \\propto \\frac{1}{1+\\theta^2}\\exp\\left(-\\frac{1}{2}(x-\\theta)^2\\right)\\).\nA commonly used proposal is \\(J_t(\\cdot \\mid\\theta^{t-1}) = N(\\theta^{t-1}, \\sigma^2)\\), where \\(\\sigma^2\\) is a tuning parameter.\n\n\n\n# generate sample\nset.seed(2023)\ntheta_0 &lt;- rcauchy(1, 0, 1)\nX &lt;- rnorm(1, theta_0, 1)\n\n# log posterior\nlog_post &lt;- function(theta, x) {\n    -log(1 + theta^2) - 0.5 * (x - theta)^2\n}\ncurve(exp(log_post(x, X)), 5, 15, \n      ylab = TeX(\"unnormalized $\\\\pi(\\\\theta | x)$\"), \n      xlab = TeX(\"$\\\\theta$\"), col = \"blue\")"
+    "text": "Example\n\nSuppose \\(X \\mid \\theta \\sim N(\\theta, 1)\\) and \\(\\theta \\sim \\text{Cauchy}(0, 1)\\).\nThe posterior is \\(\\pi(\\theta \\mid x) \\propto \\frac{1}{1+\\theta^2}\\exp\\left(-\\frac{1}{2}(x-\\theta)^2\\right)\\).\nA commonly used proposal is \\(J_t(\\cdot \\mid\\theta^{(t-1)}) = N(\\theta^{(t-1)}, \\sigma^2)\\), where \\(\\sigma^2\\) is a tuning parameter.\n\n\n\n# generate sample\nset.seed(2023)\ntheta_0 &lt;- rcauchy(1, 0, 1)\nX &lt;- rnorm(1, theta_0, 1)\n\n# log posterior\nlog_post &lt;- function(theta, x) {\n    -log(1 + theta^2) - 0.5 * (x - theta)^2\n}\ncurve(exp(log_post(x, X)), 5, 15, \n      ylab = TeX(\"unnormalized $\\\\pi(\\\\theta | x)$\"), \n      xlab = TeX(\"$\\\\theta$\"), col = \"blue\")"
   },
   {
     "objectID": "slides/07-mcmc.html#example-2-output",
@@ -1614,7 +1614,7 @@
     "href": "slides/07-mcmc.html#example-3",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Example",
-    "text": "Example\n\n# Metropolis algorithm\nT &lt;- 1000\ntheta &lt;- rep(0, T)\ntheta[1] &lt;- rnorm(1, 0, 1)\naccept &lt;- 0\nfor (t in 2:T) {\n    theta_star &lt;- rnorm(1, theta[t-1], 1)\n    r &lt;- exp(log_post(theta_star, X) - log_post(theta[t-1], X))\n    theta[t] &lt;- ifelse(runif(1) &lt; r, \n                       {accept &lt;- accept + 1; theta_star},\n                       theta[t-1])\n}\n\n\nAcceptance rate: 0.702.\nAutocorrelation (lag 1): 0.823, i.e., the correlation between \\(\\theta^{t-1}\\) and \\(\\theta^t\\).\nPosterior mean: 8.635."
+    "text": "Example\n\n# Metropolis algorithm\nT &lt;- 1000\ntheta &lt;- rep(0, T)\ntheta[1] &lt;- rnorm(1, 0, 1)\naccept &lt;- 0\nfor (t in 2:T) {\n    theta_star &lt;- rnorm(1, theta[t-1], 1)\n    r &lt;- exp(log_post(theta_star, X) - log_post(theta[t-1], X))\n    theta[t] &lt;- ifelse(runif(1) &lt; r, \n                       {accept &lt;- accept + 1; theta_star},\n                       theta[t-1])\n}\n\n\nAcceptance rate: 0.702.\nAutocorrelation (lag 1): 0.823, i.e., the correlation between \\(\\theta^{(t-1)}\\) and \\(\\theta^{(t)}\\).\nPosterior mean: 8.635."
   },
   {
     "objectID": "slides/07-mcmc.html#example-4",
@@ -1635,7 +1635,7 @@
     "href": "slides/07-mcmc.html#metropolis-hastings-algorithm",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Metropolis-Hastings Algorithm",
-    "text": "Metropolis-Hastings Algorithm\n\nMetropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposal.\nFor a proposal distribution \\(J_t(\\theta_a \\mid \\theta_b)\\), the unconditional probability from \\(\\theta_a\\) to \\(\\theta_b\\) is \\[\np(\\theta^{t-1} = \\theta_a, \\theta^{t} = \\theta_b) = J_t(\\theta_b \\mid \\theta_a)\\pi(\\theta_a \\mid x).\n\\]\nHence the acceptance ratio becomes \\[\\begin{align*}\n\\rho(\\theta^{t-1}, \\theta^{*}) & = \\min\\left\\{\\frac{p(\\theta^{t-1} = \\theta^{t-1}, \\theta^{t} = \\theta^{*})}{p(\\theta^{t-1} = \\theta^{*}, \\theta^{t} = \\theta^{t-1})},1\\right\\}\\\\\n& = \\min\\left\\{\\frac{J_t(\\theta^{t-1} \\mid \\theta^{*})\\pi(\\theta^{*} \\mid x)}{J_t(\\theta^{*} \\mid \\theta^{t-1})\\pi(\\theta^{t-1} \\mid x)},1\\right\\}.\n\\end{align*}\\]\nThis modification allows us to use a wider range of proposal distributions and hence improve the efficiency of the algorithm."
+    "text": "Metropolis-Hastings Algorithm\n\nMetropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposals.\nFor a proposal distribution \\(J_t(\\theta_a \\mid \\theta_b)\\), the unconditional probability from \\(\\theta_a\\) to \\(\\theta_b\\) is \\[\np(\\theta^{t-1} = \\theta_a, \\theta^{t} = \\theta_b) = J_t(\\theta_b \\mid \\theta_a)\\pi(\\theta_a \\mid x).\n\\]\nHence the acceptance ratio becomes \\[\\begin{align*}\n\\rho(\\theta^{t-1}, \\theta^{*}) & = \\min\\left\\{\\frac{p(\\theta^{t-1} = \\theta^{t-1}, \\theta^{t} = \\theta^{*})}{p(\\theta^{t-1} = \\theta^{*}, \\theta^{t} = \\theta^{t-1})},1\\right\\}\\\\\n& = \\min\\left\\{\\frac{J_t(\\theta^{t-1} \\mid \\theta^{*})\\pi(\\theta^{*} \\mid x)}{J_t(\\theta^{*} \\mid \\theta^{t-1})\\pi(\\theta^{t-1} \\mid x)},1\\right\\}.\n\\end{align*}\\]\nThis modification allows us to use a wider range of proposal distributions and hence improve the efficiency of the algorithm."
   },
   {
     "objectID": "slides/07-mcmc.html#why-it-works",
@@ -1663,7 +1663,7 @@
     "href": "slides/07-mcmc.html#combining-gibbs-and-mh",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Combining Gibbs and MH",
-    "text": "Combining Gibbs and MH\n\nIn fact, Gibbs sampler is a special case of MH, with the proposal being the conditional distribution: \\[\nJ_{j, t}^{\\text {Gibbs }}\\left(\\theta^* \\mid \\theta^{t-1}\\right)= \\begin{cases}\\pi\\left(\\theta_j^* \\mid \\theta_{-j}^{t-1}, x\\right) & \\text { if } \\theta_{-j}^*=\\theta_{-j}^{t-1} \\\\ 0 & \\text { otherwise. }\\end{cases}\n\\]\nWe can use MH to sample from \\(\\pi\\left(\\theta_j^* \\mid \\theta_{-j}^{t-1}, x\\right)\\). This is called Metropolis-within-Gibbs.\nIn some cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH."
+    "text": "Combining Gibbs and MH\n\nIn fact, Gibbs sampler is a special case of MH, with the proposal being the conditional distribution: \\[\nJ_{j, t}^{\\text {Gibbs }}\\left(\\theta^* \\mid \\theta^{(t-1)}\\right)= \\begin{cases}\\pi\\left(\\theta_j^* \\mid \\theta_{-j}^{(t-1)}, x\\right) & \\text { if } \\theta_{-j}^*=\\theta_{-j}^{(t-1)} \\\\ 0 & \\text { otherwise. }\\end{cases}\n\\]\nWe can use MH to sample from \\(\\pi\\left(\\theta_j^* \\mid \\theta_{-j}^{(t-1)}, x\\right)\\). This is called Metropolis-within-Gibbs.\nIn cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH."
   },
   {
     "objectID": "slides/07-mcmc.html#diagnostic-of-mcmc-samples",
@@ -1684,21 +1684,21 @@
     "href": "slides/07-mcmc.html#autocorrelation",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Autocorrelation",
-    "text": "Autocorrelation\nLag-\\(k\\) Autocorrelation: the correlation between \\(\\theta_t\\) and \\(\\theta_{t+k}\\) for \\(k &gt; 0\\).\n\nacf(theta, lag.max = 20)"
+    "text": "Autocorrelation\nLag-\\(k\\) Autocorrelation: the correlation between \\(\\theta^{(t)}\\) and \\(\\theta^{(t+k)}\\) for \\(k &gt; 0\\).\n\nacf(theta, lag.max = 20)"
   },
   {
     "objectID": "slides/07-mcmc.html#effective-sample-size",
     "href": "slides/07-mcmc.html#effective-sample-size",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Effective sample size",
-    "text": "Effective sample size\n\n\nWe can compute an approximate ‘effective number of independent simulation draws’ for any estimand of interest \\(\\psi\\).\nThe effective sample size is defined as \\[\n\\text{ESS} = \\frac{m}{1 + 2\\sum_{k=1}^\\infty \\rho_k},\n\\] where \\(m\\) is the length of a chain and \\(\\rho_k\\) is the lag-\\(k\\) autocorrelation.\nDifferent estimates of \\(\\rho_k\\)’s give different ESS’s.\n\n\n\nlibrary(coda)\nlibrary(mcmcse)\n\nprint(paste(\"ESS:\", round(coda::effectiveSize(theta), 2)))\n\n[1] \"ESS: 96.85\"\n\nprint(paste(\"ESS:\", round(mcmcse::ess(theta), 2)))\n\n[1] \"ESS: 113.83\""
+    "text": "Effective sample size\n\n\nWe can compute an approximate ``effective number of independent simulation draws’’ for any estimand of interest \\(\\psi\\).\nThe effective sample size is defined as \\[\n\\text{ESS} = \\frac{m}{1 + 2\\sum_{k=1}^\\infty \\rho_k},\n\\] where \\(m\\) is the length of a chain and \\(\\rho_k\\) is the lag-\\(k\\) autocorrelation.\nDifferent estimates of \\(\\rho_k\\)’s give different ESS’s.\n\n\n\nlibrary(coda)\nlibrary(mcmcse)\n\nprint(paste(\"ESS:\", round(coda::effectiveSize(theta), 2)))\n\n[1] \"ESS: 96.85\"\n\nprint(paste(\"ESS:\", round(mcmcse::ess(theta), 2)))\n\n[1] \"ESS: 113.83\""
   },
   {
     "objectID": "slides/07-mcmc.html#practical-tricks",
     "href": "slides/07-mcmc.html#practical-tricks",
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Practical tricks",
-    "text": "Practical tricks\n\nBurn-in: discard the first few samples.\nThinning: keep only every \\(k\\)-th sample.\nMultiple chains: run multiple chains and combine them.\nSimulated annealing: start with a large variance (of proposal) and gradually reduce it.\nParallel tempering: run multiple chains with different temperatures and swap chains occasionally: for \\(1 &lt; T_1 &lt; T_2 &lt; \\cdots &lt; T_n\\), the \\(i\\)-th chain has target distribution \\[\n\\pi_i(\\theta) \\propto \\pi(\\theta)^{1/T_i} = \\exp\\left\\{\\frac{1}{T_i}\\log\\pi(\\theta)\\right\\}.\n\\]\nData augmentation: introduce latent variables to make the target distribution more tractable, i.e., find \\(\\nu\\) such that \\[\n\\pi(\\theta \\mid x) = \\int \\pi(\\theta \\mid \\xi, x) \\nu(\\xi)d\\xi.\n\\]"
+    "text": "Practical tricks\n\nBurn-in: discard the first few samples.\nThinning: keep only every \\(k\\)-th sample.\nSimulated annealing: start with a large variance (of proposal) and gradually reduce it.\nParallel tempering: run multiple chains with different temperatures and swap chains occasionally: for \\(1 &lt; T_1 &lt; T_2 &lt; \\cdots &lt; T_n\\), the \\(i\\)-th chain has target distribution \\[\n\\pi_i(\\theta) \\propto \\pi(\\theta)^{1/T_i} = \\exp\\left\\{\\frac{1}{T_i}\\log\\pi(\\theta)\\right\\}.\n\\]\nData augmentation: introduce latent variables to make the target distribution more tractable, i.e., find \\(\\nu\\) such that \\[\n\\pi(\\theta \\mid x) = \\int \\pi(\\theta \\mid \\xi, x) \\nu(\\xi)d\\xi.\n\\]"
   },
   {
     "objectID": "slides/07-mcmc.html#example-5",

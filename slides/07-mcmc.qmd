@@ -1,20 +1,5 @@
 ---
 title: "Lecture 07: Markov Chain Monte Carlo"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: auto
 ---
 
 ## Motivation 
@@ -50,7 +35,7 @@ where $\theta^{(1)}, \ldots, \theta^{(m)} \iid \pi(\theta \mid x)$.
 $$
 \sum_{i=1}^N \pi(\theta_i \mid x) = 1.
 $$
--   Generate $m$ samples from the multinomial distribution with probabilities $\pi(\theta_1 \mid x), \ldots \pi(\theta_N \mid x)$.
+-   Generate $m$ samples from the multinomial distribution with probabilities $\pi(\theta_1 \mid x), \ldots, \pi(\theta_N \mid x)$.
 -   That is, we approximate $\pi(\theta \mid x)$ on $\Theta$ with a multinomial distribution on $\{\theta_1, \ldots, \theta_N\}$.
 
 ## Rejection sampling
@@ -118,7 +103,7 @@ text(0.1, 2, substitute("accept. rate" == a,
 ## Problems with rejection sampling
 
 -   If $M$ is large, then the acceptance rate is low, and hence the algorithm is inefficient.
--   You have to know $\pi(\theta \mid x)$ well to find a good proposal distribution, with reasonable $M$.
+-   You have to know $\pi(\theta \mid x)$ well to find a good proposal distribution, with a reasonable $M$.
 -   For multivariate distributions, it is virtually impossible to find a good proposal distribution.
 -   However, it can be used for simple univariate distributions or truncated distributions.
 -   Although rejection sampling produces iid samples from the target distribution, it is inefficient.
@@ -215,22 +200,22 @@ ggplot(X, aes(x = X1, y = X2)) +
 ## Metropolis Algorithm
 
 -   Target distribution: $\pi(\theta \mid x)$.
--   Proposal distribution at $t$th iteration: $J_t(\theta^* \mid \theta^{t-1})$
+-   Proposal distribution at $t$th iteration: $J_t(\theta^* \mid \theta^{(t-1)})$
     +    $J_t$ needs to be symmetric, i.e., $J_t(\theta_1 \mid \theta_2) = J_t(\theta_2\mid\theta_1)$.
 -   Algorithm:
-    1. At $t$th iteration, sample $\theta^*$ from $J_t(\theta^* \mid \theta^{t-1})$.
-    2. Compute the acceptance ratio $\rho(\theta^{t-1}, \theta^{*})=\min\left\{\frac{\pi(\theta^* \mid x)}{\pi(\theta^{t-1} \mid x)}, 1\right\}$.
+    1. At $t$th iteration, sample $\theta^*$ from $J_t(\theta^* \mid \theta^{(t-1)})$.
+    2. Compute the acceptance ratio $\rho(\theta^{(t-1)}, \theta^{*})=\min\left\{\frac{\pi(\theta^* \mid x)}{\pi(\theta^{(t-1)} \mid x)}, 1\right\}$.
     3. Set
     $$
-    \theta^t= \begin{cases}\theta^* & \text { with prob. } \rho(\theta^{t-1}, \theta^{*}) \\ \theta^{t-1} & \text { with prob. } 1-\rho(\theta^{t-1}, \theta^{*}).\end{cases}
+    \theta^{(t)}= \begin{cases}\theta^* & \text { with prob. } \rho(\theta^{t-1}, \theta^{*}) \\ \theta^{(t-1)} & \text { with prob. } 1-\rho(\theta^{(t-1)}, \theta^{*}).\end{cases}
     $$
--   Intuition: if $\theta^*$ is more likely than $\theta^{t-1}$, then accept $\theta^*$; otherwise, accept $\theta^*$ with probability $r$.
+-   Intuition: if $\theta^*$ is more likely than $\theta^{(t-1)}$, then accept $\theta^*$; otherwise, accept $\theta^*$ with probability $\rho(\theta^{(t-1)}, \theta^{*})$.
 
 ## Example
 
 -   Suppose $X \mid \theta \sim N(\theta, 1)$ and $\theta \sim \text{Cauchy}(0, 1)$.
 -   The posterior is $\pi(\theta \mid x) \propto \frac{1}{1+\theta^2}\exp\left(-\frac{1}{2}(x-\theta)^2\right)$.
--   A commonly used proposal is $J_t(\cdot \mid\theta^{t-1}) = N(\theta^{t-1}, \sigma^2)$, where $\sigma^2$ is a tuning parameter.
+-   A commonly used proposal is $J_t(\cdot \mid\theta^{(t-1)}) = N(\theta^{(t-1)}, \sigma^2)$, where $\sigma^2$ is a tuning parameter.
 
 ::: fragment
 ```{r}
@@ -271,7 +256,7 @@ for (t in 2:T) {
 }
 ```
 -   Acceptance rate: `r accept/T`.
--   Autocorrelation (lag 1): `r round(acf(theta)$acf[2], 3)`, i.e., the correlation between $\theta^{t-1}$ and $\theta^t$.
+-   Autocorrelation (lag 1): `r round(acf(theta)$acf[2], 3)`, i.e., the correlation between $\theta^{(t-1)}$ and $\theta^{(t)}$.
 -   Posterior mean: `r round(mean(theta), 3)`.
 
 ## Example
@@ -299,7 +284,7 @@ plot(theta, type = "l")
 
 ## Metropolis-Hastings Algorithm
 
--   Metropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposal.
+-   Metropolis-Hastings algorithm is a generalization of Metropolis algorithm, in that it does not require symmetric proposals.
 -   For a proposal distribution $J_t(\theta_a \mid \theta_b)$, the **unconditional** probability from $\theta_a$ to $\theta_b$ is 
 $$
 p(\theta^{t-1} = \theta_a, \theta^{t} = \theta_b) = J_t(\theta_b \mid \theta_a)\pi(\theta_a \mid x).
@@ -350,10 +335,10 @@ $$
 
 -   In fact, Gibbs sampler is a special case of MH, with the proposal being the conditional distribution:
 $$
-J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{t-1}\right)= \begin{cases}\pi\left(\theta_j^* \mid \theta_{-j}^{t-1}, x\right) & \text { if } \theta_{-j}^*=\theta_{-j}^{t-1} \\ 0 & \text { otherwise. }\end{cases}
+J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases}\pi\left(\theta_j^* \mid \theta_{-j}^{(t-1)}, x\right) & \text { if } \theta_{-j}^*=\theta_{-j}^{(t-1)} \\ 0 & \text { otherwise. }\end{cases}
 $$
--   We can use MH to sample from $\pi\left(\theta_j^* \mid \theta_{-j}^{t-1}, x\right)$. This is called **Metropolis-within-Gibbs**.
--   In some cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH.
+-   We can use MH to sample from $\pi\left(\theta_j^* \mid \theta_{-j}^{(t-1)}, x\right)$. This is called **Metropolis-within-Gibbs**.
+-   In cases where some conditionals are easy to sample from but others are not, Metropolis-within-Gibbs will be more efficient than a simple MH.
 
 # Diagnostic of MCMC
 
@@ -380,7 +365,7 @@ Suppose now we have a sequence of MCMC samples: $\theta_1, \ldots, \theta_m$.
 
 ## Autocorrelation
 
-**Lag-$k$ Autocorrelation**: the correlation between $\theta_t$ and $\theta_{t+k}$ for $k > 0$.
+**Lag-$k$ Autocorrelation**: the correlation between $\theta^{(t)}$ and $\theta^{(t+k)}$ for $k > 0$.
 
 ```{r}
 #| echo: true
@@ -393,7 +378,7 @@ acf(theta, lag.max = 20)
 
 :::{.nonincremental}
 
--   We can compute an approximate 'effective number of independent simulation draws' for any estimand of interest $\psi$. 
+-   We can compute an approximate ``effective number of independent simulation draws'' for any estimand of interest $\psi$. 
 -   The effective sample size is defined as
 $$
 \text{ESS} = \frac{m}{1 + 2\sum_{k=1}^\infty \rho_k},
@@ -417,7 +402,6 @@ print(paste("ESS:", round(mcmcse::ess(theta), 2)))
 
 -   **Burn-in**: discard the first few samples.
 -   **Thinning**: keep only every $k$-th sample.
--   **Multiple chains**: run multiple chains and combine them.
 -   **Simulated annealing**: start with a large variance (of proposal) and gradually reduce it.
 -   **Parallel tempering**: run multiple chains with different temperatures and swap chains occasionally: for $1 < T_1 < T_2 < \cdots < T_n$, the $i$-th chain has target distribution 
 $$
