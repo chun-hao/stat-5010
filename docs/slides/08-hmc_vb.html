@@ -340,13 +340,98 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
+<section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<ul>
+<li class="fragment"><strong>In theory</strong>, the Metropolis algorithm (with an arbitrary proposal) works for any distribution in any dimension.</li>
+<li class="fragment"><strong>In practice</strong>, the Metropolis algorithm is inefficient for high-dimensional distributions.</li>
+<li class="fragment">Current research in MCMC focuses on finding good proposals to speed-up the algorithm, together with theoretical guarantees, e.g., making sure that the chain converges to the target distribution.</li>
+<li class="fragment">In this lecture, we will introduce two popular MCMC algorithms: Hamiltonian Monte Carlo (HMC) and No-U-Turn Sampler (NUTS).</li>
+<li class="fragment">These two algorithms are the ones used in the <code>Stan</code> software.</li>
+</ul>
+</section>
+<section id="a-few-words-about-acceptance-rate" class="slide level2">
+<h2>A few words about acceptance rate</h2>
+<p>Ideally, we want the acceptance rate to be <u>far from 0 and 1</u>.</p>
+<div>
+<ul>
+<li>If the acceptance rate is too low, the Markov chain is not moving.</li>
+<li>If the acceptance rate is too high, the Markov chain is only exploring the high-density region.</li>
+</ul>
+</div>
 
+<img data-src="08-hmc_vb_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="adaptive-mcmc" class="slide level2">
+<h2>Adaptive MCMC</h2>
+<ul>
+<li class="fragment">In the original Metropolis algorithm, the proposal distribution is fixed.</li>
+<li class="fragment">This can be inefficient, since after some exploration, we gain some knowledge about the target distribution, and we can use this knowledge to improve the proposal distribution.</li>
+<li class="fragment">This can be easily implemented, e.g., reducing the variance of Gaussian proposal every 100 iterations.</li>
+<li class="fragment">However, the theoretical analysis is complicated since the Markov chain is no longer time-homogeneous.</li>
+<li class="fragment">Can we assure that the adaptive Markov chain still converges to the target distribution?</li>
+</ul>
+
+<aside><div>
+<p>The material is adapted from <a href="http://probability.ca/jeff/ftpdir/Cambridge2010.pdf" class="uri">http://probability.ca/jeff/ftpdir/Cambridge2010.pdf</a></p>
+</div></aside></section>
+<section id="optimal-gaussian-proposal" class="slide level2">
+<h2>Optimal Gaussian proposal</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(\pi\)</span> be a distribution supported on <span class="math inline">\(\Theta \subseteq \mathbb{R}^d\)</span>.</li>
+<li class="fragment">We want to sample from <span class="math inline">\(\pi\)</span> using Metropolis algorithm with a Gaussian proposal <span class="math inline">\(N_d(\theta^{(t-1)}, \Xi)\)</span>.</li>
+<li class="fragment">What is the optimal choice of <span class="math inline">\(\Xi\)</span>?</li>
+<li class="fragment">What do we mean by optimal in MCMC? We want the fastest convergence of the Markov Chain.</li>
+<li class="fragment">Roberts &amp; Rosenthal (2001)<sup>1</sup> showed that the optimal choice is <span class="math display">\[
+\Xi = \frac{2.38^2}{d} \Sigma_{\pi},
+\]</span> where <span class="math inline">\(\Sigma_{\pi}\)</span> is the covariance matrix of <span class="math inline">\(\pi\)</span>.</li>
+<li class="fragment">But we don’t know <span class="math inline">\(\Sigma_{\pi}\)</span>! Estimate it!</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Roberts, G. O., &amp; Rosenthal, J. S. (2001). <em>Optimal Scaling for Various Metropolis-Hastings Algorithms.</em> Statistical Science, 16(4), 351–367.</p></li></ol></aside></section>
+<section id="adaptive-random-walk-metropolis" class="slide level2">
+<h2>Adaptive Random Walk Metropolis</h2>
+<ul>
+<li class="fragment">Algorithm:
+<ol type="1">
+<li class="fragment"><span style="color:magenta;">At <span class="math inline">\(t\)</span>th iteration, compute <span class="math inline">\(\hat{\Sigma}_n\)</span> using <span class="math inline">\(\theta^{(1)}, \ldots, \theta^{(t-1)}\)</span>.</span></li>
+<li class="fragment">Sample <span class="math inline">\(\theta^*\)</span> from <span style="color:magenta;"><span class="math inline">\(N_d\left(\theta^{(t-1)}, \frac{(2.38)^2}{d}\hat{\Sigma}_n\right)\)</span></span>.</li>
+<li class="fragment">Compute the acceptance ratio <span class="math inline">\(\rho(\theta^{(t-1)}, \theta^{*})=\min\left\{\frac{\pi(\theta^* \mid x)}{\pi(\theta^{(t-1)} \mid x)}, 1\right\}\)</span>.</li>
+<li class="fragment">Set <span class="math display">\[
+\theta^{(t)}= \begin{cases}\theta^* &amp; \text { with prob. } \rho(\theta^{(t-1)}, \theta^{*}) \\ \theta^{(t-1)} &amp; \text { with prob. } 1-\rho(\theta^{(t-1)}, \theta^{*}).\end{cases}
+\]</span></li>
+</ol></li>
+<li class="fragment">The simplest choice of <span class="math inline">\(\hat{\Sigma}_n\)</span> is the sample covariance matrix.</li>
+<li class="fragment">However, it is not a good choice in high dimensions.</li>
+<li class="fragment">Google: ``High-dimensional covariance estimation’’!</li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p>Consider <span class="math inline">\(\pi(\theta) = \frac{1}{2}N(10,1) + \frac{1}{2}N(-10, 1)\)</span>.</p>
+</section>
+<section id="does-it-work" class="slide level2">
+<h2>Does it work?</h2>
+</section>
+<section id="metropolis-adjusted-langevin-algorithm-mala" class="slide level2">
+<h2>Metropolis-adjusted Langevin algorithm (MALA)</h2>
+<ul>
+<li class="fragment">Proposal: <span class="math inline">\(\theta^{(t)} \sim N_d\left(\theta^{(t-1)} + \frac{1}{2}\Sigma\nabla\log\pi(\theta^{(t-1)}), \Sigma\right)\)</span></li>
+</ul>
+</section>
+<section id="hamiltonian-monte-carlo-hmchmc" class="slide level2">
+<h2>Hamiltonian Monte Carlo (HMC)<sup>1</sup></h2>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Neal, R. M. (2011). <em>MCMC using Hamiltonian dynamics.</em> Handbook of markov chain monte carlo, 2(11), 2.</p></li></ol></aside></section>
+<section id="no-u-turn-sampler-nutsnuts" class="slide level2">
+<h2>No-U-Turn Sampler (NUTS)<sup>1</sup></h2>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Hoffman, M. D., &amp; Gelman, A. (2014). <em>The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.</em> J. Mach. Learn. Res., 15(1), 1593-1623.</p></li></ol></aside></section>
+<section id="variational-inference" class="title-slide slide level1 center">
+<h1>Variational Inference</h1>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section>
+
+
     </div>
   </div>
 
@@ -560,6 +645,44 @@ Chun-Hao Yang
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

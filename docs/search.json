@@ -1734,5 +1734,82 @@
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Parallel tempering",
     "text": "Parallel tempering\n\npar(mfrow = c(1,2))\nplot(theta[,1], type = \"l\", col = \"blue\", lwd = 2, \n         ylim = c(-15, 15), main = paste(\"Chain\", 1))\nhist(theta[,1], freq = F, xlim = c(-15, 15), \n     ylim = c(0, 0.2), main = \"Chain 1\")\ncurve(exp(log_post(x)), -15, 15, col = \"red\", lwd = 2, add = TRUE)\n\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#motivation",
+    "href": "slides/08-hmc_vb.html#motivation",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Motivation",
+    "text": "Motivation\n\nIn theory, the Metropolis algorithm (with an arbitrary proposal) works for any distribution in any dimension.\nIn practice, the Metropolis algorithm is inefficient for high-dimensional distributions.\nCurrent research in MCMC focuses on finding good proposals to speed-up the algorithm, together with theoretical guarantees, e.g., making sure that the chain converges to the target distribution.\nIn this lecture, we will introduce two popular MCMC algorithms: Hamiltonian Monte Carlo (HMC) and No-U-Turn Sampler (NUTS).\nThese two algorithms are the ones used in the Stan software."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#adaptive-mcmc",
+    "href": "slides/08-hmc_vb.html#adaptive-mcmc",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Adaptive MCMC",
+    "text": "Adaptive MCMC\n\nIn the original Metropolis algorithm, the proposal distribution is fixed.\nThis can be inefficient, since after some exploration, we gain some knowledge about the target distribution, and we can use this knowledge to improve the proposal distribution.\nThis can be easily implemented, e.g., reducing the variance of Gaussian proposal every 100 iterations.\nHowever, the theoretical analysis is complicated since the Markov chain is no longer time-homogeneous.\nCan we assure that the adaptive Markov chain still converges to the target distribution?\n\n\n\nThe material is adapted from http://probability.ca/jeff/ftpdir/Cambridge2010.pdf"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#hamiltonian-monte-carlo",
+    "href": "slides/08-hmc_vb.html#hamiltonian-monte-carlo",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Hamiltonian Monte Carlo",
+    "text": "Hamiltonian Monte Carlo"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#optimal-gaussian-proposal",
+    "href": "slides/08-hmc_vb.html#optimal-gaussian-proposal",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Optimal Gaussian proposal",
+    "text": "Optimal Gaussian proposal\n\nLet \\(\\pi\\) be a distribution supported on \\(\\Theta \\subseteq \\mathbb{R}^d\\).\nWe want to sample from \\(\\pi\\) using Metropolis algorithm with a Gaussian proposal \\(N_d(\\theta^{(t-1)}, \\Xi)\\).\nWhat is the optimal choice of \\(\\Xi\\)?\nWhat do we mean by optimal in MCMC? We want the fastest convergence of the Markov Chain.\nRoberts & Rosenthal (2001)1 showed that the optimal choice is \\[\n\\Xi = \\frac{2.38^2}{d} \\Sigma_{\\pi},\n\\] where \\(\\Sigma_{\\pi}\\) is the covariance matrix of \\(\\pi\\).\nBut we don’t know \\(\\Sigma_{\\pi}\\)! Estimate it!\n\nRoberts, G. O., & Rosenthal, J. S. (2001). Optimal Scaling for Various Metropolis-Hastings Algorithms. Statistical Science, 16(4), 351–367."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#hamiltonian-monte-carlo-hmchmc",
+    "href": "slides/08-hmc_vb.html#hamiltonian-monte-carlo-hmchmc",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Hamiltonian Monte Carlo (HMC)1",
+    "text": "Hamiltonian Monte Carlo (HMC)1\nNeal, R. M. (2011). MCMC using Hamiltonian dynamics. Handbook of markov chain monte carlo, 2(11), 2."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#no-u-turn-sampler-nutsnuts",
+    "href": "slides/08-hmc_vb.html#no-u-turn-sampler-nutsnuts",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "No-U-Turn Sampler (NUTS)1",
+    "text": "No-U-Turn Sampler (NUTS)1\nHoffman, M. D., & Gelman, A. (2014). The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. J. Mach. Learn. Res., 15(1), 1593-1623."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#adaptive-random-walk-metropolis",
+    "href": "slides/08-hmc_vb.html#adaptive-random-walk-metropolis",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Adaptive Random Walk Metropolis",
+    "text": "Adaptive Random Walk Metropolis\n\nAlgorithm:\n\nAt \\(t\\)th iteration, compute \\(\\hat{\\Sigma}_n\\) using \\(\\theta^{(1)}, \\ldots, \\theta^{(t-1)}\\).\nSample \\(\\theta^*\\) from \\(N_d\\left(\\theta^{(t-1)}, \\frac{(2.38)^2}{d}\\hat{\\Sigma}_n\\right)\\).\nCompute the acceptance ratio \\(\\rho(\\theta^{(t-1)}, \\theta^{*})=\\min\\left\\{\\frac{\\pi(\\theta^* \\mid x)}{\\pi(\\theta^{(t-1)} \\mid x)}, 1\\right\\}\\).\nSet \\[\n\\theta^{(t)}= \\begin{cases}\\theta^* & \\text { with prob. } \\rho(\\theta^{(t-1)}, \\theta^{*}) \\\\ \\theta^{(t-1)} & \\text { with prob. } 1-\\rho(\\theta^{(t-1)}, \\theta^{*}).\\end{cases}\n\\]\n\nThe simplest choice of \\(\\hat{\\Sigma}_n\\) is the sample covariance matrix.\nHowever, it is not a good choice in high dimensions.\nGoogle: ``High-dimensional covariance estimation’’!"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#example",
+    "href": "slides/08-hmc_vb.html#example",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Example",
+    "text": "Example\nConsider \\(\\pi(\\theta) = \\frac{1}{2}N(10,1) + \\frac{1}{2}N(-10, 1)\\)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#a-few-words-about-acceptance-rate",
+    "href": "slides/08-hmc_vb.html#a-few-words-about-acceptance-rate",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "A few words about acceptance rate",
+    "text": "A few words about acceptance rate\nIdeally, we want the acceptance rate to be far from 0 and 1.\n\n\nIf the acceptance rate is too low, the Markov chain is not moving.\nIf the acceptance rate is too high, the Markov chain is only exploring the high-density region."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#does-it-work",
+    "href": "slides/08-hmc_vb.html#does-it-work",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Does it work?",
+    "text": "Does it work?"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#metropolis-adjusted-langevin-algorithm-mala",
+    "href": "slides/08-hmc_vb.html#metropolis-adjusted-langevin-algorithm-mala",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Metropolis-adjusted Langevin algorithm (MALA)",
+    "text": "Metropolis-adjusted Langevin algorithm (MALA)\n\nProposal: \\(\\theta^{(t)} \\sim N_d\\left(\\theta^{(t-1)} + \\frac{1}{2}\\Sigma\\nabla\\log\\pi(\\theta^{(t-1)}), \\Sigma\\right)\\)"
   }
 ]
