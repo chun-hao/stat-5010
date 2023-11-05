@@ -15,7 +15,7 @@ title: "Bayesian Statistical Methods (Fall 2023)"
 |  7   | 10/17 | Testing and Model Comparison                              | [Slide](slides/06-testing.qmd)     | BC Ch. 5, 7, BDA Ch. 6, 7 |
 |  8   | 10/24 | Project Proposal                                          |                                    |                           |
 |  9   | 10/31 | Metropolis-Hastings algorithms; Gibbs sampler             | [Slide](slides/07-mcmc.qmd)        | BDA Ch. 10-11             |
-|  10  | 11/7  | Hamiltonian Monte Carlo; Variational Inference            |                                    | BDA Ch. 12-13             |
+|  10  | 11/7  | Hamiltonian Monte Carlo; Variational Inference            | [Slide](slides/08-hmc_vb.qmd)      | BDA Ch. 12-13             |
 |  11  | 11/14 | Bayesian regression                                       |                                    | BDA Ch. 14                |
 |  12  | 11/21 | Generalized Linear Models; Latent Variable Model          |                                    | BDA Ch. 16, 18            |
 |  13  | 11/28 | Empirical Bayes                                           |                                    | BC Ch. 10                 |

@@ -786,7 +786,7 @@ p(y) = \int \pi(y, \theta) d\theta = \int \pi(y \mid \theta) \pi(\theta) d\theta
 \mc{L}(q_1, \ldots, q_d) = \int \E_{-j}\left[\log \pi(y, \theta)\right] q_j(\theta_j) d\theta_j - \sum_{j=1}^d \E_{j}\left[\log q_j(\theta_j \mid \phi_j)\right].
 \]</span></li>
 <li class="fragment">We need to find <span class="math inline">\(q_1, \ldots, q_d\)</span> to maximize <span class="math inline">\(\mc{L}(q_1, \ldots, q_d)\)</span> subject to the constraints <span class="math inline">\(\int q_j(\theta_j) d\theta_j = 1\)</span>.</li>
-<li class="fragment">Use Lagrange multipliers, take ``functional derivative’’ with respect to <span class="math inline">\(q_j\)</span>, and set it to zero, we have <span class="math display">\[
+<li class="fragment">Use Lagrange multipliers, take ``functional derivative’’ with respect to <span class="math inline">\(q_j\)</span>, set it to zero, and we have <span class="math display">\[
 \log q_j(\theta_j) = \E_{-j}\left[\log \pi(y, \theta)\right] + \text{const}.
 \]</span></li>
 <li class="fragment">Hence the optimal <span class="math inline">\(q_j\)</span> is <span class="math display">\[
@@ -839,7 +839,7 @@ g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\righ
 \E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
 \]</span></p></li>
 <li class="fragment"><p>This is the logarithm of an inverse-gamma density function: <span class="math display">\[
-g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| 3, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
+g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
 \]</span></p></li>
 </ul>
 </section>
@@ -849,10 +849,10 @@ g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| 3, \frac{1}{2} \sum_{j=1}^8 \E
 <li class="fragment">The mean-field approximation is <span class="math display">\[\begin{align*}
 \alpha_j &amp; \sim N(M_{\alpha_j}, S^2_{\alpha_j})\\
 \mu &amp; \sim N(M_{\mu}, S^2_{\mu})\\
-\tau^2 &amp; \sim \text{Inv-Gamma}(3, B_{\tau}).
+\tau^2 &amp; \sim \text{Inv-Gamma}\left(\frac{7}{2}, B_{\tau}\right).
 \end{align*}\]</span></li>
 <li class="fragment">Thus <span class="math display">\[\begin{align*}
-\E_{-\alpha_j}(\tau^{-2}) &amp; = \E_{-\mu}(\tau^{-2})= \frac{3}{B_{\tau}}\\
+\E_{-\alpha_j}(\tau^{-2}) &amp; = \E_{-\mu}(\tau^{-2})= \frac{7}{2B_{\tau}}\\
 \E_{-\mu}(\alpha_j) &amp; = M_{\alpha_j}\\
 \E_{-\tau}(\alpha_j-\mu)^2 &amp; = S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}.
 \end{align*}\]</span></li>
@@ -862,21 +862,21 @@ g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| 3, \frac{1}{2} \sum_{j=1}^8 \E
 <h2>Summarizing the mean-field approximation</h2>
 <p>Combining all the results we have</p>
 <p><span class="math display">\[\begin{align*}
-M_{\alpha_j} &amp; = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{3}{B_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{3}{B_{\tau}}} = \frac{B_{\tau} y_j + 3\sigma_j^2 M_{\mu}}{3\sigma_j^2 + B_{\tau}}\\
-S^2_{\alpha_j} &amp; = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{3}{B_{\tau}}} = \frac{B_{\tau}\sigma_j^2}{3\sigma_j^2 + B_{\tau}}\\
+M_{\alpha_j} &amp; = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{3.5}{B_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{3.5}{B_{\tau}}} = \frac{B_{\tau} y_j + 3.5\sigma_j^2 M_{\mu}}{3.5\sigma_j^2 + B_{\tau}}\\
+S^2_{\alpha_j} &amp; = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{3.5}{B_{\tau}}} = \frac{B_{\tau}\sigma_j^2}{3.5\sigma_j^2 + B_{\tau}}\\
 M_{\mu} &amp; = \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}(\alpha_j) = \frac{1}{8} \sum_{j=1}^8 M_{\alpha_j}\\
-S^2_{\mu} &amp; = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{3}{B_{\tau}}} = \frac{B_{\tau}}{24}\\
+S^2_{\mu} &amp; = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{3.5}{B_{\tau}}} = \frac{B_{\tau}}{28}\\
 B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right) = \frac{1}{2} \sum_{j=1}^8 \left(S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}\right)
 \end{align*}\]</span></p>
 </section>
 <section id="r-code" class="slide level2">
 <h2>R code</h2>
-<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-3_35a8e58e5330a6b3e229b1ddef72f716">
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-3_857c3c14fa7aa853c0edc7dbcc0fa8b6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>max_iter <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Data</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">28.39</span>, <span class="fl">7.94</span>, <span class="sc">-</span><span class="fl">2.75</span>, <span class="fl">6.82</span>, <span class="sc">-</span><span class="fl">0.64</span>, <span class="fl">0.63</span>, <span class="fl">18.01</span>, <span class="fl">12.16</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a>sig2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>, <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">8</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="dv">7</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">18</span>, <span class="dv">12</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>sig2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">11</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">10</span>, <span class="dv">18</span>)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a></span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Variational parameter</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>var_par <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">M_alpha =</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> max_iter, <span class="at">ncol =</span> <span class="dv">8</span>), </span>
@@ -887,35 +887,26 @@ B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\rig
 <span id="cb1-13"><a href="#cb1-13"></a></span>
 <span id="cb1-14"><a href="#cb1-14"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>max_iter){</span>
 <span id="cb1-15"><a href="#cb1-15"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>){</span>
-<span id="cb1-16"><a href="#cb1-16"></a>        var_par<span class="sc">$</span>M_alpha[i, j] <span class="ot">&lt;-</span> (var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> y[j] <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> sig2[j] <span class="sc">*</span> </span>
-<span id="cb1-17"><a href="#cb1-17"></a>                                      var_par<span class="sc">$</span>M_mu[i<span class="dv">-1</span>]) <span class="sc">/</span> </span>
-<span id="cb1-18"><a href="#cb1-18"></a>            (<span class="dv">3</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span>  var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
-<span id="cb1-19"><a href="#cb1-19"></a>        var_par<span class="sc">$</span>S2_alpha[i, j] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> sig2[j] <span class="sc">/</span> </span>
-<span id="cb1-20"><a href="#cb1-20"></a>            (<span class="dv">3</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    }</span>
-<span id="cb1-22"><a href="#cb1-22"></a>    var_par<span class="sc">$</span>M_mu[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(var_par<span class="sc">$</span>M_alpha[i, ])</span>
-<span id="cb1-23"><a href="#cb1-23"></a>    var_par<span class="sc">$</span>S2_mu[i] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">/</span> <span class="dv">24</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>    var_par<span class="sc">$</span>B_tau[i] <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>S2_alpha[i, ]) <span class="sc">+</span> </span>
-<span id="cb1-25"><a href="#cb1-25"></a>        <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> </span>
-<span id="cb1-26"><a href="#cb1-26"></a>        <span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]) <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i] <span class="sc">+</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>S2_mu[i] <span class="sc">+</span> </span>
-<span id="cb1-28"><a href="#cb1-28"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>M_mu[i]<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb1-29"><a href="#cb1-29"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-16"><a href="#cb1-16"></a>        var_par<span class="sc">$</span>M_alpha[i, j] <span class="ot">&lt;-</span> (var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> y[j] <span class="sc">+</span> <span class="fl">3.5</span> <span class="sc">*</span> sig2[j] <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i<span class="dv">-1</span>]) <span class="sc">/</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>            (<span class="fl">3.5</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
+<span id="cb1-18"><a href="#cb1-18"></a>        var_par<span class="sc">$</span>S2_alpha[i, j] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> sig2[j] <span class="sc">/</span> </span>
+<span id="cb1-19"><a href="#cb1-19"></a>            (<span class="fl">3.5</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
+<span id="cb1-20"><a href="#cb1-20"></a>    }</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    var_par<span class="sc">$</span>M_mu[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(var_par<span class="sc">$</span>M_alpha[i, ])</span>
+<span id="cb1-22"><a href="#cb1-22"></a>    var_par<span class="sc">$</span>S2_mu[i] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">/</span> <span class="dv">28</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>    var_par<span class="sc">$</span>B_tau[i] <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>S2_alpha[i, ]) <span class="sc">+</span> </span>
+<span id="cb1-24"><a href="#cb1-24"></a>        <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> </span>
+<span id="cb1-25"><a href="#cb1-25"></a>        <span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]) <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i] <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>S2_mu[i] <span class="sc">+</span> </span>
+<span id="cb1-27"><a href="#cb1-27"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>M_mu[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plots" class="slide level2">
-<h2>plots</h2>
-<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-4_5541f7876b35bf6d6b6bda79118660f7">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># plot</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>max_iter, var_par<span class="sc">$</span>M_mu, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">15</span>), </span>
-<span id="cb2-3"><a href="#cb2-3"></a>     <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(mu))</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>max_iter, var_par<span class="sc">$</span>S2_mu, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>), </span>
-<span id="cb2-5"><a href="#cb2-5"></a>     <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(S[mu]<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>max_iter, var_par<span class="sc">$</span>B_tau, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), </span>
-<span id="cb2-7"><a href="#cb2-7"></a>     <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(B[tau]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="results" class="slide level2">
+<h2>Results</h2>
 
-<div class="footer footer-default">
+
+<img data-src="08-hmc_vb_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
