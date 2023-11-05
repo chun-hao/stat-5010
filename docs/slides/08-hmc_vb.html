@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -342,6 +407,29 @@ Chun-Hao Yang
 </section>
 <section id="motivation" class="slide level2">
 <h2>Motivation</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
 <ul>
 <li class="fragment"><strong>In theory</strong>, the Metropolis algorithm (with an arbitrary proposal) works for any distribution in any dimension.</li>
 <li class="fragment"><strong>In practice</strong>, the Metropolis algorithm is inefficient for high-dimensional distributions.</li>
@@ -381,10 +469,9 @@ Chun-Hao Yang
 <li class="fragment">We want to sample from <span class="math inline">\(\pi\)</span> using Metropolis algorithm with a Gaussian proposal <span class="math inline">\(N_d(\theta^{(t-1)}, \Xi)\)</span>.</li>
 <li class="fragment">What is the optimal choice of <span class="math inline">\(\Xi\)</span>?</li>
 <li class="fragment">What do we mean by optimal in MCMC? We want the fastest convergence of the Markov Chain.</li>
-<li class="fragment">Roberts &amp; Rosenthal (2001)<sup>1</sup> showed that the optimal choice is <span class="math display">\[
+<li class="fragment">Roberts &amp; Rosenthal (2001)<sup>1</sup> showed that, under some conditions on <span class="math inline">\(\pi\)</span>, the optimal choice is <span class="math display">\[
 \Xi = \frac{2.38^2}{d} \Sigma_{\pi},
-\]</span> where <span class="math inline">\(\Sigma_{\pi}\)</span> is the covariance matrix of <span class="math inline">\(\pi\)</span>.</li>
-<li class="fragment">But we don’t know <span class="math inline">\(\Sigma_{\pi}\)</span>! Estimate it!</li>
+\]</span> where <span class="math inline">\(\Sigma_{\pi}\)</span> is the covariance matrix of <span class="math inline">\(\pi\)</span>. But we don’t know <span class="math inline">\(\Sigma_{\pi}\)</span>!</li>
 </ul>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Roberts, G. O., &amp; Rosenthal, J. S. (2001). <em>Optimal Scaling for Various Metropolis-Hastings Algorithms.</em> Statistical Science, 16(4), 351–367.</p></li></ol></aside></section>
 <section id="adaptive-random-walk-metropolis" class="slide level2">
@@ -410,27 +497,428 @@ Chun-Hao Yang
 </section>
 <section id="does-it-work" class="slide level2">
 <h2>Does it work?</h2>
+<ul>
+<li class="fragment">The adaptive RWM works well in practice, but the theoretical analysis is difficult.</li>
+<li class="fragment"><strong>Adaptation</strong>: the change of proposal distribution over time.</li>
+<li class="fragment">For an adaptive MCMC algorithm to work, the adaptation must satisfy two requirements:
+<ul>
+<li class="fragment">Diminishing adaptation: the adaptation must diminish over time.</li>
+<li class="fragment">Containment: the time to stationary from <span class="math inline">\(X_t\)</span> is bounded, if we fix the adaptation at <span class="math inline">\(t\)</span>, i.e., stop changing proposal distribution after time <span class="math inline">\(t\)</span>.</li>
+</ul></li>
+</ul>
 </section>
 <section id="metropolis-adjusted-langevin-algorithm-mala" class="slide level2">
 <h2>Metropolis-adjusted Langevin algorithm (MALA)</h2>
 <ul>
 <li class="fragment">Proposal: <span class="math inline">\(\theta^{(t)} \sim N_d\left(\theta^{(t-1)} + \frac{1}{2}\Sigma\nabla\log\pi(\theta^{(t-1)}), \Sigma\right)\)</span></li>
+<li class="fragment">This proposal is inspired by Langevin diffusion, and is <u>non-symmatric</u>.</li>
+<li class="fragment">You can also make MALA adaptive by replacing <span class="math inline">\(\Sigma\)</span> with <span class="math inline">\(\frac{(2.38)^2}{d}\hat{\Sigma}_n\)</span>.</li>
 </ul>
 </section>
 <section id="hamiltonian-monte-carlo-hmchmc" class="slide level2">
 <h2>Hamiltonian Monte Carlo (HMC)<sup>1</sup></h2>
+<ul>
+<li class="fragment">The main reason that random walk Metropolis is inefficient is that it explores the parameter space by diffusing around.</li>
+<li class="fragment">Hamiltonian dynamics can be used to produce distant proposals for the Metropolis algorithm.</li>
+</ul>
+<div class="fragment">
+<div>
+<ul>
+<li>The idea behind HMC:</li>
+</ul>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/lec08/HMC.png" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
 <aside><ol class="aside-footnotes"><li id="fn2"><p>Neal, R. M. (2011). <em>MCMC using Hamiltonian dynamics.</em> Handbook of markov chain monte carlo, 2(11), 2.</p></li></ol></aside></section>
+<section id="hamiltonian-dynamics" class="slide level2">
+<h2>Hamiltonian dynamics</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(p\)</span> be a particle with position <span class="math inline">\(x\)</span> and velocity <span class="math inline">\(v\)</span>.</li>
+<li class="fragment">The <strong>Hamiltonian</strong> of <span class="math inline">\(p\)</span> is the sum of its <strong>potential energy</strong> and <strong>kinetic energy</strong>: <span class="math display">\[
+H(x, v) = U(x) + K(v).
+\]</span></li>
+<li class="fragment">The potential energy <span class="math inline">\(U(x)\)</span> is proportional to the height at <span class="math inline">\(x\)</span>.</li>
+<li class="fragment">The kinetic energy is <span class="math inline">\(K(v) = \frac{1}{2}mv^Tv\)</span>, where <span class="math inline">\(m\)</span> is the mass of the particle <span class="math inline">\(p\)</span>.</li>
+<li class="fragment">The <strong>momentum</strong>of <span class="math inline">\(p\)</span> is defined as <span class="math inline">\(y = mv\)</span> and hence <span class="math inline">\(K(y) = \frac{y^Ty}{2m}\)</span>.</li>
+<li class="fragment">The total energy is constant:
+<ul>
+<li class="fragment">when <span class="math inline">\(p\)</span> moves upward, potential energy <em>increases</em> and kinetic energy <em>decreases</em>;</li>
+<li class="fragment">when <span class="math inline">\(p\)</span> moves downward, potential energy <em>decreases</em> and kinetic energy <em>increases</em>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="hamiltonian-dynamics-1" class="slide level2">
+<h2>Hamiltonian dynamics</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(x(t)\)</span> be the position of <span class="math inline">\(p\)</span> at time <span class="math inline">\(t\)</span> and <span class="math inline">\(y(t)\)</span> be the <strong>momentum</strong> of <span class="math inline">\(p\)</span> at time <span class="math inline">\(t\)</span>.</li>
+<li class="fragment">Define the potential energy to be <span class="math inline">\(U(x) = -\log \pi(x)\)</span>, where <span class="math inline">\(\pi(x)\)</span> is our target distribution.</li>
+<li class="fragment">Hence the Hamiltonian is <span class="math display">\[
+H(x, y) = -\log \pi(x) + \frac{y^Ty}{2m}.
+\]</span></li>
+<li class="fragment">In Hamiltonian dynamics, the pair <span class="math inline">\((x(t), y(t))\)</span> satisfies a set of differential equations, given by <span class="math display">\[
+\begin{aligned}
+\frac{dx_i}{dt} &amp;= \frac{\partial H}{\partial y_i} = \frac{\partial K}{\partial y_i} = \frac{y_i}{m},\\
+\frac{dy_i}{dt} &amp;= -\frac{\partial H}{\partial x_i} = -\frac{\partial U}{\partial x_i} = \frac{\partial \log \pi(x)}{\partial x_i}, \quad i = 1,\ldots,d.
+\end{aligned}
+\]</span></li>
+</ul>
+</section>
+<section id="hmc" class="slide level2">
+<h2>HMC</h2>
+<ul>
+<li class="fragment">The HMC is actually sampling from <span class="math display">\[
+p(x, y) \propto \exp(-H(x, y)) = \pi(x)\exp\left(-\frac{y^Ty}{2m}\right).
+\]</span></li>
+<li class="fragment">That is, <span class="math inline">\(X \sim \pi\)</span> and <span class="math inline">\(Y \sim N(0, m^{-1}I)\)</span> are independent.</li>
+<li class="fragment">At <span class="math inline">\(n\)</span>th iteration, we randomly assign a momentum <span class="math inline">\(y \sim N(0, m^{-1}I)\)</span> to <span class="math inline">\(x^{(n-1)}\)</span>.</li>
+<li class="fragment">Let <span class="math inline">\((x(0), y(0)) = (x^{(n-1)}, y)\)</span>.</li>
+<li class="fragment">Evolve <span class="math inline">\((x(0, y(0)))\)</span> for time <span class="math inline">\(t\)</span> according to Hamiltonian dynamics and get <span class="math inline">\((x(t), y(t))\)</span>.</li>
+<li class="fragment">Accept <span class="math inline">\((x(t), y(t))\)</span> with probability <span class="math display">\[
+\rho = \frac{\exp(-H(x(t), y(t)))}{\exp(-H(x(0), y(0)))} = \exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).
+\]</span></li>
+<li class="fragment">If accepted, set <span class="math inline">\(x^{(n)} = x(\delta)\)</span>; otherwise, set <span class="math inline">\(x^{(n)} = x^{(n-1)}\)</span>.</li>
+</ul>
+</section>
+<section id="evolution-of-hamiltonian-dynamics" class="slide level2">
+<h2>Evolution of Hamiltonian dynamics</h2>
+<ul>
+<li class="fragment">Given <span class="math inline">\((x(0), y(0))\)</span>, we can evolve <span class="math inline">\((x(t), y(t))\)</span> for time <span class="math inline">\(t\)</span> by solving the Hamiltonian equations.</li>
+<li class="fragment">The most natural way is Euler’s method: <span class="math display">\[
+\begin{aligned}
+x_i(t + \epsilon) &amp;= x_i(t) + \epsilon\frac{dx_i}{dt}(t) = x_i(t) + \epsilon \frac{y_i(t)}{m},\\
+y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon \frac{\partial}{\partial x_i}\log \pi(x(t)).
+\end{aligned}
+\]</span></li>
+<li class="fragment">It turns out that the Euler method is inaccurate, and the most widely used method is the <strong>leapfrog method</strong>.</li>
+</ul>
+</section>
+<section id="leapfrog-method" class="slide level2">
+<h2>Leapfrog method</h2>
+<p>The leapfrog method maps <span class="math inline">\((x(t), y(t))\)</span> to <span class="math inline">\((x(t+\epsilon), y(t+\epsilon))\)</span> through the following steps:</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))\)</span>;</li>
+<li class="fragment"><span class="math inline">\(x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}\)</span>;</li>
+<li class="fragment"><span class="math inline">\(y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\frac{\partial}{\partial x}\log \pi(x(t + \epsilon))\)</span>.</li>
+</ol>
+<ul>
+<li class="fragment">In HMC, the leapfrog method evolves <span class="math inline">\((x(0), y(0))\)</span> for <span class="math inline">\(L\)</span> iterations.</li>
+</ul>
+</section>
+<section id="general-hmc-algorithm" class="slide level2 smaller">
+<h2>General HMC algorithm</h2>
+<div>
+<ul>
+<li>Input: un-normalized density <span class="math inline">\(\pi(x)\)</span>.</li>
+<li>Tuning parameters: step size <span class="math inline">\(\epsilon\)</span>, number of steps <span class="math inline">\(L\)</span>, mass matrix <span class="math inline">\(M\)</span>.</li>
+<li>Initialize <span class="math inline">\(x^{(0)}\)</span>.</li>
+<li><strong>for</strong> <span class="math inline">\(i = 1, \ldots, n\)</span>:
+<ul>
+<li>generate <span class="math inline">\(y^{(0)} \sim N(0, M)\)</span>;</li>
+<li>set <span class="math inline">\(\tilde{x} \leftarrow x^{(i-1)}\)</span>, <span class="math inline">\(\tilde{y} \leftarrow y^{(0)}\)</span>;</li>
+<li><strong>for</strong> <span class="math inline">\(j = 1, \ldots, L\)</span>:
+<ul>
+<li><span class="math inline">\(\tilde{y} \leftarrow \tilde{y} - \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})\)</span>;</li>
+<li><span class="math inline">\(\tilde{x} \leftarrow \tilde{x} + \epsilon M^{-1}\tilde{y}\)</span>;</li>
+<li><span class="math inline">\(\tilde{y} \leftarrow \tilde{y} - \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})\)</span>;</li>
+</ul></li>
+<li><span class="math inline">\(u \sim \text{Unif}(0, 1)\)</span>;</li>
+<li><strong>if</strong> <span class="math inline">\(u &lt; \exp(-H(\tilde{x}, \tilde{y}) + H(x^{(i-1)}, y^{(0)}))\)</span>:
+<ul>
+<li><span class="math inline">\(x^{(i)} \leftarrow \tilde{x}\)</span>;</li>
+</ul></li>
+<li><strong>else</strong>:
+<ul>
+<li><span class="math inline">\(x^{(i)} \leftarrow x^{(i-1)}\)</span>;</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="remarks" class="slide level2">
+<h2>Remarks</h2>
+<ul>
+<li class="fragment">Random walk Metropolis can fail badly when the target distribution is multi-modal because it uses proposals that are unrelated to the target distribution.</li>
+<li class="fragment">HMC makes better use of what is known about the target distribution by using the gradient of the log density.</li>
+<li class="fragment">HMC can only be used to sample from continuous distributions whose density can be evaluated (up to a normalizing constant) and whose gradient can be computed.</li>
+<li class="fragment">In particular, HMC cannot be used to sample from discrete distributions.</li>
+<li class="fragment">Although we did not show in the class, the HMC indeed has a stationary distribution <span class="math inline">\(\pi\)</span>.</li>
+<li class="fragment">See <a href="https://arxiv.org/abs/1206.1901">Neal (2011)</a> for more details.</li>
+</ul>
+</section>
+<section id="tuning-parameters" class="slide level2">
+<h2>Tuning parameters</h2>
+<ul>
+<li class="fragment"><p>There are three tuning parameters in HMC: step size <span class="math inline">\(\epsilon\)</span>, number of steps <span class="math inline">\(L\)</span>, and mass matrix <span class="math inline">\(M\)</span>.</p></li>
+<li class="fragment"><p>Small <span class="math inline">\(\epsilon\)</span>:</p>
+<ul>
+<li class="fragment">the leapfrog approximation is good</li>
+<li class="fragment">higher acceptance rate</li>
+</ul></li>
+<li class="fragment"><p>Large <span class="math inline">\(L\)</span>:</p>
+<ul>
+<li class="fragment">bigger moves</li>
+<li class="fragment">smaller correlations between successive samples</li>
+<li class="fragment">more computation</li>
+</ul></li>
+<li class="fragment"><p>Neal (2011) recommends setting <span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(L\)</span> such that the acceptance rate is about 0.65.</p></li>
+<li class="fragment"><p>The mass matrix <span class="math inline">\(M\)</span> is usually set to be the identity matrix.</p></li>
+</ul>
+</section>
 <section id="no-u-turn-sampler-nutsnuts" class="slide level2">
 <h2>No-U-Turn Sampler (NUTS)<sup>1</sup></h2>
+<ul>
+<li class="fragment">The hand-tuning of <span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(L\)</span> is tedious and time-consuming.</li>
+<li class="fragment">The No-U-Turn Sampler (NUTS) is an extension of HMC that eliminates the need to set the number of steps <span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(L\)</span>.</li>
+<li class="fragment">The main ides behind NUTS is to simulate a trajectory of the Hamiltonian dynamics until it turns back on itself.</li>
+<li class="fragment">See <a href="https://arxiv.org/abs/1111.4246">Hoffman and Gelman (2014)</a> for more details.</li>
+<li class="fragment"><a href="https://arxiv.org/abs/1701.02434">Betancourt (2017)</a> also provides a nice introduction to HMC and NUTS.</li>
+</ul>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>Hoffman, M. D., &amp; Gelman, A. (2014). <em>The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.</em> J. Mach. Learn. Res., 15(1), 1593-1623.</p></li></ol></aside></section>
-<section id="variational-inference" class="title-slide slide level1 center">
-<h1>Variational Inference</h1>
+<section>
+<section id="distributional-approximation" class="title-slide slide level1 center">
+<h1>Distributional Approximation</h1>
+
+</section>
+<section id="motivation-1" class="slide level2">
+<h2>Motivation</h2>
+<ul>
+<li class="fragment">We have been focusing on simulating samples from the posterior distribution to make inference.</li>
+<li class="fragment">However, the sampling-based approach will be very inefficient for large problems, i.e., a problem with hundreds or thousands of parameters.</li>
+<li class="fragment">In such cases, we might want to approximate the posterior distribution with a simpler distribution.</li>
+<li class="fragment">That is, we trade accuracy for efficiency.</li>
+<li class="fragment">The simplest approach is modal-approximation.</li>
+<li class="fragment">However, this approach is not very flexible and does not scale well to high-dimensional problems.</li>
+<li class="fragment">There are many other approaches, and we focus on one of them: <strong>variational inference</strong>.</li>
+</ul>
+</section>
+<section id="variational-inference" class="slide level2">
+<h2>Variational inference</h2>
+<ul>
+<li class="fragment">Variational Bayes (VB) is an algorithmic framework for approximating joint distributions.</li>
+<li class="fragment">Suppose we want to approximate the posterior distribution <span class="math inline">\(\pi(\theta \mid y)\)</span> with a simpler distribution <span class="math inline">\(q(\theta)\)</span> by minimizing the Kullback-Leibler divergence <span class="math display">\[
+\text{KL}(q\|\pi) = \int \log\frac{q(\theta)}{\pi(\theta \mid y)} q(\theta)d\theta = \E_q\left[\log\frac{q(\theta)}{\pi(\theta \mid y)}\right].
+\]</span></li>
+<li class="fragment">The difficulties are:
+<ul>
+<li class="fragment"><span class="math inline">\(\pi(\theta \mid y)\)</span> is available only up to a normalizing constant;</li>
+<li class="fragment">we cannot easily take posterior draws from <span class="math inline">\(\pi(\theta \mid y)\)</span>;</li>
+<li class="fragment">we cannot easily compute expectations of interest, <span class="math inline">\(\E(h(\theta) \mid y)\)</span>.</li>
+</ul></li>
+<li class="fragment">Hence we are not able to minimize the KL divergence directly.</li>
+</ul>
+</section>
+<section id="evidence-lower-bound-elbo" class="slide level2">
+<h2>Evidence Lower Bound (ELBO)</h2>
+<ul>
+<li class="fragment">The marginal distribution of <span class="math inline">\(y\)</span> is given by <span class="math display">\[
+p(y) = \int \pi(y, \theta) d\theta = \int \pi(y \mid \theta) \pi(\theta) d\theta.
+\]</span></li>
+<li class="fragment">Then the evidence (log of marginal) is <span class="math display">\[\begin{align*}
+\log p(y) &amp; = \log \int p(y, \theta) d\theta
+= \log \int \frac{p(y, \theta)}{q(\theta)} q(\theta) d\theta\\
+&amp; = \log\left(\E_{q}\left[\frac{\pi(y, \theta)}{q(\theta)}\right]\right)
+\geq \E_q\left[\log p(y, \theta)\right] - \E_q\left[\log q(\theta)\right].
+\end{align*}\]</span></li>
+<li class="fragment">The last inequality is due to Jensen’s inequality.</li>
+<li class="fragment">The quantity <span class="math inline">\(\E_q\left[\log p(y, \theta)\right] - \E_q\left[\log q(\theta)\right]\)</span> is called the <strong>evidence lower bound (ELBO)</strong>.</li>
+</ul>
+</section>
+<section id="evidence-lower-bound-elbo-1" class="slide level2">
+<h2>Evidence Lower Bound (ELBO)</h2>
+<ul>
+<li class="fragment">The KL divergence can be written as <span class="math display">\[\begin{align*}
+\text{KL}(q \| \pi) &amp; = \E_q\left[\log\frac{q(\theta)}{\pi(\theta \mid y)}\right] \\
+&amp; = \E_q\left[\log q(\theta)\right] - \E_q\left[\log \pi(\theta \mid y)\right] \\
+&amp; = \E_q\left[\log q(\theta)\right] - \E_q\left[\log p(y \mid \theta)\pi(\theta)\right] + \log p(y)\\
+&amp; = - \text{ELBO}(q) + \log p(y).
+\end{align*}\]</span></li>
+<li class="fragment">Hence minimizing the KL divergence is equivalent to maximizing the ELBO.</li>
+</ul>
+</section>
+<section id="class-of-approximate-distributions" class="slide level2">
+<h2>Class of approximate distributions</h2>
+<ul>
+<li class="fragment">Now we need to choose a class <span class="math inline">\(\mc{Q}\)</span> of distributions <span class="math inline">\(q(\theta)\)</span> to approximate the posterior distribution <span class="math inline">\(\pi(\theta \mid y)\)</span>.</li>
+<li class="fragment">We want the <span class="math inline">\(\mc{Q}\)</span> to be:
+<ul>
+<li class="fragment">flexible enough to approximate <span class="math inline">\(\pi(\theta \mid y)\)</span> well;</li>
+<li class="fragment">simple enough to be tractable;</li>
+<li class="fragment">the ELBO can be easily computed.</li>
+</ul></li>
+<li class="fragment">The class <span class="math inline">\(\mc{Q}\)</span> is often a parametric family, i.e., <span class="math display">\[
+\mc{Q} = \{q(\theta \mid \phi): \phi \in \Phi\}.
+\]</span> and <span class="math inline">\(\phi\)</span> is called the <strong>variational parameter</strong>.</li>
+</ul>
+</section>
+<section id="mean-field-variational-family" class="slide level2">
+<h2>Mean-field variational family</h2>
+<ul>
+<li class="fragment">The simplest choice of <span class="math inline">\(\mc{Q}\)</span> is the mean-field variational family: <span class="math display">\[
+\mc{Q}_{\text{MF}} = \left\{q(\theta \mid \phi) = \prod_{j=1}^d q_j(\theta_j \mid \phi_j): \phi = (\phi_1, \ldots, \phi_d) \in \Phi\right\}.
+\]</span></li>
+<li class="fragment">The mean-field variational family assumes that the parameters are independent.</li>
+<li class="fragment">Obviously, this family does not contain the true posterior distribution.</li>
+<li class="fragment">However, it is often used in practice because it is simple and easy to compute.</li>
+<li class="fragment">We can also partition <span class="math inline">\(\theta\)</span> into <span class="math inline">\(K\)</span> blocks and assume that the parameters between different blocks are independent.</li>
+</ul>
+</section>
+<section id="maximizing-elbo" class="slide level2">
+<h2>Maximizing ELBO</h2>
+<ul>
+<li class="fragment">The ELBO is given by <span class="math inline">\(\text{ELBO}(q) = \E_q\left[\log p(y, \theta)\right] - \E_q\left[\log q(\theta)\right]\)</span>.</li>
+<li class="fragment">For <span class="math inline">\(q \in \mc{Q}_{\text{MF}}\)</span>, the entropy term is <span class="math display">\[
+\E_q\left[\log q(\theta)\right] = \E_q\left[\sum_{j=1}^d \log q_j(\theta_j \mid \phi_j)\right] = \sum_{j=1}^d \E_{j}\left[\log q_j(\theta_j \mid \phi_j)\right]
+\]</span> where <span class="math inline">\(\E_j\)</span> is the expectation with respect to <span class="math inline">\(q_j\)</span>.</li>
+<li class="fragment">The first term is <span class="math display">\[\begin{align*}
+\E_q\left[\log p(y, \theta)\right] &amp;= \int \log \pi(y, \theta) \prod_{j=1}^d q_j(\theta_j) d\theta_1\cdots d\theta_d \\
+&amp; = \int \E_{-j}\left[\log \pi(y, \theta)\right] q_j(\theta_j) d\theta_j \\
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="maximizing-elbo-1" class="slide level2">
+<h2>Maximizing ELBO</h2>
+<ul>
+<li class="fragment">The ELBO is <span class="math display">\[
+\mc{L}(q_1, \ldots, q_d) = \int \E_{-j}\left[\log \pi(y, \theta)\right] q_j(\theta_j) d\theta_j - \sum_{j=1}^d \E_{j}\left[\log q_j(\theta_j \mid \phi_j)\right].
+\]</span></li>
+<li class="fragment">We need to find <span class="math inline">\(q_1, \ldots, q_d\)</span> to maximize <span class="math inline">\(\mc{L}(q_1, \ldots, q_d)\)</span> subject to the constraints <span class="math inline">\(\int q_j(\theta_j) d\theta_j = 1\)</span>.</li>
+<li class="fragment">Use Lagrange multipliers, take ``functional derivative’’ with respect to <span class="math inline">\(q_j\)</span>, and set it to zero, we have <span class="math display">\[
+\log q_j(\theta_j) = \E_{-j}\left[\log \pi(y, \theta)\right] + \text{const}.
+\]</span></li>
+<li class="fragment">Hence the optimal <span class="math inline">\(q_j\)</span> is <span class="math display">\[
+q^{*}_j(\theta_j) \propto \exp\left(\E_{-j}\left[\log \pi(y, \theta)\right]\right).
+\]</span></li>
+</ul>
+</section>
+<section id="example-8-school-problem" class="slide level2">
+<h2>Example: 8-school problem</h2>
+<ul>
+<li class="fragment">The model in the eight-school problem is <span class="math display">\[\begin{align*}
+Y_i &amp; \ind N(\alpha_i, \sigma_i^2), \quad i = 1, \ldots, 8 \\
+\alpha_i &amp; \iid N(\mu, \tau)\\
+\pi(\mu, \tau) &amp; \propto 1.
+\end{align*}\]</span> (It can be shown that the posterior is proper.)</li>
+<li class="fragment">Let <span class="math inline">\(\theta = (\alpha_1, \ldots, \alpha_8, \mu, \tau)\)</span>.</li>
+<li class="fragment">The log posterior is <span class="math display">\[
+\log \pi(\theta \mid y) = -\frac{1}{2} \sum_{j=1}^8 \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}
+- 8 \log \tau-\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8\left(\alpha_j-\mu\right)^2 + \text{const}.
+\]</span></li>
+<li class="fragment">We consider the mean-field approximation <span class="math inline">\(q(\theta) = q(\alpha_1) \cdots q(\alpha_8) q(\mu) q(\tau)\)</span>.</li>
+</ul>
+</section>
+<section id="mean-field-approximation-alpha_j" class="slide level2">
+<h2>Mean-field approximation: <span class="math inline">\(\alpha_j\)</span></h2>
+<ul>
+<li class="fragment">Averaging over all the parameters other than <span class="math inline">\(\alpha_j\)</span>, we have <span class="math display">\[
+\E_{-\alpha_j} \log p(\theta \mid y)=-\frac{1}{2} \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}-\frac{1}{2} \E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
+\]</span> which is a quadratic function of <span class="math inline">\(\alpha_j\)</span>.</li>
+<li class="fragment">Hence the optimal <span class="math inline">\(q(\alpha_j)\)</span> is a Gaussian distribution <span class="math display">\[
+g\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}, \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}\right).
+\]</span></li>
+</ul>
+</section>
+<section id="mean-field-approximation-mu" class="slide level2">
+<h2>Mean-field approximation: <span class="math inline">\(\mu\)</span></h2>
+<ul>
+<li class="fragment">Averaging over all the parameters other than <span class="math inline">\(\mu\)</span>, we have <span class="math display">\[
+\E_{-\mu} \log p(\theta \mid y) = -\frac{1}{2} \E_{-\mu}\left(\frac{1}{\tau^2}\right) \sum_{j=1}^8\left(\mu - \E_{-\mu} \left(\alpha_j\right)\right)^2+\text{constant.}
+\]</span></li>
+<li class="fragment">This is the logarithm of a normal density function: <span class="math display">\[\begin{align*}
+g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\right), \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)}\right)
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="mean-field-approximation-tau" class="slide level2">
+<h2>Mean-field approximation: <span class="math inline">\(\tau\)</span></h2>
+<ul>
+<li class="fragment"><p>Averaging over all the parameters other than <span class="math inline">\(\tau\)</span>, we have <span class="math display">\[
+\E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
+\]</span></p></li>
+<li class="fragment"><p>This is the logarithm of an inverse-gamma density function: <span class="math display">\[
+g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| 3, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
+\]</span></p></li>
+</ul>
+</section>
+<section id="summarizing-the-mean-field-approximation" class="slide level2">
+<h2>Summarizing the mean-field approximation</h2>
+<ul>
+<li class="fragment">The mean-field approximation is <span class="math display">\[\begin{align*}
+\alpha_j &amp; \sim N(M_{\alpha_j}, S^2_{\alpha_j})\\
+\mu &amp; \sim N(M_{\mu}, S^2_{\mu})\\
+\tau^2 &amp; \sim \text{Inv-Gamma}(3, B_{\tau}).
+\end{align*}\]</span></li>
+<li class="fragment">Thus <span class="math display">\[\begin{align*}
+\E_{-\alpha_j}(\tau^{-2}) &amp; = \E_{-\mu}(\tau^{-2})= \frac{3}{B_{\tau}}\\
+\E_{-\mu}(\alpha_j) &amp; = M_{\alpha_j}\\
+\E_{-\tau}(\alpha_j-\mu)^2 &amp; = S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}.
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="summarizing-the-mean-field-approximation-1" class="slide level2">
+<h2>Summarizing the mean-field approximation</h2>
+<p>Combining all the results we have</p>
+<p><span class="math display">\[\begin{align*}
+M_{\alpha_j} &amp; = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{3}{B_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{3}{B_{\tau}}} = \frac{B_{\tau} y_j + 3\sigma_j^2 M_{\mu}}{3\sigma_j^2 + B_{\tau}}\\
+S^2_{\alpha_j} &amp; = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{3}{B_{\tau}}} = \frac{B_{\tau}\sigma_j^2}{3\sigma_j^2 + B_{\tau}}\\
+M_{\mu} &amp; = \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}(\alpha_j) = \frac{1}{8} \sum_{j=1}^8 M_{\alpha_j}\\
+S^2_{\mu} &amp; = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{3}{B_{\tau}}} = \frac{B_{\tau}}{24}\\
+B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right) = \frac{1}{2} \sum_{j=1}^8 \left(S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}\right)
+\end{align*}\]</span></p>
+</section>
+<section id="r-code" class="slide level2">
+<h2>R code</h2>
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-3_35a8e58e5330a6b3e229b1ddef72f716">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>max_iter <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Data</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">28.39</span>, <span class="fl">7.94</span>, <span class="sc">-</span><span class="fl">2.75</span>, <span class="fl">6.82</span>, <span class="sc">-</span><span class="fl">0.64</span>, <span class="fl">0.63</span>, <span class="fl">18.01</span>, <span class="fl">12.16</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>sig2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>, <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Variational parameter</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>var_par <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">M_alpha =</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> max_iter, <span class="at">ncol =</span> <span class="dv">8</span>), </span>
+<span id="cb1-9"><a href="#cb1-9"></a>                <span class="at">S2_alpha =</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> max_iter, <span class="at">ncol =</span> <span class="dv">8</span>),</span>
+<span id="cb1-10"><a href="#cb1-10"></a>                <span class="at">M_mu =</span> <span class="fu">rep</span>(<span class="dv">0</span>, max_iter),</span>
+<span id="cb1-11"><a href="#cb1-11"></a>                <span class="at">S2_mu =</span> <span class="fu">rep</span>(<span class="dv">1</span>, max_iter),</span>
+<span id="cb1-12"><a href="#cb1-12"></a>                <span class="at">B_tau =</span> <span class="fu">rep</span>(<span class="dv">1</span>, max_iter))</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>max_iter){</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>){</span>
+<span id="cb1-16"><a href="#cb1-16"></a>        var_par<span class="sc">$</span>M_alpha[i, j] <span class="ot">&lt;-</span> (var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> y[j] <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> sig2[j] <span class="sc">*</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>                                      var_par<span class="sc">$</span>M_mu[i<span class="dv">-1</span>]) <span class="sc">/</span> </span>
+<span id="cb1-18"><a href="#cb1-18"></a>            (<span class="dv">3</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span>  var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
+<span id="cb1-19"><a href="#cb1-19"></a>        var_par<span class="sc">$</span>S2_alpha[i, j] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> sig2[j] <span class="sc">/</span> </span>
+<span id="cb1-20"><a href="#cb1-20"></a>            (<span class="dv">3</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    }</span>
+<span id="cb1-22"><a href="#cb1-22"></a>    var_par<span class="sc">$</span>M_mu[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(var_par<span class="sc">$</span>M_alpha[i, ])</span>
+<span id="cb1-23"><a href="#cb1-23"></a>    var_par<span class="sc">$</span>S2_mu[i] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">/</span> <span class="dv">24</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a>    var_par<span class="sc">$</span>B_tau[i] <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>S2_alpha[i, ]) <span class="sc">+</span> </span>
+<span id="cb1-25"><a href="#cb1-25"></a>        <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> </span>
+<span id="cb1-26"><a href="#cb1-26"></a>        <span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]) <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i] <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>S2_mu[i] <span class="sc">+</span> </span>
+<span id="cb1-28"><a href="#cb1-28"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>M_mu[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plots" class="slide level2">
+<h2>plots</h2>
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-4_5541f7876b35bf6d6b6bda79118660f7">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># plot</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>max_iter, var_par<span class="sc">$</span>M_mu, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">15</span>), </span>
+<span id="cb2-3"><a href="#cb2-3"></a>     <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(mu))</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>max_iter, var_par<span class="sc">$</span>S2_mu, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>), </span>
+<span id="cb2-5"><a href="#cb2-5"></a>     <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(S[mu]<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>max_iter, var_par<span class="sc">$</span>B_tau, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), </span>
+<span id="cb2-7"><a href="#cb2-7"></a>     <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(B[tau]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
-</section>
-
+</section></section>
 
     </div>
   </div>

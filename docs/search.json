@@ -1,5 +1,243 @@
 [
   {
+    "objectID": "slides/08-hmc_vb.html#motivation",
+    "href": "slides/08-hmc_vb.html#motivation",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Motivation",
+    "text": "Motivation\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nIn theory, the Metropolis algorithm (with an arbitrary proposal) works for any distribution in any dimension.\nIn practice, the Metropolis algorithm is inefficient for high-dimensional distributions.\nCurrent research in MCMC focuses on finding good proposals to speed-up the algorithm, together with theoretical guarantees, e.g., making sure that the chain converges to the target distribution.\nIn this lecture, we will introduce two popular MCMC algorithms: Hamiltonian Monte Carlo (HMC) and No-U-Turn Sampler (NUTS).\nThese two algorithms are the ones used in the Stan software."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#a-few-words-about-acceptance-rate",
+    "href": "slides/08-hmc_vb.html#a-few-words-about-acceptance-rate",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "A few words about acceptance rate",
+    "text": "A few words about acceptance rate\nIdeally, we want the acceptance rate to be far from 0 and 1.\n\n\nIf the acceptance rate is too low, the Markov chain is not moving.\nIf the acceptance rate is too high, the Markov chain is only exploring the high-density region."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#adaptive-mcmc",
+    "href": "slides/08-hmc_vb.html#adaptive-mcmc",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Adaptive MCMC",
+    "text": "Adaptive MCMC\n\nIn the original Metropolis algorithm, the proposal distribution is fixed.\nThis can be inefficient, since after some exploration, we gain some knowledge about the target distribution, and we can use this knowledge to improve the proposal distribution.\nThis can be easily implemented, e.g., reducing the variance of Gaussian proposal every 100 iterations.\nHowever, the theoretical analysis is complicated since the Markov chain is no longer time-homogeneous.\nCan we assure that the adaptive Markov chain still converges to the target distribution?\n\n\n\nThe material is adapted from http://probability.ca/jeff/ftpdir/Cambridge2010.pdf"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#optimal-gaussian-proposal",
+    "href": "slides/08-hmc_vb.html#optimal-gaussian-proposal",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Optimal Gaussian proposal",
+    "text": "Optimal Gaussian proposal\n\nLet \\(\\pi\\) be a distribution supported on \\(\\Theta \\subseteq \\mathbb{R}^d\\).\nWe want to sample from \\(\\pi\\) using Metropolis algorithm with a Gaussian proposal \\(N_d(\\theta^{(t-1)}, \\Xi)\\).\nWhat is the optimal choice of \\(\\Xi\\)?\nWhat do we mean by optimal in MCMC? We want the fastest convergence of the Markov Chain.\nRoberts & Rosenthal (2001)1 showed that, under some conditions on \\(\\pi\\), the optimal choice is \\[\n\\Xi = \\frac{2.38^2}{d} \\Sigma_{\\pi},\n\\] where \\(\\Sigma_{\\pi}\\) is the covariance matrix of \\(\\pi\\). But we don’t know \\(\\Sigma_{\\pi}\\)!\n\nRoberts, G. O., & Rosenthal, J. S. (2001). Optimal Scaling for Various Metropolis-Hastings Algorithms. Statistical Science, 16(4), 351–367."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#adaptive-random-walk-metropolis",
+    "href": "slides/08-hmc_vb.html#adaptive-random-walk-metropolis",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Adaptive Random Walk Metropolis",
+    "text": "Adaptive Random Walk Metropolis\n\nAlgorithm:\n\nAt \\(t\\)th iteration, compute \\(\\hat{\\Sigma}_n\\) using \\(\\theta^{(1)}, \\ldots, \\theta^{(t-1)}\\).\nSample \\(\\theta^*\\) from \\(N_d\\left(\\theta^{(t-1)}, \\frac{(2.38)^2}{d}\\hat{\\Sigma}_n\\right)\\).\nCompute the acceptance ratio \\(\\rho(\\theta^{(t-1)}, \\theta^{*})=\\min\\left\\{\\frac{\\pi(\\theta^* \\mid x)}{\\pi(\\theta^{(t-1)} \\mid x)}, 1\\right\\}\\).\nSet \\[\n\\theta^{(t)}= \\begin{cases}\\theta^* & \\text { with prob. } \\rho(\\theta^{(t-1)}, \\theta^{*}) \\\\ \\theta^{(t-1)} & \\text { with prob. } 1-\\rho(\\theta^{(t-1)}, \\theta^{*}).\\end{cases}\n\\]\n\nThe simplest choice of \\(\\hat{\\Sigma}_n\\) is the sample covariance matrix.\nHowever, it is not a good choice in high dimensions.\nGoogle: ``High-dimensional covariance estimation’’!"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#example",
+    "href": "slides/08-hmc_vb.html#example",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Example",
+    "text": "Example\nConsider \\(\\pi(\\theta) = \\frac{1}{2}N(10,1) + \\frac{1}{2}N(-10, 1)\\)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#does-it-work",
+    "href": "slides/08-hmc_vb.html#does-it-work",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Does it work?",
+    "text": "Does it work?\n\nThe adaptive RWM works well in practice, but the theoretical analysis is difficult.\nAdaptation: the change of proposal distribution over time.\nFor an adaptive MCMC algorithm to work, the adaptation must satisfy two requirements:\n\nDiminishing adaptation: the adaptation must diminish over time.\nContainment: the time to stationary from \\(X_t\\) is bounded, if we fix the adaptation at \\(t\\), i.e., stop changing proposal distribution after time \\(t\\)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#metropolis-adjusted-langevin-algorithm-mala",
+    "href": "slides/08-hmc_vb.html#metropolis-adjusted-langevin-algorithm-mala",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Metropolis-adjusted Langevin algorithm (MALA)",
+    "text": "Metropolis-adjusted Langevin algorithm (MALA)\n\nProposal: \\(\\theta^{(t)} \\sim N_d\\left(\\theta^{(t-1)} + \\frac{1}{2}\\Sigma\\nabla\\log\\pi(\\theta^{(t-1)}), \\Sigma\\right)\\)\nThis proposal is inspired by Langevin diffusion, and is non-symmatric.\nYou can also make MALA adaptive by replacing \\(\\Sigma\\) with \\(\\frac{(2.38)^2}{d}\\hat{\\Sigma}_n\\)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#hamiltonian-monte-carlo-hmchmc",
+    "href": "slides/08-hmc_vb.html#hamiltonian-monte-carlo-hmchmc",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Hamiltonian Monte Carlo (HMC)1",
+    "text": "Hamiltonian Monte Carlo (HMC)1\n\nThe main reason that random walk Metropolis is inefficient is that it explores the parameter space by diffusing around.\nHamiltonian dynamics can be used to produce distant proposals for the Metropolis algorithm.\n\n\n\n\nThe idea behind HMC:\n\n\n\n\n\n\n\n\nNeal, R. M. (2011). MCMC using Hamiltonian dynamics. Handbook of markov chain monte carlo, 2(11), 2."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#hamiltonian-dynamics",
+    "href": "slides/08-hmc_vb.html#hamiltonian-dynamics",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Hamiltonian dynamics",
+    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentumof \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#hamiltonian-dynamics-1",
+    "href": "slides/08-hmc_vb.html#hamiltonian-dynamics-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Hamiltonian dynamics",
+    "text": "Hamiltonian dynamics\n\nLet \\(x(t)\\) be the position of \\(p\\) at time \\(t\\) and \\(y(t)\\) be the momentum of \\(p\\) at time \\(t\\).\nDefine the potential energy to be \\(U(x) = -\\log \\pi(x)\\), where \\(\\pi(x)\\) is our target distribution.\nHence the Hamiltonian is \\[\nH(x, y) = -\\log \\pi(x) + \\frac{y^Ty}{2m}.\n\\]\nIn Hamiltonian dynamics, the pair \\((x(t), y(t))\\) satisfies a set of differential equations, given by \\[\n\\begin{aligned}\n\\frac{dx_i}{dt} &= \\frac{\\partial H}{\\partial y_i} = \\frac{\\partial K}{\\partial y_i} = \\frac{y_i}{m},\\\\\n\\frac{dy_i}{dt} &= -\\frac{\\partial H}{\\partial x_i} = -\\frac{\\partial U}{\\partial x_i} = \\frac{\\partial \\log \\pi(x)}{\\partial x_i}, \\quad i = 1,\\ldots,d.\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#hmc",
+    "href": "slides/08-hmc_vb.html#hmc",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "HMC",
+    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(\\delta)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#evolution-of-hamiltonian-dynamics",
+    "href": "slides/08-hmc_vb.html#evolution-of-hamiltonian-dynamics",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Evolution of Hamiltonian dynamics",
+    "text": "Evolution of Hamiltonian dynamics\n\nGiven \\((x(0), y(0))\\), we can evolve \\((x(t), y(t))\\) for time \\(t\\) by solving the Hamiltonian equations.\nThe most natural way is Euler’s method: \\[\n\\begin{aligned}\nx_i(t + \\epsilon) &= x_i(t) + \\epsilon\\frac{dx_i}{dt}(t) = x_i(t) + \\epsilon \\frac{y_i(t)}{m},\\\\\ny_i(t + \\epsilon) &= y_i(t) + \\epsilon\\frac{dy_i}{dt}(t) = y_i(t) - \\epsilon \\frac{\\partial}{\\partial x_i}\\log \\pi(x(t)).\n\\end{aligned}\n\\]\nIt turns out that the Euler method is inaccurate, and the most widely used method is the leapfrog method."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#leapfrog-method",
+    "href": "slides/08-hmc_vb.html#leapfrog-method",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Leapfrog method",
+    "text": "Leapfrog method\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\frac{\\partial}{\\partial x}\\log \\pi(x(t + \\epsilon))\\).\n\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#general-hmc-algorithm",
+    "href": "slides/08-hmc_vb.html#general-hmc-algorithm",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "General HMC algorithm",
+    "text": "General HMC algorithm\n\n\nInput: un-normalized density \\(\\pi(x)\\).\nTuning parameters: step size \\(\\epsilon\\), number of steps \\(L\\), mass matrix \\(M\\).\nInitialize \\(x^{(0)}\\).\nfor \\(i = 1, \\ldots, n\\):\n\ngenerate \\(y^{(0)} \\sim N(0, M)\\);\nset \\(\\tilde{x} \\leftarrow x^{(i-1)}\\), \\(\\tilde{y} \\leftarrow y^{(0)}\\);\nfor \\(j = 1, \\ldots, L\\):\n\n\\(\\tilde{y} \\leftarrow \\tilde{y} - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(\\tilde{x})\\);\n\\(\\tilde{x} \\leftarrow \\tilde{x} + \\epsilon M^{-1}\\tilde{y}\\);\n\\(\\tilde{y} \\leftarrow \\tilde{y} - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(\\tilde{x})\\);\n\n\\(u \\sim \\text{Unif}(0, 1)\\);\nif \\(u &lt; \\exp(-H(\\tilde{x}, \\tilde{y}) + H(x^{(i-1)}, y^{(0)}))\\):\n\n\\(x^{(i)} \\leftarrow \\tilde{x}\\);\n\nelse:\n\n\\(x^{(i)} \\leftarrow x^{(i-1)}\\);"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#remarks",
+    "href": "slides/08-hmc_vb.html#remarks",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Remarks",
+    "text": "Remarks\n\nRandom walk Metropolis can fail badly when the target distribution is multi-modal because it uses proposals that are unrelated to the target distribution.\nHMC makes better use of what is known about the target distribution by using the gradient of the log density.\nHMC can only be used to sample from continuous distributions whose density can be evaluated (up to a normalizing constant) and whose gradient can be computed.\nIn particular, HMC cannot be used to sample from discrete distributions.\nAlthough we did not show in the class, the HMC indeed has a stationary distribution \\(\\pi\\).\nSee Neal (2011) for more details."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#tuning-parameters",
+    "href": "slides/08-hmc_vb.html#tuning-parameters",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Tuning parameters",
+    "text": "Tuning parameters\n\nThere are three tuning parameters in HMC: step size \\(\\epsilon\\), number of steps \\(L\\), and mass matrix \\(M\\).\nSmall \\(\\epsilon\\):\n\nthe leapfrog approximation is good\nhigher acceptance rate\n\nLarge \\(L\\):\n\nbigger moves\nsmaller correlations between successive samples\nmore computation\n\nNeal (2011) recommends setting \\(\\epsilon\\) and \\(L\\) such that the acceptance rate is about 0.65.\nThe mass matrix \\(M\\) is usually set to be the identity matrix."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#no-u-turn-sampler-nutsnuts",
+    "href": "slides/08-hmc_vb.html#no-u-turn-sampler-nutsnuts",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "No-U-Turn Sampler (NUTS)1",
+    "text": "No-U-Turn Sampler (NUTS)1\n\nThe hand-tuning of \\(\\epsilon\\) and \\(L\\) is tedious and time-consuming.\nThe No-U-Turn Sampler (NUTS) is an extension of HMC that eliminates the need to set the number of steps \\(\\epsilon\\) and \\(L\\).\nThe main ides behind NUTS is to simulate a trajectory of the Hamiltonian dynamics until it turns back on itself.\nSee Hoffman and Gelman (2014) for more details.\nBetancourt (2017) also provides a nice introduction to HMC and NUTS.\n\nHoffman, M. D., & Gelman, A. (2014). The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. J. Mach. Learn. Res., 15(1), 1593-1623."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#motivation-1",
+    "href": "slides/08-hmc_vb.html#motivation-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Motivation",
+    "text": "Motivation\n\nWe have been focusing on simulating samples from the posterior distribution to make inference.\nHowever, the sampling-based approach will be very inefficient for large problems, i.e., a problem with hundreds or thousands of parameters.\nIn such cases, we might want to approximate the posterior distribution with a simpler distribution.\nThat is, we trade accuracy for efficiency.\nThe simplest approach is modal-approximation.\nHowever, this approach is not very flexible and does not scale well to high-dimensional problems.\nThere are many other approaches, and we focus on one of them: variational inference."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#variational-inference",
+    "href": "slides/08-hmc_vb.html#variational-inference",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Variational inference",
+    "text": "Variational inference\n\nVariational Bayes (VB) is an algorithmic framework for approximating joint distributions.\nSuppose we want to approximate the posterior distribution \\(\\pi(\\theta \\mid y)\\) with a simpler distribution \\(q(\\theta)\\) by minimizing the Kullback-Leibler divergence \\[\n\\text{KL}(q\\|\\pi) = \\int \\log\\frac{q(\\theta)}{\\pi(\\theta \\mid y)} q(\\theta)d\\theta = \\E_q\\left[\\log\\frac{q(\\theta)}{\\pi(\\theta \\mid y)}\\right].\n\\]\nThe difficulties are:\n\n\\(\\pi(\\theta \\mid y)\\) is available only up to a normalizing constant;\nwe cannot easily take posterior draws from \\(\\pi(\\theta \\mid y)\\);\nwe cannot easily compute expectations of interest, \\(\\E(h(\\theta) \\mid y)\\).\n\nHence we are not able to minimize the KL divergence directly."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#evidence-lower-bound-elbo",
+    "href": "slides/08-hmc_vb.html#evidence-lower-bound-elbo",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Evidence Lower Bound (ELBO)",
+    "text": "Evidence Lower Bound (ELBO)\n\nThe marginal distribution of \\(y\\) is given by \\[\np(y) = \\int \\pi(y, \\theta) d\\theta = \\int \\pi(y \\mid \\theta) \\pi(\\theta) d\\theta.\n\\]\nThen the evidence (log of marginal) is \\[\\begin{align*}\n\\log p(y) & = \\log \\int p(y, \\theta) d\\theta\n= \\log \\int \\frac{p(y, \\theta)}{q(\\theta)} q(\\theta) d\\theta\\\\\n& = \\log\\left(\\E_{q}\\left[\\frac{\\pi(y, \\theta)}{q(\\theta)}\\right]\\right)\n\\geq \\E_q\\left[\\log p(y, \\theta)\\right] - \\E_q\\left[\\log q(\\theta)\\right].\n\\end{align*}\\]\nThe last inequality is due to Jensen’s inequality.\nThe quantity \\(\\E_q\\left[\\log p(y, \\theta)\\right] - \\E_q\\left[\\log q(\\theta)\\right]\\) is called the evidence lower bound (ELBO)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#evidence-lower-bound-elbo-1",
+    "href": "slides/08-hmc_vb.html#evidence-lower-bound-elbo-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Evidence Lower Bound (ELBO)",
+    "text": "Evidence Lower Bound (ELBO)\n\nThe KL divergence can be written as \\[\\begin{align*}\n\\text{KL}(q \\| \\pi) & = \\E_q\\left[\\log\\frac{q(\\theta)}{\\pi(\\theta \\mid y)}\\right] \\\\\n& = \\E_q\\left[\\log q(\\theta)\\right] - \\E_q\\left[\\log \\pi(\\theta \\mid y)\\right] \\\\\n& = \\E_q\\left[\\log q(\\theta)\\right] - \\E_q\\left[\\log p(y \\mid \\theta)\\pi(\\theta)\\right] + \\log p(y)\\\\\n& = - \\text{ELBO}(q) + \\log p(y).\n\\end{align*}\\]\nHence minimizing the KL divergence is equivalent to maximizing the ELBO."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#class-of-approximate-distributions",
+    "href": "slides/08-hmc_vb.html#class-of-approximate-distributions",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Class of approximate distributions",
+    "text": "Class of approximate distributions\n\nNow we need to choose a class \\(\\mc{Q}\\) of distributions \\(q(\\theta)\\) to approximate the posterior distribution \\(\\pi(\\theta \\mid y)\\).\nWe want the \\(\\mc{Q}\\) to be:\n\nflexible enough to approximate \\(\\pi(\\theta \\mid y)\\) well;\nsimple enough to be tractable;\nthe ELBO can be easily computed.\n\nThe class \\(\\mc{Q}\\) is often a parametric family, i.e., \\[\n\\mc{Q} = \\{q(\\theta \\mid \\phi): \\phi \\in \\Phi\\}.\n\\] and \\(\\phi\\) is called the variational parameter."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#mean-field-variational-family",
+    "href": "slides/08-hmc_vb.html#mean-field-variational-family",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Mean-field variational family",
+    "text": "Mean-field variational family\n\nThe simplest choice of \\(\\mc{Q}\\) is the mean-field variational family: \\[\n\\mc{Q}_{\\text{MF}} = \\left\\{q(\\theta \\mid \\phi) = \\prod_{j=1}^d q_j(\\theta_j \\mid \\phi_j): \\phi = (\\phi_1, \\ldots, \\phi_d) \\in \\Phi\\right\\}.\n\\]\nThe mean-field variational family assumes that the parameters are independent.\nObviously, this family does not contain the true posterior distribution.\nHowever, it is often used in practice because it is simple and easy to compute.\nWe can also partition \\(\\theta\\) into \\(K\\) blocks and assume that the parameters between different blocks are independent."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#maximizing-elbo",
+    "href": "slides/08-hmc_vb.html#maximizing-elbo",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Maximizing ELBO",
+    "text": "Maximizing ELBO\n\nThe ELBO is given by \\(\\text{ELBO}(q) = \\E_q\\left[\\log p(y, \\theta)\\right] - \\E_q\\left[\\log q(\\theta)\\right]\\).\nFor \\(q \\in \\mc{Q}_{\\text{MF}}\\), the entropy term is \\[\n\\E_q\\left[\\log q(\\theta)\\right] = \\E_q\\left[\\sum_{j=1}^d \\log q_j(\\theta_j \\mid \\phi_j)\\right] = \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right]\n\\] where \\(\\E_j\\) is the expectation with respect to \\(q_j\\).\nThe first term is \\[\\begin{align*}\n\\E_q\\left[\\log p(y, \\theta)\\right] &= \\int \\log \\pi(y, \\theta) \\prod_{j=1}^d q_j(\\theta_j) d\\theta_1\\cdots d\\theta_d \\\\\n& = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j \\\\\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#maximizing-elbo-1",
+    "href": "slides/08-hmc_vb.html#maximizing-elbo-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Maximizing ELBO",
+    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) to maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), and set it to zero, we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#example-8-school-problem",
+    "href": "slides/08-hmc_vb.html#example-8-school-problem",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Example: 8-school problem",
+    "text": "Example: 8-school problem\n\nThe model in the eight-school problem is \\[\\begin{align*}\nY_i & \\ind N(\\alpha_i, \\sigma_i^2), \\quad i = 1, \\ldots, 8 \\\\\n\\alpha_i & \\iid N(\\mu, \\tau)\\\\\n\\pi(\\mu, \\tau) & \\propto 1.\n\\end{align*}\\] (It can be shown that the posterior is proper.)\nLet \\(\\theta = (\\alpha_1, \\ldots, \\alpha_8, \\mu, \\tau)\\).\nThe log posterior is \\[\n\\log \\pi(\\theta \\mid y) = -\\frac{1}{2} \\sum_{j=1}^8 \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}\n- 8 \\log \\tau-\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8\\left(\\alpha_j-\\mu\\right)^2 + \\text{const}.\n\\]\nWe consider the mean-field approximation \\(q(\\theta) = q(\\alpha_1) \\cdots q(\\alpha_8) q(\\mu) q(\\tau)\\)."
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#mean-field-approximation-alpha_j",
+    "href": "slides/08-hmc_vb.html#mean-field-approximation-alpha_j",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Mean-field approximation: \\(\\alpha_j\\)",
+    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nHence the optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\ng\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#mean-field-approximation-mu",
+    "href": "slides/08-hmc_vb.html#mean-field-approximation-mu",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Mean-field approximation: \\(\\mu\\)",
+    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{constant.}\n\\]\nThis is the logarithm of a normal density function: \\[\\begin{align*}\ng(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#mean-field-approximation-tau",
+    "href": "slides/08-hmc_vb.html#mean-field-approximation-tau",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Mean-field approximation: \\(\\tau\\)",
+    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\]\nThis is the logarithm of an inverse-gamma density function: \\[\ng(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| 3, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
+    "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Summarizing the mean-field approximation",
+    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}(3, B_{\\tau}).\n\\end{align*}\\]\nThus \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{3}{B_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
+    "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Summarizing the mean-field approximation",
+    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{3}{B_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{3}{B_{\\tau}}} = \\frac{B_{\\tau} y_j + 3\\sigma_j^2 M_{\\mu}}{3\\sigma_j^2 + B_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{3}{B_{\\tau}}} = \\frac{B_{\\tau}\\sigma_j^2}{3\\sigma_j^2 + B_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{3}{B_{\\tau}}} = \\frac{B_{\\tau}}{24}\\\\\nB_{\\tau} & = \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{2} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#r-code",
+    "href": "slides/08-hmc_vb.html#r-code",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "R code",
+    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28.39, 7.94, -2.75, 6.82, -0.64, 0.63, 18.01, 12.16)\nsig2 &lt;- c(14.9, 10.2, 16.3, 11.0, 9.4, 11.4, 10.4, 17.6)\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B_tau[i-1] * y[j] + 3 * sig2[j] * \n                                      var_par$M_mu[i-1]) / \n            (3 * sig2[j] +  var_par$B_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B_tau[i-1] * sig2[j] / \n            (3 * sig2[j] + var_par$B_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B_tau[i-1] / 24\n    var_par$B_tau[i] &lt;- 0.5*sum(var_par$S2_alpha[i, ]) + \n        0.5*sum(var_par$M_alpha[i, ]^2) - \n        sum(var_par$M_alpha[i, ]) * var_par$M_mu[i] +\n        4*var_par$S2_mu[i] + \n        4*var_par$M_mu[i]^2\n}"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#plots",
+    "href": "slides/08-hmc_vb.html#plots",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "plots",
+    "text": "plots\n\n# plot\nplot(1:max_iter, var_par$M_mu, type = \"l\", ylim = c(-3,15), \n     xlab = \"iteration\", ylab = expression(mu))\nplot(1:max_iter, var_par$S2_mu, type = \"l\", ylim = c(0,10), \n     xlab = \"iteration\", ylab = expression(S[mu]^2))\nplot(1:max_iter, var_par$B_tau, type = \"l\", ylim = c(0,100), \n     xlab = \"iteration\", ylab = expression(B[tau]))\n\n\n\nHome"
+  },
+  {
     "objectID": "slides/06-testing.html#project-proposal",
     "href": "slides/06-testing.html#project-proposal",
     "title": "Lecture 06: Testing and Model Selection",
@@ -1734,82 +1972,5 @@
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Parallel tempering",
     "text": "Parallel tempering\n\npar(mfrow = c(1,2))\nplot(theta[,1], type = \"l\", col = \"blue\", lwd = 2, \n         ylim = c(-15, 15), main = paste(\"Chain\", 1))\nhist(theta[,1], freq = F, xlim = c(-15, 15), \n     ylim = c(0, 0.2), main = \"Chain 1\")\ncurve(exp(log_post(x)), -15, 15, col = \"red\", lwd = 2, add = TRUE)\n\n\n\n\nHome"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#motivation",
-    "href": "slides/08-hmc_vb.html#motivation",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Motivation",
-    "text": "Motivation\n\nIn theory, the Metropolis algorithm (with an arbitrary proposal) works for any distribution in any dimension.\nIn practice, the Metropolis algorithm is inefficient for high-dimensional distributions.\nCurrent research in MCMC focuses on finding good proposals to speed-up the algorithm, together with theoretical guarantees, e.g., making sure that the chain converges to the target distribution.\nIn this lecture, we will introduce two popular MCMC algorithms: Hamiltonian Monte Carlo (HMC) and No-U-Turn Sampler (NUTS).\nThese two algorithms are the ones used in the Stan software."
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#adaptive-mcmc",
-    "href": "slides/08-hmc_vb.html#adaptive-mcmc",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Adaptive MCMC",
-    "text": "Adaptive MCMC\n\nIn the original Metropolis algorithm, the proposal distribution is fixed.\nThis can be inefficient, since after some exploration, we gain some knowledge about the target distribution, and we can use this knowledge to improve the proposal distribution.\nThis can be easily implemented, e.g., reducing the variance of Gaussian proposal every 100 iterations.\nHowever, the theoretical analysis is complicated since the Markov chain is no longer time-homogeneous.\nCan we assure that the adaptive Markov chain still converges to the target distribution?\n\n\n\nThe material is adapted from http://probability.ca/jeff/ftpdir/Cambridge2010.pdf"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#hamiltonian-monte-carlo",
-    "href": "slides/08-hmc_vb.html#hamiltonian-monte-carlo",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Hamiltonian Monte Carlo",
-    "text": "Hamiltonian Monte Carlo"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#optimal-gaussian-proposal",
-    "href": "slides/08-hmc_vb.html#optimal-gaussian-proposal",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Optimal Gaussian proposal",
-    "text": "Optimal Gaussian proposal\n\nLet \\(\\pi\\) be a distribution supported on \\(\\Theta \\subseteq \\mathbb{R}^d\\).\nWe want to sample from \\(\\pi\\) using Metropolis algorithm with a Gaussian proposal \\(N_d(\\theta^{(t-1)}, \\Xi)\\).\nWhat is the optimal choice of \\(\\Xi\\)?\nWhat do we mean by optimal in MCMC? We want the fastest convergence of the Markov Chain.\nRoberts & Rosenthal (2001)1 showed that the optimal choice is \\[\n\\Xi = \\frac{2.38^2}{d} \\Sigma_{\\pi},\n\\] where \\(\\Sigma_{\\pi}\\) is the covariance matrix of \\(\\pi\\).\nBut we don’t know \\(\\Sigma_{\\pi}\\)! Estimate it!\n\nRoberts, G. O., & Rosenthal, J. S. (2001). Optimal Scaling for Various Metropolis-Hastings Algorithms. Statistical Science, 16(4), 351–367."
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#hamiltonian-monte-carlo-hmchmc",
-    "href": "slides/08-hmc_vb.html#hamiltonian-monte-carlo-hmchmc",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Hamiltonian Monte Carlo (HMC)1",
-    "text": "Hamiltonian Monte Carlo (HMC)1\nNeal, R. M. (2011). MCMC using Hamiltonian dynamics. Handbook of markov chain monte carlo, 2(11), 2."
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#no-u-turn-sampler-nutsnuts",
-    "href": "slides/08-hmc_vb.html#no-u-turn-sampler-nutsnuts",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "No-U-Turn Sampler (NUTS)1",
-    "text": "No-U-Turn Sampler (NUTS)1\nHoffman, M. D., & Gelman, A. (2014). The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. J. Mach. Learn. Res., 15(1), 1593-1623."
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#adaptive-random-walk-metropolis",
-    "href": "slides/08-hmc_vb.html#adaptive-random-walk-metropolis",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Adaptive Random Walk Metropolis",
-    "text": "Adaptive Random Walk Metropolis\n\nAlgorithm:\n\nAt \\(t\\)th iteration, compute \\(\\hat{\\Sigma}_n\\) using \\(\\theta^{(1)}, \\ldots, \\theta^{(t-1)}\\).\nSample \\(\\theta^*\\) from \\(N_d\\left(\\theta^{(t-1)}, \\frac{(2.38)^2}{d}\\hat{\\Sigma}_n\\right)\\).\nCompute the acceptance ratio \\(\\rho(\\theta^{(t-1)}, \\theta^{*})=\\min\\left\\{\\frac{\\pi(\\theta^* \\mid x)}{\\pi(\\theta^{(t-1)} \\mid x)}, 1\\right\\}\\).\nSet \\[\n\\theta^{(t)}= \\begin{cases}\\theta^* & \\text { with prob. } \\rho(\\theta^{(t-1)}, \\theta^{*}) \\\\ \\theta^{(t-1)} & \\text { with prob. } 1-\\rho(\\theta^{(t-1)}, \\theta^{*}).\\end{cases}\n\\]\n\nThe simplest choice of \\(\\hat{\\Sigma}_n\\) is the sample covariance matrix.\nHowever, it is not a good choice in high dimensions.\nGoogle: ``High-dimensional covariance estimation’’!"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#example",
-    "href": "slides/08-hmc_vb.html#example",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Example",
-    "text": "Example\nConsider \\(\\pi(\\theta) = \\frac{1}{2}N(10,1) + \\frac{1}{2}N(-10, 1)\\)."
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#a-few-words-about-acceptance-rate",
-    "href": "slides/08-hmc_vb.html#a-few-words-about-acceptance-rate",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "A few words about acceptance rate",
-    "text": "A few words about acceptance rate\nIdeally, we want the acceptance rate to be far from 0 and 1.\n\n\nIf the acceptance rate is too low, the Markov chain is not moving.\nIf the acceptance rate is too high, the Markov chain is only exploring the high-density region."
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#does-it-work",
-    "href": "slides/08-hmc_vb.html#does-it-work",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Does it work?",
-    "text": "Does it work?"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#metropolis-adjusted-langevin-algorithm-mala",
-    "href": "slides/08-hmc_vb.html#metropolis-adjusted-langevin-algorithm-mala",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Metropolis-adjusted Langevin algorithm (MALA)",
-    "text": "Metropolis-adjusted Langevin algorithm (MALA)\n\nProposal: \\(\\theta^{(t)} \\sim N_d\\left(\\theta^{(t-1)} + \\frac{1}{2}\\Sigma\\nabla\\log\\pi(\\theta^{(t-1)}), \\Sigma\\right)\\)"
   }
 ]
