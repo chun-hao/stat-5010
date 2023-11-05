@@ -155,7 +155,7 @@ algorithm.
     $$
 -   The potential energy $U(x)$ is proportional to the height at $x$.
 -   The kinetic energy is $K(v) = \frac{1}{2}mv^Tv$, where $m$ is the mass of the particle $p$.
--   The **momentum**of $p$ is defined as $y = mv$ and hence $K(y) = \frac{y^Ty}{2m}$.
+-   The **momentum** of $p$ is defined as $y = mv$ and hence $K(y) = \frac{y^Ty}{2m}$.
 -   The total energy is constant: 
     +   when $p$ moves upward, potential energy *increases* and kinetic energy *decreases*;
     +   when $p$ moves downward, potential energy *decreases* and kinetic energy *increases*.
@@ -208,11 +208,10 @@ algorithm.
 
 ## Leapfrog method
 
-The leapfrog method maps $(x(t), y(t))$ to $(x(t+\epsilon), y(t+\epsilon))$ through the following steps:
-
-1.   $y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))$;
-2.   $x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}$;
-3.   $y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\frac{\partial}{\partial x}\log \pi(x(t + \epsilon))$.
+-   The leapfrog method maps $(x(t), y(t))$ to $(x(t+\epsilon), y(t+\epsilon))$ through the following steps:
+    1.   $y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))$;
+    2.   $x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}$;
+    3.   $y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\frac{\partial}{\partial x}\log \pi(x(t + \epsilon))$.
 
 -   In HMC, the leapfrog method evolves $(x(0), y(0))$ for $L$ iterations. 
 

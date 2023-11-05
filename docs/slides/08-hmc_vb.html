@@ -448,7 +448,7 @@ Chun-Hao Yang
 </ul>
 </div>
 
-<img data-src="08-hmc_vb_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<img data-src="08-hmc_vb_files/figure-html/unnamed-chunk-1-1.png" width="672" class="r-stretch quarto-figure-center"></section>
 <section id="adaptive-mcmc" class="slide level2">
 <h2>Adaptive MCMC</h2>
 <ul>
@@ -490,10 +490,6 @@ Chun-Hao Yang
 <li class="fragment">However, it is not a good choice in high dimensions.</li>
 <li class="fragment">Google: ``High-dimensional covariance estimation’’!</li>
 </ul>
-</section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
-<p>Consider <span class="math inline">\(\pi(\theta) = \frac{1}{2}N(10,1) + \frac{1}{2}N(-10, 1)\)</span>.</p>
 </section>
 <section id="does-it-work" class="slide level2">
 <h2>Does it work?</h2>
@@ -598,13 +594,13 @@ y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon
 </section>
 <section id="leapfrog-method" class="slide level2">
 <h2>Leapfrog method</h2>
-<p>The leapfrog method maps <span class="math inline">\((x(t), y(t))\)</span> to <span class="math inline">\((x(t+\epsilon), y(t+\epsilon))\)</span> through the following steps:</p>
+<ul>
+<li class="fragment">The leapfrog method maps <span class="math inline">\((x(t), y(t))\)</span> to <span class="math inline">\((x(t+\epsilon), y(t+\epsilon))\)</span> through the following steps:
 <ol type="1">
 <li class="fragment"><span class="math inline">\(y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))\)</span>;</li>
 <li class="fragment"><span class="math inline">\(x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}\)</span>;</li>
 <li class="fragment"><span class="math inline">\(y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\frac{\partial}{\partial x}\log \pi(x(t + \epsilon))\)</span>.</li>
-</ol>
-<ul>
+</ol></li>
 <li class="fragment">In HMC, the leapfrog method evolves <span class="math inline">\((x(0), y(0))\)</span> for <span class="math inline">\(L\)</span> iterations.</li>
 </ul>
 </section>
@@ -871,7 +867,7 @@ B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\rig
 </section>
 <section id="r-code" class="slide level2">
 <h2>R code</h2>
-<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-3_857c3c14fa7aa853c0edc7dbcc0fa8b6">
+<div class="cell" data-hash="08-hmc_vb_cache/html/unnamed-chunk-2_95c4bbe4db3ca29fe98d2658b87f8441">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>max_iter <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Data</span></span>
@@ -906,7 +902,7 @@ B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\rig
 <h2>Results</h2>
 
 
-<img data-src="08-hmc_vb_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"><div class="footer footer-default">
+<img data-src="08-hmc_vb_files/figure-html/unnamed-chunk-3-1.png" width="672" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
@@ -1124,44 +1120,6 @@ B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\rig
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -35,13 +35,6 @@
     "text": "Adaptive Random Walk Metropolis\n\nAlgorithm:\n\nAt \\(t\\)th iteration, compute \\(\\hat{\\Sigma}_n\\) using \\(\\theta^{(1)}, \\ldots, \\theta^{(t-1)}\\).\nSample \\(\\theta^*\\) from \\(N_d\\left(\\theta^{(t-1)}, \\frac{(2.38)^2}{d}\\hat{\\Sigma}_n\\right)\\).\nCompute the acceptance ratio \\(\\rho(\\theta^{(t-1)}, \\theta^{*})=\\min\\left\\{\\frac{\\pi(\\theta^* \\mid x)}{\\pi(\\theta^{(t-1)} \\mid x)}, 1\\right\\}\\).\nSet \\[\n\\theta^{(t)}= \\begin{cases}\\theta^* & \\text { with prob. } \\rho(\\theta^{(t-1)}, \\theta^{*}) \\\\ \\theta^{(t-1)} & \\text { with prob. } 1-\\rho(\\theta^{(t-1)}, \\theta^{*}).\\end{cases}\n\\]\n\nThe simplest choice of \\(\\hat{\\Sigma}_n\\) is the sample covariance matrix.\nHowever, it is not a good choice in high dimensions.\nGoogle: ``High-dimensional covariance estimation’’!"
   },
   {
-    "objectID": "slides/08-hmc_vb.html#example",
-    "href": "slides/08-hmc_vb.html#example",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Example",
-    "text": "Example\nConsider \\(\\pi(\\theta) = \\frac{1}{2}N(10,1) + \\frac{1}{2}N(-10, 1)\\)."
-  },
-  {
     "objectID": "slides/08-hmc_vb.html#does-it-work",
     "href": "slides/08-hmc_vb.html#does-it-work",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
@@ -95,7 +88,7 @@
     "href": "slides/08-hmc_vb.html#leapfrog-method",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Leapfrog method",
-    "text": "Leapfrog method\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\frac{\\partial}{\\partial x}\\log \\pi(x(t + \\epsilon))\\).\n\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
+    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\frac{\\partial}{\\partial x}\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
   },
   {
     "objectID": "slides/08-hmc_vb.html#general-hmc-algorithm",
