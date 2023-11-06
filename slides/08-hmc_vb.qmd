@@ -404,9 +404,9 @@ algorithm.
     \E_{-\alpha_j} \log p(\theta \mid y)=-\frac{1}{2} \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}-\frac{1}{2} \E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
     $$
     which is a quadratic function of $\alpha_j$.
--   Hence the optimal $q(\alpha_j)$ is a Gaussian distribution
+-   The optimal $q(\alpha_j)$ is a Gaussian distribution
     $$
-    g\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}, \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}\right).
+    q\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}, \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}\right).
     $$
 
 ## Mean-field approximation: $\mu$
@@ -415,10 +415,10 @@ algorithm.
     $$
     \E_{-\mu} \log p(\theta \mid y) = -\frac{1}{2} \E_{-\mu}\left(\frac{1}{\tau^2}\right) \sum_{j=1}^8\left(\mu - \E_{-\mu} \left(\alpha_j\right)\right)^2+\text{constant.}
     $$ 
--   This is the logarithm of a normal density function:
-\begin{align*}
-g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\right), \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)}\right)
-\end{align*}
+-   The optimal $q(\mu)$ is also a Gaussian distribution
+    $$
+    q(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\right), \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)}\right)
+    $$
 
 ## Mean-field approximation: $\tau$
 
@@ -427,9 +427,9 @@ g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\righ
     \E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
     $$
     
--   This is the logarithm of an inverse-gamma density function:
+-   The optimal $q(\tau^2)$ is an Inverse-Gamma distribution
     $$
-    g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
+    q(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
     $$
     
 ## Summarizing the mean-field approximation
@@ -438,11 +438,11 @@ g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\righ
     \begin{align*}
     \alpha_j & \sim N(M_{\alpha_j}, S^2_{\alpha_j})\\
     \mu & \sim N(M_{\mu}, S^2_{\mu})\\
-    \tau^2 & \sim \text{Inv-Gamma}\left(\frac{7}{2}, B_{\tau}\right).
+    \tau^2 & \sim \text{Inv-Gamma}\left(\frac{7}{2}, \frac{7}{2}B^2_{\tau}\right).
     \end{align*}
--   Thus
+-   Therefore
     \begin{align*}
-    \E_{-\alpha_j}(\tau^{-2}) & = \E_{-\mu}(\tau^{-2})= \frac{7}{2B_{\tau}}\\
+    \E_{-\alpha_j}(\tau^{-2}) & = \E_{-\mu}(\tau^{-2})= \frac{1}{B^2_{\tau}}\\
     \E_{-\mu}(\alpha_j) & = M_{\alpha_j}\\
     \E_{-\tau}(\alpha_j-\mu)^2 & = S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}.
     \end{align*}
@@ -452,11 +452,11 @@ g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\righ
 Combining all the results we have
 
 \begin{align*}
-M_{\alpha_j} & = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{3.5}{B_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{3.5}{B_{\tau}}} = \frac{B_{\tau} y_j + 3.5\sigma_j^2 M_{\mu}}{3.5\sigma_j^2 + B_{\tau}}\\
-S^2_{\alpha_j} & = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{3.5}{B_{\tau}}} = \frac{B_{\tau}\sigma_j^2}{3.5\sigma_j^2 + B_{\tau}}\\
+M_{\alpha_j} & = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{1}{B^2_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{1}{B^2_{\tau}}} = \frac{B^2_{\tau} y_j + \sigma_j^2 M_{\mu}}{\sigma_j^2 + B^2_{\tau}}\\
+S^2_{\alpha_j} & = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{1}{B^2_{\tau}}} = \frac{B^2_{\tau}\sigma_j^2}{\sigma_j^2 + B^2_{\tau}}\\
 M_{\mu} & = \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}(\alpha_j) = \frac{1}{8} \sum_{j=1}^8 M_{\alpha_j}\\
-S^2_{\mu} & = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{3.5}{B_{\tau}}} = \frac{B_{\tau}}{28}\\
-B_{\tau} & = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right) = \frac{1}{2} \sum_{j=1}^8 \left(S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}\right)
+S^2_{\mu} & = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{1}{B^2_{\tau}}} = \frac{B^2_{\tau}}{8}\\
+B^2_{\tau} & = \frac{1}{7} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right) = \frac{1}{7} \sum_{j=1}^8 \left(S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}\right)
 \end{align*}
 
 ## R code
@@ -475,22 +475,22 @@ var_par <- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8),
                 S2_alpha = matrix(1, nrow = max_iter, ncol = 8),
                 M_mu = rep(0, max_iter),
                 S2_mu = rep(1, max_iter),
-                B_tau = rep(1, max_iter))
+                B2_tau = rep(1, max_iter))
 
 for (i in 2:max_iter){
     for(j in 1:8){
-        var_par$M_alpha[i, j] <- (var_par$B_tau[i-1] * y[j] + 3.5 * sig2[j] * var_par$M_mu[i-1]) / 
-            (3.5 * sig2[j] + var_par$B_tau[i-1])
-        var_par$S2_alpha[i, j] <- var_par$B_tau[i-1] * sig2[j] / 
-            (3.5 * sig2[j] + var_par$B_tau[i-1])
+        var_par$M_alpha[i, j] <- (var_par$B2_tau[i-1] * y[j] + sig2[j] * var_par$M_mu[i-1]) / 
+            (sig2[j] + var_par$B2_tau[i-1])
+        var_par$S2_alpha[i, j] <- var_par$B2_tau[i-1] * sig2[j] / 
+            (sig2[j] + var_par$B2_tau[i-1])
     }
     var_par$M_mu[i] <- mean(var_par$M_alpha[i, ])
-    var_par$S2_mu[i] <- var_par$B_tau[i-1] / 28
-    var_par$B_tau[i] <- 0.5*sum(var_par$S2_alpha[i, ]) + 
-        0.5*sum(var_par$M_alpha[i, ]^2) - 
-        sum(var_par$M_alpha[i, ]) * var_par$M_mu[i] +
-        4*var_par$S2_mu[i] + 
-        4*var_par$M_mu[i]^2
+    var_par$S2_mu[i] <- var_par$B2_tau[i-1] / 8
+    var_par$B2_tau[i] <- sum(var_par$S2_alpha[i, ])/7 + 
+        sum(var_par$M_alpha[i, ]^2)/7 - 
+        2*sum(var_par$M_alpha[i, ]) * var_par$M_mu[i]/7 +
+        var_par$S2_mu[i]*8/7 + 
+        var_par$M_mu[i]^2*8/7
 }
 ```
 
@@ -506,7 +506,7 @@ for (j in 2:8){
     lines(1:max_iter, var_par$M_alpha[,j], type = "l", col = j)
 }
 
-plot(1:max_iter, sqrt(var_par$S2_alpha[,1]), type = "l", ylim = c(-3,20),
+plot(1:max_iter, sqrt(var_par$S2_alpha[,1]), type = "l", ylim = c(-3,15),
      xlab = "iteration", ylab = expression(S[alpha])) 
 for (j in 2:8){
     lines(1:max_iter, sqrt(var_par$S2_alpha[,j]), type = "l", col = j)
@@ -516,16 +516,84 @@ for (j in 2:8){
 
 plot(1:max_iter, var_par$M_mu, type = "l", ylim = c(-3,15), 
      xlab = "iteration", ylab = expression(mu))
-plot(1:max_iter, sqrt(var_par$S2_mu), type = "l", ylim = c(0,10), 
+plot(1:max_iter, sqrt(var_par$S2_mu), type = "l", ylim = c(0,6), 
      xlab = "iteration", ylab = expression(S[mu]))
-plot(1:max_iter, var_par$B_tau, type = "l", ylim = c(0,500), 
+plot(1:max_iter, sqrt(var_par$B2_tau), type = "l", ylim = c(0,15), 
      xlab = "iteration", ylab = expression(B[tau]))
 
 ```
 
+## VB Inference
+
+```{r}
+library(kableExtra)
+library(latex2exp)
+post.mean <- c(var_par$M_alpha[max_iter,], 
+              var_par$M_mu[max_iter],
+              gamma(3)/gamma(7/2)*sqrt(7/2)*sqrt(var_par$B2_tau[max_iter]))
+post.sd <- c(sqrt(var_par$S2_alpha[max_iter,]),
+            sqrt(var_par$S2_mu[max_iter]),
+            sqrt(7*var_par$B2_tau[max_iter]/5-post.mean[10]^2))
+tab <- data.frame(parameter = c(paste0("alpha_", 1:8), "mu", "tau"), 
+                  post.mean = post.mean,
+                  post.sd = post.sd)
+kbl(tab, digits = 3, align = "c", caption = "Posterior mean and standard deviation")
+
+```
 
 
+## VB using Stan
+
+You can also perform VB using Stan. The following is the Stan code for the school example.
+
+```{r}
+#| echo: true
+school_model <- rstan::stan_model(model_code = "
+    data {
+      int<lower=0> J;         
+      real y[J];              
+      real<lower=0> sigma[J];
+    }
+    parameters {
+      real mu;                
+      real<lower=0> tau;      
+      real alpha[J];
+    }
+    model {
+      alpha ~ normal(mu, tau); // prior
+      y ~ normal(alpha, sigma); // likelihood
+    }")
+```
 
 
+## VB using Stan
 
+```{r}
+#| echo: true
+#| results: hide
+#| fig-align: center
+library(rstan)
+schools_dat <- list(J = 8,
+    y = c(28, 8, -3, 7, -1, 1, 18, 12),
+    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)) 
+fit_vb <- rstan::vb(school_model, data = schools_dat, 
+                    algorithm = "meanfield")
+fit_sampling <- rstan::sampling(school_model, data = schools_dat, 
+                                iter = 1000, chains = 4)
+```
 
+## Stan output (VB)
+
+```{r}
+kbl(get_posterior_mean(fit_vb), digits = 3, align = "c")
+```
+
+## Stan output (sampling)
+
+```{r}
+kbl(get_posterior_mean(fit_sampling), digits = 3, align = "c")
+```
+
+## Remark
+
+The `rstan::vb` function is buggy and unstable. DO NOT use it for your research.

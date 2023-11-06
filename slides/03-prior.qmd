@@ -414,7 +414,6 @@ and is thus proper, since it is a $\text{Beta}(1/2, 1/2)$ distribution.
 ## Example 
 ```{r}
 #| echo: false
-#| output-location: slide
 #| fig-align: center
 #| fig-cap: "Beta(1,1) (blue) and Beta(1/2, 1/2) (red)"
 #| fig-cap-location: top

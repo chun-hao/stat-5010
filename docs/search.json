@@ -60,7 +60,7 @@
     "href": "slides/08-hmc_vb.html#hamiltonian-dynamics",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Hamiltonian dynamics",
-    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentumof \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
+    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentum of \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
   },
   {
     "objectID": "slides/08-hmc_vb.html#hamiltonian-dynamics-1",
@@ -186,49 +186,91 @@
     "href": "slides/08-hmc_vb.html#mean-field-approximation-alpha_j",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\alpha_j\\)",
-    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nHence the optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\ng\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nThe optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\nq\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\mu\\)",
-    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{constant.}\n\\]\nThis is the logarithm of a normal density function: \\[\\begin{align*}\ng(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\end{align*}\\]"
+    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{constant.}\n\\]\nThe optimal \\(q(\\mu)\\) is also a Gaussian distribution \\[\nq(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\tau\\)",
-    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\]\nThis is the logarithm of an inverse-gamma density function: \\[\ng(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\]\nThe optimal \\(q(\\tau^2)\\) is an Inverse-Gamma distribution \\[\nq(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
     "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Summarizing the mean-field approximation",
-    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}\\left(\\frac{7}{2}, B_{\\tau}\\right).\n\\end{align*}\\]\nThus \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{7}{2B_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
+    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}\\left(\\frac{7}{2}, \\frac{7}{2}B^2_{\\tau}\\right).\n\\end{align*}\\]\nTherefore \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{1}{B^2_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
     "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Summarizing the mean-field approximation",
-    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{3.5}{B_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau} y_j + 3.5\\sigma_j^2 M_{\\mu}}{3.5\\sigma_j^2 + B_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau}\\sigma_j^2}{3.5\\sigma_j^2 + B_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau}}{28}\\\\\nB_{\\tau} & = \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{2} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
+    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{1}{B^2_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau} y_j + \\sigma_j^2 M_{\\mu}}{\\sigma_j^2 + B^2_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau}\\sigma_j^2}{\\sigma_j^2 + B^2_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau}}{8}\\\\\nB^2_{\\tau} & = \\frac{1}{7} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{7} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#r-code",
     "href": "slides/08-hmc_vb.html#r-code",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "R code",
-    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28, 8, -3, 7, -1, 1, 18, 12)\nsig2 &lt;- c(15, 10, 16, 11, 9, 11, 10, 18)^2\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B_tau[i-1] * y[j] + 3.5 * sig2[j] * var_par$M_mu[i-1]) / \n            (3.5 * sig2[j] + var_par$B_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B_tau[i-1] * sig2[j] / \n            (3.5 * sig2[j] + var_par$B_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B_tau[i-1] / 28\n    var_par$B_tau[i] &lt;- 0.5*sum(var_par$S2_alpha[i, ]) + \n        0.5*sum(var_par$M_alpha[i, ]^2) - \n        sum(var_par$M_alpha[i, ]) * var_par$M_mu[i] +\n        4*var_par$S2_mu[i] + \n        4*var_par$M_mu[i]^2\n}"
+    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28, 8, -3, 7, -1, 1, 18, 12)\nsig2 &lt;- c(15, 10, 16, 11, 9, 11, 10, 18)^2\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B2_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B2_tau[i-1] * y[j] + sig2[j] * var_par$M_mu[i-1]) / \n            (sig2[j] + var_par$B2_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B2_tau[i-1] * sig2[j] / \n            (sig2[j] + var_par$B2_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B2_tau[i-1] / 8\n    var_par$B2_tau[i] &lt;- sum(var_par$S2_alpha[i, ])/7 + \n        sum(var_par$M_alpha[i, ]^2)/7 - \n        2*sum(var_par$M_alpha[i, ]) * var_par$M_mu[i]/7 +\n        var_par$S2_mu[i]*8/7 + \n        var_par$M_mu[i]^2*8/7\n}"
   },
   {
     "objectID": "slides/08-hmc_vb.html#results",
     "href": "slides/08-hmc_vb.html#results",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Results",
-    "text": "Results\n\n\n\nHome"
+    "text": "Results"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#vb-inference",
+    "href": "slides/08-hmc_vb.html#vb-inference",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "VB Inference",
+    "text": "VB Inference\n\n\n\nPosterior mean and standard deviation\n\n\nparameter\npost.mean\npost.sd\n\n\n\n\nalpha_1\n13.715\n7.970\n\n\nalpha_2\n8.051\n6.852\n\n\nalpha_3\n5.246\n8.109\n\n\nalpha_4\n7.633\n7.149\n\n\nalpha_5\n3.347\n6.503\n\n\nalpha_6\n5.099\n7.149\n\n\nalpha_7\n12.746\n6.852\n\n\nalpha_8\n8.934\n8.337\n\n\nmu\n8.096\n3.326\n\n\ntau\n10.591\n3.423"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#vb-using-stan",
+    "href": "slides/08-hmc_vb.html#vb-using-stan",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "VB using Stan",
+    "text": "VB using Stan\nYou can also perform VB using Stan. The following is the Stan code for the school example.\n\nschool_model &lt;- rstan::stan_model(model_code = \"\n    data {\n      int&lt;lower=0&gt; J;         \n      real y[J];              \n      real&lt;lower=0&gt; sigma[J];\n    }\n    parameters {\n      real mu;                \n      real&lt;lower=0&gt; tau;      \n      real alpha[J];\n    }\n    model {\n      alpha ~ normal(mu, tau); // prior\n      y ~ normal(alpha, sigma); // likelihood\n    }\")"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#vb-using-stan-1",
+    "href": "slides/08-hmc_vb.html#vb-using-stan-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "VB using Stan",
+    "text": "VB using Stan\n\nlibrary(rstan)\nschools_dat &lt;- list(J = 8,\n    y = c(28, 8, -3, 7, -1, 1, 18, 12),\n    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)) \nfit_vb &lt;- rstan::vb(school_model, data = schools_dat, \n                    algorithm = \"meanfield\")\nfit_sampling &lt;- rstan::sampling(school_model, data = schools_dat, \n                                iter = 1000, chains = 4)"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#stan-output-vb",
+    "href": "slides/08-hmc_vb.html#stan-output-vb",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Stan output (VB)",
+    "text": "Stan output (VB)\n\n\n\n\n\n\nchain:1\n\n\n\n\nmu\n1.960\n\n\ntau\n10.271\n\n\nalpha.1\n4.828\n\n\nalpha.2\n2.878\n\n\nalpha.3\n-0.873\n\n\nalpha.4\n1.647\n\n\nalpha.5\n0.027\n\n\nalpha.6\n1.156\n\n\nalpha.7\n5.013\n\n\nalpha.8\n1.404\n\n\nlp__\n0.000"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#stan-output-sampling",
+    "href": "slides/08-hmc_vb.html#stan-output-sampling",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Stan output (sampling)",
+    "text": "Stan output (sampling)\n\n\n\n\n\n\nmean-chain:1\nmean-chain:2\nmean-chain:3\nmean-chain:4\nmean-all chains\n\n\n\n\nmu\n8.184\n7.792\n7.693\n8.177\n7.961\n\n\ntau\n7.277\n7.948\n8.428\n6.167\n7.455\n\n\nalpha[1]\n12.076\n11.829\n11.925\n10.648\n11.619\n\n\nalpha[2]\n8.036\n8.353\n8.149\n8.519\n8.264\n\n\nalpha[3]\n6.550\n5.451\n5.088\n6.471\n5.890\n\n\nalpha[4]\n7.620\n7.781\n7.503\n8.004\n7.727\n\n\nalpha[5]\n4.761\n4.094\n4.231\n5.642\n4.682\n\n\nalpha[6]\n6.059\n5.497\n6.013\n6.566\n6.034\n\n\nalpha[7]\n11.143\n11.490\n11.501\n10.567\n11.175\n\n\nalpha[8]\n8.447\n8.167\n7.922\n8.836\n8.343\n\n\nlp__\n-18.207\n-19.714\n-19.857\n-17.177\n-18.739"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#remark",
+    "href": "slides/08-hmc_vb.html#remark",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Remark",
+    "text": "Remark\nThe rstan::vb function is buggy and unstable. DO NOT use it for your research.\n\n\nHome"
   },
   {
     "objectID": "slides/06-testing.html#project-proposal",
