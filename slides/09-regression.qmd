@@ -1,3 +1,35 @@
 ---
 title: "Lecture 09: Bayesian Regression"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+        scrollable: true
+        include-in-header: 
+            - text: 
+                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: true
 ---
+
+# Classical Linear regression
+
+{{< include macro.qmd >}}
+
+## Linear regression
+
+-   Suppose we have samples $\{x_i, y_i\}_{i=1}^n$ where $y_i \in \R$ and $x_i \in \R^p$. We want to model the relationship between $x_i$ and $y_i$.
+-   The classical linear regression model is $Y = X^T\beta + \varepsilon$, $\varepsilon \sim N(0, \sigma^2)$.
+
+
+# High-dimensional linear regression
+
+

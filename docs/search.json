@@ -2007,5 +2007,12 @@
     "title": "Lecture 07: Markov Chain Monte Carlo",
     "section": "Parallel tempering",
     "text": "Parallel tempering\n\npar(mfrow = c(1,2))\nplot(theta[,1], type = \"l\", col = \"blue\", lwd = 2, \n         ylim = c(-15, 15), main = paste(\"Chain\", 1))\nhist(theta[,1], freq = F, xlim = c(-15, 15), \n     ylim = c(0, 0.2), main = \"Chain 1\")\ncurve(exp(log_post(x)), -15, 15, col = \"red\", lwd = 2, add = TRUE)\n\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/09-regression.html#linear-regression",
+    "href": "slides/09-regression.html#linear-regression",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Linear regression",
+    "text": "Linear regression\n\nSuppose we have samples \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(y_i \\in \\R\\) and \\(x_i \\in \\R^p\\). We want to model the relationship between \\(x_i\\) and \\(y_i\\).\nThe classical linear regression model is \\(Y = X^T\\beta + \\varepsilon\\), \\(\\varepsilon \\sim N(0, \\sigma^2)\\)."
   }
 ]

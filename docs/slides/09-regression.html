@@ -340,8 +340,42 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
-
+<section>
+<section id="classical-linear-regression" class="title-slide slide level1 center">
+<h1>Classical Linear regression</h1>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+</section>
+<section id="linear-regression" class="slide level2">
+<h2>Linear regression</h2>
+<ul>
+<li class="fragment">Suppose we have samples <span class="math inline">\(\{x_i, y_i\}_{i=1}^n\)</span> where <span class="math inline">\(y_i \in \R\)</span> and <span class="math inline">\(x_i \in \R^p\)</span>. We want to model the relationship between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span>.</li>
+<li class="fragment">The classical linear regression model is <span class="math inline">\(Y = X^T\beta + \varepsilon\)</span>, <span class="math inline">\(\varepsilon \sim N(0, \sigma^2)\)</span>.</li>
+</ul>
+</section></section>
+<section id="high-dimensional-linear-regression" class="title-slide slide level1 center">
+<h1>High-dimensional linear regression</h1>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
