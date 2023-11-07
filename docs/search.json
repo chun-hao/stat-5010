@@ -74,7 +74,7 @@
     "href": "slides/08-hmc_vb.html#hmc",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "HMC",
-    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(\\delta)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
+    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(t)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
   },
   {
     "objectID": "slides/08-hmc_vb.html#evolution-of-hamiltonian-dynamics",
@@ -88,7 +88,7 @@
     "href": "slides/08-hmc_vb.html#leapfrog-method",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Leapfrog method",
-    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\frac{\\partial}{\\partial x}\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
+    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\nabla_x\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
   },
   {
     "objectID": "slides/08-hmc_vb.html#general-hmc-algorithm",
@@ -172,7 +172,7 @@
     "href": "slides/08-hmc_vb.html#maximizing-elbo-1",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Maximizing ELBO",
-    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) to maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), set it to zero, and we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
+    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) that maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), set it to zero, and we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#example-8-school-problem",
@@ -186,21 +186,21 @@
     "href": "slides/08-hmc_vb.html#mean-field-approximation-alpha_j",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\alpha_j\\)",
-    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nThe optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\nq\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{const.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nThe optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\nq\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\mu\\)",
-    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{constant.}\n\\]\nThe optimal \\(q(\\mu)\\) is also a Gaussian distribution \\[\nq(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\]"
+    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{const.}\n\\]\nThe optimal \\(q(\\mu)\\) is also a Gaussian distribution \\[\nq(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\tau\\)",
-    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\]\nThe optimal \\(q(\\tau^2)\\) is an Inverse-Gamma distribution \\[\nq(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{const.}\n\\]\nThe optimal \\(q(\\tau^2)\\) is an Inverse-Gamma distribution \\[\nq(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",

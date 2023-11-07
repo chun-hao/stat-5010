@@ -579,7 +579,7 @@ p(x, y) \propto \exp(-H(x, y)) = \pi(x)\exp\left(-\frac{y^Ty}{2m}\right).
 <li class="fragment">Accept <span class="math inline">\((x(t), y(t))\)</span> with probability <span class="math display">\[
 \rho = \frac{\exp(-H(x(t), y(t)))}{\exp(-H(x(0), y(0)))} = \exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).
 \]</span></li>
-<li class="fragment">If accepted, set <span class="math inline">\(x^{(n)} = x(\delta)\)</span>; otherwise, set <span class="math inline">\(x^{(n)} = x^{(n-1)}\)</span>.</li>
+<li class="fragment">If accepted, set <span class="math inline">\(x^{(n)} = x(t)\)</span>; otherwise, set <span class="math inline">\(x^{(n)} = x^{(n-1)}\)</span>.</li>
 </ul>
 </section>
 <section id="evolution-of-hamiltonian-dynamics" class="slide level2">
@@ -602,7 +602,7 @@ y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon
 <ol type="1">
 <li class="fragment"><span class="math inline">\(y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))\)</span>;</li>
 <li class="fragment"><span class="math inline">\(x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}\)</span>;</li>
-<li class="fragment"><span class="math inline">\(y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\frac{\partial}{\partial x}\log \pi(x(t + \epsilon))\)</span>.</li>
+<li class="fragment"><span class="math inline">\(y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\nabla_x\log \pi(x(t + \epsilon))\)</span>.</li>
 </ol></li>
 <li class="fragment">In HMC, the leapfrog method evolves <span class="math inline">\((x(0), y(0))\)</span> for <span class="math inline">\(L\)</span> iterations.</li>
 </ul>
@@ -784,7 +784,7 @@ p(y) = \int \pi(y, \theta) d\theta = \int \pi(y \mid \theta) \pi(\theta) d\theta
 <li class="fragment">The ELBO is <span class="math display">\[
 \mc{L}(q_1, \ldots, q_d) = \int \E_{-j}\left[\log \pi(y, \theta)\right] q_j(\theta_j) d\theta_j - \sum_{j=1}^d \E_{j}\left[\log q_j(\theta_j \mid \phi_j)\right].
 \]</span></li>
-<li class="fragment">We need to find <span class="math inline">\(q_1, \ldots, q_d\)</span> to maximize <span class="math inline">\(\mc{L}(q_1, \ldots, q_d)\)</span> subject to the constraints <span class="math inline">\(\int q_j(\theta_j) d\theta_j = 1\)</span>.</li>
+<li class="fragment">We need to find <span class="math inline">\(q_1, \ldots, q_d\)</span> that maximize <span class="math inline">\(\mc{L}(q_1, \ldots, q_d)\)</span> subject to the constraints <span class="math inline">\(\int q_j(\theta_j) d\theta_j = 1\)</span>.</li>
 <li class="fragment">Use Lagrange multipliers, take ``functional derivative’’ with respect to <span class="math inline">\(q_j\)</span>, set it to zero, and we have <span class="math display">\[
 \log q_j(\theta_j) = \E_{-j}\left[\log \pi(y, \theta)\right] + \text{const}.
 \]</span></li>
@@ -813,7 +813,7 @@ Y_i &amp; \ind N(\alpha_i, \sigma_i^2), \quad i = 1, \ldots, 8 \\
 <h2>Mean-field approximation: <span class="math inline">\(\alpha_j\)</span></h2>
 <ul>
 <li class="fragment">Averaging over all the parameters other than <span class="math inline">\(\alpha_j\)</span>, we have <span class="math display">\[
-\E_{-\alpha_j} \log p(\theta \mid y)=-\frac{1}{2} \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}-\frac{1}{2} \E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
+\E_{-\alpha_j} \log p(\theta \mid y)=-\frac{1}{2} \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}-\frac{1}{2} \E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}\left(\left(\alpha_j-\mu\right)^2\right)+\text{const.}
 \]</span> which is a quadratic function of <span class="math inline">\(\alpha_j\)</span>.</li>
 <li class="fragment">The optimal <span class="math inline">\(q(\alpha_j)\)</span> is a Gaussian distribution <span class="math display">\[
 q\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}, \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}\right).
@@ -824,7 +824,7 @@ q\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\
 <h2>Mean-field approximation: <span class="math inline">\(\mu\)</span></h2>
 <ul>
 <li class="fragment">Averaging over all the parameters other than <span class="math inline">\(\mu\)</span>, we have <span class="math display">\[
-\E_{-\mu} \log p(\theta \mid y) = -\frac{1}{2} \E_{-\mu}\left(\frac{1}{\tau^2}\right) \sum_{j=1}^8\left(\mu - \E_{-\mu} \left(\alpha_j\right)\right)^2+\text{constant.}
+\E_{-\mu} \log p(\theta \mid y) = -\frac{1}{2} \E_{-\mu}\left(\frac{1}{\tau^2}\right) \sum_{j=1}^8\left(\mu - \E_{-\mu} \left(\alpha_j\right)\right)^2+\text{const.}
 \]</span></li>
 <li class="fragment">The optimal <span class="math inline">\(q(\mu)\)</span> is also a Gaussian distribution <span class="math display">\[
 q(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\right), \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)}\right)
@@ -835,7 +835,7 @@ q(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\righ
 <h2>Mean-field approximation: <span class="math inline">\(\tau\)</span></h2>
 <ul>
 <li class="fragment"><p>Averaging over all the parameters other than <span class="math inline">\(\tau\)</span>, we have <span class="math display">\[
-\E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
+\E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{const.}
 \]</span></p></li>
 <li class="fragment"><p>The optimal <span class="math inline">\(q(\tau^2)\)</span> is an Inverse-Gamma distribution <span class="math display">\[
 q(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
