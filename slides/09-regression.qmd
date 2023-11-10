@@ -26,10 +26,92 @@ execute:
 
 ## Linear regression
 
--   Suppose we have samples $\{x_i, y_i\}_{i=1}^n$ where $y_i \in \R$ and $x_i \in \R^p$. We want to model the relationship between $x_i$ and $y_i$.
--   The classical linear regression model is $Y = X^T\beta + \varepsilon$, $\varepsilon \sim N(0, \sigma^2)$.
+-   Suppose we have samples $\{x_i, y_i\}_{i=1}^n$ where $y_i \in \R$ and $x_i \in \R^{p-1}$. We want to model the relationship between $x_i$ and $y_i$.
+-   The classical linear regression model is $Y = X^T\beta$. 
+-   We can fit the model by minimizing the ordinary least-square (OLS) $\sum_{i=1}^n (y_i - x_i^T\beta)^2$.
+-   The solution is $\hat{\beta} = (X^TX)^{-1}X^TY$, where $Y = [y_1,\ldots, y_n]^T$ and 
+    $$
+    X = \left[\begin{array}{cc}
+    1 & x_1^T \\
+    \vdots & \vdots \\
+    1 & x_n^T
+    \end{array}
+    \right]_{n\times p}.
+    $$
+-   If we further assume $Y = X^T\beta + \varepsilon$, $\varepsilon \sim N(0, \sigma^2)$, then the OLS solution $\hat{\beta} = (X^TX)^{-1}X^TY$ is the MLE of $\beta$.
+
+## Normal linear model
+
+-   The simple linear regression model is a **normal linear model**
+    $$
+    Y \mid X, \beta, \sigma^2 \sim N(X\beta, \sigma^2I_n)
+    $$
+    where $I_n$ is the $n \times n$ identity matrix, $X \in \R^{n \times p}$, and $\beta \in \R^p$.
+-   Both $\beta$ and $\sigma^2$ are unknown parameters.
+-   In practice, it is very likely that the normality assumption is violated. In such cases, we can apply some transformations to $Y$, e.g., Box-Cox transformation, to make it normal.
+-   In the next lecture, we will discuss **generalized linear models (GLM)**, i.e.,
+    $$
+    Y \mid X, \beta \sim F_{\eta}
+    $$
+    where $F_\eta$ is an exponential family and $\eta = X^T\beta$.
+
+## Priors for normal linear model
 
 
+## Standard noninformative prior
+
+-   A convenient noninformative prior is the uniform prior on $(\beta, \log \sigma)$ or, equivalently,
+$$
+\pi\left(\beta, \sigma^2 \mid X\right) \propto \sigma^{-2}
+$$
+-   This prior is useful when there are many samples and only a few parameters, i.e., $n \gg p$.
+
+## Posterior distributions
+
+-   Similar to the normal model with unknown mean and variance, the joint posterior can be factorized: $\pi(\beta, \sigma^2 \mid X, Y) = \pi(\beta \mid \sigma^2, X, Y)\pi(\sigma^2 \mid X, Y)$
+-   **Conditional posterior distribution of $\beta$, given $\sigma$**: 
+    $$
+    \beta \mid \sigma^2, y \sim N\left(\hat{\beta}, V_\beta \sigma^2\right)
+    $$
+    where $\hat{\beta} = (X^TX)^{-1}X^TY$ and $V_\beta = (X^TX)^{-1}$.
+-   **Marginal posterior distribution of $\sigma^2$**:
+    $$
+    \sigma^2 \mid y \sim \text{Inv}-\chi^2\left(n-p, s^2\right)
+    $$
+    where $s^2 = \frac{1}{n-p}(Y - X\hat{\beta})^T(Y - X\hat{\beta})$.
+-   $\text{Inv}-\chi^2(\nu, s)$ is the scaled inverse $\chi^2$ distribution.
+-   Hence the posterior means of $\beta$ and $\sigma^2$ are the same as the OLS estimates.
+
+## Posterior predictive distribution
+
+
+-   Suppose we observe a new sample $X^*$ and we want to predict its corresponding  response $Y^*$.
+-   The **posterior predictive distribution** is 
+    $$
+    p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^2 \mid X, Y) \; d\beta\; d\sigma^2.
+    $$
+-   For a normal linear model with the noninformative prior $\pi(\beta, \sigma^2) \propto \sigma^{-2}$
+
+
+## Example 
+
+```{r}
+#| echo: true
+library(rstanarm)
+```
+
+## Computation
+
+There are many `R` packages for fitting Bayesian regression models:
+
+:::{.nonincremental}
+
+-   [`rstanarm`](https://mc-stan.org/rstanarm/index.html)
+-   [`brms`](https://paul-buerkner.github.io/brms/)
+
+:::
 # High-dimensional linear regression
+
+
 
 

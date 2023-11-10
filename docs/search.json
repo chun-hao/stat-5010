@@ -2013,6 +2013,62 @@
     "href": "slides/09-regression.html#linear-regression",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Linear regression",
-    "text": "Linear regression\n\nSuppose we have samples \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(y_i \\in \\R\\) and \\(x_i \\in \\R^p\\). We want to model the relationship between \\(x_i\\) and \\(y_i\\).\nThe classical linear regression model is \\(Y = X^T\\beta + \\varepsilon\\), \\(\\varepsilon \\sim N(0, \\sigma^2)\\)."
+    "text": "Linear regression\n\nSuppose we have samples \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(y_i \\in \\R\\) and \\(x_i \\in \\R^{p-1}\\). We want to model the relationship between \\(x_i\\) and \\(y_i\\).\nThe classical linear regression model is \\(Y = X^T\\beta\\).\nWe can fit the model by minimizing the ordinary least-square (OLS) \\(\\sum_{i=1}^n (y_i - x_i^T\\beta)^2\\).\nThe solution is \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\), where \\(Y = [y_1,\\ldots, y_n]^T\\) and \\[\nX = \\left[\\begin{array}{cc}\n1 & x_1^T \\\\\n\\vdots & \\vdots \\\\\n1 & x_n^T\n\\end{array}\n\\right]_{n\\times p}.\n\\]\nIf we further assume \\(Y = X^T\\beta + \\varepsilon\\), \\(\\varepsilon \\sim N(0, \\sigma^2)\\), then the OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is the MLE of \\(\\beta\\)."
+  },
+  {
+    "objectID": "slides/09-regression.html#linear-regression-1",
+    "href": "slides/09-regression.html#linear-regression-1",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Linear regression",
+    "text": "Linear regression\n\nFrom now on, we will write \\(Y \\mid X, \\beta, \\sigma^2 \\sim N(X^T\\beta, \\sigma^2)\\) for a regression model."
+  },
+  {
+    "objectID": "slides/09-regression.html#normal-linear-model",
+    "href": "slides/09-regression.html#normal-linear-model",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Normal linear model",
+    "text": "Normal linear model\n\nThe simple linear regression model is a normal linear model \\[\nY \\mid X, \\beta, \\sigma^2 \\sim N(X\\beta, \\sigma^2I_n)\n\\] where \\(I_n\\) is the \\(n \\times n\\) identity matrix, \\(X \\in \\R^{n \\times p}\\), and \\(\\beta \\in \\R^p\\).\nBoth \\(\\beta\\) and \\(\\sigma^2\\) are unknown parameters.\nIn practice, it is very likely that the normality assumption is violated. In such cases, we can apply some transformations to \\(Y\\), e.g., Box-Cox transformation, to make it normal.\nIn the next lecture, we will discuss generalized linear models (GLM), i.e., \\[\nY \\mid X, \\beta \\sim F_{\\eta}\n\\] where \\(F_\\eta\\) is an exponential family and \\(\\eta = X^T\\beta\\)."
+  },
+  {
+    "objectID": "slides/09-regression.html#priors-for-normal-linear-model",
+    "href": "slides/09-regression.html#priors-for-normal-linear-model",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Priors for normal linear model",
+    "text": "Priors for normal linear model"
+  },
+  {
+    "objectID": "slides/09-regression.html#standard-noninformative-prior",
+    "href": "slides/09-regression.html#standard-noninformative-prior",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Standard noninformative prior",
+    "text": "Standard noninformative prior\n\nA convenient noninformative prior is the uniform prior on \\((\\beta, \\log \\sigma)\\) or, equivalently, \\[\n\\pi\\left(\\beta, \\sigma^2 \\mid X\\right) \\propto \\sigma^{-2}\n\\]\nThis prior is useful when there are many samples and only a few parameters, i.e., \\(n \\gg p\\)."
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-distributions",
+    "href": "slides/09-regression.html#posterior-distributions",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior distributions",
+    "text": "Posterior distributions\n\nSimilar to the normal model with unknown mean and variance, the joint posterior can be factorized: \\(\\pi(\\beta, \\sigma^2 \\mid X, Y) = \\pi(\\beta \\mid \\sigma^2, X, Y)\\pi(\\sigma^2 \\mid X, Y)\\)\nConditional posterior distribution of \\(\\beta\\), given \\(\\sigma\\): \\[\n\\beta \\mid \\sigma^2, y \\sim N\\left(\\hat{\\beta}, V_\\beta \\sigma^2\\right)\n\\] where \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) and \\(V_\\beta = (X^TX)^{-1}\\).\nMarginal posterior distribution of \\(\\sigma^2\\): \\[\n\\sigma^2 \\mid y \\sim \\text{Inv}-\\chi^2\\left(n-p, s^2\\right)\n\\] where \\(s^2 = \\frac{1}{n-p}(Y - X\\hat{\\beta})^T(Y - X\\hat{\\beta})\\).\n\\(\\text{Inv}-\\chi^2(\\nu, s)\\) is the scaled inverse \\(\\chi^2\\) distribution.\nHence the posterior means of \\(\\beta\\) and \\(\\sigma^2\\) are the same as the OLS estimates."
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-predictive-distribution",
+    "href": "slides/09-regression.html#posterior-predictive-distribution",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior predictive distribution",
+    "text": "Posterior predictive distribution\n\nSuppose we observe a new sample \\(X^*\\) and we want to predict its corresponding response \\(Y^*\\).\nThe posterior predictive distribution is \\[\np(Y^* \\mid X^*, X, Y) = \\int p(Y^* \\mid \\beta, \\sigma^2, X^*) \\pi(\\beta, \\sigma^2 \\mid X, Y) \\; d\\beta\\; d\\sigma^2.\n\\]\nFor a normal linear model with the noninformative prior \\(\\pi(\\beta, \\sigma^2) \\propto \\sigma^{-2}\\)"
+  },
+  {
+    "objectID": "slides/09-regression.html#example",
+    "href": "slides/09-regression.html#example",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Example",
+    "text": "Example\n\nlibrary(rstanarm)"
+  },
+  {
+    "objectID": "slides/09-regression.html#computation",
+    "href": "slides/09-regression.html#computation",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Computation",
+    "text": "Computation\nThere are many R packages for fitting Bayesian regression models:\n\n\nrstanarm\nbrms"
   }
 ]
