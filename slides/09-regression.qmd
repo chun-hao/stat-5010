@@ -55,9 +55,6 @@ execute:
     $$
     where $F_\eta$ is an exponential family and $\eta = X^T\beta$.
 
-## Priors for normal linear model
-
-
 ## Standard noninformative prior
 
 -   A convenient noninformative prior is the uniform prior on $(\beta, \log \sigma)$ or, equivalently,
@@ -90,7 +87,12 @@ $$
     $$
     p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^2 \mid X, Y) \; d\beta\; d\sigma^2.
     $$
--   For a normal linear model with the noninformative prior $\pi(\beta, \sigma^2) \propto \sigma^{-2}$
+-   For a normal linear model with the noninformative prior $\pi(\beta, \sigma^2) \propto \sigma^{-2}$, we can compute the analytic form of the predictive distribution.
+-   However, there is no need to do so, since once we have the posterior samples of $\beta$ and $\sigma^2$, we can easily draw samples from the posterior predictive distribution.
+-   That is, with $(\beta^{(i)}, \sigma^{2,{(i)}}) \iid \pi(\beta, \sigma^2 \mid X, Y)$, we can draw 
+    $$
+    Y^{*(i)} \mid X^*, X, Y \sim N(X^{*T}\beta^{(i)}, \sigma^{2,(i)}).
+    $$
 
 
 
@@ -114,6 +116,7 @@ There are many `R` packages for fitting Bayesian regression models:
 ## Example: Car Price Prediction[^data] 
 
 ```{r}
+#| label: model_fit
 #| echo: true
 #| results: hide
 library(rstanarm)
@@ -125,44 +128,105 @@ data <- read.csv("dataset/car_price/CarPrice_Assignment.csv",
 data$price <- data$price/1000
 
 # fit a linear regression model
-fit <- stan_lm(price ~ highwaympg + citympg + horsepower, 
+fit <- stan_glm(price ~ highwaympg + citympg + horsepower, 
                data = data, 
-               prior = R2(0.5), 
+               family = gaussian(),
+               prior = NULL,
+               prior_intercept = NULL,
+               prior_aux = NULL,
                chains = 4, iter = 2000)
 
 ```
 
 [^data]: <https://www.kaggle.com/datasets/hellbuoy/car-price-prediction>
 
+## Summary of the fitted model
+
+```{r}
+#| label: model_summary
+#| echo: true
+summary(fit)
+
+```
+
+## Prior Summary
+
+```{r}
+#| label: prior_summary
+#| echo: true
+prior_summary(fit)
+```
+
 ## MCMC Diagnostics
 
 ```{r}
+#| label: mcmc_trace
 #| echo: true
 color_scheme_set("brightblue")
-mcmc_trace(fit, pars = c("highwaympg", "citympg", 
-                         "horsepower", "R2"))
+mcmc_trace(fit, pars = c("(Intercept)", "highwaympg", 
+                         "citympg", "horsepower"))
 ```
 
 ## MCMC Diagnostic
 
 ```{r}
+#| label: mcmc_posterior
 #| echo: true
 plot_title <- ggtitle("Posterior distributions",
                       "with medians and 80% intervals")
 mcmc_areas(fit, pars = c("highwaympg", "citympg"),
            prob = 0.8) + plot_title
 ```
-## Posterior Prediction Checks
+
+## Posterior Prediction Checks (In-sample checking)
+
+Compare observed data to draws from the posterior or prior predictive distribution.
+
+```{r}
+#| label: ppc_density
+#| echo: true
+#| fig-align: center
+#| output-location: slide
+
+# predicted vs. observed
+Y_rep <- posterior_predict(fit)
+
+ppc_dens_overlay(data$price, Y_rep[1:10,], size = 1) + 
+  xlab("Price (in thousands)") +
+  ylab("Density") +
+  ggtitle("Posterior predictive distribution for observed samples")
+```
+
+This figure shows that this model is not a good fit for the data.
+
+
+## Posterior Prediction Distributions (Out-of-sample prediction)
+
+Compute the posterior predictive distribution for a new sample.
+
+```{r}
+#| label: ppd_intervals
+#| echo: true
+#| fig-align: center
+#| output-location: slide
+X_new <- data.frame(highwaympg = 40:50, citympg = 40, horsepower = 200)
+Y_new_pred <- posterior_predict(fit, newdata = X_new) 
+
+ppd_intervals(Y_new_pred[1:500,], prob = 0.75, linewidth = 2) + 
+  ylab("Price (in thousands)") +
+  ggtitle("Posterior predictive intervals for new samples") 
+```
 
 ## Interactive tool: `shinystan`
 
 ```{r}
+#| label: shinystan
 #| echo: true
 #| eval: false
 library(shinystan)
 launch_shinystan(fit)
 ```
-
+![](images/lec09/shinystan.png){fig-align="center"}
 
 # Regularized regression
 
@@ -173,9 +237,65 @@ launch_shinystan(fit)
 -   Also when $p > n$, the matrix $X^TX$ is singular and the OLS solution does not exist.
 -   We can consider the following penalized least-square problem:
     $$
-    \arg\min_{\beta\in\R^p}  \|Y - X\beta\|^2 + \lambda \cdot\text{Penalty}(\beta)
+    \arg\min_{\beta\in\R^p}  \|Y - X\beta\|^2 + \lambda \cdot\text{Penalty}(\beta) \quad \text{for some } \lambda > 0.
     $$
-    where $\lambda > 0$ is a tuning parameter.
+-   There are three commonly used penalties:
+    -   Ridge regression: $\text{Penalty}(\beta) = \|\beta\|^2 = \sum_{j=1}^p \beta_j^2$
+    -   LASSO: $\text{Penalty}(\beta) = \|\beta\|_1 = \sum_{j=1}^p |\beta_j|$
+    -   Elastic net: $\text{Penalty}(\beta) = \alpha \|\beta\|^2 + (1-\alpha) \|\beta\|_1$ for some $\alpha \in [0, 1]$.
+    
+## Bayesian interpretation of regularization
+
+-   Any penalized likelihood estimator has a Bayesian interpretation, i.e., it is the posterior mode under the prior $\pi(\beta) \propto \exp(-\lambda\cdot\text{Penalty}(\beta))$.
+-   For example, 
+    +   Ridge regression: normal prior $\beta_j \sim N(0, \lambda^{-1})$
+    +   LASSO: Laplace prior $\beta_j \sim \text{Laplace}(0, \lambda^{-1})$
+    +   Elastic net: $\pi(\boldsymbol{\beta}) \propto \exp \left\{-\lambda_1\|\boldsymbol{\beta}\|_1-\lambda_2\|\boldsymbol{\beta}\|_2^2\right\}$ 
+-   Usually, the tuning parameter $\lambda$ is chosen by cross-validation.
+-   Under the Bayesian framework, we can
+    +   put a prior on $\lambda$ (fully Bayesian)
+    +   put a hierarchical prior on $\lambda$ (hierarchical Bayes)
+    +   estimate it from the data (empirical Bayes)
+    
+    
+## Bayesian LASSO
+
+Model (this is how `stan_glm` implements LASSO):
+\begin{align*}
+Y \mid X, \beta, \sigma^2 & \sim N(X\beta, \sigma^2 I_n) \\
+\beta_j & \iid \text{Laplace}(0, \lambda^{-1}) \\
+\lambda & \sim \chi^2_{\nu}
+\end{align*}
+where $\nu$ is the degrees of freedom (the default is $\nu = 1$).
+
+## Bayesian LASSO
+
+The following code finds the **mode of the posterior distribution** using the `optimizing` algorithm. Hence you will see exact zeros.
+
+```{r}
+#| label: bayesian_lasso
+#| echo: true
+#| message: false
+#| results: hide
+fit_lasso <- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm, 
+                      data = data, 
+                      prior = lasso(df = 1, location = 0, 
+                                    scale = 1, autoscale = TRUE),
+                      prior_intercept = normal(location = 0, scale = 1, 
+                                               autoscale = TRUE),
+                      prior_aux = exponential(rate = 1, autoscale = TRUE),
+                      algorithm = "optimizing",
+                      iter = 5000, seed = 123)
+```
+
+## Summary of the fitted model
+
+```{r}
+#| label: bayesian_lasso_summary
+summary(fit_lasso)
+```
+Although we use `optimizing` is this example, it is recommended to use `sampling` for inference.
+
 
 # High-dimensional linear regression
 
@@ -184,14 +304,57 @@ launch_shinystan(fit)
 -   In some applications, we might have more predictors than samples, i.e., $p \gg n$.
 -   In such cases, the sparsity assumption is often used, i.e., only a few predictors are relevant.
 -   LASSO or Bayesian Lasso can be used to select the relevant predictors.
--   However LASSO 
+-   However LASSO or Bayesian LASSO have some problems:
+    -   it does not handle correlated variables well
+    -   it shrinks all coefficients with the same intensity 
+    -   it often overshrinks large coefficients.
+-   We will now introduce two priors for high-dimensional sparse linear regression that address these problems.
 
 
 ## Spike-and-slab prior
 
+-   The spike-and-slab prior[^SS_prior] is
+    $$
+    \beta_j \mid w, \tau^2 \sim (1 - w)\delta_0 + w \cdot N(0, \tau^2).
+    $$
+-   Equivalently, 
+    \begin{align*}
+    \beta_j \mid \gamma_j = 0 & \sim \delta_0 \\
+    \beta_j \mid \gamma_j = 1 & \sim N(0, \tau^2)\\
+    \gamma_j & \iid \text{Ber}(w)
+    \end{align*}
+-   $w$ is the parameter that controls the sparsity, and $\gamma_j$ is the indicator of the $j$-th predictor being relevant.
+-   This prior is considered the ``gold standard'' for sparse regression.
+-   However, it is computationally expensive to update the discrete variables $\gamma_j$.
+    
+[^SS_prior]: Mitchell, T. J., & Beauchamp, J. J. (1988). *Bayesian variable selection in linear regression*. Journal of the American Statistical Association, 83(404), 1023-1032.    
+    
 ## Horseshoe prior
 
+-   The horseshoe prior[^HS_prior] is 
+    \begin{align*}
+    \beta_j \mid \lambda_j, \tau & \sim N\left(0, \tau^2 \lambda_j^2\right) \\
+    \lambda_j & \sim C^{+}(0,1), \quad j=1, \ldots, p
+    \end{align*}
+    where $C^{+}(0, 1)$ is the half-Cauchy distribution.
+-   This is an example of global-local shrinkage prior, where $\lambda_j$ is the local shrinkage parameter and $\tau$ is the global shrinkage parameter.
+
+
+[^HS_prior]: Carvalho, C. M., Polson, N. G., & Scott, J. G. (2010). *The horseshoe estimator for sparse signals*. Biometrika, 97(2), 465-480.
+
 ## Available priors for `stan_lm`
+
+:::{.nonincremental}
+-   Student-$t$ family: cauchy, $t$, normal
+-   Hierarchical shrinkage family: horseshoe, horseshoe+
+-   Laplace family: laplace, lasso
+-   R2 prior: This prior hinges on prior beliefs about the location of $R^2$, the proportion of variance in the outcome attributable to the predictors.
+
+:::
+
+
+
+## Issues in linear regression
 
 
 

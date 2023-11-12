@@ -462,9 +462,6 @@ Y \mid X, \beta \sim F_{\eta}
 \]</span> where <span class="math inline">\(F_\eta\)</span> is an exponential family and <span class="math inline">\(\eta = X^T\beta\)</span>.</li>
 </ul>
 </section>
-<section id="priors-for-normal-linear-model" class="slide level2">
-<h2>Priors for normal linear model</h2>
-</section>
 <section id="standard-noninformative-prior" class="slide level2">
 <h2>Standard noninformative prior</h2>
 <ul>
@@ -495,7 +492,11 @@ Y \mid X, \beta \sim F_{\eta}
 <li class="fragment">The <strong>posterior predictive distribution</strong> is <span class="math display">\[
 p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^2 \mid X, Y) \; d\beta\; d\sigma^2.
 \]</span></li>
-<li class="fragment">For a normal linear model with the noninformative prior <span class="math inline">\(\pi(\beta, \sigma^2) \propto \sigma^{-2}\)</span></li>
+<li class="fragment">For a normal linear model with the noninformative prior <span class="math inline">\(\pi(\beta, \sigma^2) \propto \sigma^{-2}\)</span>, we can compute the analytic form of the predictive distribution.</li>
+<li class="fragment">However, there is no need to do so, since once we have the posterior samples of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span>, we can easily draw samples from the posterior predictive distribution.</li>
+<li class="fragment">That is, with <span class="math inline">\((\beta^{(i)}, \sigma^{2,{(i)}}) \iid \pi(\beta, \sigma^2 \mid X, Y)\)</span>, we can draw <span class="math display">\[
+Y^{*(i)} \mid X^*, X, Y \sim N(X^{*T}\beta^{(i)}, \sigma^{2,(i)}).
+\]</span></li>
 </ul>
 </section>
 <section id="computation" class="slide level2">
@@ -518,7 +519,7 @@ p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^
 </section>
 <section id="example-car-price-predictiondata" class="slide level2">
 <h2>Example: Car Price Prediction<sup>1</sup></h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/unnamed-chunk-1_0bff6fc331a2a77026dacb1cedbc8830">
+<div class="cell" data-hash="09-regression_cache/revealjs/model_fit_f454e16a4a58696d2c312a3a614d7ba1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(rstanarm)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(bayesplot)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2)</span>
@@ -528,41 +529,150 @@ p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^
 <span id="cb1-7"><a href="#cb1-7"></a>data<span class="sc">$</span>price <span class="ot">&lt;-</span> data<span class="sc">$</span>price<span class="sc">/</span><span class="dv">1000</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a></span>
 <span id="cb1-9"><a href="#cb1-9"></a><span class="co"># fit a linear regression model</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan_lm</span>(price <span class="sc">~</span> highwaympg <span class="sc">+</span> citympg <span class="sc">+</span> horsepower, </span>
+<span id="cb1-10"><a href="#cb1-10"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(price <span class="sc">~</span> highwaympg <span class="sc">+</span> citympg <span class="sc">+</span> horsepower, </span>
 <span id="cb1-11"><a href="#cb1-11"></a>               <span class="at">data =</span> data, </span>
-<span id="cb1-12"><a href="#cb1-12"></a>               <span class="at">prior =</span> <span class="fu">R2</span>(<span class="fl">0.5</span>), </span>
-<span id="cb1-13"><a href="#cb1-13"></a>               <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12"></a>               <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb1-13"><a href="#cb1-13"></a>               <span class="at">prior =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-14"><a href="#cb1-14"></a>               <span class="at">prior_intercept =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>               <span class="at">prior_aux =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>               <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.kaggle.com/datasets/hellbuoy/car-price-prediction" class="uri">https://www.kaggle.com/datasets/hellbuoy/car-price-prediction</a></p></li></ol></aside></section>
+<section id="summary-of-the-fitted-model" class="slide level2">
+<h2>Summary of the fitted model</h2>
+<div class="cell" data-hash="09-regression_cache/revealjs/model_summary_70cd74217b40c90383f93cabf02268ac">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model Info:
+ function:     stan_glm
+ family:       gaussian [identity]
+ formula:      price ~ highwaympg + citympg + horsepower
+ algorithm:    sampling
+ sample:       4000 (posterior sample size)
+ priors:       see help('prior_summary')
+ observations: 205
+ predictors:   4
+
+Estimates:
+              mean   sd   10%   50%   90%
+(Intercept)  4.4    3.4  0.0   4.4   8.8 
+highwaympg  -0.8    0.2 -1.0  -0.8  -0.5 
+citympg      0.7    0.2  0.4   0.7   1.0 
+horsepower   0.1    0.0  0.1   0.1   0.2 
+sigma        4.6    0.2  4.3   4.6   4.9 
+
+Fit Diagnostics:
+           mean   sd   10%   50%   90%
+mean_PPD 13.3    0.4 12.7  13.3  13.8 
+
+The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+
+MCMC diagnostics
+              mcse Rhat n_eff
+(Intercept)   0.1  1.0  3900 
+highwaympg    0.0  1.0  1964 
+citympg       0.0  1.0  1852 
+horsepower    0.0  1.0  3002 
+sigma         0.0  1.0  3445 
+mean_PPD      0.0  1.0  3759 
+log-posterior 0.0  1.0  1594 
+
+For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
+</div>
+</div>
+</section>
+<section id="prior-summary" class="slide level2">
+<h2>Prior Summary</h2>
+<div class="cell" data-hash="09-regression_cache/revealjs/prior_summary_7a41c0adb895d3434bbbea8c7c448980">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">prior_summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Priors for model 'fit' 
+------
+Intercept (after predictors centered)
+ ~ flat
+
+Coefficients
+ ~ flat
+
+Auxiliary (sigma)
+ ~ flat
+------
+See help('prior_summary.stanreg') for more details</code></pre>
+</div>
+</div>
+</section>
 <section id="mcmc-diagnostics" class="slide level2">
 <h2>MCMC Diagnostics</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/unnamed-chunk-2_0fd1f6e12a0186e0321270d9d5872728">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">color_scheme_set</span>(<span class="st">"brightblue"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">mcmc_trace</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"highwaympg"</span>, <span class="st">"citympg"</span>, </span>
-<span id="cb2-3"><a href="#cb2-3"></a>                         <span class="st">"horsepower"</span>, <span class="st">"R2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="09-regression_cache/revealjs/mcmc_trace_938a0a02f4acf9a0c113867327ff98bd">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">color_scheme_set</span>(<span class="st">"brightblue"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">mcmc_trace</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"(Intercept)"</span>, <span class="st">"highwaympg"</span>, </span>
+<span id="cb6-3"><a href="#cb6-3"></a>                         <span class="st">"citympg"</span>, <span class="st">"horsepower"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="09-regression_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<img data-src="09-regression_files/figure-revealjs/mcmc_trace-1.png" width="960" class="r-stretch"></section>
 <section id="mcmc-diagnostic" class="slide level2">
 <h2>MCMC Diagnostic</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/unnamed-chunk-3_f6fd489b799a299ae166c36ddb080900">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">"Posterior distributions"</span>,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>                      <span class="st">"with medians and 80% intervals"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">mcmc_areas</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"highwaympg"</span>, <span class="st">"citympg"</span>),</span>
-<span id="cb3-4"><a href="#cb3-4"></a>           <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> plot_title</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="09-regression_cache/revealjs/mcmc_posterior_6806b1352e09034810cd20583a26c906">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">"Posterior distributions"</span>,</span>
+<span id="cb7-2"><a href="#cb7-2"></a>                      <span class="st">"with medians and 80% intervals"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">mcmc_areas</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"highwaympg"</span>, <span class="st">"citympg"</span>),</span>
+<span id="cb7-4"><a href="#cb7-4"></a>           <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> plot_title</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="09-regression_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
-<section id="posterior-prediction-checks" class="slide level2">
-<h2>Posterior Prediction Checks</h2>
-</section>
-<section id="interactive-tool-shinystan" class="slide level2">
-<h2>Interactive tool: <code>shinystan</code></h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/unnamed-chunk-4_7da3855d2acafffab4d47ccc520de527">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(shinystan)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">launch_shinystan</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<img data-src="09-regression_files/figure-revealjs/mcmc_posterior-1.png" width="960" class="r-stretch"></section>
+<section id="posterior-prediction-checks-in-sample-checking" class="slide level2">
+<h2>Posterior Prediction Checks (In-sample checking)</h2>
+<p>Compare observed data to draws from the posterior or prior predictive distribution.</p>
+<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppc_density_40c779e7a6e68001055101be50b3b83c">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># predicted vs. observed</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>Y_rep <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(fit)</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="fu">ppc_dens_overlay</span>(data<span class="sc">$</span>price, Y_rep[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,], <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">xlab</span>(<span class="st">"Price (in thousands)"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>  <span class="fu">ggtitle</span>(<span class="st">"Posterior predictive distribution for observed samples"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section>
+
+<p>This figure shows that this model is not a good fit for the data.</p>
+</section>
+<section id="posterior-prediction-checks-in-sample-checking-output" class="slide level2 output-location-slide"><h2>Posterior Prediction Checks (In-sample checking)</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppc_density_40c779e7a6e68001055101be50b3b83c">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-regression_files/figure-revealjs/ppc_density-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="posterior-prediction-distributions-out-of-sample-prediction" class="slide level2">
+<h2>Posterior Prediction Distributions (Out-of-sample prediction)</h2>
+<p>Compute the posterior predictive distribution for a new sample.</p>
+<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppd_intervals_11afb5c62bcf15cc8653c3314cb58fe3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>X_new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">highwaympg =</span> <span class="dv">40</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">citympg =</span> <span class="dv">40</span>, <span class="at">horsepower =</span> <span class="dv">200</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>Y_new_pred <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(fit, <span class="at">newdata =</span> X_new) </span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">ppd_intervals</span>(Y_new_pred[<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>,], <span class="at">prob =</span> <span class="fl">0.75</span>, <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">ylab</span>(<span class="st">"Price (in thousands)"</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">ggtitle</span>(<span class="st">"Posterior predictive intervals for new samples"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="posterior-prediction-distributions-out-of-sample-prediction-output" class="slide level2 output-location-slide"><h2>Posterior Prediction Distributions (Out-of-sample prediction)</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppd_intervals_11afb5c62bcf15cc8653c3314cb58fe3">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-regression_files/figure-revealjs/ppd_intervals-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="interactive-tool-shinystan" class="slide level2">
+<h2>Interactive tool: <code>shinystan</code></h2>
+<div class="cell" data-hash="09-regression_cache/revealjs/shinystan_3201ff986db46b8545e50e2d09d85642">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">library</span>(shinystan)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">launch_shinystan</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="images/lec09/shinystan.png" class="r-stretch quarto-figure-center"></section></section>
 <section>
 <section id="regularized-regression" class="title-slide slide level1 center">
 <h1>Regularized regression</h1>
@@ -575,9 +685,94 @@ p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^
 <li class="fragment">In some cases, the matrix <span class="math inline">\(X^TX\)</span> is ill-conditioned, i.e., the inverse <span class="math inline">\((X^TX)^{-1}\)</span> is numerically unstable.</li>
 <li class="fragment">Also when <span class="math inline">\(p &gt; n\)</span>, the matrix <span class="math inline">\(X^TX\)</span> is singular and the OLS solution does not exist.</li>
 <li class="fragment">We can consider the following penalized least-square problem: <span class="math display">\[
-\arg\min_{\beta\in\R^p}  \|Y - X\beta\|^2 + \lambda \cdot\text{Penalty}(\beta)
-\]</span> where <span class="math inline">\(\lambda &gt; 0\)</span> is a tuning parameter.</li>
+\arg\min_{\beta\in\R^p}  \|Y - X\beta\|^2 + \lambda \cdot\text{Penalty}(\beta) \quad \text{for some } \lambda &gt; 0.
+\]</span></li>
+<li class="fragment">There are three commonly used penalties:
+<ul>
+<li class="fragment">Ridge regression: <span class="math inline">\(\text{Penalty}(\beta) = \|\beta\|^2 = \sum_{j=1}^p \beta_j^2\)</span></li>
+<li class="fragment">LASSO: <span class="math inline">\(\text{Penalty}(\beta) = \|\beta\|_1 = \sum_{j=1}^p |\beta_j|\)</span></li>
+<li class="fragment">Elastic net: <span class="math inline">\(\text{Penalty}(\beta) = \alpha \|\beta\|^2 + (1-\alpha) \|\beta\|_1\)</span> for some <span class="math inline">\(\alpha \in [0, 1]\)</span>.</li>
+</ul></li>
 </ul>
+</section>
+<section id="bayesian-interpretation-of-regularization" class="slide level2">
+<h2>Bayesian interpretation of regularization</h2>
+<ul>
+<li class="fragment">Any penalized likelihood estimator has a Bayesian interpretation, i.e., it is the posterior mode under the prior <span class="math inline">\(\pi(\beta) \propto \exp(-\lambda\cdot\text{Penalty}(\beta))\)</span>.</li>
+<li class="fragment">For example,
+<ul>
+<li class="fragment">Ridge regression: normal prior <span class="math inline">\(\beta_j \sim N(0, \lambda^{-1})\)</span></li>
+<li class="fragment">LASSO: Laplace prior <span class="math inline">\(\beta_j \sim \text{Laplace}(0, \lambda^{-1})\)</span></li>
+<li class="fragment">Elastic net: <span class="math inline">\(\pi(\boldsymbol{\beta}) \propto \exp \left\{-\lambda_1\|\boldsymbol{\beta}\|_1-\lambda_2\|\boldsymbol{\beta}\|_2^2\right\}\)</span></li>
+</ul></li>
+<li class="fragment">Usually, the tuning parameter <span class="math inline">\(\lambda\)</span> is chosen by cross-validation.</li>
+<li class="fragment">Under the Bayesian framework, we can
+<ul>
+<li class="fragment">put a prior on <span class="math inline">\(\lambda\)</span> (fully Bayesian)</li>
+<li class="fragment">put a hierarchical prior on <span class="math inline">\(\lambda\)</span> (hierarchical Bayes)</li>
+<li class="fragment">estimate it from the data (empirical Bayes)</li>
+</ul></li>
+</ul>
+</section>
+<section id="bayesian-lasso" class="slide level2">
+<h2>Bayesian LASSO</h2>
+<p>Model (this is how <code>stan_glm</code> implements LASSO): <span class="math display">\[\begin{align*}
+Y \mid X, \beta, \sigma^2 &amp; \sim N(X\beta, \sigma^2 I_n) \\
+\beta_j &amp; \iid \text{Laplace}(0, \lambda^{-1}) \\
+\lambda &amp; \sim \chi^2_{\nu}
+\end{align*}\]</span> where <span class="math inline">\(\nu\)</span> is the degrees of freedom (the default is <span class="math inline">\(\nu = 1\)</span>).</p>
+</section>
+<section id="bayesian-lasso-1" class="slide level2">
+<h2>Bayesian LASSO</h2>
+<p>The following code finds the <strong>mode of the posterior distribution</strong> using the <code>optimizing</code> algorithm. Hence you will see exact zeros.</p>
+<div class="cell" data-hash="09-regression_cache/revealjs/bayesian_lasso_ac557c2a12965603e6373abfb9785198">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>fit_lasso <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(price <span class="sc">~</span> highwaympg <span class="sc">+</span> citympg <span class="sc">+</span> horsepower <span class="sc">+</span> peakrpm, </span>
+<span id="cb11-2"><a href="#cb11-2"></a>                      <span class="at">data =</span> data, </span>
+<span id="cb11-3"><a href="#cb11-3"></a>                      <span class="at">prior =</span> <span class="fu">lasso</span>(<span class="at">df =</span> <span class="dv">1</span>, <span class="at">location =</span> <span class="dv">0</span>, </span>
+<span id="cb11-4"><a href="#cb11-4"></a>                                    <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-5"><a href="#cb11-5"></a>                      <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> <span class="dv">1</span>, </span>
+<span id="cb11-6"><a href="#cb11-6"></a>                                               <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-7"><a href="#cb11-7"></a>                      <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="at">rate =</span> <span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-8"><a href="#cb11-8"></a>                      <span class="at">algorithm =</span> <span class="st">"optimizing"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9"></a>                      <span class="at">iter =</span> <span class="dv">5000</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="summary-of-the-fitted-model-1" class="slide level2">
+<h2>Summary of the fitted model</h2>
+<div class="cell" data-hash="09-regression_cache/revealjs/bayesian_lasso_summary_edb2a33ed0a6cc16b7e7bef03f123361">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model Info:
+ function:     stan_glm
+ family:       gaussian [identity]
+ formula:      price ~ highwaympg + citympg + horsepower + peakrpm
+ algorithm:    optimizing
+ priors:       see help('prior_summary')
+ observations: 205
+ predictors:   5
+
+Estimates:
+              Median   MAD_SD   10%    50%    90% 
+(Intercept)   12.7     17.1   -101.9   12.7   45.3
+highwaympg    -0.4      0.2     -0.7   -0.4    0.4
+citympg        0.3      0.2     -0.7    0.3    0.6
+horsepower     0.1      0.0      0.0    0.1    0.2
+peakrpm        0.0      0.0      0.0    0.0    0.0
+sigma          4.3      0.2      4.1    4.3    4.6
+
+Monte Carlo diagnostics
+            mcse khat n_eff
+(Intercept) NaN  2.0  NaN  
+highwaympg  NaN  1.9  NaN  
+citympg     NaN  1.9  NaN  
+horsepower  NaN  1.9  NaN  
+peakrpm     NaN  1.9  NaN  
+sigma       NaN  1.9  NaN  
+
+For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and khat is the Pareto k diagnostic for importance sampling (perfomance is usually good when khat &lt; 0.7).</code></pre>
+</div>
+</div>
+<p>Although we use <code>optimizing</code> is this example, it is recommended to use <code>sampling</code> for inference.</p>
 </section></section>
 <section>
 <section id="high-dimensional-linear-regression" class="title-slide slide level1 center">
@@ -590,17 +785,54 @@ p(Y^* \mid X^*, X, Y) = \int p(Y^* \mid \beta, \sigma^2, X^*) \pi(\beta, \sigma^
 <li class="fragment">In some applications, we might have more predictors than samples, i.e., <span class="math inline">\(p \gg n\)</span>.</li>
 <li class="fragment">In such cases, the sparsity assumption is often used, i.e., only a few predictors are relevant.</li>
 <li class="fragment">LASSO or Bayesian Lasso can be used to select the relevant predictors.</li>
-<li class="fragment">However LASSO</li>
+<li class="fragment">However LASSO or Bayesian LASSO have some problems:
+<ul>
+<li class="fragment">it does not handle correlated variables well</li>
+<li class="fragment">it shrinks all coefficients with the same intensity</li>
+<li class="fragment">it often overshrinks large coefficients.</li>
+</ul></li>
+<li class="fragment">We will now introduce two priors for high-dimensional sparse linear regression that address these problems.</li>
 </ul>
 </section>
 <section id="spike-and-slab-prior" class="slide level2">
 <h2>Spike-and-slab prior</h2>
-</section>
+<ul>
+<li class="fragment">The spike-and-slab prior<sup>1</sup> is <span class="math display">\[
+\beta_j \mid w, \tau^2 \sim (1 - w)\delta_0 + w \cdot N(0, \tau^2).
+\]</span></li>
+<li class="fragment">Equivalently, <span class="math display">\[\begin{align*}
+\beta_j \mid \gamma_j = 0 &amp; \sim \delta_0 \\
+\beta_j \mid \gamma_j = 1 &amp; \sim N(0, \tau^2)\\
+\gamma_j &amp; \iid \text{Ber}(w)
+\end{align*}\]</span></li>
+<li class="fragment"><span class="math inline">\(w\)</span> is the parameter that controls the sparsity, and <span class="math inline">\(\gamma_j\)</span> is the indicator of the <span class="math inline">\(j\)</span>-th predictor being relevant.</li>
+<li class="fragment">This prior is considered the ``gold standard’’ for sparse regression.</li>
+<li class="fragment">However, it is computationally expensive to update the discrete variables <span class="math inline">\(\gamma_j\)</span>.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Mitchell, T. J., &amp; Beauchamp, J. J. (1988). <em>Bayesian variable selection in linear regression</em>. Journal of the American Statistical Association, 83(404), 1023-1032.</p></li></ol></aside></section>
 <section id="horseshoe-prior" class="slide level2">
 <h2>Horseshoe prior</h2>
-</section>
+<ul>
+<li class="fragment">The horseshoe prior<sup>1</sup> is <span class="math display">\[\begin{align*}
+\beta_j \mid \lambda_j, \tau &amp; \sim N\left(0, \tau^2 \lambda_j^2\right) \\
+\lambda_j &amp; \sim C^{+}(0,1), \quad j=1, \ldots, p
+\end{align*}\]</span> where <span class="math inline">\(C^{+}(0, 1)\)</span> is the half-Cauchy distribution.</li>
+<li class="fragment">This is an example of global-local shrinkage prior, where <span class="math inline">\(\lambda_j\)</span> is the local shrinkage parameter and <span class="math inline">\(\tau\)</span> is the global shrinkage parameter.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Carvalho, C. M., Polson, N. G., &amp; Scott, J. G. (2010). <em>The horseshoe estimator for sparse signals</em>. Biometrika, 97(2), 465-480.</p></li></ol></aside></section>
 <section id="available-priors-for-stan_lm" class="slide level2">
 <h2>Available priors for <code>stan_lm</code></h2>
+<div>
+<ul>
+<li>Student-<span class="math inline">\(t\)</span> family: cauchy, <span class="math inline">\(t\)</span>, normal</li>
+<li>Hierarchical shrinkage family: horseshoe, horseshoe+</li>
+<li>Laplace family: laplace, lasso</li>
+<li>R2 prior: This prior hinges on prior beliefs about the location of <span class="math inline">\(R^2\)</span>, the proportion of variance in the outcome attributable to the predictors</li>
+</ul>
+</div>
+</section>
+<section id="issues-in-linear-regression" class="slide level2">
+<h2>Issues in linear regression</h2>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
