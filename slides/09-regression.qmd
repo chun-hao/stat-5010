@@ -93,12 +93,6 @@ $$
 -   For a normal linear model with the noninformative prior $\pi(\beta, \sigma^2) \propto \sigma^{-2}$
 
 
-## Example 
-
-```{r}
-#| echo: true
-library(rstanarm)
-```
 
 ## Computation
 
@@ -106,11 +100,98 @@ There are many `R` packages for fitting Bayesian regression models:
 
 :::{.nonincremental}
 
--   [`rstanarm`](https://mc-stan.org/rstanarm/index.html)
--   [`brms`](https://paul-buerkner.github.io/brms/)
+-   [`rstanarm`](https://mc-stan.org/rstanarm/index.html): pre-compiled Stan regression models; easier to use; faster; less flexible
+-   [`brms`](https://paul-buerkner.github.io/brms/): compile models on the fly; slower; more flexible
+-   [`bayesplot`](http://mc-stan.org/bayesplot/index.html): visualization of Bayesian models
+    +   MCMC diagnostics (using functions `mcmc_*`)
+    +   Posterior prediction checking (PPC) (using functions `ppc_*`)
+    +   Posterior prediction distribution (PPD) (using functions `ppd_*`)
+-   [`loo`](https://mc-stan.org/loo/): efficient approximate leave-one-out cross-validation for fitted Bayesian models
+-   [`shinystan`](https://mc-stan.org/shinystan/index.html): Interactive diagnostic tools for assessing Bayesian models
 
 :::
+
+## Example: Car Price Prediction[^data] 
+
+```{r}
+#| echo: true
+#| results: hide
+library(rstanarm)
+library(bayesplot)
+library(ggplot2)
+
+data <- read.csv("dataset/car_price/CarPrice_Assignment.csv", 
+                 header = TRUE)
+data$price <- data$price/1000
+
+# fit a linear regression model
+fit <- stan_lm(price ~ highwaympg + citympg + horsepower, 
+               data = data, 
+               prior = R2(0.5), 
+               chains = 4, iter = 2000)
+
+```
+
+[^data]: <https://www.kaggle.com/datasets/hellbuoy/car-price-prediction>
+
+## MCMC Diagnostics
+
+```{r}
+#| echo: true
+color_scheme_set("brightblue")
+mcmc_trace(fit, pars = c("highwaympg", "citympg", 
+                         "horsepower", "R2"))
+```
+
+## MCMC Diagnostic
+
+```{r}
+#| echo: true
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(fit, pars = c("highwaympg", "citympg"),
+           prob = 0.8) + plot_title
+```
+## Posterior Prediction Checks
+
+## Interactive tool: `shinystan`
+
+```{r}
+#| echo: true
+#| eval: false
+library(shinystan)
+launch_shinystan(fit)
+```
+
+
+# Regularized regression
+
+## Regularized linear regression
+
+-   The OLS solution $\hat{\beta} = (X^TX)^{-1}X^TY$ is obtained by minimizing the residual sum of squares (RSS), i.e., $\arg\min_{\beta\in\R^p}  \|Y - X\beta\|^2$.
+-   In some cases, the matrix $X^TX$ is ill-conditioned, i.e., the inverse $(X^TX)^{-1}$ is numerically unstable.
+-   Also when $p > n$, the matrix $X^TX$ is singular and the OLS solution does not exist.
+-   We can consider the following penalized least-square problem:
+    $$
+    \arg\min_{\beta\in\R^p}  \|Y - X\beta\|^2 + \lambda \cdot\text{Penalty}(\beta)
+    $$
+    where $\lambda > 0$ is a tuning parameter.
+
 # High-dimensional linear regression
+
+## High-dimensional linear regression
+
+-   In some applications, we might have more predictors than samples, i.e., $p \gg n$.
+-   In such cases, the sparsity assumption is often used, i.e., only a few predictors are relevant.
+-   LASSO or Bayesian Lasso can be used to select the relevant predictors.
+-   However LASSO 
+
+
+## Spike-and-slab prior
+
+## Horseshoe prior
+
+## Available priors for `stan_lm`
 
 
 

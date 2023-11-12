@@ -2069,6 +2069,97 @@
     "href": "slides/09-regression.html#computation",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Computation",
-    "text": "Computation\nThere are many R packages for fitting Bayesian regression models:\n\n\nrstanarm\nbrms"
+    "text": "Computation\nThere are many R packages for fitting Bayesian regression models:\n\n\nrstanarm: pre-compiled Stan regression models; easier to use; faster; less flexible\nbrms: compile models on the fly; slower; more flexible\nbayesplot: visualization of Bayesian models\n\nMCMC diagnostics (using functions mcmc_*)\nPosterior prediction checking (PPC) (using functions ppc_*)\nPosterior prediction distribution (PPD) (using functions ppd_*)\n\nloo: efficient approximate leave-one-out cross-validation for fitted Bayesian models\nshinystan: Interactive diagnostic tools for assessing Bayesian models"
+  },
+  {
+    "objectID": "slides/09-regression.html#regularized-linear-regression",
+    "href": "slides/09-regression.html#regularized-linear-regression",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Regularized linear regression",
+    "text": "Regularized linear regression\n\nThe OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is obtained by minimizing the residual sum of squares (RSS), i.e., \\(\\arg\\min_{\\beta\\in\\R^p} \\|Y - X\\beta\\|^2\\).\nIn some cases, the matrix \\(X^TX\\) is ill-conditioned, i.e., the inverse \\((X^TX)^{-1}\\) is numerically unstable.\nAlso when \\(p &gt; n\\), the matrix \\(X^TX\\) is singular and the OLS solution does not exist.\nWe can consider the following penalized least-square problem: \\[\n\\arg\\min_{\\beta\\in\\R^p}  \\|Y - X\\beta\\|^2 + \\lambda \\cdot\\text{Penalty}(\\beta)\n\\] where \\(\\lambda &gt; 0\\) is a tuning parameter."
+  },
+  {
+    "objectID": "slides/09-regression.html#high-dimensional-linear-regression-1",
+    "href": "slides/09-regression.html#high-dimensional-linear-regression-1",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "High-dimensional linear regression",
+    "text": "High-dimensional linear regression\n\nIn some applications, we might have more predictors than samples, i.e., \\(p \\gg n\\).\nIn such cases, the sparsity assumption is often used, i.e., only a few predictors are relevant.\nLASSO or Bayesian Lasso can be used to select the relevant predictors.\nHowever LASSO"
+  },
+  {
+    "objectID": "slides/09-regression.html#example-car-price-predictiondata",
+    "href": "slides/09-regression.html#example-car-price-predictiondata",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Example: Car Price Prediction1",
+    "text": "Example: Car Price Prediction1\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\", \n                 header = TRUE)\ndata$price &lt;- data$price/1000\n\n# fit a linear regression model\nfit &lt;- stan_lm(price ~ highwaympg + citympg + horsepower, \n               data = data, \n               prior = R2(0.5), \n               chains = 4, iter = 2000)\n\nhttps://www.kaggle.com/datasets/hellbuoy/car-price-prediction"
+  },
+  {
+    "objectID": "slides/09-regression.html#spike-and-slab-prior",
+    "href": "slides/09-regression.html#spike-and-slab-prior",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Spike-and-slab prior",
+    "text": "Spike-and-slab prior"
+  },
+  {
+    "objectID": "slides/09-regression.html#horseshoe-prior",
+    "href": "slides/09-regression.html#horseshoe-prior",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Horseshoe prior",
+    "text": "Horseshoe prior"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-diagnostics",
+    "href": "slides/09-regression.html#posterior-diagnostics",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Diagnostics",
+    "text": "Posterior Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"highwaympg\", \"citympg\", \n                         \"horsepower\", \"R2\"))"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-diagnostic",
+    "href": "slides/09-regression.html#posterior-diagnostic",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Diagnostic",
+    "text": "Posterior Diagnostic\n\nplot_title &lt;- ggtitle(\"Posterior distributions\",\n                      \"with medians and 80% intervals\")\nmcmc_areas(fit, pars = c(\"highwaympg\", \"citympg\"),\n           prob = 0.8) + plot_title"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-diagnostic-1",
+    "href": "slides/09-regression.html#posterior-diagnostic-1",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Diagnostic",
+    "text": "Posterior Diagnostic\n\nsummary(fit)\n\n\nModel Info:\n function:     stan_lm\n family:       gaussian [identity]\n formula:      price ~ highwaympg + citympg + horsepower\n algorithm:    sampling\n sample:       4000 (posterior sample size)\n priors:       see help('prior_summary')\n observations: 205\n predictors:   4\n\nEstimates:\n                mean   sd   10%   50%   90%\n(Intercept)    4.5    3.4  0.1   4.5   8.9 \nhighwaympg    -0.8    0.2 -1.0  -0.8  -0.5 \ncitympg        0.7    0.2  0.4   0.7   0.9 \nhorsepower     0.1    0.0  0.1   0.1   0.2 \nsigma          4.6    0.2  4.3   4.5   4.9 \nlog-fit_ratio  0.0    0.0  0.0   0.0   0.0 \nR2             0.7    0.0  0.6   0.7   0.7 \n\nFit Diagnostics:\n           mean   sd   10%   50%   90%\nmean_PPD 13.3    0.5 12.7  13.3  13.8 \n\nThe mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).\n\nMCMC diagnostics\n              mcse Rhat n_eff\n(Intercept)   0.1  1.0  2231 \nhighwaympg    0.0  1.0  2730 \ncitympg       0.0  1.0  3091 \nhorsepower    0.0  1.0  2010 \nsigma         0.0  1.0  3108 \nlog-fit_ratio 0.0  1.0  2365 \nR2            0.0  1.0  2151 \nmean_PPD      0.0  1.0  3779 \nlog-posterior 0.1  1.0  1036 \n\nFor each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1)."
+  },
+  {
+    "objectID": "slides/09-regression.html#mcmc-diagnostics",
+    "href": "slides/09-regression.html#mcmc-diagnostics",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "MCMC Diagnostics",
+    "text": "MCMC Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"highwaympg\", \"citympg\", \n                         \"horsepower\", \"R2\"))"
+  },
+  {
+    "objectID": "slides/09-regression.html#mcmc-diagnostic",
+    "href": "slides/09-regression.html#mcmc-diagnostic",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "MCMC Diagnostic",
+    "text": "MCMC Diagnostic\n\nplot_title &lt;- ggtitle(\"Posterior distributions\",\n                      \"with medians and 80% intervals\")\nmcmc_areas(fit, pars = c(\"highwaympg\", \"citympg\"),\n           prob = 0.8) + plot_title"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-prediction-checks",
+    "href": "slides/09-regression.html#posterior-prediction-checks",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Prediction Checks",
+    "text": "Posterior Prediction Checks"
+  },
+  {
+    "objectID": "slides/09-regression.html#available-priors-for-stan_lm",
+    "href": "slides/09-regression.html#available-priors-for-stan_lm",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Available priors for stan_lm",
+    "text": "Available priors for stan_lm\n\n\nHome"
+  },
+  {
+    "objectID": "slides/09-regression.html#interactive-tool-shinystan",
+    "href": "slides/09-regression.html#interactive-tool-shinystan",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Interactive tool: shinystan",
+    "text": "Interactive tool: shinystan\n\nlibrary(shinystan)\nlaunch_shinystan(fit)"
   }
 ]
