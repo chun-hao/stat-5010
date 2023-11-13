@@ -287,10 +287,11 @@ where $\nu$ is the degrees of freedom (the default is $\nu = 1$).
 #| label: bayesian_lasso
 #| echo: true
 #| eval: false
-fit_lasso <- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm, 
+data <- read.csv("dataset/car_price/CarPrice_Assignment.csv")
+fit_lasso <- stan_glm(price ~ ., 
                       data = data, 
                       prior = lasso(df = 1, location = 0, 
-                                    scale = 1, autoscale = TRUE),
+                                    scale = 0.5, autoscale = TRUE),
                       prior_intercept = normal(location = 0, scale = 1, 
                                                autoscale = TRUE),
                       prior_aux = exponential(rate = 1, autoscale = TRUE),
