@@ -2062,7 +2062,7 @@
     "href": "slides/09-regression.html#example",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Example",
-    "text": "Example\n\nlibrary(rstanarm)"
+    "text": "Example\n\nfit1 &lt;- stan_glm(kid_score ~ mom_hs, data=kidiq, \n                 seed=2023, refresh=0)\nfit2 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, \n                 seed=2023, refresh=0)\n\n## Adding random noise as predictors\nset.seed(2023)\nn &lt;- nrow(kidiq)\nkidiqr &lt;- kidiq\nkidiqr$noise &lt;- array(rnorm(5*n), c(n,5))\nfit3 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq + noise, data=kidiqr,\n                 seed=2023, refresh=0)\n\nr2_fit1 &lt;- bayes_R2(fit1)\nr2_fit2 &lt;- bayes_R2(fit2)\nr2_fit3 &lt;- bayes_R2(fit3)"
   },
   {
     "objectID": "slides/09-regression.html#computation",
@@ -2090,7 +2090,7 @@
     "href": "slides/09-regression.html#example-car-price-predictiondata",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Example: Car Price Prediction1",
-    "text": "Example: Car Price Prediction1\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\", \n                 header = TRUE)\ndata$price &lt;- data$price/1000\n\n# fit a linear regression model\nfit &lt;- stan_glm(price ~ highwaympg + citympg + horsepower, \n               data = data, \n               family = gaussian(),\n               prior = NULL,\n               prior_intercept = NULL,\n               prior_aux = NULL,\n               chains = 4, iter = 2000)\n\nhttps://www.kaggle.com/datasets/hellbuoy/car-price-prediction"
+    "text": "Example: Car Price Prediction1\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\", \n                 header = TRUE)\ndata$price &lt;- data$price/1000\n\n# fit a linear regression model\nfit &lt;- stan_glm(price ~ highwaympg + citympg + horsepower, \n               data = data, \n               family = gaussian(),\n               prior = NULL,\n               prior_intercept = NULL,\n               prior_aux = NULL,\n               chains = 4, iter = 2000, seed = 123)\n\nhttps://www.kaggle.com/datasets/hellbuoy/car-price-prediction"
   },
   {
     "objectID": "slides/09-regression.html#spike-and-slab-prior",
@@ -2132,14 +2132,14 @@
     "href": "slides/09-regression.html#mcmc-diagnostics",
     "title": "Lecture 09: Bayesian Regression",
     "section": "MCMC Diagnostics",
-    "text": "MCMC Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"(Intercept)\", \"highwaympg\", \n                         \"citympg\", \"horsepower\"))"
+    "text": "MCMC Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"(Intercept)\", \"mom_iq\", \"mom_hs\"))"
   },
   {
     "objectID": "slides/09-regression.html#mcmc-diagnostic",
     "href": "slides/09-regression.html#mcmc-diagnostic",
     "title": "Lecture 09: Bayesian Regression",
     "section": "MCMC Diagnostic",
-    "text": "MCMC Diagnostic\n\nplot_title &lt;- ggtitle(\"Posterior distributions\",\n                      \"with medians and 80% intervals\")\nmcmc_areas(fit, pars = c(\"highwaympg\", \"citympg\"),\n           prob = 0.8) + plot_title"
+    "text": "MCMC Diagnostic\n\nmcmc_dens_overlay(fit, pars = c(\"mom_iq\", \"mom_hs\")) + \n    labs(title = \"Posterior distributions\")"
   },
   {
     "objectID": "slides/09-regression.html#posterior-prediction-checks",
@@ -2153,7 +2153,7 @@
     "href": "slides/09-regression.html#available-priors-for-stan_lm",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Available priors for stan_lm",
-    "text": "Available priors for stan_lm\n\n\nStudent-\\(t\\) family: cauchy, \\(t\\), normal\nHierarchical shrinkage family: horseshoe, horseshoe+\nLaplace family: laplace, lasso\nR2 prior: This prior hinges on prior beliefs about the location of \\(R^2\\), the proportion of variance in the outcome attributable to the predictors"
+    "text": "Available priors for stan_lm\n\n\nStudent-\\(t\\) family: cauchy, \\(t\\), normal\nHierarchical shrinkage family: horseshoe, horseshoe+\nLaplace family: laplace, lasso\nR2 prior: This prior hinges on prior beliefs about the location of \\(R^2\\), the proportion of variance in the outcome attributable to the predictors.\nCheck https://mc-stan.org/rstanarm/reference/priors.html for more details."
   },
   {
     "objectID": "slides/09-regression.html#interactive-tool-shinystan",
@@ -2167,14 +2167,14 @@
     "href": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Posterior Prediction Checks (In-sample checking)",
-    "text": "Posterior Prediction Checks (In-sample checking)\nCompare observed data to draws from the posterior or prior predictive distribution.\n\n# predicted vs. observed\nY_rep &lt;- posterior_predict(fit)\n\nppc_dens_overlay(data$price, Y_rep[1:10,], size = 1) + \n  xlab(\"Price (in thousands)\") +\n  ylab(\"Density\") +\n  ggtitle(\"Posterior predictive distribution for observed samples\")\n\n\nThis figure shows that this model is not a good fit for the data."
+    "text": "Posterior Prediction Checks (In-sample checking)\nCompare observed data to draws from the posterior predictive distribution.\n\n# predicted vs. observed\nY_rep &lt;- posterior_predict(fit, seed = 2023)\n\nppc_dens_overlay(kidiq$kid_score, Y_rep[1:10,], size = 1) + \n  xlab(\"Kids' IQ Score\") +\n  ylab(\"Density\") +\n  labs(title = \"Posterior predictive distribution for observed samples\")"
   },
   {
     "objectID": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction",
     "href": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Posterior Prediction Distributions (Out-of-sample prediction)",
-    "text": "Posterior Prediction Distributions (Out-of-sample prediction)\nCompute the posterior predictive distribution for a new sample.\n\nX_new &lt;- data.frame(highwaympg = 40:50, citympg = 40, horsepower = 200)\nY_new_pred &lt;- posterior_predict(fit, newdata = X_new) \n\nppd_intervals(Y_new_pred[1:500,], prob = 0.75, linewidth = 2) + \n  ylab(\"Price (in thousands)\") +\n  ggtitle(\"Posterior predictive intervals for new samples\")"
+    "text": "Posterior Prediction Distributions (Out-of-sample prediction)\nCompute the posterior predictive distribution for a new sample.\n\nX_new &lt;- data.frame(mom_hs = 0, mom_iq = seq(70, 140, by = 5))\nY_new_pred &lt;- posterior_predict(fit, newdata = X_new) \n\nppd_intervals(Y_new_pred[1:500,], prob = 0.75, linewidth = 2) + \n  ylab(\"Kids' IQ Score\") +\n  ggtitle(\"Posterior predictive intervals for new samples\")"
   },
   {
     "objectID": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction-output",
@@ -2202,7 +2202,7 @@
     "href": "slides/09-regression.html#summary-of-the-fitted-model",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Summary of the fitted model",
-    "text": "Summary of the fitted model\n\nsummary(fit)\n\n\nModel Info:\n function:     stan_glm\n family:       gaussian [identity]\n formula:      price ~ highwaympg + citympg + horsepower\n algorithm:    sampling\n sample:       4000 (posterior sample size)\n priors:       see help('prior_summary')\n observations: 205\n predictors:   4\n\nEstimates:\n              mean   sd   10%   50%   90%\n(Intercept)  4.4    3.4  0.0   4.4   8.8 \nhighwaympg  -0.8    0.2 -1.0  -0.8  -0.5 \ncitympg      0.7    0.2  0.4   0.7   1.0 \nhorsepower   0.1    0.0  0.1   0.1   0.2 \nsigma        4.6    0.2  4.3   4.6   4.9 \n\nFit Diagnostics:\n           mean   sd   10%   50%   90%\nmean_PPD 13.3    0.4 12.7  13.3  13.8 \n\nThe mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).\n\nMCMC diagnostics\n              mcse Rhat n_eff\n(Intercept)   0.1  1.0  3900 \nhighwaympg    0.0  1.0  1964 \ncitympg       0.0  1.0  1852 \nhorsepower    0.0  1.0  3002 \nsigma         0.0  1.0  3445 \nmean_PPD      0.0  1.0  3759 \nlog-posterior 0.0  1.0  1594 \n\nFor each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1)."
+    "text": "Summary of the fitted model\n\n\nstan_glm\n family:       gaussian [identity]\n formula:      kid_score ~ mom_hs + mom_iq\n observations: 434\n predictors:   3\n------\n            Median MAD_SD\n(Intercept) 25.8    5.5  \nmom_hs       6.0    2.2  \nmom_iq       0.6    0.1  \n\nAuxiliary parameter(s):\n      Median MAD_SD\nsigma 18.2    0.6  \n\n------\n* For help interpreting the printed output see ?print.stanreg\n* For info on the priors used see ?prior_summary.stanreg"
   },
   {
     "objectID": "slides/09-regression.html#prior-summary",
@@ -2216,21 +2216,21 @@
     "href": "slides/09-regression.html#bayesian-lasso",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Bayesian LASSO",
-    "text": "Bayesian LASSO\nModel (this is how stan_glm implements LASSO): \\[\\begin{align*}\nY \\mid X, \\beta, \\sigma^2 & \\sim N(X\\beta, \\sigma^2 I_n) \\\\\n\\beta_j & \\iid \\text{Laplace}(0, \\lambda^{-1}) \\\\\n\\lambda & \\sim \\chi^2_{\\nu}\n\\end{align*}\\] where \\(\\nu\\) is the degrees of freedom (the default is \\(\\nu = 1\\))."
+    "text": "Bayesian LASSO\n\nLASSO = “Least Absolute Shrinkage and Selection Operator”\nModel (this is how stan_glm implements LASSO prior): \\[\\begin{align*}\nY \\mid X, \\beta, \\sigma^2 & \\sim N(X\\beta, \\sigma^2 I_n) \\\\\n\\beta_j & \\iid \\text{Laplace}(0, \\lambda^{-1}) \\\\\n\\lambda & \\sim \\chi^2_{\\nu}\n\\end{align*}\\] where \\(\\nu\\) is the degrees of freedom (the default is \\(\\nu = 1\\)).\nBias increases as \\(\\lambda\\) increases (producing more zeroes).\nVariance decreases as \\(\\lambda\\) increases.\nHence larger value of \\(\\nu\\) produces more shrinkage."
   },
   {
     "objectID": "slides/09-regression.html#bayesian-lasso-1",
     "href": "slides/09-regression.html#bayesian-lasso-1",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Bayesian LASSO",
-    "text": "Bayesian LASSO\nThe following code finds the mode of the posterior distribution using the optimizing algorithm. Hence you will see exact zeros.\n\nfit_lasso &lt;- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm, \n                      data = data, \n                      prior = lasso(df = 1, location = 0, \n                                    scale = 1, autoscale = TRUE),\n                      prior_intercept = normal(location = 0, scale = 1, \n                                               autoscale = TRUE),\n                      prior_aux = exponential(rate = 1, autoscale = TRUE),\n                      algorithm = \"optimizing\",\n                      iter = 5000, seed = 123)"
+    "text": "Bayesian LASSO\n\nfit_lasso &lt;- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm, \n                      data = data, \n                      prior = lasso(df = 1, location = 0, \n                                    scale = 1, autoscale = TRUE),\n                      prior_intercept = normal(location = 0, scale = 1, \n                                               autoscale = TRUE),\n                      prior_aux = exponential(rate = 1, autoscale = TRUE),\n                      chains = 4, iter = 2000, seed = 2023,\n                      refresh = 0)"
   },
   {
     "objectID": "slides/09-regression.html#summary-of-the-fitted-model-1",
     "href": "slides/09-regression.html#summary-of-the-fitted-model-1",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Summary of the fitted model",
-    "text": "Summary of the fitted model\n\n\n\nModel Info:\n function:     stan_glm\n family:       gaussian [identity]\n formula:      price ~ highwaympg + citympg + horsepower + peakrpm\n algorithm:    optimizing\n priors:       see help('prior_summary')\n observations: 205\n predictors:   5\n\nEstimates:\n              Median   MAD_SD   10%    50%    90% \n(Intercept)   12.7     17.1   -101.9   12.7   45.3\nhighwaympg    -0.4      0.2     -0.7   -0.4    0.4\ncitympg        0.3      0.2     -0.7    0.3    0.6\nhorsepower     0.1      0.0      0.0    0.1    0.2\npeakrpm        0.0      0.0      0.0    0.0    0.0\nsigma          4.3      0.2      4.1    4.3    4.6\n\nMonte Carlo diagnostics\n            mcse khat n_eff\n(Intercept) NaN  2.0  NaN  \nhighwaympg  NaN  1.9  NaN  \ncitympg     NaN  1.9  NaN  \nhorsepower  NaN  1.9  NaN  \npeakrpm     NaN  1.9  NaN  \nsigma       NaN  1.9  NaN  \n\nFor each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and khat is the Pareto k diagnostic for importance sampling (perfomance is usually good when khat &lt; 0.7).\n\n\nAlthough we use optimizing is this example, it is recommended to use sampling for inference."
+    "text": "Summary of the fitted model"
   },
   {
     "objectID": "slides/09-regression.html#horseshoe-priorhs_prior",
@@ -2245,5 +2245,47 @@
     "title": "Lecture 09: Bayesian Regression",
     "section": "Issues in linear regression",
     "text": "Issues in linear regression\n\n\nHome"
+  },
+  {
+    "objectID": "slides/09-regression.html#example-kids-test-scoreskidiq",
+    "href": "slides/09-regression.html#example-kids-test-scoreskidiq",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Example: Kids’ Test Scores1",
+    "text": "Example: Kids’ Test Scores1\nData from a survey of adult American women and their children (a subsample from the National Longitudinal Survey of Youth).\n\n\nSource: Gelman and Hill (2007)\n434 obs. of 4 variables\n\nkid_score: Child’s IQ score\nmom_hs: Indicator for whether the mother has a high school degree\nmom_iq: Mother’s IQ score\nmom_age: Mother’s age\n\n\n\nhttps://avehtari.github.io/ROS-Examples/KidIQ/kidiq.html"
+  },
+  {
+    "objectID": "slides/09-regression.html#unequal-variances-and-correlations",
+    "href": "slides/09-regression.html#unequal-variances-and-correlations",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Unequal variances and correlations",
+    "text": "Unequal variances and correlations"
+  },
+  {
+    "objectID": "slides/09-regression.html#fit-a-bayesian-linear-regression-model",
+    "href": "slides/09-regression.html#fit-a-bayesian-linear-regression-model",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Fit a Bayesian linear regression model",
+    "text": "Fit a Bayesian linear regression model\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata(kidiq)\n\n# fit a linear regression model\nfit &lt;- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, \n                family = gaussian(),\n                prior = NULL,\n                prior_intercept = NULL,\n                prior_aux = NULL,\n                chains = 4, iter = 2000, seed = 2023,\n                refresh = 0)"
+  },
+  {
+    "objectID": "slides/09-regression.html#compare-different-models",
+    "href": "slides/09-regression.html#compare-different-models",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Compare different models",
+    "text": "Compare different models\n\nSuppose we have two regression models: \\[\\begin{align*}\n& Y = \\beta_0 + \\beta_1X_1\\\\\n& Y = \\beta_0 + \\beta_1X_1 + \\beta_2X_2.\n\\end{align*}\\]\nWe can compare these two models using the Bayes factor.\nHowever, since we are fitting linear models, we can also use the \\(R^2\\) to compare the models.\nThe \\(R^2\\) statistic is defined as \\[\\begin{align*}\nR^2 & = \\frac{\\text{Explained variance}}{\\text{Total variance}} = 1 - \\frac{\\text{Residual variance}}{\\text{Total variance}}\\\\\n& = 1 - \\frac{\\sum_{i=1}^n (y_i - \\hat{y}_i)^2}{\\sum_{i=1}^n (y_i - \\bar{y})^2}.\n\\end{align*}\\]\nTherefore, a model with a larger \\(R^2\\) is preferred."
+  },
+  {
+    "objectID": "slides/09-regression.html#bayesian-r2",
+    "href": "slides/09-regression.html#bayesian-r2",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Bayesian \\(R^2\\)",
+    "text": "Bayesian \\(R^2\\)\n\nHowever, the \\(R^2\\) always increases even if we add irrelevant predictors.\nAdjusted \\(R^2\\) is a modification of \\(R^2\\) that penalizes the addition of irrelevant predictors \\[\nR^2_{\\text{adj}} =1-\\left(1-R^2\\right) \\frac{n-1}{n-p-1}.\n\\]\nInstead of comparing the \\(R^2\\) or the adjusted \\(R^2\\) of the two models, we can compare the posterior distributions of the \\(R^2\\) of the two models."
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-distribution-of-r2",
+    "href": "slides/09-regression.html#posterior-distribution-of-r2",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior distribution of \\(R^2\\)",
+    "text": "Posterior distribution of \\(R^2\\)\nAlthough adding noise predictors does increase the \\(R^2\\), the change is negligible compared to the uncertainty of \\(R^2\\).\n\n\n\nHome"
   }
 ]

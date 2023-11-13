@@ -113,40 +113,50 @@ There are many `R` packages for fitting Bayesian regression models:
 
 :::
 
-## Example: Car Price Prediction[^data] 
+## Example: Kids' Test Scores[^kidiq]
+
+Data from a survey of adult American women and their children (a subsample from the National Longitudinal Survey of Youth).
+
+:::{.nonincremental}
+
+-   Source: Gelman and Hill (2007)
+-   434 obs. of 4 variables
+    -   `kid_score`: Child's IQ score
+    -   `mom_hs`: Indicator for whether the mother has a high school degree
+    -   `mom_iq`: Mother's IQ score
+    -   `mom_age`: Mother's age
+
+::: 
+
+[^kidiq]: <https://avehtari.github.io/ROS-Examples/KidIQ/kidiq.html>
+
+## Fit a Bayesian linear regression model
 
 ```{r}
 #| label: model_fit
 #| echo: true
-#| results: hide
 library(rstanarm)
 library(bayesplot)
 library(ggplot2)
 
-data <- read.csv("dataset/car_price/CarPrice_Assignment.csv", 
-                 header = TRUE)
-data$price <- data$price/1000
+data(kidiq)
 
 # fit a linear regression model
-fit <- stan_glm(price ~ highwaympg + citympg + horsepower, 
-               data = data, 
-               family = gaussian(),
-               prior = NULL,
-               prior_intercept = NULL,
-               prior_aux = NULL,
-               chains = 4, iter = 2000)
-
+fit <- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, 
+                family = gaussian(),
+                prior = NULL,
+                prior_intercept = NULL,
+                prior_aux = NULL,
+                chains = 4, iter = 2000, seed = 2023,
+                refresh = 0)
 ```
 
-[^data]: <https://www.kaggle.com/datasets/hellbuoy/car-price-prediction>
 
 ## Summary of the fitted model
 
 ```{r}
 #| label: model_summary
-#| echo: true
-summary(fit)
-
+fit
 ```
 
 ## Prior Summary
@@ -162,9 +172,9 @@ prior_summary(fit)
 ```{r}
 #| label: mcmc_trace
 #| echo: true
+#| fig-align: center
 color_scheme_set("brightblue")
-mcmc_trace(fit, pars = c("(Intercept)", "highwaympg", 
-                         "citympg", "horsepower"))
+mcmc_trace(fit, pars = c("(Intercept)", "mom_iq", "mom_hs"))
 ```
 
 ## MCMC Diagnostic
@@ -172,15 +182,13 @@ mcmc_trace(fit, pars = c("(Intercept)", "highwaympg",
 ```{r}
 #| label: mcmc_posterior
 #| echo: true
-plot_title <- ggtitle("Posterior distributions",
-                      "with medians and 80% intervals")
-mcmc_areas(fit, pars = c("highwaympg", "citympg"),
-           prob = 0.8) + plot_title
+mcmc_dens_overlay(fit, pars = c("mom_iq", "mom_hs")) + 
+    labs(title = "Posterior distributions")
 ```
 
 ## Posterior Prediction Checks (In-sample checking)
 
-Compare observed data to draws from the posterior or prior predictive distribution.
+Compare observed data to draws from the posterior predictive distribution.
 
 ```{r}
 #| label: ppc_density
@@ -189,15 +197,14 @@ Compare observed data to draws from the posterior or prior predictive distributi
 #| output-location: slide
 
 # predicted vs. observed
-Y_rep <- posterior_predict(fit)
+Y_rep <- posterior_predict(fit, seed = 2023)
 
-ppc_dens_overlay(data$price, Y_rep[1:10,], size = 1) + 
-  xlab("Price (in thousands)") +
+ppc_dens_overlay(kidiq$kid_score, Y_rep[1:10,], size = 1) + 
+  xlab("Kids' IQ Score") +
   ylab("Density") +
-  ggtitle("Posterior predictive distribution for observed samples")
+  labs(title = "Posterior predictive distribution for observed samples")
 ```
 
-This figure shows that this model is not a good fit for the data.
 
 
 ## Posterior Prediction Distributions (Out-of-sample prediction)
@@ -209,11 +216,11 @@ Compute the posterior predictive distribution for a new sample.
 #| echo: true
 #| fig-align: center
 #| output-location: slide
-X_new <- data.frame(highwaympg = 40:50, citympg = 40, horsepower = 200)
+X_new <- data.frame(mom_hs = 0, mom_iq = seq(70, 140, by = 5))
 Y_new_pred <- posterior_predict(fit, newdata = X_new) 
 
 ppd_intervals(Y_new_pred[1:500,], prob = 0.75, linewidth = 2) + 
-  ylab("Price (in thousands)") +
+  ylab("Kids' IQ Score") +
   ggtitle("Posterior predictive intervals for new samples") 
 ```
 
@@ -260,7 +267,9 @@ launch_shinystan(fit)
     
 ## Bayesian LASSO
 
-Model (this is how `stan_glm` implements LASSO):
+
+-   LASSO = "Least Absolute Shrinkage and Selection Operator"
+-   Model (this is how `stan_glm` implements LASSO prior):
 \begin{align*}
 Y \mid X, \beta, \sigma^2 & \sim N(X\beta, \sigma^2 I_n) \\
 \beta_j & \iid \text{Laplace}(0, \lambda^{-1}) \\
@@ -268,15 +277,16 @@ Y \mid X, \beta, \sigma^2 & \sim N(X\beta, \sigma^2 I_n) \\
 \end{align*}
 where $\nu$ is the degrees of freedom (the default is $\nu = 1$).
 
-## Bayesian LASSO
+-   Bias increases as $\lambda$ increases (producing more zeroes).
+-   Variance decreases as $\lambda$ increases.
+-   Hence larger value of $\nu$ produces more shrinkage.
 
-The following code finds the **mode of the posterior distribution** using the `optimizing` algorithm. Hence you will see exact zeros.
+## Bayesian LASSO
 
 ```{r}
 #| label: bayesian_lasso
 #| echo: true
-#| message: false
-#| results: hide
+#| eval: false
 fit_lasso <- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm, 
                       data = data, 
                       prior = lasso(df = 1, location = 0, 
@@ -284,17 +294,19 @@ fit_lasso <- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm,
                       prior_intercept = normal(location = 0, scale = 1, 
                                                autoscale = TRUE),
                       prior_aux = exponential(rate = 1, autoscale = TRUE),
-                      algorithm = "optimizing",
-                      iter = 5000, seed = 123)
+                      chains = 4, iter = 2000, seed = 2023,
+                      refresh = 0)
 ```
 
 ## Summary of the fitted model
 
 ```{r}
 #| label: bayesian_lasso_summary
+#| eval: false
 summary(fit_lasso)
 ```
-Although we use `optimizing` is this example, it is recommended to use `sampling` for inference.
+
+
 
 
 # High-dimensional linear regression
@@ -349,13 +361,82 @@ Although we use `optimizing` is this example, it is recommended to use `sampling
 -   Hierarchical shrinkage family: horseshoe, horseshoe+
 -   Laplace family: laplace, lasso
 -   R2 prior: This prior hinges on prior beliefs about the location of $R^2$, the proportion of variance in the outcome attributable to the predictors.
+-   Check <https://mc-stan.org/rstanarm/reference/priors.html> for more details.
 
 :::
 
 
 
-## Issues in linear regression
+## Compare different models
+
+-   Suppose we have two regression models:
+    \begin{align*}
+    & Y = \beta_0 + \beta_1X_1\\
+    & Y = \beta_0 + \beta_1X_1 + \beta_2X_2.
+    \end{align*}
+-   We can compare these two models using the Bayes factor.
+-   However, since we are fitting linear models, we can also use the $R^2$ to compare the models.
+-   The $R^2$ statistic is defined as 
+    \begin{align*}
+    R^2 & = \frac{\text{Explained variance}}{\text{Total variance}} = 1 - \frac{\text{Residual variance}}{\text{Total variance}}\\
+    & = 1 - \frac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{\sum_{i=1}^n (y_i - \bar{y})^2}.
+    \end{align*}
+-   Therefore, a model with a larger $R^2$ is preferred.
 
 
+## Bayesian $R^2$
 
+-   However, the $R^2$ always increases even if we add irrelevant predictors.
+-   Adjusted $R^2$ is a modification of $R^2$ that penalizes the addition of irrelevant predictors
+    $$
+    R^2_{\text{adj}} =1-\left(1-R^2\right) \frac{n-1}{n-p-1}.
+    $$
+-   Instead of comparing the $R^2$ or the adjusted $R^2$ of the two models, we can compare the posterior distributions of the $R^2$ of the two models.
+
+## Example
+```{r}
+#| label: model_comparison
+#| echo: true
+
+fit1 <- stan_glm(kid_score ~ mom_hs, data=kidiq, 
+                 seed=2023, refresh=0)
+fit2 <- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, 
+                 seed=2023, refresh=0)
+
+## Adding random noise as predictors
+set.seed(2023)
+n <- nrow(kidiq)
+kidiqr <- kidiq
+kidiqr$noise <- array(rnorm(5*n), c(n,5))
+fit3 <- stan_glm(kid_score ~ mom_hs + mom_iq + noise, data=kidiqr,
+                 seed=2023, refresh=0)
+
+r2_fit1 <- bayes_R2(fit1)
+r2_fit2 <- bayes_R2(fit2)
+r2_fit3 <- bayes_R2(fit3)
+```
+
+## Posterior distribution of $R^2$
+
+Although adding noise predictors does increase the $R^2$, the change is negligible compared to the uncertainty of $R^2$.
+
+
+```{r}
+#| label: r2_plot
+#| fig-align: center
+library(latex2exp)
+library(reshape2)
+library(tidyverse)
+df <- melt(data.frame(fit1 = r2_fit1, 
+                      fit2 = r2_fit2,
+                      fit3 = r2_fit3))
+
+ggplot(df, aes(x=value, linetype=variable, color=variable)) +
+    geom_density(alpha=0.25, show.legend=FALSE) +
+    labs(x=TeX("Bayesian $R^2$"), y="") +
+    scale_y_continuous(breaks=NULL) + 
+    annotate("text", x = 0.097, y = 16.2, label = "kid_score ~ mom_hs", color = "red") +
+    annotate("text", x = 0.15, y = 11.5, label = "kid_score ~ mom_hs + mom_iq", color = "darkgreen") +
+    annotate("text", x = 0.285, y = 12, label = "kid_score ~ mom_hs + mom_iq +\n noise", color = "blue")
+```
 
