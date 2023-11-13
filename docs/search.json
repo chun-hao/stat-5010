@@ -60,7 +60,7 @@
     "href": "slides/08-hmc_vb.html#hamiltonian-dynamics",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Hamiltonian dynamics",
-    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentum of \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
+    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentumof \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
   },
   {
     "objectID": "slides/08-hmc_vb.html#hamiltonian-dynamics-1",
@@ -74,7 +74,7 @@
     "href": "slides/08-hmc_vb.html#hmc",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "HMC",
-    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(t)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
+    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(\\delta)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
   },
   {
     "objectID": "slides/08-hmc_vb.html#evolution-of-hamiltonian-dynamics",
@@ -88,7 +88,7 @@
     "href": "slides/08-hmc_vb.html#leapfrog-method",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Leapfrog method",
-    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\nabla_x\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
+    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\frac{\\partial}{\\partial x}\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
   },
   {
     "objectID": "slides/08-hmc_vb.html#general-hmc-algorithm",
@@ -172,7 +172,7 @@
     "href": "slides/08-hmc_vb.html#maximizing-elbo-1",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Maximizing ELBO",
-    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) that maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), set it to zero, and we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
+    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) to maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), set it to zero, and we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#example-8-school-problem",
@@ -186,91 +186,49 @@
     "href": "slides/08-hmc_vb.html#mean-field-approximation-alpha_j",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\alpha_j\\)",
-    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{const.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nThe optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\nq\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nHence the optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\ng\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\mu\\)",
-    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{const.}\n\\]\nThe optimal \\(q(\\mu)\\) is also a Gaussian distribution \\[\nq(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\]"
+    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{constant.}\n\\]\nThis is the logarithm of a normal density function: \\[\\begin{align*}\ng(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\tau\\)",
-    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{const.}\n\\]\nThe optimal \\(q(\\tau^2)\\) is an Inverse-Gamma distribution \\[\nq(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\]\nThis is the logarithm of an inverse-gamma density function: \\[\ng(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
     "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Summarizing the mean-field approximation",
-    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}\\left(\\frac{7}{2}, \\frac{7}{2}B^2_{\\tau}\\right).\n\\end{align*}\\]\nTherefore \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{1}{B^2_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
+    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}\\left(\\frac{7}{2}, B_{\\tau}\\right).\n\\end{align*}\\]\nThus \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{7}{2B_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
     "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Summarizing the mean-field approximation",
-    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{1}{B^2_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau} y_j + \\sigma_j^2 M_{\\mu}}{\\sigma_j^2 + B^2_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau}\\sigma_j^2}{\\sigma_j^2 + B^2_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau}}{8}\\\\\nB^2_{\\tau} & = \\frac{1}{7} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{7} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
+    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{3.5}{B_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau} y_j + 3.5\\sigma_j^2 M_{\\mu}}{3.5\\sigma_j^2 + B_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau}\\sigma_j^2}{3.5\\sigma_j^2 + B_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau}}{28}\\\\\nB_{\\tau} & = \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{2} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#r-code",
     "href": "slides/08-hmc_vb.html#r-code",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "R code",
-    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28, 8, -3, 7, -1, 1, 18, 12)\nsig2 &lt;- c(15, 10, 16, 11, 9, 11, 10, 18)^2\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B2_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B2_tau[i-1] * y[j] + sig2[j] * var_par$M_mu[i-1]) / \n            (sig2[j] + var_par$B2_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B2_tau[i-1] * sig2[j] / \n            (sig2[j] + var_par$B2_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B2_tau[i-1] / 8\n    var_par$B2_tau[i] &lt;- sum(var_par$S2_alpha[i, ])/7 + \n        sum(var_par$M_alpha[i, ]^2)/7 - \n        2*sum(var_par$M_alpha[i, ]) * var_par$M_mu[i]/7 +\n        var_par$S2_mu[i]*8/7 + \n        var_par$M_mu[i]^2*8/7\n}"
+    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28, 8, -3, 7, -1, 1, 18, 12)\nsig2 &lt;- c(15, 10, 16, 11, 9, 11, 10, 18)^2\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B_tau[i-1] * y[j] + 3.5 * sig2[j] * var_par$M_mu[i-1]) / \n            (3.5 * sig2[j] + var_par$B_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B_tau[i-1] * sig2[j] / \n            (3.5 * sig2[j] + var_par$B_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B_tau[i-1] / 28\n    var_par$B_tau[i] &lt;- 0.5*sum(var_par$S2_alpha[i, ]) + \n        0.5*sum(var_par$M_alpha[i, ]^2) - \n        sum(var_par$M_alpha[i, ]) * var_par$M_mu[i] +\n        4*var_par$S2_mu[i] + \n        4*var_par$M_mu[i]^2\n}"
   },
   {
     "objectID": "slides/08-hmc_vb.html#results",
     "href": "slides/08-hmc_vb.html#results",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Results",
-    "text": "Results"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#vb-inference",
-    "href": "slides/08-hmc_vb.html#vb-inference",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "VB Inference",
-    "text": "VB Inference\n\n\n\nPosterior mean and standard deviation\n\n\nparameter\npost.mean\npost.sd\n\n\n\n\nalpha_1\n13.715\n7.970\n\n\nalpha_2\n8.051\n6.852\n\n\nalpha_3\n5.246\n8.109\n\n\nalpha_4\n7.633\n7.149\n\n\nalpha_5\n3.347\n6.503\n\n\nalpha_6\n5.099\n7.149\n\n\nalpha_7\n12.746\n6.852\n\n\nalpha_8\n8.934\n8.337\n\n\nmu\n8.096\n3.326\n\n\ntau\n10.591\n3.423"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#vb-using-stan",
-    "href": "slides/08-hmc_vb.html#vb-using-stan",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "VB using Stan",
-    "text": "VB using Stan\nYou can also perform VB using Stan. The following is the Stan code for the school example.\n\nschool_model &lt;- rstan::stan_model(model_code = \"\n    data {\n      int&lt;lower=0&gt; J;         \n      real y[J];              \n      real&lt;lower=0&gt; sigma[J];\n    }\n    parameters {\n      real mu;                \n      real&lt;lower=0&gt; tau;      \n      real alpha[J];\n    }\n    model {\n      alpha ~ normal(mu, tau); // prior\n      y ~ normal(alpha, sigma); // likelihood\n    }\")"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#vb-using-stan-1",
-    "href": "slides/08-hmc_vb.html#vb-using-stan-1",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "VB using Stan",
-    "text": "VB using Stan\n\nlibrary(rstan)\nschools_dat &lt;- list(J = 8,\n    y = c(28, 8, -3, 7, -1, 1, 18, 12),\n    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)) \nfit_vb &lt;- rstan::vb(school_model, data = schools_dat, \n                    algorithm = \"meanfield\")\nfit_sampling &lt;- rstan::sampling(school_model, data = schools_dat, \n                                iter = 1000, chains = 4)"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#stan-output-vb",
-    "href": "slides/08-hmc_vb.html#stan-output-vb",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Stan output (VB)",
-    "text": "Stan output (VB)\n\n\n\n\n\n\nchain:1\n\n\n\n\nmu\n1.960\n\n\ntau\n10.271\n\n\nalpha.1\n4.828\n\n\nalpha.2\n2.878\n\n\nalpha.3\n-0.873\n\n\nalpha.4\n1.647\n\n\nalpha.5\n0.027\n\n\nalpha.6\n1.156\n\n\nalpha.7\n5.013\n\n\nalpha.8\n1.404\n\n\nlp__\n0.000"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#stan-output-sampling",
-    "href": "slides/08-hmc_vb.html#stan-output-sampling",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Stan output (sampling)",
-    "text": "Stan output (sampling)\n\n\n\n\n\n\nmean-chain:1\nmean-chain:2\nmean-chain:3\nmean-chain:4\nmean-all chains\n\n\n\n\nmu\n8.184\n7.792\n7.693\n8.177\n7.961\n\n\ntau\n7.277\n7.948\n8.428\n6.167\n7.455\n\n\nalpha[1]\n12.076\n11.829\n11.925\n10.648\n11.619\n\n\nalpha[2]\n8.036\n8.353\n8.149\n8.519\n8.264\n\n\nalpha[3]\n6.550\n5.451\n5.088\n6.471\n5.890\n\n\nalpha[4]\n7.620\n7.781\n7.503\n8.004\n7.727\n\n\nalpha[5]\n4.761\n4.094\n4.231\n5.642\n4.682\n\n\nalpha[6]\n6.059\n5.497\n6.013\n6.566\n6.034\n\n\nalpha[7]\n11.143\n11.490\n11.501\n10.567\n11.175\n\n\nalpha[8]\n8.447\n8.167\n7.922\n8.836\n8.343\n\n\nlp__\n-18.207\n-19.714\n-19.857\n-17.177\n-18.739"
-  },
-  {
-    "objectID": "slides/08-hmc_vb.html#remark",
-    "href": "slides/08-hmc_vb.html#remark",
-    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
-    "section": "Remark",
-    "text": "Remark\nThe rstan::vb function is buggy and unstable. DO NOT use it for your research.\n\n\nHome"
+    "text": "Results\n\n\n\nHome"
   },
   {
     "objectID": "slides/06-testing.html#project-proposal",
@@ -935,14 +893,14 @@
     "href": "index.html",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nSlide\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#course-schedule",
     "href": "index.html#course-schedule",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\n\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nSlide\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\n\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#important-dates",
@@ -2016,25 +1974,11 @@
     "text": "Linear regression\n\nSuppose we have samples \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(y_i \\in \\R\\) and \\(x_i \\in \\R^{p-1}\\). We want to model the relationship between \\(x_i\\) and \\(y_i\\).\nThe classical linear regression model is \\(Y = X^T\\beta\\).\nWe can fit the model by minimizing the ordinary least-square (OLS) \\(\\sum_{i=1}^n (y_i - x_i^T\\beta)^2\\).\nThe solution is \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\), where \\(Y = [y_1,\\ldots, y_n]^T\\) and \\[\nX = \\left[\\begin{array}{cc}\n1 & x_1^T \\\\\n\\vdots & \\vdots \\\\\n1 & x_n^T\n\\end{array}\n\\right]_{n\\times p}.\n\\]\nIf we further assume \\(Y = X^T\\beta + \\varepsilon\\), \\(\\varepsilon \\sim N(0, \\sigma^2)\\), then the OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is the MLE of \\(\\beta\\)."
   },
   {
-    "objectID": "slides/09-regression.html#linear-regression-1",
-    "href": "slides/09-regression.html#linear-regression-1",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Linear regression",
-    "text": "Linear regression\n\nFrom now on, we will write \\(Y \\mid X, \\beta, \\sigma^2 \\sim N(X^T\\beta, \\sigma^2)\\) for a regression model."
-  },
-  {
     "objectID": "slides/09-regression.html#normal-linear-model",
     "href": "slides/09-regression.html#normal-linear-model",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Normal linear model",
     "text": "Normal linear model\n\nThe simple linear regression model is a normal linear model \\[\nY \\mid X, \\beta, \\sigma^2 \\sim N(X\\beta, \\sigma^2I_n)\n\\] where \\(I_n\\) is the \\(n \\times n\\) identity matrix, \\(X \\in \\R^{n \\times p}\\), and \\(\\beta \\in \\R^p\\).\nBoth \\(\\beta\\) and \\(\\sigma^2\\) are unknown parameters.\nIn practice, it is very likely that the normality assumption is violated. In such cases, we can apply some transformations to \\(Y\\), e.g., Box-Cox transformation, to make it normal.\nIn the next lecture, we will discuss generalized linear models (GLM), i.e., \\[\nY \\mid X, \\beta \\sim F_{\\eta}\n\\] where \\(F_\\eta\\) is an exponential family and \\(\\eta = X^T\\beta\\)."
-  },
-  {
-    "objectID": "slides/09-regression.html#priors-for-normal-linear-model",
-    "href": "slides/09-regression.html#priors-for-normal-linear-model",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Priors for normal linear model",
-    "text": "Priors for normal linear model"
   },
   {
     "objectID": "slides/09-regression.html#standard-noninformative-prior",
@@ -2058,13 +2002,6 @@
     "text": "Posterior predictive distribution\n\nSuppose we observe a new sample \\(X^*\\) and we want to predict its corresponding response \\(Y^*\\).\nThe posterior predictive distribution is \\[\np(Y^* \\mid X^*, X, Y) = \\int p(Y^* \\mid \\beta, \\sigma^2, X^*) \\pi(\\beta, \\sigma^2 \\mid X, Y) \\; d\\beta\\; d\\sigma^2.\n\\]\nFor a normal linear model with the noninformative prior \\(\\pi(\\beta, \\sigma^2) \\propto \\sigma^{-2}\\), we can compute the analytic form of the predictive distribution.\nHowever, there is no need to do so, since once we have the posterior samples of \\(\\beta\\) and \\(\\sigma^2\\), we can easily draw samples from the posterior predictive distribution.\nThat is, with \\((\\beta^{(i)}, \\sigma^{2,{(i)}}) \\iid \\pi(\\beta, \\sigma^2 \\mid X, Y)\\), we can draw \\[\nY^{*(i)} \\mid X^*, X, Y \\sim N(X^{*T}\\beta^{(i)}, \\sigma^{2,(i)}).\n\\]"
   },
   {
-    "objectID": "slides/09-regression.html#example",
-    "href": "slides/09-regression.html#example",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Example",
-    "text": "Example\n\nfit1 &lt;- stan_glm(kid_score ~ mom_hs, data=kidiq, \n                 seed=2023, refresh=0)\nfit2 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, \n                 seed=2023, refresh=0)\n\n## Adding random noise as predictors\nset.seed(2023)\nn &lt;- nrow(kidiq)\nkidiqr &lt;- kidiq\nkidiqr$noise &lt;- array(rnorm(5*n), c(n,5))\nfit3 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq + noise, data=kidiqr,\n                 seed=2023, refresh=0)\n\nr2_fit1 &lt;- bayes_R2(fit1)\nr2_fit2 &lt;- bayes_R2(fit2)\nr2_fit3 &lt;- bayes_R2(fit3)"
-  },
-  {
     "objectID": "slides/09-regression.html#computation",
     "href": "slides/09-regression.html#computation",
     "title": "Lecture 09: Bayesian Regression",
@@ -2072,130 +2009,18 @@
     "text": "Computation\nThere are many R packages for fitting Bayesian regression models:\n\n\nrstanarm: pre-compiled Stan regression models; easier to use; faster; less flexible\nbrms: compile models on the fly; slower; more flexible\nbayesplot: visualization of Bayesian models\n\nMCMC diagnostics (using functions mcmc_*)\nPosterior prediction checking (PPC) (using functions ppc_*)\nPosterior prediction distribution (PPD) (using functions ppd_*)\n\nloo: efficient approximate leave-one-out cross-validation for fitted Bayesian models\nshinystan: Interactive diagnostic tools for assessing Bayesian models"
   },
   {
-    "objectID": "slides/09-regression.html#regularized-linear-regression",
-    "href": "slides/09-regression.html#regularized-linear-regression",
+    "objectID": "slides/09-regression.html#example-kids-test-scoreskidiq",
+    "href": "slides/09-regression.html#example-kids-test-scoreskidiq",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "Regularized linear regression",
-    "text": "Regularized linear regression\n\nThe OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is obtained by minimizing the residual sum of squares (RSS), i.e., \\(\\arg\\min_{\\beta\\in\\R^p} \\|Y - X\\beta\\|^2\\).\nIn some cases, the matrix \\(X^TX\\) is ill-conditioned, i.e., the inverse \\((X^TX)^{-1}\\) is numerically unstable.\nAlso when \\(p &gt; n\\), the matrix \\(X^TX\\) is singular and the OLS solution does not exist.\nWe can consider the following penalized least-square problem: \\[\n\\arg\\min_{\\beta\\in\\R^p}  \\|Y - X\\beta\\|^2 + \\lambda \\cdot\\text{Penalty}(\\beta) \\quad \\text{for some } \\lambda &gt; 0.\n\\]\nThere are three commonly used penalties:\n\nRidge regression: \\(\\text{Penalty}(\\beta) = \\|\\beta\\|^2 = \\sum_{j=1}^p \\beta_j^2\\)\nLASSO: \\(\\text{Penalty}(\\beta) = \\|\\beta\\|_1 = \\sum_{j=1}^p |\\beta_j|\\)\nElastic net: \\(\\text{Penalty}(\\beta) = \\alpha \\|\\beta\\|^2 + (1-\\alpha) \\|\\beta\\|_1\\) for some \\(\\alpha \\in [0, 1]\\)."
+    "section": "Example: Kids’ Test Scores1",
+    "text": "Example: Kids’ Test Scores1\nData from a survey of adult American women and their children (a subsample from the National Longitudinal Survey of Youth).\n\n\nSource: Gelman and Hill (2007)\n434 obs. of 4 variables\n\nkid_score: Child’s IQ score\nmom_hs: Indicator for whether the mother has a high school degree\nmom_iq: Mother’s IQ score\nmom_age: Mother’s age\n\n\n\nhttps://avehtari.github.io/ROS-Examples/KidIQ/kidiq.html"
   },
   {
-    "objectID": "slides/09-regression.html#high-dimensional-linear-regression-1",
-    "href": "slides/09-regression.html#high-dimensional-linear-regression-1",
+    "objectID": "slides/09-regression.html#fit-a-bayesian-linear-regression-model",
+    "href": "slides/09-regression.html#fit-a-bayesian-linear-regression-model",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "High-dimensional linear regression",
-    "text": "High-dimensional linear regression\n\nIn some applications, we might have more predictors than samples, i.e., \\(p \\gg n\\).\nIn such cases, the sparsity assumption is often used, i.e., only a few predictors are relevant.\nLASSO or Bayesian Lasso can be used to select the relevant predictors.\nHowever LASSO or Bayesian LASSO have some problems:\n\nit does not handle correlated variables well\nit shrinks all coefficients with the same intensity\nit often overshrinks large coefficients.\n\nWe will now introduce two priors for high-dimensional sparse linear regression that address these problems."
-  },
-  {
-    "objectID": "slides/09-regression.html#example-car-price-predictiondata",
-    "href": "slides/09-regression.html#example-car-price-predictiondata",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Example: Car Price Prediction1",
-    "text": "Example: Car Price Prediction1\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\", \n                 header = TRUE)\ndata$price &lt;- data$price/1000\n\n# fit a linear regression model\nfit &lt;- stan_glm(price ~ highwaympg + citympg + horsepower, \n               data = data, \n               family = gaussian(),\n               prior = NULL,\n               prior_intercept = NULL,\n               prior_aux = NULL,\n               chains = 4, iter = 2000, seed = 123)\n\nhttps://www.kaggle.com/datasets/hellbuoy/car-price-prediction"
-  },
-  {
-    "objectID": "slides/09-regression.html#spike-and-slab-prior",
-    "href": "slides/09-regression.html#spike-and-slab-prior",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Spike-and-slab prior",
-    "text": "Spike-and-slab prior\n\nThe spike-and-slab prior1 is \\[\n\\beta_j \\mid w, \\tau^2 \\sim (1 - w)\\delta_0 + w \\cdot N(0, \\tau^2).\n\\]\nEquivalently, \\[\\begin{align*}\n\\beta_j \\mid \\gamma_j = 0 & \\sim \\delta_0 \\\\\n\\beta_j \\mid \\gamma_j = 1 & \\sim N(0, \\tau^2)\\\\\n\\gamma_j & \\iid \\text{Ber}(w)\n\\end{align*}\\]\n\\(w\\) is the parameter that controls the sparsity, and \\(\\gamma_j\\) is the indicator of the \\(j\\)-th predictor being relevant.\nThis prior is considered the ``gold standard’’ for sparse regression.\nHowever, it is computationally expensive to update the discrete variables \\(\\gamma_j\\).\n\nMitchell, T. J., & Beauchamp, J. J. (1988). Bayesian variable selection in linear regression. Journal of the American Statistical Association, 83(404), 1023-1032."
-  },
-  {
-    "objectID": "slides/09-regression.html#horseshoe-prior",
-    "href": "slides/09-regression.html#horseshoe-prior",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Horseshoe prior",
-    "text": "Horseshoe prior\n\nThe horseshoe prior1 is \\[\\begin{align*}\n\\beta_j \\mid \\lambda_j, \\tau & \\sim N\\left(0, \\tau^2 \\lambda_j^2\\right) \\\\\n\\lambda_j & \\sim C^{+}(0,1), \\quad j=1, \\ldots, p\n\\end{align*}\\] where \\(C^{+}(0, 1)\\) is the half-Cauchy distribution.\nThis is an example of global-local shrinkage prior, where \\(\\lambda_j\\) is the local shrinkage parameter and \\(\\tau\\) is the global shrinkage parameter.\n\nCarvalho, C. M., Polson, N. G., & Scott, J. G. (2010). The horseshoe estimator for sparse signals. Biometrika, 97(2), 465-480."
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-diagnostics",
-    "href": "slides/09-regression.html#posterior-diagnostics",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Diagnostics",
-    "text": "Posterior Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"highwaympg\", \"citympg\", \n                         \"horsepower\", \"R2\"))"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-diagnostic",
-    "href": "slides/09-regression.html#posterior-diagnostic",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Diagnostic",
-    "text": "Posterior Diagnostic\n\nplot_title &lt;- ggtitle(\"Posterior distributions\",\n                      \"with medians and 80% intervals\")\nmcmc_areas(fit, pars = c(\"highwaympg\", \"citympg\"),\n           prob = 0.8) + plot_title"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-diagnostic-1",
-    "href": "slides/09-regression.html#posterior-diagnostic-1",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Diagnostic",
-    "text": "Posterior Diagnostic\n\nsummary(fit)\n\n\nModel Info:\n function:     stan_lm\n family:       gaussian [identity]\n formula:      price ~ highwaympg + citympg + horsepower\n algorithm:    sampling\n sample:       4000 (posterior sample size)\n priors:       see help('prior_summary')\n observations: 205\n predictors:   4\n\nEstimates:\n                mean   sd   10%   50%   90%\n(Intercept)    4.5    3.4  0.1   4.5   8.9 \nhighwaympg    -0.8    0.2 -1.0  -0.8  -0.5 \ncitympg        0.7    0.2  0.4   0.7   0.9 \nhorsepower     0.1    0.0  0.1   0.1   0.2 \nsigma          4.6    0.2  4.3   4.5   4.9 \nlog-fit_ratio  0.0    0.0  0.0   0.0   0.0 \nR2             0.7    0.0  0.6   0.7   0.7 \n\nFit Diagnostics:\n           mean   sd   10%   50%   90%\nmean_PPD 13.3    0.5 12.7  13.3  13.8 \n\nThe mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).\n\nMCMC diagnostics\n              mcse Rhat n_eff\n(Intercept)   0.1  1.0  2231 \nhighwaympg    0.0  1.0  2730 \ncitympg       0.0  1.0  3091 \nhorsepower    0.0  1.0  2010 \nsigma         0.0  1.0  3108 \nlog-fit_ratio 0.0  1.0  2365 \nR2            0.0  1.0  2151 \nmean_PPD      0.0  1.0  3779 \nlog-posterior 0.1  1.0  1036 \n\nFor each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1)."
-  },
-  {
-    "objectID": "slides/09-regression.html#mcmc-diagnostics",
-    "href": "slides/09-regression.html#mcmc-diagnostics",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "MCMC Diagnostics",
-    "text": "MCMC Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"(Intercept)\", \"mom_iq\", \"mom_hs\"))"
-  },
-  {
-    "objectID": "slides/09-regression.html#mcmc-diagnostic",
-    "href": "slides/09-regression.html#mcmc-diagnostic",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "MCMC Diagnostic",
-    "text": "MCMC Diagnostic\n\nmcmc_dens_overlay(fit, pars = c(\"mom_iq\", \"mom_hs\")) + \n    labs(title = \"Posterior distributions\")"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-prediction-checks",
-    "href": "slides/09-regression.html#posterior-prediction-checks",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Prediction Checks",
-    "text": "Posterior Prediction Checks"
-  },
-  {
-    "objectID": "slides/09-regression.html#available-priors-for-stan_lm",
-    "href": "slides/09-regression.html#available-priors-for-stan_lm",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Available priors for stan_lm",
-    "text": "Available priors for stan_lm\n\n\nStudent-\\(t\\) family: cauchy, \\(t\\), normal\nHierarchical shrinkage family: horseshoe, horseshoe+\nLaplace family: laplace, lasso\nR2 prior: This prior hinges on prior beliefs about the location of \\(R^2\\), the proportion of variance in the outcome attributable to the predictors.\nCheck https://mc-stan.org/rstanarm/reference/priors.html for more details."
-  },
-  {
-    "objectID": "slides/09-regression.html#interactive-tool-shinystan",
-    "href": "slides/09-regression.html#interactive-tool-shinystan",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Interactive tool: shinystan",
-    "text": "Interactive tool: shinystan\n\nlibrary(shinystan)\nlaunch_shinystan(fit)"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking",
-    "href": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Prediction Checks (In-sample checking)",
-    "text": "Posterior Prediction Checks (In-sample checking)\nCompare observed data to draws from the posterior predictive distribution.\n\n# predicted vs. observed\nY_rep &lt;- posterior_predict(fit, seed = 2023)\n\nppc_dens_overlay(kidiq$kid_score, Y_rep[1:10,], size = 1) + \n  xlab(\"Kids' IQ Score\") +\n  ylab(\"Density\") +\n  labs(title = \"Posterior predictive distribution for observed samples\")"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction",
-    "href": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Prediction Distributions (Out-of-sample prediction)",
-    "text": "Posterior Prediction Distributions (Out-of-sample prediction)\nCompute the posterior predictive distribution for a new sample.\n\nX_new &lt;- data.frame(mom_hs = 0, mom_iq = seq(70, 140, by = 5))\nY_new_pred &lt;- posterior_predict(fit, newdata = X_new) \n\nppd_intervals(Y_new_pred[1:500,], prob = 0.75, linewidth = 2) + \n  ylab(\"Kids' IQ Score\") +\n  ggtitle(\"Posterior predictive intervals for new samples\")"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction-output",
-    "href": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction-output",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Prediction Distributions (Out-of-sample prediction)",
-    "text": "Posterior Prediction Distributions (Out-of-sample prediction)"
-  },
-  {
-    "objectID": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking-output",
-    "href": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking-output",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Posterior Prediction Checks (In-sample checking)",
-    "text": "Posterior Prediction Checks (In-sample checking)"
-  },
-  {
-    "objectID": "slides/09-regression.html#bayesian-interpretation-of-regularization",
-    "href": "slides/09-regression.html#bayesian-interpretation-of-regularization",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Bayesian interpretation of regularization",
-    "text": "Bayesian interpretation of regularization\n\nAny penalized likelihood estimator has a Bayesian interpretation, i.e., it is the posterior mode under the prior \\(\\pi(\\beta) \\propto \\exp(-\\lambda\\cdot\\text{Penalty}(\\beta))\\).\nFor example,\n\nRidge regression: normal prior \\(\\beta_j \\sim N(0, \\lambda^{-1})\\)\nLASSO: Laplace prior \\(\\beta_j \\sim \\text{Laplace}(0, \\lambda^{-1})\\)\nElastic net: \\(\\pi(\\boldsymbol{\\beta}) \\propto \\exp \\left\\{-\\lambda_1\\|\\boldsymbol{\\beta}\\|_1-\\lambda_2\\|\\boldsymbol{\\beta}\\|_2^2\\right\\}\\)\n\nUsually, the tuning parameter \\(\\lambda\\) is chosen by cross-validation.\nUnder the Bayesian framework, we can\n\nput a prior on \\(\\lambda\\) (fully Bayesian)\nput a hierarchical prior on \\(\\lambda\\) (hierarchical Bayes)\nestimate it from the data (empirical Bayes)"
+    "section": "Fit a Bayesian linear regression model",
+    "text": "Fit a Bayesian linear regression model\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata(kidiq)\n\n# fit a linear regression model\nfit &lt;- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, \n                family = gaussian(),\n                prior = NULL,\n                prior_intercept = NULL,\n                prior_aux = NULL,\n                chains = 4, iter = 2000, seed = 2023,\n                refresh = 0)"
   },
   {
     "objectID": "slides/09-regression.html#summary-of-the-fitted-model",
@@ -2212,6 +2037,69 @@
     "text": "Prior Summary\n\nprior_summary(fit)\n\nPriors for model 'fit' \n------\nIntercept (after predictors centered)\n ~ flat\n\nCoefficients\n ~ flat\n\nAuxiliary (sigma)\n ~ flat\n------\nSee help('prior_summary.stanreg') for more details"
   },
   {
+    "objectID": "slides/09-regression.html#mcmc-diagnostics",
+    "href": "slides/09-regression.html#mcmc-diagnostics",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "MCMC Diagnostics",
+    "text": "MCMC Diagnostics\n\ncolor_scheme_set(\"brightblue\")\nmcmc_trace(fit, pars = c(\"(Intercept)\", \"mom_iq\", \"mom_hs\"))"
+  },
+  {
+    "objectID": "slides/09-regression.html#mcmc-diagnostic",
+    "href": "slides/09-regression.html#mcmc-diagnostic",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "MCMC Diagnostic",
+    "text": "MCMC Diagnostic\n\nmcmc_dens_overlay(fit, pars = c(\"mom_iq\", \"mom_hs\")) + \n    labs(title = \"Posterior distributions\")"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking",
+    "href": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Prediction Checks (In-sample checking)",
+    "text": "Posterior Prediction Checks (In-sample checking)\nCompare observed data to draws from the posterior predictive distribution.\n\n# predicted vs. observed\nY_rep &lt;- posterior_predict(fit, seed = 2023)\n\nppc_dens_overlay(kidiq$kid_score, Y_rep[1:10,], size = 1) + \n  xlab(\"Kids' IQ Score\") +\n  ylab(\"Density\") +\n  labs(title = \"Posterior predictive distribution for observed samples\")"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking-output",
+    "href": "slides/09-regression.html#posterior-prediction-checks-in-sample-checking-output",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Prediction Checks (In-sample checking)",
+    "text": "Posterior Prediction Checks (In-sample checking)"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction",
+    "href": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Prediction Distributions (Out-of-sample prediction)",
+    "text": "Posterior Prediction Distributions (Out-of-sample prediction)\nCompute the posterior predictive distribution for a new sample.\n\nX_new &lt;- data.frame(mom_hs = 0, mom_iq = seq(70, 140, by = 5))\nY_new_pred &lt;- posterior_predict(fit, newdata = X_new) \n\nppd_intervals(Y_new_pred[1:500,], prob = 0.75, linewidth = 2) + \n  ylab(\"Kids' IQ Score\") +\n  ggtitle(\"Posterior predictive intervals for new samples\")"
+  },
+  {
+    "objectID": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction-output",
+    "href": "slides/09-regression.html#posterior-prediction-distributions-out-of-sample-prediction-output",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Posterior Prediction Distributions (Out-of-sample prediction)",
+    "text": "Posterior Prediction Distributions (Out-of-sample prediction)"
+  },
+  {
+    "objectID": "slides/09-regression.html#interactive-tool-shinystan",
+    "href": "slides/09-regression.html#interactive-tool-shinystan",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Interactive tool: shinystan",
+    "text": "Interactive tool: shinystan\n\nlibrary(shinystan)\nlaunch_shinystan(fit)"
+  },
+  {
+    "objectID": "slides/09-regression.html#regularized-linear-regression",
+    "href": "slides/09-regression.html#regularized-linear-regression",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Regularized linear regression",
+    "text": "Regularized linear regression\n\nThe OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is obtained by minimizing the residual sum of squares (RSS), i.e., \\(\\arg\\min_{\\beta\\in\\R^p} \\|Y - X\\beta\\|^2\\).\nIn some cases, the matrix \\(X^TX\\) is ill-conditioned, i.e., the inverse \\((X^TX)^{-1}\\) is numerically unstable.\nAlso when \\(p &gt; n\\), the matrix \\(X^TX\\) is singular and the OLS solution does not exist.\nWe can consider the following penalized least-square problem: \\[\n\\arg\\min_{\\beta\\in\\R^p}  \\|Y - X\\beta\\|^2 + \\lambda \\cdot\\text{Penalty}(\\beta) \\quad \\text{for some } \\lambda &gt; 0.\n\\]\nThere are three commonly used penalties:\n\nRidge regression: \\(\\text{Penalty}(\\beta) = \\|\\beta\\|^2 = \\sum_{j=1}^p \\beta_j^2\\)\nLASSO: \\(\\text{Penalty}(\\beta) = \\|\\beta\\|_1 = \\sum_{j=1}^p |\\beta_j|\\)\nElastic net: \\(\\text{Penalty}(\\beta) = \\alpha \\|\\beta\\|^2 + (1-\\alpha) \\|\\beta\\|_1\\) for some \\(\\alpha \\in [0, 1]\\)."
+  },
+  {
+    "objectID": "slides/09-regression.html#bayesian-interpretation-of-regularization",
+    "href": "slides/09-regression.html#bayesian-interpretation-of-regularization",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Bayesian interpretation of regularization",
+    "text": "Bayesian interpretation of regularization\n\nAny penalized likelihood estimator has a Bayesian interpretation, i.e., it is the posterior mode under the prior \\(\\pi(\\beta) \\propto \\exp(-\\lambda\\cdot\\text{Penalty}(\\beta))\\).\nFor example,\n\nRidge regression: normal prior \\(\\beta_j \\sim N(0, \\lambda^{-1})\\)\nLASSO: Laplace prior \\(\\beta_j \\sim \\text{Laplace}(0, \\lambda^{-1})\\)\nElastic net: \\(\\pi(\\boldsymbol{\\beta}) \\propto \\exp \\left\\{-\\lambda_1\\|\\boldsymbol{\\beta}\\|_1-\\lambda_2\\|\\boldsymbol{\\beta}\\|_2^2\\right\\}\\)\n\nUsually, the tuning parameter \\(\\lambda\\) is chosen by cross-validation.\nUnder the Bayesian framework, we can\n\nput a prior on \\(\\lambda\\) (fully Bayesian)\nput a hierarchical prior on \\(\\lambda\\) (hierarchical Bayes)\nestimate it from the data (empirical Bayes)"
+  },
+  {
     "objectID": "slides/09-regression.html#bayesian-lasso",
     "href": "slides/09-regression.html#bayesian-lasso",
     "title": "Lecture 09: Bayesian Regression",
@@ -2223,49 +2111,42 @@
     "href": "slides/09-regression.html#bayesian-lasso-1",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Bayesian LASSO",
-    "text": "Bayesian LASSO\n\nfit_lasso &lt;- stan_glm(price ~ highwaympg + citympg + horsepower + peakrpm, \n                      data = data, \n                      prior = lasso(df = 1, location = 0, \n                                    scale = 1, autoscale = TRUE),\n                      prior_intercept = normal(location = 0, scale = 1, \n                                               autoscale = TRUE),\n                      prior_aux = exponential(rate = 1, autoscale = TRUE),\n                      chains = 4, iter = 2000, seed = 2023,\n                      refresh = 0)"
+    "text": "Bayesian LASSO\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\")\nfit_lasso &lt;- stan_glm(price ~ highwaympg + citympg + horsepower + \n                          peakrpm + compressionratio, \n                      data = data, \n                      prior = lasso(df = 1, location = 0, \n                                    scale = 0.5, autoscale = TRUE),\n                      prior_intercept = normal(location = 0, scale = 1, \n                                               autoscale = TRUE),\n                      prior_aux = exponential(rate = 1, autoscale = TRUE),\n                      chains = 4, iter = 2000, seed = 2023,\n                      refresh = 0)"
   },
   {
     "objectID": "slides/09-regression.html#summary-of-the-fitted-model-1",
     "href": "slides/09-regression.html#summary-of-the-fitted-model-1",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Summary of the fitted model",
-    "text": "Summary of the fitted model"
+    "text": "Summary of the fitted model\n\n\n\nModel Info:\n function:     stan_glm\n family:       gaussian [identity]\n formula:      price ~ highwaympg + citympg + horsepower + peakrpm + compressionratio\n algorithm:    sampling\n sample:       4000 (posterior sample size)\n priors:       see help('prior_summary')\n observations: 205\n predictors:   6\n\nEstimates:\n                   mean    sd      10%     50%     90%  \n(Intercept)       9493.2  4656.5  3681.0  9573.9 15322.0\nhighwaympg        -328.0   153.9  -528.2  -320.4  -140.2\ncitympg             71.7   171.2  -131.5    57.3   296.4\nhorsepower         139.0    12.4   122.9   139.2   154.7\npeakrpm             -1.4     0.7    -2.3    -1.4    -0.5\ncompressionratio   451.8    88.6   338.3   450.3   564.1\nsigma             4123.4   212.5  3858.6  4113.1  4398.4\n\nFit Diagnostics:\n           mean    sd      10%     50%     90%  \nmean_PPD 13262.4   398.9 12755.5 13256.9 13779.3\n\nThe mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).\n\nMCMC diagnostics\n                 mcse Rhat n_eff\n(Intercept)      72.0  1.0 4179 \nhighwaympg        2.6  1.0 3374 \ncitympg           2.9  1.0 3555 \nhorsepower        0.2  1.0 4133 \npeakrpm           0.0  1.0 4251 \ncompressionratio  1.4  1.0 4222 \nsigma             3.2  1.0 4291 \nmean_PPD          6.4  1.0 3869 \nlog-posterior     0.1  1.0  801 \n\nFor each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1)."
   },
   {
-    "objectID": "slides/09-regression.html#horseshoe-priorhs_prior",
-    "href": "slides/09-regression.html#horseshoe-priorhs_prior",
+    "objectID": "slides/09-regression.html#high-dimensional-linear-regression-1",
+    "href": "slides/09-regression.html#high-dimensional-linear-regression-1",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "Horseshoe prior1",
-    "text": "Horseshoe prior1\n\nThe horseshoe prior is \\[\\begin{align*}\n\\beta_j \\mid \\lambda_j, \\tau & \\sim N\\left(0, \\tau^2 \\lambda_j^2\\right) \\\\\n\\lambda_j & \\sim C^{+}(0,1), \\quad j=1, \\ldots, p\n\\end{align*}\\] where \\(C^{+}(0, 1)\\) is the half-Cauchy distribution.\nThis is an example of global-local shrinkage prior, where \\(\\lambda_j\\) is the local shrinkage parameter and \\(\\tau\\) is the global shrinkage parameter.\n\nCarvalho, C. M., Polson, N. G., & Scott, J. G. (2010). The horseshoe estimator for sparse signals. Biometrika, 97(2), 465-480."
+    "section": "High-dimensional linear regression",
+    "text": "High-dimensional linear regression\n\nIn some applications, we might have more predictors than samples, i.e., \\(p \\gg n\\).\nIn such cases, the sparsity assumption is often used, i.e., only a few predictors are relevant.\nLASSO or Bayesian Lasso can be used to select the relevant predictors.\nHowever LASSO or Bayesian LASSO have some problems:\n\nit does not handle correlated variables well\nit shrinks all coefficients with the same intensity\nit often overshrinks large coefficients.\n\nWe will now introduce two priors for high-dimensional sparse linear regression that address these problems."
   },
   {
-    "objectID": "slides/09-regression.html#issues-in-linear-regression",
-    "href": "slides/09-regression.html#issues-in-linear-regression",
+    "objectID": "slides/09-regression.html#spike-and-slab-prior",
+    "href": "slides/09-regression.html#spike-and-slab-prior",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "Issues in linear regression",
-    "text": "Issues in linear regression\n\n\nHome"
+    "section": "Spike-and-slab prior",
+    "text": "Spike-and-slab prior\n\nThe spike-and-slab prior1 is \\[\n\\beta_j \\mid w, \\tau^2 \\sim (1 - w)\\delta_0 + w \\cdot N(0, \\tau^2).\n\\]\nEquivalently, \\[\\begin{align*}\n\\beta_j \\mid \\gamma_j = 0 & \\sim \\delta_0 \\\\\n\\beta_j \\mid \\gamma_j = 1 & \\sim N(0, \\tau^2)\\\\\n\\gamma_j & \\iid \\text{Ber}(w)\n\\end{align*}\\]\n\\(w\\) is the parameter that controls the sparsity, and \\(\\gamma_j\\) is the indicator of the \\(j\\)-th predictor being relevant.\nThis prior is considered the ``gold standard’’ for sparse regression.\nHowever, it is computationally expensive to update the discrete variables \\(\\gamma_j\\).\n\nMitchell, T. J., & Beauchamp, J. J. (1988). Bayesian variable selection in linear regression. Journal of the American Statistical Association, 83(404), 1023-1032."
   },
   {
-    "objectID": "slides/09-regression.html#example-kids-test-scoreskidiq",
-    "href": "slides/09-regression.html#example-kids-test-scoreskidiq",
+    "objectID": "slides/09-regression.html#horseshoe-prior",
+    "href": "slides/09-regression.html#horseshoe-prior",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "Example: Kids’ Test Scores1",
-    "text": "Example: Kids’ Test Scores1\nData from a survey of adult American women and their children (a subsample from the National Longitudinal Survey of Youth).\n\n\nSource: Gelman and Hill (2007)\n434 obs. of 4 variables\n\nkid_score: Child’s IQ score\nmom_hs: Indicator for whether the mother has a high school degree\nmom_iq: Mother’s IQ score\nmom_age: Mother’s age\n\n\n\nhttps://avehtari.github.io/ROS-Examples/KidIQ/kidiq.html"
+    "section": "Horseshoe prior",
+    "text": "Horseshoe prior\n\nThe horseshoe prior1 is \\[\\begin{align*}\n\\beta_j \\mid \\lambda_j, \\tau & \\sim N\\left(0, \\tau^2 \\lambda_j^2\\right) \\\\\n\\lambda_j & \\sim C^{+}(0,1), \\quad j=1, \\ldots, p\n\\end{align*}\\] where \\(C^{+}(0, 1)\\) is the half-Cauchy distribution.\nThis is an example of global-local shrinkage prior, where \\(\\lambda_j\\) is the local shrinkage parameter and \\(\\tau\\) is the global shrinkage parameter.\n\nCarvalho, C. M., Polson, N. G., & Scott, J. G. (2010). The horseshoe estimator for sparse signals. Biometrika, 97(2), 465-480."
   },
   {
-    "objectID": "slides/09-regression.html#unequal-variances-and-correlations",
-    "href": "slides/09-regression.html#unequal-variances-and-correlations",
+    "objectID": "slides/09-regression.html#available-priors-for-stan_lm",
+    "href": "slides/09-regression.html#available-priors-for-stan_lm",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "Unequal variances and correlations",
-    "text": "Unequal variances and correlations"
-  },
-  {
-    "objectID": "slides/09-regression.html#fit-a-bayesian-linear-regression-model",
-    "href": "slides/09-regression.html#fit-a-bayesian-linear-regression-model",
-    "title": "Lecture 09: Bayesian Regression",
-    "section": "Fit a Bayesian linear regression model",
-    "text": "Fit a Bayesian linear regression model\n\nlibrary(rstanarm)\nlibrary(bayesplot)\nlibrary(ggplot2)\n\ndata(kidiq)\n\n# fit a linear regression model\nfit &lt;- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, \n                family = gaussian(),\n                prior = NULL,\n                prior_intercept = NULL,\n                prior_aux = NULL,\n                chains = 4, iter = 2000, seed = 2023,\n                refresh = 0)"
+    "section": "Available priors for stan_lm",
+    "text": "Available priors for stan_lm\n\n\nStudent-\\(t\\) family: cauchy, \\(t\\), normal\nHierarchical shrinkage family: horseshoe, horseshoe+\nLaplace family: laplace, lasso\nR2 prior: This prior hinges on prior beliefs about the location of \\(R^2\\), the proportion of variance in the outcome attributable to the predictors.\nCheck https://mc-stan.org/rstanarm/reference/priors.html for more details."
   },
   {
     "objectID": "slides/09-regression.html#compare-different-models",
@@ -2279,7 +2160,14 @@
     "href": "slides/09-regression.html#bayesian-r2",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Bayesian \\(R^2\\)",
-    "text": "Bayesian \\(R^2\\)\n\nHowever, the \\(R^2\\) always increases even if we add irrelevant predictors.\nAdjusted \\(R^2\\) is a modification of \\(R^2\\) that penalizes the addition of irrelevant predictors \\[\nR^2_{\\text{adj}} =1-\\left(1-R^2\\right) \\frac{n-1}{n-p-1}.\n\\]\nInstead of comparing the \\(R^2\\) or the adjusted \\(R^2\\) of the two models, we can compare the posterior distributions of the \\(R^2\\) of the two models."
+    "text": "Bayesian \\(R^2\\)\n\nHowever, the \\(R^2\\) always increases even if we add irrelevant predictors.\nAdjusted \\(R^2\\) is a modification of \\(R^2\\) that penalizes the addition of irrelevant predictors \\[\nR^2_{\\text{adj}} =1-\\left(1-R^2\\right) \\frac{n-1}{n-p-1}.\n\\]\nInstead of comparing the \\(R^2\\) or the adjusted \\(R^2\\) of the two models, we can compare the posterior distributions of the \\(R^2\\) of the two models.\n\n\n\nhttps://avehtari.github.io/ROS-Examples/KidIQ/kidiq_R2.html"
+  },
+  {
+    "objectID": "slides/09-regression.html#example",
+    "href": "slides/09-regression.html#example",
+    "title": "Lecture 09: Bayesian Regression",
+    "section": "Example",
+    "text": "Example\n\nfit1 &lt;- stan_glm(kid_score ~ mom_hs, data=kidiq, \n                 seed=2023, refresh=0)\nfit2 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq, data=kidiq, \n                 seed=2023, refresh=0)\n\n## Adding random noise as predictors\nset.seed(2023)\nn &lt;- nrow(kidiq)\nkidiqr &lt;- kidiq\nkidiqr$noise &lt;- array(rnorm(5*n), c(n,5))\nfit3 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq + noise, data=kidiqr,\n                 seed=2023, refresh=0)\n\nr2_fit1 &lt;- bayes_R2(fit1)\nr2_fit2 &lt;- bayes_R2(fit2)\nr2_fit3 &lt;- bayes_R2(fit3)"
   },
   {
     "objectID": "slides/09-regression.html#posterior-distribution-of-r2",

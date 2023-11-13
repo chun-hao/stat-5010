@@ -1,23 +1,5 @@
 ---
 title: "Lecture 09: Bayesian Regression"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-        include-in-header: 
-            - text: 
-                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: true
 ---
 
 # Classical Linear regression
@@ -28,7 +10,7 @@ execute:
 
 -   Suppose we have samples $\{x_i, y_i\}_{i=1}^n$ where $y_i \in \R$ and $x_i \in \R^{p-1}$. We want to model the relationship between $x_i$ and $y_i$.
 -   The classical linear regression model is $Y = X^T\beta$. 
--   We can fit the model by minimizing the ordinary least-square (OLS) $\sum_{i=1}^n (y_i - x_i^T\beta)^2$.
+-   We can fit the model by the method of ordinary least-square (OLS), i.e., minimizing $\sum_{i=1}^n (y_i - x_i^T\beta)^2$.
 -   The solution is $\hat{\beta} = (X^TX)^{-1}X^TY$, where $Y = [y_1,\ldots, y_n]^T$ and 
     $$
     X = \left[\begin{array}{cc}
@@ -286,9 +268,9 @@ where $\nu$ is the degrees of freedom (the default is $\nu = 1$).
 ```{r}
 #| label: bayesian_lasso
 #| echo: true
-#| eval: false
 data <- read.csv("dataset/car_price/CarPrice_Assignment.csv")
-fit_lasso <- stan_glm(price ~ ., 
+fit_lasso <- stan_glm(price ~ highwaympg + citympg + horsepower + 
+                          peakrpm + compressionratio, 
                       data = data, 
                       prior = lasso(df = 1, location = 0, 
                                     scale = 0.5, autoscale = TRUE),
@@ -303,7 +285,6 @@ fit_lasso <- stan_glm(price ~ .,
 
 ```{r}
 #| label: bayesian_lasso_summary
-#| eval: false
 summary(fit_lasso)
 ```
 
@@ -355,7 +336,7 @@ summary(fit_lasso)
 
 [^HS_prior]: Carvalho, C. M., Polson, N. G., & Scott, J. G. (2010). *The horseshoe estimator for sparse signals*. Biometrika, 97(2), 465-480.
 
-## Available priors for `stan_lm`
+## Available priors for `stan_glm`
 
 :::{.nonincremental}
 -   Student-$t$ family: cauchy, $t$, normal
@@ -393,6 +374,12 @@ summary(fit_lasso)
     R^2_{\text{adj}} =1-\left(1-R^2\right) \frac{n-1}{n-p-1}.
     $$
 -   Instead of comparing the $R^2$ or the adjusted $R^2$ of the two models, we can compare the posterior distributions of the $R^2$ of the two models.
+
+::: aside
+
+<https://avehtari.github.io/ROS-Examples/KidIQ/kidiq_R2.html>
+
+:::
 
 ## Example
 ```{r}
