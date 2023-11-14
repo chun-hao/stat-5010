@@ -437,7 +437,7 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">Suppose we have samples <span class="math inline">\(\{x_i, y_i\}_{i=1}^n\)</span> where <span class="math inline">\(y_i \in \R\)</span> and <span class="math inline">\(x_i \in \R^{p-1}\)</span>. We want to model the relationship between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span>.</li>
 <li class="fragment">The classical linear regression model is <span class="math inline">\(Y = X^T\beta\)</span>.</li>
-<li class="fragment">We can fit the model by the method of ordinary least-square (OLS), i.e., minimizing <span class="math inline">\(\sum_{i=1}^n (y_i - x_i^T\beta)^2\)</span>.</li>
+<li class="fragment">We can fit the model by minimizing the ordinary least-square (OLS) <span class="math inline">\(\sum_{i=1}^n (y_i - x_i^T\beta)^2\)</span>.</li>
 <li class="fragment">The solution is <span class="math inline">\(\hat{\beta} = (X^TX)^{-1}X^TY\)</span>, where <span class="math inline">\(Y = [y_1,\ldots, y_n]^T\)</span> and <span class="math display">\[
 X = \left[\begin{array}{cc}
 1 &amp; x_1^T \\
@@ -535,7 +535,7 @@ Y^{*(i)} \mid X^*, X, Y \sim N(X^{*T}\beta^{(i)}, \sigma^{2,(i)}).
 <aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://avehtari.github.io/ROS-Examples/KidIQ/kidiq.html" class="uri">https://avehtari.github.io/ROS-Examples/KidIQ/kidiq.html</a></p></li></ol></aside></section>
 <section id="fit-a-bayesian-linear-regression-model" class="slide level2">
 <h2>Fit a Bayesian linear regression model</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/model_fit_62c29e4791ee4da4233f9c0563e51888">
+<div class="cell" data-hash="09-regression_cache/revealjs/model_fit_afde5f4be02b3d23900bc433c185f131">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(rstanarm)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(bayesplot)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2)</span>
@@ -554,7 +554,7 @@ Y^{*(i)} \mid X^*, X, Y \sim N(X^{*T}\beta^{(i)}, \sigma^{2,(i)}).
 </section>
 <section id="summary-of-the-fitted-model" class="slide level2">
 <h2>Summary of the fitted model</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/model_summary_f6375f50e6b965a021f0d51f981ffe1c">
+<div class="cell" data-hash="09-regression_cache/revealjs/model_summary_f0c95ce9b70c8ba308487d326fe3accb">
 <div class="cell-output cell-output-stdout">
 <pre><code>stan_glm
  family:       gaussian [identity]
@@ -579,7 +579,7 @@ sigma 18.2    0.6
 </section>
 <section id="prior-summary" class="slide level2">
 <h2>Prior Summary</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/prior_summary_b9f1bfa1759aa3f4fe3cb7b5e7c849ef">
+<div class="cell" data-hash="09-regression_cache/revealjs/prior_summary_7a41c0adb895d3434bbbea8c7c448980">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">prior_summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Priors for model 'fit' 
@@ -599,7 +599,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 </section>
 <section id="mcmc-diagnostics" class="slide level2">
 <h2>MCMC Diagnostics</h2>
-<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/mcmc_trace_12a0d0aac5108fb64be53fcef4082636">
+<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/mcmc_trace_333b9652538fb23b4f62bbf0781c67f6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">color_scheme_set</span>(<span class="st">"brightblue"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">mcmc_trace</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"(Intercept)"</span>, <span class="st">"mom_iq"</span>, <span class="st">"mom_hs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -607,7 +607,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 <img data-src="09-regression_files/figure-revealjs/mcmc_trace-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="mcmc-diagnostic" class="slide level2">
 <h2>MCMC Diagnostic</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/mcmc_posterior_6366521dcae36e40e3fa14fab3c86567">
+<div class="cell" data-hash="09-regression_cache/revealjs/mcmc_posterior_130f0c1eb19bfe3d0629b20d51ae922a">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">mcmc_dens_overlay</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"mom_iq"</span>, <span class="st">"mom_hs"</span>)) <span class="sc">+</span> </span>
 <span id="cb6-2"><a href="#cb6-2"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Posterior distributions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -616,7 +616,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 <section id="posterior-prediction-checks-in-sample-checking" class="slide level2">
 <h2>Posterior Prediction Checks (In-sample checking)</h2>
 <p>Compare observed data to draws from the posterior predictive distribution.</p>
-<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppc_density_dfed7659df39b82e43d4dee0203657c4">
+<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppc_density_bc1ad1ce2703e607f75ad1ad18242eb9">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># predicted vs. observed</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>Y_rep <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(fit, <span class="at">seed =</span> <span class="dv">2023</span>)</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
@@ -627,7 +627,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 </div>
 
 </section>
-<section id="posterior-prediction-checks-in-sample-checking-output" class="slide level2 output-location-slide"><h2>Posterior Prediction Checks (In-sample checking)</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppc_density_dfed7659df39b82e43d4dee0203657c4">
+<section id="posterior-prediction-checks-in-sample-checking-output" class="slide level2 output-location-slide"><h2>Posterior Prediction Checks (In-sample checking)</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppc_density_bc1ad1ce2703e607f75ad1ad18242eb9">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -638,7 +638,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 </div></section><section id="posterior-prediction-distributions-out-of-sample-prediction" class="slide level2">
 <h2>Posterior Prediction Distributions (Out-of-sample prediction)</h2>
 <p>Compute the posterior predictive distribution for a new sample.</p>
-<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppd_intervals_6d5bbab0b54a1efa8a3aff5d60201095">
+<div class="cell" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppd_intervals_3040db200da3fe19f4d2581a1307e039">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>X_new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">mom_hs =</span> <span class="dv">0</span>, <span class="at">mom_iq =</span> <span class="fu">seq</span>(<span class="dv">70</span>, <span class="dv">140</span>, <span class="at">by =</span> <span class="dv">5</span>))</span>
 <span id="cb8-2"><a href="#cb8-2"></a>Y_new_pred <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(fit, <span class="at">newdata =</span> X_new) </span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
@@ -648,7 +648,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 </div>
 
 </section>
-<section id="posterior-prediction-distributions-out-of-sample-prediction-output" class="slide level2 output-location-slide"><h2>Posterior Prediction Distributions (Out-of-sample prediction)</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppd_intervals_6d5bbab0b54a1efa8a3aff5d60201095">
+<section id="posterior-prediction-distributions-out-of-sample-prediction-output" class="slide level2 output-location-slide"><h2>Posterior Prediction Distributions (Out-of-sample prediction)</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="09-regression_cache/revealjs/ppd_intervals_3040db200da3fe19f4d2581a1307e039">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -658,7 +658,7 @@ See help('prior_summary.stanreg') for more details</code></pre>
 </div>
 </div></section><section id="interactive-tool-shinystan" class="slide level2">
 <h2>Interactive tool: <code>shinystan</code></h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/shinystan_f5c989097d24f119f82ccb01c94131cd">
+<div class="cell" data-hash="09-regression_cache/revealjs/shinystan_3201ff986db46b8545e50e2d09d85642">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(shinystan)</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="fu">launch_shinystan</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -721,66 +721,20 @@ Y \mid X, \beta, \sigma^2 &amp; \sim N(X\beta, \sigma^2 I_n) \\
 </section>
 <section id="bayesian-lasso-1" class="slide level2">
 <h2>Bayesian LASSO</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/bayesian_lasso_ccd4031240084e261b67df3a009fa604">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"dataset/car_price/CarPrice_Assignment.csv"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>fit_lasso <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(price <span class="sc">~</span> highwaympg <span class="sc">+</span> citympg <span class="sc">+</span> horsepower <span class="sc">+</span> </span>
-<span id="cb10-3"><a href="#cb10-3"></a>                          peakrpm <span class="sc">+</span> compressionratio, </span>
-<span id="cb10-4"><a href="#cb10-4"></a>                      <span class="at">data =</span> data, </span>
-<span id="cb10-5"><a href="#cb10-5"></a>                      <span class="at">prior =</span> <span class="fu">lasso</span>(<span class="at">df =</span> <span class="dv">1</span>, <span class="at">location =</span> <span class="dv">0</span>, </span>
-<span id="cb10-6"><a href="#cb10-6"></a>                                    <span class="at">scale =</span> <span class="fl">0.5</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-7"><a href="#cb10-7"></a>                      <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> <span class="dv">1</span>, </span>
-<span id="cb10-8"><a href="#cb10-8"></a>                                               <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-9"><a href="#cb10-9"></a>                      <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="at">rate =</span> <span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-10"><a href="#cb10-10"></a>                      <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">seed =</span> <span class="dv">2023</span>,</span>
-<span id="cb10-11"><a href="#cb10-11"></a>                      <span class="at">refresh =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="09-regression_cache/revealjs/bayesian_lasso_f13714e0938fb43066ac87a01cbcfd1d">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>fit_lasso <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(price <span class="sc">~</span> highwaympg <span class="sc">+</span> citympg <span class="sc">+</span> horsepower <span class="sc">+</span> peakrpm, </span>
+<span id="cb10-2"><a href="#cb10-2"></a>                      <span class="at">data =</span> data, </span>
+<span id="cb10-3"><a href="#cb10-3"></a>                      <span class="at">prior =</span> <span class="fu">lasso</span>(<span class="at">df =</span> <span class="dv">1</span>, <span class="at">location =</span> <span class="dv">0</span>, </span>
+<span id="cb10-4"><a href="#cb10-4"></a>                                    <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-5"><a href="#cb10-5"></a>                      <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> <span class="dv">1</span>, </span>
+<span id="cb10-6"><a href="#cb10-6"></a>                                               <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-7"><a href="#cb10-7"></a>                      <span class="at">prior_aux =</span> <span class="fu">exponential</span>(<span class="at">rate =</span> <span class="dv">1</span>, <span class="at">autoscale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-8"><a href="#cb10-8"></a>                      <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">seed =</span> <span class="dv">2023</span>,</span>
+<span id="cb10-9"><a href="#cb10-9"></a>                      <span class="at">refresh =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="summary-of-the-fitted-model-1" class="slide level2">
 <h2>Summary of the fitted model</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/bayesian_lasso_summary_d3b0eabdbe68590cfc25ccfc79dc6ba4">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Model Info:
- function:     stan_glm
- family:       gaussian [identity]
- formula:      price ~ highwaympg + citympg + horsepower + peakrpm + compressionratio
- algorithm:    sampling
- sample:       4000 (posterior sample size)
- priors:       see help('prior_summary')
- observations: 205
- predictors:   6
-
-Estimates:
-                   mean    sd      10%     50%     90%  
-(Intercept)       9493.2  4656.5  3681.0  9573.9 15322.0
-highwaympg        -328.0   153.9  -528.2  -320.4  -140.2
-citympg             71.7   171.2  -131.5    57.3   296.4
-horsepower         139.0    12.4   122.9   139.2   154.7
-peakrpm             -1.4     0.7    -2.3    -1.4    -0.5
-compressionratio   451.8    88.6   338.3   450.3   564.1
-sigma             4123.4   212.5  3858.6  4113.1  4398.4
-
-Fit Diagnostics:
-           mean    sd      10%     50%     90%  
-mean_PPD 13262.4   398.9 12755.5 13256.9 13779.3
-
-The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
-
-MCMC diagnostics
-                 mcse Rhat n_eff
-(Intercept)      72.0  1.0 4179 
-highwaympg        2.6  1.0 3374 
-citympg           2.9  1.0 3555 
-horsepower        0.2  1.0 4133 
-peakrpm           0.0  1.0 4251 
-compressionratio  1.4  1.0 4222 
-sigma             3.2  1.0 4291 
-mean_PPD          6.4  1.0 3869 
-log-posterior     0.1  1.0  801 
-
-For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
-</div>
-</div>
 </section></section>
 <section>
 <section id="high-dimensional-linear-regression" class="title-slide slide level1 center">
@@ -828,8 +782,8 @@ For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure
 <li class="fragment">This is an example of global-local shrinkage prior, where <span class="math inline">\(\lambda_j\)</span> is the local shrinkage parameter and <span class="math inline">\(\tau\)</span> is the global shrinkage parameter.</li>
 </ul>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>Carvalho, C. M., Polson, N. G., &amp; Scott, J. G. (2010). <em>The horseshoe estimator for sparse signals</em>. Biometrika, 97(2), 465-480.</p></li></ol></aside></section>
-<section id="available-priors-for-stan_glm" class="slide level2">
-<h2>Available priors for <code>stan_glm</code></h2>
+<section id="available-priors-for-stan_lm" class="slide level2">
+<h2>Available priors for <code>stan_lm</code></h2>
 <div>
 <ul>
 <li>Student-<span class="math inline">\(t\)</span> family: cauchy, <span class="math inline">\(t\)</span>, normal</li>
@@ -865,29 +819,26 @@ R^2_{\text{adj}} =1-\left(1-R^2\right) \frac{n-1}{n-p-1}.
 \]</span></li>
 <li class="fragment">Instead of comparing the <span class="math inline">\(R^2\)</span> or the adjusted <span class="math inline">\(R^2\)</span> of the two models, we can compare the posterior distributions of the <span class="math inline">\(R^2\)</span> of the two models.</li>
 </ul>
-
-<aside><div>
-<p><a href="https://avehtari.github.io/ROS-Examples/KidIQ/kidiq_R2.html" class="uri">https://avehtari.github.io/ROS-Examples/KidIQ/kidiq_R2.html</a></p>
-</div></aside></section>
+</section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-hash="09-regression_cache/revealjs/model_comparison_937987f9b626c56e6280cb7b2b9ca456">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(kid_score <span class="sc">~</span> mom_hs, <span class="at">data=</span>kidiq, </span>
-<span id="cb12-2"><a href="#cb12-2"></a>                 <span class="at">seed=</span><span class="dv">2023</span>, <span class="at">refresh=</span><span class="dv">0</span>)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(kid_score <span class="sc">~</span> mom_hs <span class="sc">+</span> mom_iq, <span class="at">data=</span>kidiq, </span>
-<span id="cb12-4"><a href="#cb12-4"></a>                 <span class="at">seed=</span><span class="dv">2023</span>, <span class="at">refresh=</span><span class="dv">0</span>)</span>
-<span id="cb12-5"><a href="#cb12-5"></a></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="do">## Adding random noise as predictors</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(kidiq)</span>
-<span id="cb12-9"><a href="#cb12-9"></a>kidiqr <span class="ot">&lt;-</span> kidiq</span>
-<span id="cb12-10"><a href="#cb12-10"></a>kidiqr<span class="sc">$</span>noise <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">5</span><span class="sc">*</span>n), <span class="fu">c</span>(n,<span class="dv">5</span>))</span>
-<span id="cb12-11"><a href="#cb12-11"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(kid_score <span class="sc">~</span> mom_hs <span class="sc">+</span> mom_iq <span class="sc">+</span> noise, <span class="at">data=</span>kidiqr,</span>
-<span id="cb12-12"><a href="#cb12-12"></a>                 <span class="at">seed=</span><span class="dv">2023</span>, <span class="at">refresh=</span><span class="dv">0</span>)</span>
-<span id="cb12-13"><a href="#cb12-13"></a></span>
-<span id="cb12-14"><a href="#cb12-14"></a>r2_fit1 <span class="ot">&lt;-</span> <span class="fu">bayes_R2</span>(fit1)</span>
-<span id="cb12-15"><a href="#cb12-15"></a>r2_fit2 <span class="ot">&lt;-</span> <span class="fu">bayes_R2</span>(fit2)</span>
-<span id="cb12-16"><a href="#cb12-16"></a>r2_fit3 <span class="ot">&lt;-</span> <span class="fu">bayes_R2</span>(fit3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="09-regression_cache/revealjs/model_comparison_1c39786e18979af21fd159c8b1280a71">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(kid_score <span class="sc">~</span> mom_hs, <span class="at">data=</span>kidiq, </span>
+<span id="cb11-2"><a href="#cb11-2"></a>                 <span class="at">seed=</span><span class="dv">2023</span>, <span class="at">refresh=</span><span class="dv">0</span>)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(kid_score <span class="sc">~</span> mom_hs <span class="sc">+</span> mom_iq, <span class="at">data=</span>kidiq, </span>
+<span id="cb11-4"><a href="#cb11-4"></a>                 <span class="at">seed=</span><span class="dv">2023</span>, <span class="at">refresh=</span><span class="dv">0</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="do">## Adding random noise as predictors</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb11-8"><a href="#cb11-8"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(kidiq)</span>
+<span id="cb11-9"><a href="#cb11-9"></a>kidiqr <span class="ot">&lt;-</span> kidiq</span>
+<span id="cb11-10"><a href="#cb11-10"></a>kidiqr<span class="sc">$</span>noise <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">rnorm</span>(<span class="dv">5</span><span class="sc">*</span>n), <span class="fu">c</span>(n,<span class="dv">5</span>))</span>
+<span id="cb11-11"><a href="#cb11-11"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(kid_score <span class="sc">~</span> mom_hs <span class="sc">+</span> mom_iq <span class="sc">+</span> noise, <span class="at">data=</span>kidiqr,</span>
+<span id="cb11-12"><a href="#cb11-12"></a>                 <span class="at">seed=</span><span class="dv">2023</span>, <span class="at">refresh=</span><span class="dv">0</span>)</span>
+<span id="cb11-13"><a href="#cb11-13"></a></span>
+<span id="cb11-14"><a href="#cb11-14"></a>r2_fit1 <span class="ot">&lt;-</span> <span class="fu">bayes_R2</span>(fit1)</span>
+<span id="cb11-15"><a href="#cb11-15"></a>r2_fit2 <span class="ot">&lt;-</span> <span class="fu">bayes_R2</span>(fit2)</span>
+<span id="cb11-16"><a href="#cb11-16"></a>r2_fit3 <span class="ot">&lt;-</span> <span class="fu">bayes_R2</span>(fit3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="posterior-distribution-of-r2" class="slide level2">

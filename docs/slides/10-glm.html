@@ -340,6 +340,140 @@ Chun-Hao Yang
 </div>
 
 </section>
+<section>
+<section id="generalized-linear-model" class="title-slide slide level1 center">
+<h1>Generalized Linear Model</h1>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+</section>
+<section id="exponential-family" class="slide level2">
+<h2>Exponential family</h2>
+<ul>
+<li class="fragment">Recall that an exponential family is a family of distributions <span class="math display">\[
+f(x \mid \theta) = h(x)\exp(\theta^T T(x) - \psi(\theta))
+\]</span> where <span class="math inline">\(\theta \in \R^k\)</span> and <span class="math inline">\(T(x) = [T_1(x), \ldots, T_k(x)]^T\)</span>.</li>
+<li class="fragment">Two useful properties (from Bartlett’s identities):
+<ul>
+<li class="fragment"><span class="math inline">\(\E(T(X)) = \nabla\psi(\theta)\)</span></li>
+<li class="fragment"><span class="math inline">\(\var(T(X)) = \text{Hess}(\psi(\theta)) = \nabla(\nabla \psi(\theta))\)</span>.</li>
+</ul></li>
+<li class="fragment">That is, the relationship between the parameter <span class="math inline">\(\theta\)</span> and the expectation <span class="math inline">\(\E(T(X))\)</span> determined by <span class="math inline">\(\nabla \psi\)</span>.</li>
+</ul>
+</section>
+<section id="examples" class="slide level2">
+<h2>Examples</h2>
+<ul>
+<li class="fragment">Normal: <span class="math inline">\(f(x \mid \mu, \sigma^2) = \exp\left(-\frac{1}{2\sigma^2} x^2 + \frac{\mu}{\sigma^2}x - \frac{\mu^2}{2\sigma^2}\right)\)</span>, <span class="math inline">\(x \in \R\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(\theta = \left(-\frac{1}{2\sigma^2}, \frac{\mu}{\sigma^2}\right)\)</span>, <span class="math inline">\(T(x) = (-x^2, x)\)</span>, <span class="math inline">\(\psi(\theta) = -\frac{\theta_2^2}{4\theta_1} = \frac{\mu^2}{2\sigma^2}\)</span></li>
+</ul></li>
+<li class="fragment">Bernoulli: <span class="math inline">\(f(x \mid p) = p^x(1-p)^{1-x} = \exp\left(x\log\frac{p}{1-p} + \log(1-p)\right)\)</span>, <span class="math inline">\(x \in \{0, 1\}\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(\theta = \log\frac{p}{1-p}\)</span>, <span class="math inline">\(T(x) = x\)</span>, <span class="math inline">\(\psi(\theta) = -\log(1-p) = \log(1 + e^{\theta})\)</span></li>
+</ul></li>
+<li class="fragment">Poisson: <span class="math inline">\(f(x \mid \lambda) = \frac{1}{x!}\exp(x\log\lambda - \lambda)\)</span>, <span class="math inline">\(x = 0, 1, 2, \ldots\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(\theta = \log\lambda\)</span>, <span class="math inline">\(T(x) = x\)</span>, <span class="math inline">\(\psi(\theta) = \exp(\theta) = \lambda\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="generalized-linear-model-glm" class="slide level2">
+<h2>Generalized Linear Model (GLM)</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(Y\)</span> be univariate, <span class="math inline">\(X \in \R^p\)</span>, and <span class="math inline">\(\beta \in \R^p\)</span>.</li>
+<li class="fragment">A GLM is assuming <span class="math inline">\(Y \mid X, \beta \sim F_{\theta}\)</span>, where <span class="math inline">\(\theta = X^T\beta\)</span> and <span class="math inline">\(F_\theta\)</span> has the density function <span class="math display">\[
+f(y \mid \theta) = h(y)\exp(\theta\cdot y - \psi(\theta)).
+\]</span></li>
+<li class="fragment">Therefore, <span class="math display">\[\begin{align*}
+\E(Y \mid X, \beta) &amp; = \frac{d}{d\theta}\psi(\theta) = \psi^{\prime}(X^T\beta)
+\end{align*}\]</span></li>
+<li class="fragment">Equivalently, <span class="math display">\[
+g(\E(Y \mid X, \beta)) = X^T\beta
+\]</span> where <span class="math inline">\(g\)</span> is the inverse of <span class="math inline">\(\psi^{\prime}\)</span>.</li>
+<li class="fragment">The function <span class="math inline">\(g\)</span> is called the <strong>link function</strong>.</li>
+</ul>
+</section>
+<section id="bernoulli-linear-model" class="slide level2">
+<h2>Bernoulli linear model</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(Y \mid X, \beta \sim \text{Ber}(p)\)</span>.</li>
+<li class="fragment">We have <span class="math inline">\(\theta = \log\frac{p}{1-p}\)</span>, <span class="math inline">\(T(x) = x\)</span>, <span class="math inline">\(\psi(\theta) = -\log(1-p) = \log(1 + e^{\theta})\)</span></li>
+<li class="fragment">Thus, <span class="math inline">\(\psi^{\prime}(\theta) = \frac{e^{\theta}}{1 + e^{\theta}}\)</span> and <span class="math inline">\(g(u) = (\psi^{\prime})^{-1}(u) = \log\frac{u}{1-u}\)</span>.</li>
+<li class="fragment"><span class="math inline">\(\phi^{\prime}\)</span> is called the <strong>logistic function</strong>; <span class="math inline">\(g\)</span> is called the <strong>logit function</strong>.</li>
+<li class="fragment">Putting altogether, we have <span class="math display">\[
+g(\E(Y\mid X, \beta)) = \log\frac{\E(Y \mid X, \beta)}{1 - \E(Y \mid X, \beta)} = X^T\beta
+\]</span> or equivalently <span class="math display">\[
+\E(Y \mid X, \beta) = \psi^{\prime}(X^T\beta) = \frac{\exp(X^T\beta)}{1 + \exp(X^T\beta)},
+\]</span> aka <strong>logistic regression</strong>.</li>
+</ul>
+</section>
+<section id="poisson-linear-model" class="slide level2">
+<h2>Poisson linear model</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(Y \mid X, \beta \sim \text{Pois}(\lambda)\)</span>.</li>
+<li class="fragment">We have <span class="math inline">\(\theta = \log\lambda\)</span>, <span class="math inline">\(T(x) = x\)</span>, <span class="math inline">\(\psi(\theta) = \exp(\theta) = \lambda\)</span>.</li>
+<li class="fragment">Thus <span class="math inline">\(\psi^{\prime}(\theta) = \exp(\theta)\)</span> and <span class="math inline">\(g(u) = (\psi^{\prime})^{-1}(u) = \log u\)</span>.</li>
+<li class="fragment">Putting altogether, we have <span class="math display">\[
+g(\E(Y\mid X, \beta)) = \log\E(Y \mid X, \beta) = X^T\beta
+\]</span> or equivalently <span class="math display">\[
+\E(Y \mid X, \beta) = \exp(X^T\beta),
+\]</span> aka <strong>Poisson log-linear regression</strong>.</li>
+</ul>
+</section>
+<section id="remarks" class="slide level2">
+<h2>Remarks</h2>
+<ul>
+<li class="fragment">The link function <span class="math inline">\(g = (\psi^{\prime})^{-1}\)</span> is sometimes called the <strong>canonical link</strong> function, since it is derived from the canonical representation of an exponential family.</li>
+<li class="fragment">All we need for a link function is that it matches the domain of <span class="math inline">\(\E(Y \mid X, \beta)\)</span> and <span class="math inline">\(X^T\beta\)</span>.</li>
+<li class="fragment">For example, in the Bernoulli linear model, we could have used the <strong>probit link</strong> function <span class="math display">\[
+g(u) = \Phi^{-1}(u): [0, 1] \to \R
+\]</span> where <span class="math inline">\(\Phi\)</span> is the CDF of the standard normal distribution.</li>
+<li class="fragment">This is called the <strong>probit regression</strong>.</li>
+</ul>
+</section>
+<section id="over--and-underdispersion" class="slide level2">
+<h2>Over- and underdispersion</h2>
+<ul>
+<li class="fragment">In the normal linear model, the conditional mean and variance of <span class="math inline">\(Y \mid X\)</span> are modeled by two different parameters <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span>.</li>
+<li class="fragment">However, in Poisson linear model, <span class="math display">\[
+\E(Y \mid X, \beta) = \exp(X^T\beta) = \var(Y \mid X, \beta).
+\]</span></li>
+<li class="fragment">Also, in Bernoulli linear model, <span class="math display">\[
+\var(Y \mid X, \beta) = \E(Y\mid X, \beta)(1-\E(Y \mid X, \beta)) = \frac{\exp(X^T\beta)}{(1+\exp(X^T\beta))^2}.
+\]</span></li>
+<li class="fragment">That is, the variance is determined by the mean, which might not be a reasonable assumption in practice.</li>
+<li class="fragment">When the observed variance is smaller or larger than the assumed variance, it is called an <strong>underdispersion</strong> or <strong>overdispersion</strong>, respectively.</li>
+</ul>
+</section>
+<section id="exponential-dispersion-family" class="slide level2">
+<h2>Exponential Dispersion Family</h2>
+</section></section>
+<section id="hierarchical-glm" class="title-slide slide level1 center">
+<h1>Hierarchical GLM</h1>
+
+</section>
+
 <section id="latent-variable-models" class="title-slide slide level1 center">
 <h1>Latent Variable Models</h1>
 

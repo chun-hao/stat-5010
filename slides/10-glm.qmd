@@ -1,6 +1,132 @@
 ---
 title: "Lecture 10: Generalized Linear Model and Latent Variable Model"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+        scrollable: true
+        include-in-header: 
+            - text: 
+                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: true
 ---
+
+# Generalized Linear Model
+
+{{< include macro.qmd >}}
+
+## Exponential family
+
+-   Recall that an exponential family is a family of distributions
+    $$
+    f(x \mid \theta) = h(x)\exp(\theta^T T(x) - \psi(\theta))
+    $$
+    where $\theta \in \R^k$ and $T(x) = [T_1(x), \ldots, T_k(x)]^T$.
+-   Two useful properties (from Bartlett's identities):
+    +   $\E(T(X)) = \nabla\psi(\theta)$
+    +   $\var(T(X)) = \text{Hess}(\psi(\theta)) = \nabla(\nabla \psi(\theta))$.
+-   That is, the relationship between the parameter $\theta$ and the expectation $\E(T(X))$ determined by $\nabla \psi$.
+
+
+## Examples
+
+-   Normal: $f(x \mid \mu, \sigma^2) = \exp\left(-\frac{1}{2\sigma^2} x^2 + \frac{\mu}{\sigma^2}x - \frac{\mu^2}{2\sigma^2}\right)$, $x \in \R$ 
+    +   $\theta = \left(-\frac{1}{2\sigma^2}, \frac{\mu}{\sigma^2}\right)$, $T(x) = (-x^2, x)$, $\psi(\theta) = -\frac{\theta_2^2}{4\theta_1} = \frac{\mu^2}{2\sigma^2}$
+-   Bernoulli: $f(x \mid p) = p^x(1-p)^{1-x} = \exp\left(x\log\frac{p}{1-p} + \log(1-p)\right)$, $x \in \{0, 1\}$
+    +   $\theta = \log\frac{p}{1-p}$, $T(x) = x$, $\psi(\theta) = -\log(1-p) = \log(1 + e^{\theta})$
+-   Poisson: $f(x \mid \lambda) = \frac{1}{x!}\exp(x\log\lambda - \lambda)$, $x = 0, 1, 2, \ldots$
+    +   $\theta = \log\lambda$, $T(x) = x$, $\psi(\theta) = \exp(\theta) = \lambda$
+
+## Generalized Linear Model (GLM)
+
+-   Let $Y$ be univariate, $X \in \R^p$, and $\beta \in \R^p$.
+-   A GLM is assuming $Y \mid X, \beta \sim F_{\theta}$, where $\theta = X^T\beta$ and $F_\theta$ has the density function
+    $$
+    f(y \mid \theta) = h(y)\exp(\theta\cdot y - \psi(\theta)).
+    $$
+-   Therefore,
+    \begin{align*}
+    \E(Y \mid X, \beta) & = \frac{d}{d\theta}\psi(\theta) = \psi^{\prime}(X^T\beta)
+    \end{align*}
+-   Equivalently,
+    $$
+    g(\E(Y \mid X, \beta)) = X^T\beta
+    $$
+    where $g$ is the inverse of $\psi^{\prime}$.
+-   The function $g$ is called the **link function**.
+
+## Bernoulli linear model
+
+-   Let $Y \mid X, \beta \sim \text{Ber}(p)$.
+-   We have $\theta = \log\frac{p}{1-p}$, $T(x) = x$, $\psi(\theta) = -\log(1-p) = \log(1 + e^{\theta})$
+-   Thus, $\psi^{\prime}(\theta) = \frac{e^{\theta}}{1 + e^{\theta}}$ and $g(u) = (\psi^{\prime})^{-1}(u) = \log\frac{u}{1-u}$.
+-   $\phi^{\prime}$ is called the **logistic function**; $g$ is called the **logit function**.
+-   Putting altogether, we have
+    $$
+    g(\E(Y\mid X, \beta)) = \log\frac{\E(Y \mid X, \beta)}{1 - \E(Y \mid X, \beta)} = X^T\beta
+    $$
+    or equivalently
+    $$
+    \E(Y \mid X, \beta) = \psi^{\prime}(X^T\beta) = \frac{\exp(X^T\beta)}{1 + \exp(X^T\beta)},
+    $$
+    aka **logistic regression**.
+    
+## Poisson linear model
+
+-   Let $Y \mid X, \beta \sim \text{Pois}(\lambda)$.
+-   We have $\theta = \log\lambda$, $T(x) = x$, $\psi(\theta) = \exp(\theta) = \lambda$.
+-   Thus $\psi^{\prime}(\theta) = \exp(\theta)$ and $g(u) = (\psi^{\prime})^{-1}(u) = \log u$.
+-   Putting altogether, we have
+    $$
+    g(\E(Y\mid X, \beta)) = \log\E(Y \mid X, \beta) = X^T\beta
+    $$
+    or equivalently
+    $$
+    \E(Y \mid X, \beta) = \exp(X^T\beta),
+    $$
+    aka **Poisson log-linear regression**.
+    
+## Remarks
+
+-   The link function $g = (\psi^{\prime})^{-1}$ is sometimes called the **canonical link** function, since it is derived from the canonical representation of an exponential family.
+-   All we need for a link function is that it matches the domain of $\E(Y \mid X, \beta)$ and $X^T\beta$.
+-   For example, in the Bernoulli linear model, we could have used the **probit link** function
+    $$
+    g(u) = \Phi^{-1}(u): [0, 1] \to \R
+    $$
+    where $\Phi$ is the CDF of the standard normal distribution.
+-   This is called the **probit regression**.
+
+## Over- and underdispersion
+
+-   In the normal linear model, the conditional mean and variance of $Y \mid X$ are modeled by two different parameters $\beta$ and $\sigma^2$.
+-   However, in Poisson linear model, 
+    $$
+    \E(Y \mid X, \beta) = \exp(X^T\beta) = \var(Y \mid X, \beta).
+    $$
+-   Also, in Bernoulli linear model, 
+    $$
+    \var(Y \mid X, \beta) = \E(Y\mid X, \beta)(1-\E(Y \mid X, \beta)) = \frac{\exp(X^T\beta)}{(1+\exp(X^T\beta))^2}.
+    $$
+-   That is, the variance is determined by the mean, which might not be a reasonable assumption in practice.
+-   When the observed variance is smaller or larger than the assumed variance, it is called an **underdispersion** or **overdispersion**, respectively.
+
+## Exponential Dispersion Family
+
+    
+# Hierarchical GLM
+
+
+
+
 
 # Latent Variable Models
 

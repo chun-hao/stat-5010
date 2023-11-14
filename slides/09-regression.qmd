@@ -281,6 +281,13 @@ fit_lasso <- stan_glm(price ~ highwaympg + citympg + horsepower +
                       refresh = 0)
 ```
 
+::: aside
+
+Data source: <https://www.kaggle.com/datasets/hellbuoy/car-price-prediction>
+
+:::
+
+
 ## Summary of the fitted model
 
 ```{r}
