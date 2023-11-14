@@ -1971,7 +1971,7 @@
     "href": "slides/09-regression.html#linear-regression",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Linear regression",
-    "text": "Linear regression\n\nSuppose we have samples \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(y_i \\in \\R\\) and \\(x_i \\in \\R^{p-1}\\). We want to model the relationship between \\(x_i\\) and \\(y_i\\).\nThe classical linear regression model is \\(Y = X^T\\beta\\).\nWe can fit the model by minimizing the ordinary least-square (OLS) \\(\\sum_{i=1}^n (y_i - x_i^T\\beta)^2\\).\nThe solution is \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\), where \\(Y = [y_1,\\ldots, y_n]^T\\) and \\[\nX = \\left[\\begin{array}{cc}\n1 & x_1^T \\\\\n\\vdots & \\vdots \\\\\n1 & x_n^T\n\\end{array}\n\\right]_{n\\times p}.\n\\]\nIf we further assume \\(Y = X^T\\beta + \\varepsilon\\), \\(\\varepsilon \\sim N(0, \\sigma^2)\\), then the OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is the MLE of \\(\\beta\\)."
+    "text": "Linear regression\n\nSuppose we have samples \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(y_i \\in \\R\\) and \\(x_i \\in \\R^{p-1}\\). We want to model the relationship between \\(x_i\\) and \\(y_i\\).\nThe classical linear regression model is \\(Y = X^T\\beta\\).\nWe can fit the model by the method of ordinary least-square (OLS), i.e., minimizing \\(\\sum_{i=1}^n (y_i - x_i^T\\beta)^2\\).\nThe solution is \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\), where \\(Y = [y_1,\\ldots, y_n]^T\\) and \\[\nX = \\left[\\begin{array}{cc}\n1 & x_1^T \\\\\n\\vdots & \\vdots \\\\\n1 & x_n^T\n\\end{array}\n\\right]_{n\\times p}.\n\\]\nIf we further assume \\(Y = X^T\\beta + \\varepsilon\\), \\(\\varepsilon \\sim N(0, \\sigma^2)\\), then the OLS solution \\(\\hat{\\beta} = (X^TX)^{-1}X^TY\\) is the MLE of \\(\\beta\\)."
   },
   {
     "objectID": "slides/09-regression.html#normal-linear-model",
@@ -2142,11 +2142,11 @@
     "text": "Horseshoe prior\n\nThe horseshoe prior1 is \\[\\begin{align*}\n\\beta_j \\mid \\lambda_j, \\tau & \\sim N\\left(0, \\tau^2 \\lambda_j^2\\right) \\\\\n\\lambda_j & \\sim C^{+}(0,1), \\quad j=1, \\ldots, p\n\\end{align*}\\] where \\(C^{+}(0, 1)\\) is the half-Cauchy distribution.\nThis is an example of global-local shrinkage prior, where \\(\\lambda_j\\) is the local shrinkage parameter and \\(\\tau\\) is the global shrinkage parameter.\n\nCarvalho, C. M., Polson, N. G., & Scott, J. G. (2010). The horseshoe estimator for sparse signals. Biometrika, 97(2), 465-480."
   },
   {
-    "objectID": "slides/09-regression.html#available-priors-for-stan_lm",
-    "href": "slides/09-regression.html#available-priors-for-stan_lm",
+    "objectID": "slides/09-regression.html#available-priors-for-stan_glm",
+    "href": "slides/09-regression.html#available-priors-for-stan_glm",
     "title": "Lecture 09: Bayesian Regression",
-    "section": "Available priors for stan_lm",
-    "text": "Available priors for stan_lm\n\n\nStudent-\\(t\\) family: cauchy, \\(t\\), normal\nHierarchical shrinkage family: horseshoe, horseshoe+\nLaplace family: laplace, lasso\nR2 prior: This prior hinges on prior beliefs about the location of \\(R^2\\), the proportion of variance in the outcome attributable to the predictors.\nCheck https://mc-stan.org/rstanarm/reference/priors.html for more details."
+    "section": "Available priors for stan_glm",
+    "text": "Available priors for stan_glm\n\n\nStudent-\\(t\\) family: cauchy, \\(t\\), normal\nHierarchical shrinkage family: horseshoe, horseshoe+\nLaplace family: laplace, lasso\nR2 prior: This prior hinges on prior beliefs about the location of \\(R^2\\), the proportion of variance in the outcome attributable to the predictors.\nCheck https://mc-stan.org/rstanarm/reference/priors.html for more details."
   },
   {
     "objectID": "slides/09-regression.html#compare-different-models",

@@ -437,7 +437,7 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">Suppose we have samples <span class="math inline">\(\{x_i, y_i\}_{i=1}^n\)</span> where <span class="math inline">\(y_i \in \R\)</span> and <span class="math inline">\(x_i \in \R^{p-1}\)</span>. We want to model the relationship between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span>.</li>
 <li class="fragment">The classical linear regression model is <span class="math inline">\(Y = X^T\beta\)</span>.</li>
-<li class="fragment">We can fit the model by minimizing the ordinary least-square (OLS) <span class="math inline">\(\sum_{i=1}^n (y_i - x_i^T\beta)^2\)</span>.</li>
+<li class="fragment">We can fit the model by the method of ordinary least-square (OLS), i.e., minimizing <span class="math inline">\(\sum_{i=1}^n (y_i - x_i^T\beta)^2\)</span>.</li>
 <li class="fragment">The solution is <span class="math inline">\(\hat{\beta} = (X^TX)^{-1}X^TY\)</span>, where <span class="math inline">\(Y = [y_1,\ldots, y_n]^T\)</span> and <span class="math display">\[
 X = \left[\begin{array}{cc}
 1 &amp; x_1^T \\
@@ -828,8 +828,8 @@ For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure
 <li class="fragment">This is an example of global-local shrinkage prior, where <span class="math inline">\(\lambda_j\)</span> is the local shrinkage parameter and <span class="math inline">\(\tau\)</span> is the global shrinkage parameter.</li>
 </ul>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>Carvalho, C. M., Polson, N. G., &amp; Scott, J. G. (2010). <em>The horseshoe estimator for sparse signals</em>. Biometrika, 97(2), 465-480.</p></li></ol></aside></section>
-<section id="available-priors-for-stan_lm" class="slide level2">
-<h2>Available priors for <code>stan_lm</code></h2>
+<section id="available-priors-for-stan_glm" class="slide level2">
+<h2>Available priors for <code>stan_glm</code></h2>
 <div>
 <ul>
 <li>Student-<span class="math inline">\(t\)</span> family: cauchy, <span class="math inline">\(t\)</span>, normal</li>
