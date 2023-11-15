@@ -2286,6 +2286,34 @@
     "href": "slides/10-glm.html#exponential-dispersion-family",
     "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Exponential Dispersion Family",
-    "text": "Exponential Dispersion Family"
+    "text": "Exponential Dispersion Family\n\nLet \\(\\theta \\in \\R\\) and \\(\\phi \\in \\R\\).\nThe exponential dispersion family is of the form \\[\nf(x \\mid \\theta, \\phi) = \\exp\\left(\\frac{x\\theta - b(\\theta)}{\\phi} + c(x, \\phi)\\right).\n\\]\nSimilarly from Bartlett’s identities1, \\[\n\\E(X) = b^{\\prime}(\\theta) \\quad \\text{and} \\quad\n\\var(X) = \\phi b^{\\prime\\prime}(\\theta).\n\\]\nThe parameter \\(\\phi\\) is called the dispersion parameter.\nLetting \\(\\mu = \\E(X) = b^{\\prime}(\\theta)\\), we have \\(\\var(X) = \\phi b^{\\prime\\prime}\\left((b^{\\prime})^{-1}(\\mu)\\right) = \\phi \\mc{V}(\\mu)\\), where \\(\\mc{V}(\\mu) = b^{\\prime\\prime}\\left((b^{\\prime})^{-1}(\\mu)\\right)\\) is called the variance function.\n\nSee https://bookdown.org/ssjackson300/ASM_Lecture_Notes/exponential_dispersion_family.html for the derivation."
+  },
+  {
+    "objectID": "slides/10-glm.html#example",
+    "href": "slides/10-glm.html#example",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
+    "section": "Example",
+    "text": "Example\n\nNormal: \\(\\theta = \\mu\\), \\(\\phi = \\sigma^2\\), \\(b(\\theta) = \\frac{\\theta^2}{2}\\), \\(c(x, \\phi) = -\\frac{x^2}{2\\phi} - \\frac{1}{2}\\log(2\\pi\\phi)\\).\nBernoulli: \\(\\theta = \\log\\frac{p}{1-p}\\), \\(\\phi = 1\\), \\(b(\\theta) = \\log(1 + e^{\\theta})\\), \\(c(x, \\phi) = 0\\).\nPoisson: \\(\\theta = \\log\\lambda\\), \\(\\phi = 1\\), \\(b(\\theta) = e^{\\theta}\\), \\(c(x, \\phi) = -\\log(x!)\\).\nCan generalized the Poisson/Bernoulli family to include a dispersion parameter?1\nWhat can we do if we observe over-/underdispersion in a Poisson/Bernoulli linear model?\n\nIn R, use family=quasi* which allows you to specify the variance function, e.g., quasipoisson or quasibinomial.\nOr you can use a negative binomial model for count data (you can easily show that the scaled negative binomial distribution is an exponential dispersion family).\n\n\nSee the Wiki and Huang & Kim (2021) for the Conway-Maxwell-Poisson distribuiton"
+  },
+  {
+    "objectID": "slides/10-glm.html#quasi-likelihood",
+    "href": "slides/10-glm.html#quasi-likelihood",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
+    "section": "Quasi-likelihood",
+    "text": "Quasi-likelihood\n\nOften, in an exponential dispersion family, the dispersion parameter \\(\\phi\\) is not of main interest."
+  },
+  {
+    "objectID": "slides/10-glm.html#example-1",
+    "href": "slides/10-glm.html#example-1",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
+    "section": "Example",
+    "text": "Example\n\nlibrary(AER)\nlibrary(MASS)\nlibrary(gtsummary)\ndata(\"RecreationDemand\")\nfit_pois &lt;- glm(trips ~ ., data = RecreationDemand, family = poisson)\n\ndt &lt;- dispersiontest(fit_pois)\n\nprint(paste(\"Dispersion Test: p-value =\", round(dt$p.value,4)))\n\n[1] \"Dispersion Test: p-value = 0.0079\"\n\nfit_nb &lt;- glm.nb(trips ~ ., data = RecreationDemand)\n\nt1 &lt;- tbl_regression(fit_pois, exponentiate = TRUE)\nt2 &lt;- tbl_regression(fit_nb, exponentiate = TRUE)\n\nt_all &lt;- tbl_merge(tbls = list(t1, t2), \n                   tab_spanner = c(\"**Poisson**\", \"**Neg-Bin**\"))"
+  },
+  {
+    "objectID": "slides/10-glm.html#example-2",
+    "href": "slides/10-glm.html#example-2",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
+    "section": "Example",
+    "text": "Example\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      \n        Poisson\n      \n      \n        Neg-Bin\n      \n    \n    \n      IRR1\n      95% CI1\n      p-value\n      IRR1\n      95% CI1\n      p-value\n    \n  \n  \n    quality\n1.60\n1.55, 1.66\n&lt;0.001\n2.06\n1.89, 2.25\n&lt;0.001\n    ski\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n1.52\n1.36, 1.70\n&lt;0.001\n1.84\n1.38, 2.48\n&lt;0.001\n    income\n0.89\n0.86, 0.93\n&lt;0.001\n0.97\n0.89, 1.06\n0.5\n    userfee\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n2.46\n2.10, 2.86\n&lt;0.001\n1.95\n1.01, 4.22\n0.058\n    costC\n1.00\n0.99, 1.00\n0.3\n1.05\n1.02, 1.08\n&lt;0.001\n    costS\n0.96\n0.96, 0.96\n&lt;0.001\n0.91\n0.90, 0.93\n&lt;0.001\n    costH\n1.04\n1.03, 1.04\n&lt;0.001\n1.04\n1.02, 1.06\n&lt;0.001\n  \n  \n  \n    \n      1 IRR = Incidence Rate Ratio, CI = Confidence Interval"
   }
 ]

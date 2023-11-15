@@ -121,6 +121,69 @@ execute:
 
 ## Exponential Dispersion Family
 
+-   Let $\theta \in \R$ and $\phi \in \R$.
+-   The **exponential dispersion family** is of the form
+    $$
+    f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)\right).
+    $$
+-   Similarly from Bartlett's identities[^EDF],
+    $$
+    \E(X) = b^{\prime}(\theta) \quad \text{and} \quad
+    \var(X) = \phi b^{\prime\prime}(\theta).
+    $$
+-   The parameter $\phi$ is called the **dispersion parameter**.
+-   Letting $\mu = \E(X) = b^{\prime}(\theta)$, we have
+    $\var(X) = \phi b^{\prime\prime}\left((b^{\prime})^{-1}(\mu)\right) = \phi \mc{V}(\mu)$, where $\mc{V}(\mu) = b^{\prime\prime}\left((b^{\prime})^{-1}(\mu)\right)$ is called the **variance function**.
+
+    
+[^EDF]: See <https://bookdown.org/ssjackson300/ASM_Lecture_Notes/exponential_dispersion_family.html> for the derivation.    
+
+## Example
+
+-   Normal: $\theta = \mu$, $\phi = \sigma^2$, $b(\theta) = \frac{\theta^2}{2}$, $c(x, \phi) = -\frac{x^2}{2\phi} - \frac{1}{2}\log(2\pi\phi)$.
+-   Bernoulli: $\theta = \log\frac{p}{1-p}$, $\phi = 1$, $b(\theta) = \log(1 + e^{\theta})$, $c(x, \phi) = 0$.
+-   Poisson: $\theta = \log\lambda$, $\phi = 1$, $b(\theta) = e^{\theta}$, $c(x, \phi) = -\log(x!)$.
+
+-   Can generalized the Poisson/Bernoulli family to include a dispersion parameter?[^CMP] 
+-   What can we do if we observe over-/underdispersion in a Poisson/Bernoulli linear model?
+    -    In `R`, use `family=quasi*` which allows you to specify the variance function, e.g., `quasipoisson` or `quasibinomial`.
+    -    Or you can use a **negative binomial** model for count data (you can easily show that the scaled negative binomial distribution is an exponential dispersion family).
+    
+
+[^CMP]: See the [Wiki](https://en.wikipedia.org/wiki/Conway–Maxwell–Poisson_distribution) and [Huang & Kim (2021)](https://www.tandfonline.com/doi/abs/10.1080/03610926.2019.1682162) for the Conway-Maxwell-Poisson distribuiton
+
+
+## Example
+
+```{r}
+#| label: poisson_glm
+#| echo: true
+library(AER)
+library(MASS)
+library(gtsummary)
+data("RecreationDemand")
+fit_pois <- glm(trips ~ ., data = RecreationDemand, family = poisson)
+
+dt <- dispersiontest(fit_pois)
+
+print(paste("Dispersion Test: p-value =", round(dt$p.value,4)))
+
+fit_nb <- glm.nb(trips ~ ., data = RecreationDemand)
+
+t1 <- tbl_regression(fit_pois, exponentiate = TRUE)
+t2 <- tbl_regression(fit_nb, exponentiate = TRUE)
+
+t_all <- tbl_merge(tbls = list(t1, t2), 
+                   tab_spanner = c("**Poisson**", "**Neg-Bin**"))
+```
+
+## Example
+
+```{r}
+#| label: summary_table
+
+t_all
+```
     
 # Hierarchical GLM
 
