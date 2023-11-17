@@ -552,17 +552,17 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
 <li class="fragment"><p>Normal: <span class="math inline">\(\theta = \mu\)</span>, <span class="math inline">\(\phi = \sigma^2\)</span>, <span class="math inline">\(b(\theta) = \frac{\theta^2}{2}\)</span>, <span class="math inline">\(c(x, \phi) = -\frac{x^2}{2\phi} - \frac{1}{2}\log(2\pi\phi)\)</span>.</p></li>
 <li class="fragment"><p>Bernoulli: <span class="math inline">\(\theta = \log\frac{p}{1-p}\)</span>, <span class="math inline">\(\phi = 1\)</span>, <span class="math inline">\(b(\theta) = \log(1 + e^{\theta})\)</span>, <span class="math inline">\(c(x, \phi) = 0\)</span>.</p></li>
 <li class="fragment"><p>Poisson: <span class="math inline">\(\theta = \log\lambda\)</span>, <span class="math inline">\(\phi = 1\)</span>, <span class="math inline">\(b(\theta) = e^{\theta}\)</span>, <span class="math inline">\(c(x, \phi) = -\log(x!)\)</span>.</p></li>
-<li class="fragment"><p>Can generalized the Poisson/Bernoulli family to include a dispersion parameter?<sup>1</sup></p></li>
+<li class="fragment"><p>Can we generalize the Poisson/Bernoulli family to include a dispersion parameter?<sup>1</sup></p></li>
 <li class="fragment"><p>What can we do if we observe over-/underdispersion in a Poisson/Bernoulli linear model?</p>
 <ul>
 <li class="fragment">In <code>R</code>, use <code>family=quasi*</code> which allows you to specify the variance function, e.g., <code>quasipoisson</code> or <code>quasibinomial</code>.</li>
 <li class="fragment">Or you can use a <strong>negative binomial</strong> model for count data (you can easily show that the scaled negative binomial distribution is an exponential dispersion family).</li>
 </ul></li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>See the <a href="https://en.wikipedia.org/wiki/Conway–Maxwell–Poisson_distribution">Wiki</a> and <a href="https://www.tandfonline.com/doi/abs/10.1080/03610926.2019.1682162">Huang &amp; Kim (2021)</a> for the Conway-Maxwell-Poisson distribuiton</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>See the <a href="https://en.wikipedia.org/wiki/Conway–Maxwell–Poisson_distribution">Wiki</a> and <a href="https://www.tandfonline.com/doi/abs/10.1080/03610926.2019.1682162">Huang &amp; Kim (2021)</a> for the Conway-Maxwell-Poisson distribution</p></li></ol></aside></section>
 <section id="example-1" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-hash="10-glm_cache/revealjs/poisson_glm_bd06622e8c5b4db459c4bed6f5c884cd">
+<div class="cell" data-hash="10-glm_cache/revealjs/poisson_glm_0c4c9b488f2eb9c00273679cdf491803">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(AER)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(gtsummary)</span>
@@ -586,26 +586,26 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
 </section>
 <section id="example-2" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-hash="10-glm_cache/revealjs/summary_table_ea990a3b14e146b7b4198a9ffabd62fe">
+<div class="cell" data-hash="10-glm_cache/revealjs/summary_table_1642a03ae4a80e92285c5b258d0f2930">
 <div class="cell-output-display">
 
-<div id="rjhnlzmrjz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rjhnlzmrjz table {
+<div id="lutpkigvet" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lutpkigvet table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rjhnlzmrjz thead, #rjhnlzmrjz tbody, #rjhnlzmrjz tfoot, #rjhnlzmrjz tr, #rjhnlzmrjz td, #rjhnlzmrjz th {
+#lutpkigvet thead, #lutpkigvet tbody, #lutpkigvet tfoot, #lutpkigvet tr, #lutpkigvet td, #lutpkigvet th {
   border-style: none;
 }
 
-#rjhnlzmrjz p {
+#lutpkigvet p {
   margin: 0;
   padding: 0;
 }
 
-#rjhnlzmrjz .gt_table {
+#lutpkigvet .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -631,12 +631,12 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-left-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_caption {
+#lutpkigvet .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rjhnlzmrjz .gt_title {
+#lutpkigvet .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -648,7 +648,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-bottom-width: 0;
 }
 
-#rjhnlzmrjz .gt_subtitle {
+#lutpkigvet .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -660,7 +660,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-top-width: 0;
 }
 
-#rjhnlzmrjz .gt_heading {
+#lutpkigvet .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -672,13 +672,13 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-right-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_bottom_border {
+#lutpkigvet .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_col_headings {
+#lutpkigvet .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -693,7 +693,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-right-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_col_heading {
+#lutpkigvet .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -713,7 +713,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   overflow-x: hidden;
 }
 
-#rjhnlzmrjz .gt_column_spanner_outer {
+#lutpkigvet .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -725,15 +725,15 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   padding-right: 4px;
 }
 
-#rjhnlzmrjz .gt_column_spanner_outer:first-child {
+#lutpkigvet .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rjhnlzmrjz .gt_column_spanner_outer:last-child {
+#lutpkigvet .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rjhnlzmrjz .gt_column_spanner {
+#lutpkigvet .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -745,11 +745,11 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   width: 100%;
 }
 
-#rjhnlzmrjz .gt_spanner_row {
+#lutpkigvet .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rjhnlzmrjz .gt_group_heading {
+#lutpkigvet .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -775,7 +775,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   text-align: left;
 }
 
-#rjhnlzmrjz .gt_empty_group_heading {
+#lutpkigvet .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -790,15 +790,15 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   vertical-align: middle;
 }
 
-#rjhnlzmrjz .gt_from_md > :first-child {
+#lutpkigvet .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rjhnlzmrjz .gt_from_md > :last-child {
+#lutpkigvet .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rjhnlzmrjz .gt_row {
+#lutpkigvet .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -817,7 +817,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   overflow-x: hidden;
 }
 
-#rjhnlzmrjz .gt_stub {
+#lutpkigvet .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -830,7 +830,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   padding-right: 5px;
 }
 
-#rjhnlzmrjz .gt_stub_row_group {
+#lutpkigvet .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -844,15 +844,15 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   vertical-align: top;
 }
 
-#rjhnlzmrjz .gt_row_group_first td {
+#lutpkigvet .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rjhnlzmrjz .gt_row_group_first th {
+#lutpkigvet .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rjhnlzmrjz .gt_summary_row {
+#lutpkigvet .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -862,16 +862,16 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   padding-right: 5px;
 }
 
-#rjhnlzmrjz .gt_first_summary_row {
+#lutpkigvet .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_first_summary_row.thick {
+#lutpkigvet .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rjhnlzmrjz .gt_last_summary_row {
+#lutpkigvet .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -881,7 +881,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-bottom-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_grand_summary_row {
+#lutpkigvet .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -891,7 +891,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   padding-right: 5px;
 }
 
-#rjhnlzmrjz .gt_first_grand_summary_row {
+#lutpkigvet .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -901,7 +901,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-top-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_last_grand_summary_row_top {
+#lutpkigvet .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -911,11 +911,11 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-bottom-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_striped {
+#lutpkigvet .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rjhnlzmrjz .gt_table_body {
+#lutpkigvet .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -924,7 +924,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-bottom-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_footnotes {
+#lutpkigvet .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -938,7 +938,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-right-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_footnote {
+#lutpkigvet .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -947,7 +947,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   padding-right: 5px;
 }
 
-#rjhnlzmrjz .gt_sourcenotes {
+#lutpkigvet .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -961,7 +961,7 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   border-right-color: #D3D3D3;
 }
 
-#rjhnlzmrjz .gt_sourcenote {
+#lutpkigvet .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -969,63 +969,63 @@ f(x \mid \theta, \phi) = \exp\left(\frac{x\theta - b(\theta)}{\phi} + c(x, \phi)
   padding-right: 5px;
 }
 
-#rjhnlzmrjz .gt_left {
+#lutpkigvet .gt_left {
   text-align: left;
 }
 
-#rjhnlzmrjz .gt_center {
+#lutpkigvet .gt_center {
   text-align: center;
 }
 
-#rjhnlzmrjz .gt_right {
+#lutpkigvet .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rjhnlzmrjz .gt_font_normal {
+#lutpkigvet .gt_font_normal {
   font-weight: normal;
 }
 
-#rjhnlzmrjz .gt_font_bold {
+#lutpkigvet .gt_font_bold {
   font-weight: bold;
 }
 
-#rjhnlzmrjz .gt_font_italic {
+#lutpkigvet .gt_font_italic {
   font-style: italic;
 }
 
-#rjhnlzmrjz .gt_super {
+#lutpkigvet .gt_super {
   font-size: 65%;
 }
 
-#rjhnlzmrjz .gt_footnote_marks {
+#lutpkigvet .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rjhnlzmrjz .gt_asterisk {
+#lutpkigvet .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rjhnlzmrjz .gt_indent_1 {
+#lutpkigvet .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rjhnlzmrjz .gt_indent_2 {
+#lutpkigvet .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rjhnlzmrjz .gt_indent_3 {
+#lutpkigvet .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rjhnlzmrjz .gt_indent_4 {
+#lutpkigvet .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rjhnlzmrjz .gt_indent_5 {
+#lutpkigvet .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

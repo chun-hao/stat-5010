@@ -144,13 +144,13 @@ execute:
 -   Bernoulli: $\theta = \log\frac{p}{1-p}$, $\phi = 1$, $b(\theta) = \log(1 + e^{\theta})$, $c(x, \phi) = 0$.
 -   Poisson: $\theta = \log\lambda$, $\phi = 1$, $b(\theta) = e^{\theta}$, $c(x, \phi) = -\log(x!)$.
 
--   Can generalized the Poisson/Bernoulli family to include a dispersion parameter?[^CMP] 
+-   Can we generalize the Poisson/Bernoulli family to include a dispersion parameter?[^CMP] 
 -   What can we do if we observe over-/underdispersion in a Poisson/Bernoulli linear model?
     -    In `R`, use `family=quasi*` which allows you to specify the variance function, e.g., `quasipoisson` or `quasibinomial`.
     -    Or you can use a **negative binomial** model for count data (you can easily show that the scaled negative binomial distribution is an exponential dispersion family).
     
 
-[^CMP]: See the [Wiki](https://en.wikipedia.org/wiki/Conway–Maxwell–Poisson_distribution) and [Huang & Kim (2021)](https://www.tandfonline.com/doi/abs/10.1080/03610926.2019.1682162) for the Conway-Maxwell-Poisson distribuiton
+[^CMP]: See the [Wiki](https://en.wikipedia.org/wiki/Conway–Maxwell–Poisson_distribution) and [Huang & Kim (2021)](https://www.tandfonline.com/doi/abs/10.1080/03610926.2019.1682162) for the Conway-Maxwell-Poisson distribution
 
 
 ## Example
