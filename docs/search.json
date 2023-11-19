@@ -2315,5 +2315,236 @@
     "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example",
     "text": "Example\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      \n        Poisson\n      \n      \n        Neg-Bin\n      \n    \n    \n      IRR1\n      95% CI1\n      p-value\n      IRR1\n      95% CI1\n      p-value\n    \n  \n  \n    quality\n1.60\n1.55, 1.66\n&lt;0.001\n2.06\n1.89, 2.25\n&lt;0.001\n    ski\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n1.52\n1.36, 1.70\n&lt;0.001\n1.84\n1.38, 2.48\n&lt;0.001\n    income\n0.89\n0.86, 0.93\n&lt;0.001\n0.97\n0.89, 1.06\n0.5\n    userfee\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n2.46\n2.10, 2.86\n&lt;0.001\n1.95\n1.01, 4.22\n0.058\n    costC\n1.00\n0.99, 1.00\n0.3\n1.05\n1.02, 1.08\n&lt;0.001\n    costS\n0.96\n0.96, 0.96\n&lt;0.001\n0.91\n0.90, 0.93\n&lt;0.001\n    costH\n1.04\n1.03, 1.04\n&lt;0.001\n1.04\n1.02, 1.06\n&lt;0.001\n  \n  \n  \n    \n      1 IRR = Incidence Rate Ratio, CI = Confidence Interval"
+  },
+  {
+    "objectID": "slides/survey_example.html#imaginary-survey-2023",
+    "href": "slides/survey_example.html#imaginary-survey-2023",
+    "title": "Untitled",
+    "section": "Imaginary Survey (2023)",
+    "text": "Imaginary Survey (2023)\n\n6份民調；每份民調皆問相同兩問題：\n\n支持A或B，或都不支持\n支持A’或B’，或都不支持"
+  },
+  {
+    "objectID": "slides/survey_example.html#survey-results",
+    "href": "slides/survey_example.html#survey-results",
+    "title": "An example survey",
+    "section": "Survey Results",
+    "text": "Survey Results\n\n\n\n\n\n\nstudy\np_1\np_2\nq_1\nq_2\nn\n\n\n\n\n1\n0.4830\n0.3920\n0.4610\n0.4160\n2046\n\n\n2\n0.4100\n0.3500\n0.4200\n0.3600\n1149\n\n\n3\n0.4660\n0.3310\n0.4650\n0.3490\n1112\n\n\n4\n0.4601\n0.3222\n0.4082\n0.3586\n1112\n\n\n5\n0.4400\n0.3200\n0.3970\n0.3300\n1082\n\n\n6\n0.3880\n0.2930\n0.3820\n0.3060\n1484\n\n\n\n\n\n\n\n\n\nTwo possible statistics:\n\ndifference in proportion: \\(T_1 = \\hat{p}_1 - \\hat{q}_1\\).\ndifference in difference: \\(T_2 = (\\hat{p}_1 - \\hat{p}_2) - (\\hat{q}_1 - \\hat{q}_2)\\)"
+  },
+  {
+    "objectID": "slides/survey_example.html#bootstrap",
+    "href": "slides/survey_example.html#bootstrap",
+    "title": "An example survey",
+    "section": "Bootstrap",
+    "text": "Bootstrap\n\nB &lt;- 10^4\nT1_boot &lt;- matrix(0, ncol = B, nrow = 6)\nT2_boot &lt;- matrix(0, ncol = B, nrow = 6)\n\nset.seed(2023)\n\nfor (i in 1:B) {\n  for (j in 1:6) {\n    prop_boot_p &lt;- rmultinom(1, n[j], \n        prob = c(p_1[j], p_2[j], 1-p_1[j]-p_2[j]))/n[j]\n    prop_boot_q &lt;- rmultinom(1, n[j], \n        prob = c(q_1[j], q_2[j], 1-q_1[j]-q_2[j]))/n[j]\n    T1_boot[j, i] &lt;- prop_boot_p[1] - prop_boot_q[1]\n    T2_boot[j, i] &lt;- (prop_boot_p[1] - prop_boot_p[2]) - \n        (prop_boot_q[1] - prop_boot_q[2])\n  }\n}"
+  },
+  {
+    "objectID": "slides/survey_example.html#a-survey-example",
+    "href": "slides/survey_example.html#a-survey-example",
+    "title": "Untitled",
+    "section": "A survey example",
+    "text": "A survey example\n\nThere are 6 surveys and each survey has two questions:\n\nprefer A or B, or neither?\nprefer A’ or B, or neither?\n\nNotations:\n\n\\(p_1\\): proportion of people who prefer A over B.\n\\(p_2\\): proportion of people who prefer B over A.\n\\(q_1\\): proportion of people who prefer A’ over B.\n\\(q_2\\): proportion of people who prefer B over A’."
+  },
+  {
+    "objectID": "slides/survey_example.html#assumptions",
+    "href": "slides/survey_example.html#assumptions",
+    "title": "An example survey",
+    "section": "Assumptions",
+    "text": "Assumptions\n\nThe surveys are independent.\nThe responses to the two questions in each survey are also independent.\nThe surveys are conducted based on simple random samples."
+  },
+  {
+    "objectID": "slides/survey_example.html#a-example-survey",
+    "href": "slides/survey_example.html#a-example-survey",
+    "title": "An example survey",
+    "section": "A example survey",
+    "text": "A example survey\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nThere are 6 surveys and each survey has two questions:\n\nprefer A or B, or neither?\nprefer A’ or B, or neither?\n\nNotations:\n\n\\(\\hat{p}_1\\): proportion of people who prefer A over B.\n\\(\\hat{p}_2\\): proportion of people who prefer B over A.\n\\(\\hat{q}_1\\): proportion of people who prefer A’ over B.\n\\(\\hat{q}_2\\): proportion of people who prefer B over A’.\n\\(n\\) is the sample size in each survey"
+  },
+  {
+    "objectID": "slides/survey_example.html#difference-in-proportions",
+    "href": "slides/survey_example.html#difference-in-proportions",
+    "title": "An example survey",
+    "section": "Difference in Proportions",
+    "text": "Difference in Proportions\n\nsurvey_dp_boot &lt;- tibble(study = 1:6, \n                      DiP = 100 * rowMeans(T1_boot),\n                      se = 100 * apply(T1_boot, 1, sd),\n                      CI.lower = 100 * apply(T1_boot, 1, quantile, \n                                       probs = 0.025),\n                      CI.upper = 100 * apply(T1_boot, 1, quantile, \n                                       probs = 0.975))\nsurvey_dp_boot |&gt;  kable(digits = 2)\n\n\n\n\nstudy\nDiP\nse\nCI.lower\nCI.upper\n\n\n\n\n1\n2.18\n1.54\n-0.83\n5.23\n\n\n2\n-0.97\n2.05\n-4.96\n3.05\n\n\n3\n0.11\n2.12\n-4.05\n4.23\n\n\n4\n5.14\n2.09\n0.99\n9.26\n\n\n5\n4.30\n2.14\n0.09\n8.50\n\n\n6\n0.63\n1.79\n-2.90\n4.11"
+  },
+  {
+    "objectID": "slides/survey_example.html#difference-in-differences",
+    "href": "slides/survey_example.html#difference-in-differences",
+    "title": "An example survey",
+    "section": "Difference in Differences",
+    "text": "Difference in Differences\n\nsurvey_did_boot &lt;- tibble(study = 1:6, \n                      DiD = 100 * rowMeans(T2_boot),\n                      se = 100 * apply(T2_boot, 1, sd),\n                      CI.lower = 100 * apply(T2_boot, 1, quantile, \n                                       probs = 0.025),\n                      CI.upper = 100 * apply(T2_boot, 1, quantile, \n                                       probs = 0.975))\nsurvey_did_boot |&gt;  kable(digits = 2)\n\n\n\n\nstudy\nDiD\nse\nCI.lower\nCI.upper\n\n\n\n\n1\n4.57\n2.88\n-1.03\n10.22\n\n\n2\n0.05\n3.63\n-6.96\n7.14\n\n\n3\n1.89\n3.78\n-5.58\n9.35\n\n\n4\n8.74\n3.69\n1.44\n15.92\n\n\n5\n5.29\n3.70\n-1.85\n12.66\n\n\n6\n1.95\n3.03\n-4.04\n7.88"
+  },
+  {
+    "objectID": "slides/survey_example.html#parametric-bootstrap",
+    "href": "slides/survey_example.html#parametric-bootstrap",
+    "title": "An example survey",
+    "section": "Parametric Bootstrap",
+    "text": "Parametric Bootstrap\n\nB &lt;- 10^4\nT1_boot &lt;- matrix(0, ncol = B, nrow = 6)\nT2_boot &lt;- matrix(0, ncol = B, nrow = 6)\n\nset.seed(2023)\n\nfor (i in 1:B) {\n  for (j in 1:6) {\n    prop_boot_p &lt;- rmultinom(1, n[j], \n        prob = c(p_1[j], p_2[j], 1-p_1[j]-p_2[j]))/n[j]\n    prop_boot_q &lt;- rmultinom(1, n[j], \n        prob = c(q_1[j], q_2[j], 1-q_1[j]-q_2[j]))/n[j]\n    T1_boot[j, i] &lt;- prop_boot_p[1] - prop_boot_q[1]\n    T2_boot[j, i] &lt;- (prop_boot_p[1] - prop_boot_p[2]) - \n        (prop_boot_q[1] - prop_boot_q[2])\n  }\n}"
+  },
+  {
+    "objectID": "slides/survey_example.html#joint-distribution-of-the-two-questions",
+    "href": "slides/survey_example.html#joint-distribution-of-the-two-questions",
+    "title": "An example survey",
+    "section": "Joint distribution of the two questions",
+    "text": "Joint distribution of the two questions\n\nApparently, the responses to the two question are correlated.\nHowever we only the marginal distributions for each question.\nWe need to model the joint distribution directly.\nLet Q1 be the first question (A vs B) and Q2 be the second question (A’ vs B).\nSuppose the joint distribution is\n\n\n\nQ1\\Q2\nA’\nB\nno response\n\n\n\n\nA\n\\(\\rho_1\\)\n\\(\\rho_{12}\\)\n\\(\\gamma\\)\n\n\nB\n\\(\\rho_{21}\\)\n\\(\\rho_2\\)\n\\(\\gamma\\)\n\n\nno response\n\\(\\gamma\\)\n\\(\\gamma\\)\n\\(\\rho_3\\)\n\n\n\nThe parameter is \\(\\theta = (\\rho_1, \\rho_2, \\rho_3, \\rho_{12}, \\rho_{21}, \\gamma)\\), where \\(\\rho_1 + \\rho_2 + \\rho_3 + \\rho_{12} + \\rho_{21} + 4\\gamma = 1\\).\nDenote the counts by \\(n_{ij}\\), where \\(i,j \\in \\{1,2,3\\} = \\{A, B, \\text{no response}\\}\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#marginal-distributions",
+    "href": "slides/survey_example.html#marginal-distributions",
+    "title": "An example survey",
+    "section": "Marginal distributions",
+    "text": "Marginal distributions\n\nTherefore \\[\\begin{align*}\n\\P(X = 1) & = \\rho_1 + \\rho_{12};\n\\quad \\P(X = 2) = \\rho_{21} + \\rho_2;\n\\quad \\P(X = 3) = \\rho_3\\\\\n\\P(Y = 1) & = \\rho_1 + \\rho_{21};\n\\quad \\P(Y = 2) = \\rho_{12} + \\rho_2;\n\\quad \\P(Y = 3) = \\rho_3\n\\end{align*}\\]\nWe have four parameters \\(\\rho_1\\), \\(\\rho_2\\), \\(\\rho_{12}\\), and \\(\\rho_{21}\\) in one survey.\nDifference in proportions: \\(\\P(X=1) - \\P(Y=1) = \\rho_{12} - \\rho_{21}\\).\nDifference in differences: \\((\\P(X=1) - \\P(X=2)) - (\\P(Y=1) - \\P(Y=2)) = 2(\\rho_{12} - \\rho_{21})\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#model",
+    "href": "slides/survey_example.html#model",
+    "title": "An example survey",
+    "section": "Model",
+    "text": "Model\n\nParameter: \\(\\theta = \\left(\\rho^{(i)}_1, \\rho^{(i)}_{2}, \\rho^{(i)}_{12}, \\rho^{(i)}_{21}\\right)\\), \\(i = 1,\\ldots, 6\\).\nLikelihood: \\[\\begin{align*}\n\\left(\\hat{p}^{(i)}_1, \\hat{p}^{(i)}_2, 1 - \\hat{p}^{(i)}_1 - \\hat{p}^{(i)}_2\\right) \\mid \\theta  & \\sim \\frac{1}{n_i}\\text{Multi}(n_i, (\\rho^{(i)}_1 + \\rho^{(i)}_{12}, \\rho^{(i)}_{21} + \\rho^{(i)}_2, \\rho^{(i)}_3))\\\\\n\\left(\\hat{q}^{(i)}_1, \\hat{q}^{(i)}_2, 1 - \\hat{q}^{(i)}_1 - \\hat{q}^{(i)}_2\\right) \\mid \\theta  & \\sim \\frac{1}{n_i}\\text{Multi}(n_i, (\\rho^{(i)}_1 + \\rho^{(i)}_{21}, \\rho^{(i)}_{12} + \\rho^{(i)}_2, \\rho^{(i)}_3))\n\\end{align*}\\]\nPrior: \\[\\begin{align*}\n\\left(\\rho^{(i)}_1, \\rho^{(i)}_2, \\rho^{(i)}_{12}, \\rho^{(i)}_{21}, \\rho^{(i)}_3\\right) & \\iid \\text{Dirichlet}(\\alpha\\nu)\n\\end{align*}\\] where \\(\\nu = (\\nu_1, \\ldots, \\nu_5)\\), \\(\\sum \\nu_i = 1\\), and \\(\\alpha &gt; 0\\).\nHyperprior: \\(\\alpha \\sim \\text{Exp}(1)\\) and \\(\\nu \\sim \\text{Dirichlet}(4/15, 4/15, 2/15, 2/15 1/5)\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#remark",
+    "href": "slides/survey_example.html#remark",
+    "title": "An example survey",
+    "section": "Remark",
+    "text": "Remark\n\n\\(\\alpha&gt;0\\) is the concentration parameter of the Dirichlet distribution. Large value of \\(\\alpha\\) produced a highly concentrated Dirichlet distribution.\nWhy I choose \\(\\nu \\sim \\text{Dirichlet}(4/15, 4/15, 2/15, 2/15 1/5)\\)?\n\nRoughly \\(1/5\\) of the population prefer not to respond.\nI split the rest equally into three categories: (i) always prefer \\(B\\); (ii) always prefer \\(A\\) and \\(A^{\\prime}\\); (iii) indecisive.\nThe indecisive group is further split into two equal groups: (i) prefer \\(A\\) to \\(A^{\\prime}\\); (ii) prefer \\(A^{\\prime}\\) to \\(A\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#stan-code",
+    "href": "slides/survey_example.html#stan-code",
+    "title": "An example survey",
+    "section": "Stan code",
+    "text": "Stan code"
+  },
+  {
+    "objectID": "slides/survey_example.html#missing-data",
+    "href": "slides/survey_example.html#missing-data",
+    "title": "An example survey",
+    "section": "Missing Data",
+    "text": "Missing Data\n\nWe have observed \\(Y = [n_{1\\cdot}, n_{2\\cdot}, n_{3\\cdot},n_{\\cdot 1}, n_{\\cdot 2}]^T\\), where \\(n_{i\\cdot} = \\sum_j n_{ij}\\) and \\(n_{\\cdot j} = \\sum_i n_{ij}\\).\nLet \\(U = [n_{11}, n_{12}, n_{13}, n_{21}, n_{22}, n_{23}, n_{31}, n_{32}, n_{33}]^T\\) be the complete data.\nIf we also observe \\(Z = [n_{11}, n_{12}, n_{21}, n_{32}]^T\\), then \\(U\\) can be recovered from \\(Y\\) and \\(Z\\).\n\\(Z\\) is called the missing data.\nLet \\(M\\) be a matrix such that \\[\nU = M\\left[\\begin{array}{c}\nY \\\\\nZ\n\\end{array}\\right].\n\\]\nThe distribution of \\(U\\) multinomial with parameter \\((\\rho_1, \\rho_{12}, \\gamma, \\rho_{21}, \\rho_2, \\gamma, \\gamma, \\gamma, \\rho_3)\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#conceptually",
+    "href": "slides/survey_example.html#conceptually",
+    "title": "An example survey",
+    "section": "Conceptually",
+    "text": "Conceptually\n\nIf we observe \\(U\\), we can find the posterior \\(\\pi(\\theta \\mid U)\\).\nObserving \\(U\\) is equivalent to observing \\(Y\\) and \\(Z\\) and hence the posterior can be written as \\(\\pi(\\theta \\mid Y, Z)\\).\nHowever, \\(Z\\) is missing, so we can not condition on \\(Z\\).\nThe most we can do is \\(\\pi(\\theta, Z \\mid Y)\\).\nBy Bayes Theorem, \\[\n\\pi(\\theta, Z \\mid Y) = \\frac{p(Y, Z \\mid \\theta)\\pi(\\theta)}{p(Y)}.\n\\]\nThe distribution \\(p(Y, Z \\mid \\theta)\\) is available since \\([Y^T, Z^T]^T = M^{-1}U\\) and \\(U\\) is multinomial.\nWe can also consider the marginal posterior \\(\\pi(\\theta \\mid Y) = \\sum_{Z} \\pi(\\theta, Z \\mid Y)\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#gibbs-sampler",
+    "href": "slides/survey_example.html#gibbs-sampler",
+    "title": "An example survey",
+    "section": "Gibbs sampler",
+    "text": "Gibbs sampler\n\nWe need to sample from \\(\\pi(\\theta, Z \\mid Y)\\).\nInstead of directly sampling from it, we can sample from the following two distributions:\n\n\\(\\pi(\\theta \\mid Z, Y)\\)\n\\(\\pi(Z \\mid \\theta, Y)\\)\n\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/survey_example.html#data-survey-1",
+    "href": "slides/survey_example.html#data-survey-1",
+    "title": "An example survey",
+    "section": "Data (Survey 1)",
+    "text": "Data (Survey 1)\n\n\n\n\n\n\n\n\n\n\nQ1\\Q2\nA’\nB\nNo response\nTotal\n\n\n\n\nA\n\\(\\textcolor{red}{437}\\)\n\\(\\textcolor{red}{409}\\)\n\\(\\textcolor{red}{120}\\)\n988\n\n\nB\n\\(\\textcolor{red}{358}\\)\n\\(\\textcolor{red}{327}\\)\n\\(\\textcolor{red}{99}\\)\n802\n\n\nNo response\n\\(\\textcolor{red}{127}\\)\n\\(\\textcolor{red}{96}\\)\n\\(\\textcolor{red}{27}\\)\n256\n\n\nTotal\n943\n851\n\\(\\textcolor{blue}{252}\\)\n\\(\\textcolor{blue}{2046}\\)\n\n\n\n\n\nThe numbers in black are observed.\nThe numbers in red are my random guesses.\nThe numbers in blue are redundant as they can be computed from the others."
+  },
+  {
+    "objectID": "slides/survey_example.html#heuristic-algorithm",
+    "href": "slides/survey_example.html#heuristic-algorithm",
+    "title": "An example survey",
+    "section": "Heuristic Algorithm",
+    "text": "Heuristic Algorithm\n\nInput: observed data \\(Y\\) and initialization \\(Z^{(0)}, \\theta^{(0)}\\).\nfor \\(t = 1, \\ldots, T\\):\n\nGenerate \\((Z^{*}, \\theta^{*}) \\sim q(Z^{(t-1)}, \\theta^{(t-1)})\\)\nAccept \\((\\theta^{*}, Z^{*})\\) probability \\[\nr = \\min \\left\\{\\frac{\\pi(Z^{*}, \\theta^{*} \\mid Y)q(Z^{(t-1)}, \\theta^{(t-1)}\\mid Z^{*}, \\theta^{*})}{\\pi(Z^{(t-1)}, \\theta^{(t-1)} \\mid Y)q(Z^{*}, \\theta^{*} \\mid Z^{(t-1)}, \\theta^{(t-1)})}, 1\\right\\}.\n\\]\n\nThe proposal is generated by\n\ncompute \\[\nU^{(t-1)} = M\\left[\\begin{array}{c}\nY \\\\\nZ^{(t-1)}\n\\end{array}\\right]\n\\]\n\\(\\theta^{*} \\sim \\pi(\\theta \\mid U)\\)\n\\(U^{*} \\sim p(u \\mid \\theta^{*})\\)\ncompute \\(Z^{*}\\) from \\(U^{*}\\)\n\nRemark: There is no theoretical guarantee that this algorithm works."
+  },
+  {
+    "objectID": "slides/survey_example.html#prior-and-posterior",
+    "href": "slides/survey_example.html#prior-and-posterior",
+    "title": "An example survey",
+    "section": "Prior and posterior",
+    "text": "Prior and posterior\n\nWe need to specify a prior for \\(\\theta = (\\rho_1, \\rho_2, \\rho_3, \\rho_{12}, \\rho_{21}, 4\\gamma)\\).\nFor convenience, we choose \\((\\rho_1, \\rho_2, \\rho_3, \\rho_{12}, \\rho_{21}, 4\\gamma) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_6)\\).\nThe posterior given the complete data is \\[\\begin{multline*}\n(\\rho_1, \\rho_2, \\rho_3, \\rho_{12}, \\rho_{21}, 4\\gamma) \\mid U \\sim \\text{Dir}(\\alpha_1 + n_{11}, \\alpha_2 + n_{22}, \\alpha_3 + n_{33}, \\alpha_4 + n_{12},\\\\\n\\alpha_5 + n_{21}, \\alpha_6 + n_{13} + n_{23} + n_{31} + n_{32}).\n\\end{multline*}\\]"
+  },
+  {
+    "objectID": "slides/survey_example.html#mh-algorithm",
+    "href": "slides/survey_example.html#mh-algorithm",
+    "title": "An example survey",
+    "section": "MH Algorithm",
+    "text": "MH Algorithm\n\nInput: observed data \\(Y\\) and initialization \\(Z^{(0)}, \\theta^{(0)}\\).\nfor \\(t = 1, \\ldots, T\\):\n\nGenerate \\((Z^{*}, \\theta^{*}) \\sim q(Z^{(t-1)}, \\theta^{(t-1)})\\)\nAccept \\((\\theta^{*}, Z^{*})\\) probability \\[\nr = \\min \\left\\{\\frac{\\pi(Z^{*}, \\theta^{*} \\mid Y)q(Z^{(t-1)}, \\theta^{(t-1)}\\mid Z^{*}, \\theta^{*})}{\\pi(Z^{(t-1)}, \\theta^{(t-1)} \\mid Y)q(Z^{*}, \\theta^{*} \\mid Z^{(t-1)}, \\theta^{(t-1)})}, 1\\right\\}.\n\\]"
+  },
+  {
+    "objectID": "slides/survey_example.html#proposal-distribution",
+    "href": "slides/survey_example.html#proposal-distribution",
+    "title": "An example survey",
+    "section": "Proposal distribution",
+    "text": "Proposal distribution\n\nThe proposal is generated by\n\ncompute \\[\nU^{(t-1)} = M\\left[\\begin{array}{c}\nY \\\\\nZ^{(t-1)}\n\\end{array}\\right]\n\\]\n\\(\\theta^{*} \\sim \\pi(\\theta \\mid U^{(t-1)})\\)\n\\(Z^{*} \\sim p(z \\mid Y, \\theta^{*})\\) (Using Gibbs sampling)\n\nWe want a prior such that the posterior given complete data is easy to sample from.\nThe proposal density is \\(q(Z^{*}, \\theta^{*} \\mid Z^{(t-1)}, \\theta^{(t-1)}) = \\pi(\\theta^{*} \\mid U^{(t-1)})p(U^{*} \\mid \\theta^{*})\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#an-example-survey",
+    "href": "slides/survey_example.html#an-example-survey",
+    "title": "An example survey",
+    "section": "An example survey",
+    "text": "An example survey\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nThere are 6 surveys and each survey has two questions:\n\nprefer A or B, or neither?\nprefer A’ or B, or neither?\n\nNotations:\n\n\\(\\hat{p}_1\\): proportion of people who prefer A over B.\n\\(\\hat{p}_2\\): proportion of people who prefer B over A.\n\\(\\hat{q}_1\\): proportion of people who prefer A’ over B.\n\\(\\hat{q}_2\\): proportion of people who prefer B over A’.\n\\(n\\) is the sample size in each survey"
+  },
+  {
+    "objectID": "slides/survey_example.html#intuition",
+    "href": "slides/survey_example.html#intuition",
+    "title": "An example survey",
+    "section": "Intuition",
+    "text": "Intuition\n\nIf we observe \\(U\\), we can find the posterior \\(\\pi(\\theta \\mid U)\\).\nObserving \\(U\\) is equivalent to observing \\(Y\\) and \\(Z\\) and hence the posterior can be written as \\(\\pi(\\theta \\mid Y, Z)\\).\nHowever, \\(Z\\) is missing, so we can not condition on \\(Z\\).\nThe most we can do is \\(\\pi(\\theta, Z \\mid Y)\\).\nBy Bayes Theorem, \\[\n\\pi(\\theta, Z \\mid Y) = \\frac{p(Y, Z \\mid \\theta)\\pi(\\theta)}{p(Y)}.\n\\]\nThe distribution \\(p(Y, Z \\mid \\theta)\\) is available since \\([Y^T, Z^T]^T = M^{-1}U\\) and \\(U\\) is multinomial.\nWe can also consider the marginal posterior \\(\\pi(\\theta \\mid Y) = \\sum_{Z} \\pi(\\theta, Z \\mid Y)\\)."
+  },
+  {
+    "objectID": "slides/survey_example.html#sampling-algorithm",
+    "href": "slides/survey_example.html#sampling-algorithm",
+    "title": "An example survey",
+    "section": "Sampling Algorithm",
+    "text": "Sampling Algorithm\n\nWe need to sample from \\(\\pi(\\theta, Z \\mid Y)\\).\nThe sampling is achieved by Gibbs sampler:\n\nsample \\(Z\\) from \\(\\pi(Z \\mid \\theta, Y)\\)\nsample \\(\\theta\\) from \\(\\pi(\\theta \\mid Z, Y)\\).\n\nIn our case, \\(\\pi(Z \\mid \\theta, Y)\\) is independent of \\(\\theta\\) and the full conditionals \\(\\pi(z_i \\mid z_{-i}, Y)\\) are hypergeometric distributions.\nYou fill find that the derivation is the same as Fisher’s exact test.\nThe distribution \\(\\pi(\\theta \\mid Z, Y)\\) is exactly \\(\\pi(\\theta \\mid U)\\), i.e., the posterior given the complete data."
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis-for-survey-1",
+    "href": "slides/survey_example.html#analysis-for-survey-1",
+    "title": "An example survey",
+    "section": "Analysis for Survey 1",
+    "text": "Analysis for Survey 1\n\nsource(\"../dataset/survey/survey_Missing.R\")\n\nY &lt;- c(988, 902, 256, 943, 851)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\napply(theta_sample, 2, \\(x) mean(x*100)) |&gt;\n    theta_to_prob() |&gt;\n    matrix(3, 3, byrow = TRUE) |&gt;\n    `rownames&lt;-`(paste(\"Q_1\", c(\"A\", \"B\", \"No response\"), sep = \".\")) |&gt;\n    `colnames&lt;-`(paste(\"Q_2\", c(\"A'\", \"B\", \"No response\"), sep = \".\")) |&gt;\n    kable(row.names = TRUE, digits = 2)\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\n\n\n\n\nQ_1.A\n20.29\n18.20\n6.1\n\n\nQ_1.B\n18.41\n16.69\n6.1\n\n\nQ_1.No response\n6.10\n6.10\n2.0"
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis-for-survey-2",
+    "href": "slides/survey_example.html#analysis-for-survey-2",
+    "title": "An example survey",
+    "section": "Analysis for Survey 2",
+    "text": "Analysis for Survey 2\n\nY &lt;- c(471, 402, 276, 483, 414)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n17.26\n14.77\n8.83\n40.86\n\n\nQ_1.B\n14.73\n12.58\n8.83\n36.15\n\n\nQ_1.No response\n8.83\n8.83\n5.33\n22.99\n\n\ntotal\n40.82\n36.19\n22.99\n100.00"
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis-for-survey-3",
+    "href": "slides/survey_example.html#analysis-for-survey-3",
+    "title": "An example survey",
+    "section": "Analysis for Survey 3",
+    "text": "Analysis for Survey 3"
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis-for-survey-4",
+    "href": "slides/survey_example.html#analysis-for-survey-4",
+    "title": "An example survey",
+    "section": "Analysis for Survey 4",
+    "text": "Analysis for Survey 4"
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis-for-survey-5",
+    "href": "slides/survey_example.html#analysis-for-survey-5",
+    "title": "An example survey",
+    "section": "Analysis for Survey 5",
+    "text": "Analysis for Survey 5\n\n\nHome"
+  },
+  {
+    "objectID": "slides/survey_example.html#meta-analysis",
+    "href": "slides/survey_example.html#meta-analysis",
+    "title": "An example survey",
+    "section": "Meta analysis",
+    "text": "Meta analysis\n\nWe can also perform meta analysis by combining the 6 surveys.\nLet \\(U_i\\) be the complete data for survey \\(i\\).\nA simple hierarchical model is \\[\\begin{align*}\nU_i \\mid \\theta_i &\\ind \\text{Multinomial}(\\theta_i),\\\\\n\\theta_i \\mid \\alpha, \\nu &\\iid \\text{Dir}(\\alpha\\nu),\\\\\n\\nu &\\sim \\text{Dir}(1, 1, 1, 1, 1, 1),\\\\\n\\alpha &\\sim \\text{Exp}(0.001)\n\\end{align*}\\]\nThe complete data \\(U_i\\) is obtained by generating the missing data \\(Z_i\\) from \\(\\pi(Z_i \\mid Y_i)\\) and then combining with the observed data \\(Y_i\\).\nI wrote a function multi_survey_sampler to perform the meta analysis."
+  },
+  {
+    "objectID": "slides/survey_example.html#what-is-the-question",
+    "href": "slides/survey_example.html#what-is-the-question",
+    "title": "An example survey",
+    "section": "What is the question?",
+    "text": "What is the question?\n\nSuppose you have obtained posterior samples of \\(\\theta_i = (\\rho_{1,i}, \\rho_{2,i}, \\rho_{3,i}, \\rho_{12,i}, \\rho_{21,i}, \\gamma_i)\\) for \\(i = 1, \\ldots, 6\\).\nWhat do you want to know?\nProbably, you want to compare \\(\\rho_{12,i}\\) and \\(\\rho_{21,i}\\) for each \\(i = 1, \\ldots, 6\\).\nYou have several choices:\n\nuse \\(\\eta_{1, i} = \\rho_{12,i} - \\rho_{21,i} \\in [-1, 1]\\);\nuse \\(\\eta_{2,i} = \\frac{\\rho_{12,i}}{\\rho_{21,i}} \\in [0, \\infty)\\);\nuse \\(\\eta_{3,i} = \\frac{\\rho_{12,i}}{\\rho_{21,i}} &gt; 1\\).\n\nRemark: Since we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended). You cannot arbitrarily subtract conditional probabilities or marginal probabilities.\nFor example, it is meaningless to compute \\[\\begin{align*}\n& \\P(X = 1) - \\P(Y = 0) \\text{or}\\\\\n& \\P(X = 1 \\mid Y = 1) - \\P(X = 1 \\mid Y = 0).\n\\end{align*}\\]\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/survey_example.html#interpretation-of-the-parameters",
+    "href": "slides/survey_example.html#interpretation-of-the-parameters",
+    "title": "An example survey",
+    "section": "Interpretation of the parameters",
+    "text": "Interpretation of the parameters\n\n\\(\\rho_1\\): the proportion of people that always prefer A type.\n\\(\\rho_2\\): the proportion of people that always prefer B type.\n\\(\\rho_3\\): the proportion of people that always give no response.\n\\(\\rho_{12}\\): the proportion of people that prefer \\(A &gt; B &gt; A'\\).\n\\(\\rho_{21}\\): the proportion of people that prefer \\(A' &gt; B &gt; A\\).\n\\(\\gamma\\): the proportion of people that answer only one of the two questions."
   }
 ]

@@ -153,6 +153,11 @@ execute:
 [^CMP]: See the [Wiki](https://en.wikipedia.org/wiki/Conway–Maxwell–Poisson_distribution) and [Huang & Kim (2021)](https://www.tandfonline.com/doi/abs/10.1080/03610926.2019.1682162) for the Conway-Maxwell-Poisson distribution
 
 
+## Example: Recreation Demand
+
+
+
+
 ## Example
 
 ```{r}
