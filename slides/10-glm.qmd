@@ -1,22 +1,5 @@
 ---
 title: "Lecture 10: Generalized Linear Model"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-        include-in-header: 
-            - text: 
-                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: true
 ---
 
 # Generalized Linear Model
@@ -154,6 +137,18 @@ execute:
 
 
 ## Example: Recreation Demand
+
+-   This dataset contains the number of recreational boating trips to Lake Somerville, Texas, in 1980.
+-   The survey was administered to 2,000 registered boat owners in 23 conuties in esatern Texas.
+-   The dataset contains
+    +   `trips`: Number of recreational boating trips.
+    +   `quality`: Facility's subjective quality ranking on a scale of 1 to 5.
+    +   `ski`: factor. Was the individual engaged in water-skiing at the lake?
+    +   `income`: Annual household income of the respondent (in 1,000 USD).
+    +   `userfee`: factor. Did the individual pay an annual user fee at Lake Somerville?
+    +   `costC`: Expenditure when visiting Lake Conroe (in USD).
+    +   `costS`: Expenditure when visiting Lake Somerville (in USD).
+    +   `costH`: Expenditure when visiting Lake Houston (in USD).
 
 
 

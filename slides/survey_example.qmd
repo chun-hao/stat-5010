@@ -47,7 +47,7 @@ T1_boot <- matrix(0, ncol = B, nrow = 6)
 T2_boot <- matrix(0, ncol = B, nrow = 6)
 
 set.seed(2023)
-
+attach(survey_data)
 for (i in 1:B) {
   for (j in 1:6) {
     prop_boot_p <- rmultinom(1, n[j], 
@@ -59,6 +59,7 @@ for (i in 1:B) {
         (prop_boot_q[1] - prop_boot_q[2])
   }
 }
+detach(survey_data)
 ```
 
 ## Difference in Proportions
@@ -172,7 +173,7 @@ survey_did_boot |>  kable(digits = 2)
     +   sample $Z$ from $\pi(Z \mid \theta, Y)$
     +   sample $\theta$ from $\pi(\theta \mid Z, Y)$.
 -   In our case, $\pi(Z \mid \theta, Y)$ is independent of $\theta$ and the full conditionals $\pi(z_i \mid z_{-i}, Y)$ are hypergeometric distributions. 
--   You fill find that the derivation is the same as Fisher's exact test.
+-   You will find the derivation the same as Fisher's exact test.
 -   The distribution $\pi(\theta \mid Z, Y)$ is exactly $\pi(\theta \mid U)$, i.e., the posterior given the complete data.
 
 
@@ -299,7 +300,7 @@ eta2_overall <- log(samples$nu[,4]) - log(samples$nu[,5])
 -   The red dashed line is the overall estimate.
 
 :::
-```{r}
+```{r, fig.width=15, fig.height=8}
 #| fig.align: center
 par(mfrow = c(1, 2))
 plot(0, type = "n", xlim = c(-0.15,0.15), ylim = c(0,40), 
@@ -317,8 +318,3 @@ lines(density(eta2_overall), col = "red", lwd = 3, lty = 2)
 
 ```
 
-```{r}
-```
-
-```{r}
-```

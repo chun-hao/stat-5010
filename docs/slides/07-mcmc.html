@@ -500,10 +500,10 @@ Chun-Hao Yang
 </ul>
 </div>
 
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-1-1.png" width="672" class="r-stretch"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
 <section id="example-1" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-hash="07-mcmc_cache/html/unnamed-chunk-2_2672c6419b9e01c70c6806ae2b94deb9">
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-2_71350957dd6da5cc8978ddf28223a760">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>m <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
@@ -524,9 +524,9 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section id="example-1-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-hash="07-mcmc_cache/html/unnamed-chunk-2_2672c6419b9e01c70c6806ae2b94deb9">
+<section id="example-1-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-2_71350957dd6da5cc8978ddf28223a760">
 <div class="cell-output-display">
-<p><img data-src="07-mcmc_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
 </div>
 </div></section><section id="problems-with-rejection-sampling" class="slide level2">
 <h2>Problems with rejection sampling</h2>
@@ -586,7 +586,7 @@ Chun-Hao Yang
 </ul></li>
 </ul>
 <div class="fragment">
-<div class="cell" data-hash="07-mcmc_cache/html/unnamed-chunk-3_9f5aeeeeb550a42553a73480da4654bd">
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-3_bfc4c14be1ca0b184d323ef112e16c14">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># initialize</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
@@ -604,17 +604,17 @@ Chun-Hao Yang
 </section>
 <section id="checking-convergence" class="slide level2">
 <h2>Checking Convergence</h2>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-4_1b324954f85325cdc8f9548502299bc4">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-4_d4e9bd94fcf58ce811e4585b628d670e">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># trace plot</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="fu">plot</span>(X[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">1</span>]), <span class="at">xlab =</span> <span class="st">"Iteration"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="fu">plot</span>(X[<span class="dv">2</span>, ], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(X[<span class="dv">2</span>]), <span class="at">xlab =</span> <span class="st">"Iteration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-4-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="checking-convergence-1" class="slide level2">
 <h2>Checking Convergence</h2>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-6_12f8646db1cc7e1e5d8ea55ba3f24081">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-6_87b2a74ef8b83d3739dfbe8f0591c653">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>X <span class="sc">%&lt;&gt;%</span> <span class="fu">t</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">X1 =</span> V1, <span class="at">X2 =</span> V2) </span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="fu">ggplot</span>(X, <span class="fu">aes</span>(<span class="at">x =</span> X1, <span class="at">y =</span> X2)) <span class="sc">+</span> </span>
@@ -624,7 +624,7 @@ Chun-Hao Yang
 <span id="cb4-7"><a href="#cb4-7"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">TeX</span>(<span class="st">"Joint distribution of $X_1$ and $X_2$"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-6-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="when-to-use-gibbs-sampler" class="slide level2">
 <h2>When to use Gibbs sampler?</h2>
 <ul>
@@ -659,7 +659,7 @@ Chun-Hao Yang
 <li class="fragment">A commonly used proposal is <span class="math inline">\(J_t(\cdot \mid\theta^{(t-1)}) = N(\theta^{(t-1)}, \sigma^2)\)</span>, where <span class="math inline">\(\sigma^2\)</span> is a tuning parameter.</li>
 </ul>
 <div class="fragment">
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-7_24a7aa7c577d4eeaff3d44e47505bc43">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-7_1dba7c5e967f33573e50b62a808017c8">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># generate sample</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>theta_0 <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
@@ -676,17 +676,17 @@ Chun-Hao Yang
 
 </div>
 </section>
-<section id="example-2-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-7_24a7aa7c577d4eeaff3d44e47505bc43">
+<section id="example-2-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-7_1dba7c5e967f33573e50b62a808017c8">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="07-mcmc_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div></section><section id="example-3" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-hash="07-mcmc_cache/html/unnamed-chunk-8_b7c988431e839356801b500efdf91943">
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-8_b38544d2bf1bffa973136564c298d00f">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Metropolis algorithm</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>T <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>theta <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, T)</span>
@@ -708,7 +708,7 @@ Chun-Hao Yang
 </section>
 <section id="example-4" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-9_fbfe3bcf311378f2a92b11cadec01064">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-9_dea814691d1fddf2a2c4bd1a5badba90">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># normalizing constant</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>Z <span class="ot">&lt;-</span> <span class="fu">integrate</span>(<span class="cf">function</span>(theta) <span class="fu">exp</span>(<span class="fu">log_post</span>(theta, X)), <span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span>)<span class="sc">$</span>value</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
@@ -720,7 +720,7 @@ Chun-Hao Yang
 <span id="cb7-9"><a href="#cb7-9"></a><span class="fu">plot</span>(theta, <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-9-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="advantages-of-metropolis-algorithm" class="slide level2">
 <h2>Advantages of Metropolis Algorithm</h2>
 <ul>
@@ -818,11 +818,11 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 <section id="autocorrelation" class="slide level2">
 <h2>Autocorrelation</h2>
 <p><strong>Lag-<span class="math inline">\(k\)</span> Autocorrelation</strong>: the correlation between <span class="math inline">\(\theta^{(t)}\)</span> and <span class="math inline">\(\theta^{(t+k)}\)</span> for <span class="math inline">\(k &gt; 0\)</span>.</p>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-10_f35a5b68c9782b62b2618a359fe24f4a">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-10_3706c09171ce072280c77fa9d8a4e84d">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">acf</span>(theta, <span class="at">lag.max =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-10-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="effective-sample-size" class="slide level2">
 <h2>Effective sample size</h2>
 <div>
@@ -834,7 +834,7 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 <li>Different estimates of <span class="math inline">\(\rho_k\)</span>’s give different ESS’s.</li>
 </ul>
 </div>
-<div class="cell" data-hash="07-mcmc_cache/html/unnamed-chunk-11_f1c53b2df22ec6ea0170fea01c077625">
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-11_c24f5c748370a647a754b4edc824c28b">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(coda)</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="fu">library</span>(mcmcse)</span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
@@ -865,17 +865,17 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 <section id="example-5" class="slide level2">
 <h2>Example</h2>
 <p>Suppose the target distribution is <span class="math inline">\(\pi(\theta) = \frac{1}{2}N(10,1) + \frac{1}{2}N(-10, 1)\)</span>.</p>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-12_1f29f4f1c5dcab8981faaaaee18f777e">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-12_de345c92d3e805e170066012a2f8303c">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>log_post <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
 <span id="cb13-2"><a href="#cb13-2"></a>    <span class="fu">log</span>(<span class="fu">dnorm</span>(x, <span class="dv">10</span>, <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">dnorm</span>(x, <span class="sc">-</span><span class="dv">10</span>, <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb13-3"><a href="#cb13-3"></a>}</span>
 <span id="cb13-4"><a href="#cb13-4"></a><span class="fu">curve</span>(<span class="fu">exp</span>(<span class="fu">log_post</span>(x)), <span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-12-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="vanilla-metropolis" class="slide level2">
 <h2>Vanilla Metropolis</h2>
-<div class="cell" data-hash="07-mcmc_cache/html/unnamed-chunk-13_87d40f4574727a6d10db3e16174599db">
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-13_d1278b2f3f453666f4e1f25ee1f1c5c3">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
 <span id="cb14-2"><a href="#cb14-2"></a>M <span class="ot">&lt;-</span> <span class="dv">1000</span>; n_chain <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> M)</span>
@@ -895,7 +895,7 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 </section>
 <section id="vanilla-metropolis-1" class="slide level2">
 <h2>Vanilla Metropolis</h2>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-14_720d7d037380d33cb1c111c235d0883e">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-14_5e568f4a3f43aced67472c3cff1f7e48">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_chain){</span>
 <span id="cb15-3"><a href="#cb15-3"></a>    <span class="fu">plot</span>(theta[,j], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
@@ -903,10 +903,10 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 <span id="cb15-5"><a href="#cb15-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-14-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="parallel-tempering" class="slide level2">
 <h2>Parallel tempering</h2>
-<div class="cell" data-hash="07-mcmc_cache/html/unnamed-chunk-15_27c21265ca0a3488392a77a52b675471">
+<div class="cell" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-15_431a927bb57003864fafbe756c152089">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
 <span id="cb16-2"><a href="#cb16-2"></a>M <span class="ot">&lt;-</span> <span class="dv">1000</span>; n_chain <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>theta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> M)</span>
@@ -940,7 +940,7 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 </section>
 <section id="parallel-tempering-1" class="slide level2">
 <h2>Parallel tempering</h2>
-<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/html/unnamed-chunk-16_63410d5870cd5962752cd99be9376744">
+<div class="cell" data-layout-align="center" data-hash="07-mcmc_cache/revealjs/unnamed-chunk-16_02d371b0444301efc0f4867ac830cfd7">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb17-2"><a href="#cb17-2"></a><span class="fu">plot</span>(theta[,<span class="dv">1</span>], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
 <span id="cb17-3"><a href="#cb17-3"></a>         <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="dv">15</span>), <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Chain"</span>, <span class="dv">1</span>))</span>
@@ -950,7 +950,7 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
 
 </div>
 
-<img data-src="07-mcmc_files/figure-html/unnamed-chunk-16-1.png" width="672" class="r-stretch quarto-figure-center"><div class="footer footer-default">
+<img data-src="07-mcmc_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
@@ -1168,6 +1168,44 @@ J_{j, t}^{\text {Gibbs }}\left(\theta^* \mid \theta^{(t-1)}\right)= \begin{cases
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
