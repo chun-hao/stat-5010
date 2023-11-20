@@ -96,7 +96,7 @@ survey_did_boot |>  kable(digits = 2)
 
 -   Apparently, the responses to the two question are correlated.
 
--   However we only the marginal distributions for each question.
+-   However we only have the marginal distributions for each question.
 
 -   We need to model the joint distribution directly.
 
@@ -135,7 +135,7 @@ survey_did_boot |>  kable(digits = 2)
     Z
     \end{array}\right].
     $$
--   The distribution of $U$ multinomial with parameter $(\rho_1, \rho_{12}, \gamma, \rho_{21}, \rho_2, \gamma, \gamma, \gamma, \rho_3)$.
+-   The distribution of $U$ is a multinomial with parameter $(\rho_1, \rho_{12}, \gamma, \rho_{21}, \rho_2, \gamma, \gamma, \gamma, \rho_3)$.
 
 ## Intuition
 
