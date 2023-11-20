@@ -1,19 +1,5 @@
 ---
 title: "An example survey"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-        include-in-header: 
-            - text: 
-                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
-execute:
-    echo: false
-    warning: false
 ---
 
 ## An example survey
@@ -207,14 +193,18 @@ survey_did_boot |>  kable(digits = 2)
 #| echo: true
 source("../dataset/survey/survey_Missing.R")
 
-Y <- c(988, 902, 256, 943, 851)
+Y <- c(988, 802, 256, 943, 851)
 theta_sample <- single_survey_sampler(3000, Y)
+```
 
+```{r}
 apply(theta_sample, 2, \(x) mean(x*100)) |>
     theta_to_prob() |>
     matrix(3, 3, byrow = TRUE) |>
     `rownames<-`(paste("Q_1", c("A", "B", "No response"), sep = ".")) |>
-    `colnames<-`(paste("Q_2", c("A'", "B", "No response"), sep = ".")) |>
+    `colnames<-`(paste("Q_2", c("A'", "B", "No response"), sep = ".")) %>%
+    cbind(., total = rowSums(.)) %>%
+    rbind(., total = colSums(.)) |>
     kable(row.names = TRUE, digits = 2)
 ```
 
@@ -261,11 +251,74 @@ apply(theta_sample, 2, \(x) mean(x*100)) |>
 -   Probably, you want to compare $\rho_{12,i}$ and $\rho_{21,i}$ for each $i = 1, \ldots, 6$.
 -   You have several choices:
     +   use $\eta_{1, i} = \rho_{12,i} - \rho_{21,i} \in [-1, 1]$; 
-    +   use $\eta_{2,i} = \frac{\rho_{12,i}}{\rho_{21,i}} \in [0, \infty)$;
-    +   use $\eta_{3,i} = \frac{\rho_{12,i}}{\rho_{21,i}} > 1$.
--   Remark: Since we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended).  You cannot arbitrarily subtract conditional probabilities or marginal probabilities.
--   For example, it is meaningless to compute 
+    +   use $\eta_{2, i} = \log\frac{\rho_{12,i}}{\rho_{21,i}} \in (-\infty, \infty)$;
+-   Since we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended).  
+-   You cannot arbitrarily subtract conditional probabilities or marginal probabilities.
+-   For example, it is **meaningless** to compute 
     \begin{align*}
-    & \P(X = 1) - \P(Y = 0) \text{or}\\
+    & \P(X = 1) - \P(Y = 0) \quad \text{or}\\
     & \P(X = 1 \mid Y = 1) - \P(X = 1 \mid Y = 0).
     \end{align*}
+    
+## Analysis
+```{r}
+#| echo: true
+source("../dataset/survey/survey_Missing.R")
+survey_data <- read.csv("../dataset/survey/survey_data.csv",header = TRUE)
+attach(survey_data)
+N1 <- cbind(round(n*p_1), round(n*p_2))
+N1 <- cbind(N1, n - N1[,1] - N1[,2])
+N2 <- cbind(round(n*q_1), round(n*q_2))
+N2 <- cbind(N2, n - N2[,1] - N2[,2])
+detach(survey_data)
+Y <- cbind(N1, N2[,1:2])
+Y |> `colnames<-`(c("n_1.", "n_2.", "n_3.", "n_.1", "n_.2")) |> kable()
+```
+
+## Analysis
+```{r}
+#| echo: true
+#| results: hide
+model <- stan_model("../dataset/survey/multi_survey.stan")
+samples <- multi_survey_sampler(Y, model)
+```
+```{r}
+#| echo: true
+eta1 <- samples$theta[,4,] - samples$theta[,5,]
+eta2 <- log(samples$theta[,4,]) - log(samples$theta[,5,])
+eta1_overall <- samples$nu[,4] - samples$nu[,5]
+eta2_overall <- log(samples$nu[,4]) - log(samples$nu[,5])
+```
+
+## Results
+
+::: {.nonincremental}
+
+-   $\eta_1 = \rho_{12} - \rho_{21} =$ (prefer A > B > A') - (prefer A' > B > A)
+-   $\eta_2 = \log\frac{\rho_{12}}{\rho_{21}} =$ log(prefer A > B > A') - log(prefer A' > B > A)
+-   The red dashed line is the overall estimate.
+
+:::
+```{r}
+#| fig.align: center
+par(mfrow = c(1, 2))
+plot(0, type = "n", xlim = c(-0.15,0.15), ylim = c(0,40), 
+     xlab = expression(eta[1]), ylab = "Density")
+for(i in 1:6){
+    lines(density(eta1[,i]), col = i)
+}
+lines(density(eta1_overall), col = "red", lwd = 3, lty = 2)
+plot(0, type = "n", xlim = c(-1.3,1.3), ylim = c(0,8), 
+     xlab = expression(eta[2]), ylab = "Density")
+for(i in 1:6){
+    lines(density(eta2[,i]), col = i)
+}
+lines(density(eta2_overall), col = "red", lwd = 3, lty = 2)
+
+```
+
+```{r}
+```
+
+```{r}
+```

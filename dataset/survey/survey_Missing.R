@@ -65,7 +65,7 @@ single_survey_sampler <- function(m, Y, seed = 1234){
     return(theta_sample)
 }
 
-multi_survey_sampler <- function(Y, seed = 1234){
+multi_survey_sampler <- function(Y, model, seed = 1234){
     # Y is a k x 5 matrix where k is the number of surveys
     k <- nrow(Y)
     
@@ -80,16 +80,27 @@ multi_survey_sampler <- function(Y, seed = 1234){
         }
     }
     
-    model <- stan_model("multi_survey.stan")
-    
     samples <- vector("list", n_z)
     for(i in 1:n_z){
         fit <- sampling(model,list(J = k, U = U_sample[i, , ]),
                         iter=2000, warmup=1000,
-                        chains=4, cores = 4)
+                        chains=4, cores = 4, refresh = 0)
         samples[[i]] <- extract(fit, pars = c("theta", "nu", "alpha"))
     }
-    return(samples)
+    
+    
+    theta_sample <- array(0, dim = c(40000, 6, 6))
+    nu_sample <- array(0, dim = c(40000, 6))
+    alpha_sample <- rep(0, 40000)
+    
+    for (i in 1:n_z){
+        theta_sample[((i-1)*4000+1):(i*4000), , ] <- samples[[i]]$theta
+        nu_sample[((i-1)*4000+1):(i*4000), ] <- samples[[i]]$nu
+        alpha_sample[((i-1)*4000+1):(i*4000)] <- samples[[i]]$alpha
+    }
+    return(list(theta = theta_sample, 
+                nu = nu_sample, 
+                alpha = alpha_sample))
 }
 
 

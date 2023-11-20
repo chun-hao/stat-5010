@@ -876,61 +876,13 @@ Z
 </section>
 <section id="analysis-for-survey-1" class="slide level2">
 <h2>Analysis for Survey 1</h2>
-<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-5_d25ac6d156b3499c8294854279191d21">
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-5_41706e12929d2178548cb1f1007b6c5c">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">source</span>(<span class="st">"../dataset/survey/survey_Missing.R"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">988</span>, <span class="dv">902</span>, <span class="dv">256</span>, <span class="dv">943</span>, <span class="dv">851</span>)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>theta_sample <span class="ot">&lt;-</span> <span class="fu">single_survey_sampler</span>(<span class="dv">3000</span>, Y)</span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">apply</span>(theta_sample, <span class="dv">2</span>, \(x) <span class="fu">mean</span>(x<span class="sc">*</span><span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>    <span class="fu">theta_to_prob</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>    <span class="fu">matrix</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>    <span class="st">`</span><span class="at">rownames&lt;-</span><span class="st">`</span>(<span class="fu">paste</span>(<span class="st">"Q_1"</span>, <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"No response"</span>), <span class="at">sep =</span> <span class="st">"."</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>    <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="fu">paste</span>(<span class="st">"Q_2"</span>, <span class="fu">c</span>(<span class="st">"A'"</span>, <span class="st">"B"</span>, <span class="st">"No response"</span>), <span class="at">sep =</span> <span class="st">"."</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>    <span class="fu">kable</span>(<span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Q_2.A'</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Q_2.B</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Q_2.No response</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Q_1.A</td>
-<td style="text-align: right;">20.29</td>
-<td style="text-align: right;">18.20</td>
-<td style="text-align: right;">6.1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Q_1.B</td>
-<td style="text-align: right;">18.41</td>
-<td style="text-align: right;">16.69</td>
-<td style="text-align: right;">6.1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Q_1.No response</td>
-<td style="text-align: right;">6.10</td>
-<td style="text-align: right;">6.10</td>
-<td style="text-align: right;">2.0</td>
-</tr>
-</tbody>
-</table>
-
-
+<span id="cb4-3"><a href="#cb4-3"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">988</span>, <span class="dv">802</span>, <span class="dv">256</span>, <span class="dv">943</span>, <span class="dv">851</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a>theta_sample <span class="ot">&lt;-</span> <span class="fu">single_survey_sampler</span>(<span class="dv">3000</span>, Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</section>
-<section id="analysis-for-survey-2" class="slide level2">
-<h2>Analysis for Survey 2</h2>
-<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-6_9c923cd40f1f57252891fccdd5343ead">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">471</span>, <span class="dv">402</span>, <span class="dv">276</span>, <span class="dv">483</span>, <span class="dv">414</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>theta_sample <span class="ot">&lt;-</span> <span class="fu">single_survey_sampler</span>(<span class="dv">3000</span>, Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-7_a948f9dbd31997a1bb89bd6291bb6e6f">
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-6_64b1f521a60815449e6b0c963119dfdd">
 <div class="cell-output-display">
 <table data-quarto-postprocess="true">
 <thead>
@@ -945,30 +897,84 @@ Z
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Q_1.A</td>
-<td style="text-align: right;">17.26</td>
-<td style="text-align: right;">14.77</td>
-<td style="text-align: right;">8.83</td>
-<td style="text-align: right;">40.86</td>
+<td style="text-align: right;">22.23</td>
+<td style="text-align: right;">20.07</td>
+<td style="text-align: right;">5.43</td>
+<td style="text-align: right;">47.73</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Q_1.B</td>
-<td style="text-align: right;">14.73</td>
+<td style="text-align: right;">18.09</td>
+<td style="text-align: right;">16.30</td>
+<td style="text-align: right;">5.43</td>
+<td style="text-align: right;">39.82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q_1.No response</td>
+<td style="text-align: right;">5.43</td>
+<td style="text-align: right;">5.43</td>
+<td style="text-align: right;">1.59</td>
+<td style="text-align: right;">12.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total</td>
+<td style="text-align: right;">45.75</td>
+<td style="text-align: right;">41.80</td>
+<td style="text-align: right;">12.45</td>
+<td style="text-align: right;">100.00</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="analysis-for-survey-2" class="slide level2">
+<h2>Analysis for Survey 2</h2>
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-7_cb9f6d5543c1194941dd74b1803de684">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">471</span>, <span class="dv">402</span>, <span class="dv">276</span>, <span class="dv">483</span>, <span class="dv">414</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>theta_sample <span class="ot">&lt;-</span> <span class="fu">single_survey_sampler</span>(<span class="dv">3000</span>, Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-8_a4adffe8c4f8f91126b95e74617b99a5">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Q_2.A'</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Q_2.B</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Q_2.No response</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q_1.A</td>
+<td style="text-align: right;">17.19</td>
+<td style="text-align: right;">14.81</td>
+<td style="text-align: right;">8.83</td>
+<td style="text-align: right;">40.83</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q_1.B</td>
+<td style="text-align: right;">14.75</td>
 <td style="text-align: right;">12.58</td>
 <td style="text-align: right;">8.83</td>
-<td style="text-align: right;">36.15</td>
+<td style="text-align: right;">36.17</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Q_1.No response</td>
 <td style="text-align: right;">8.83</td>
 <td style="text-align: right;">8.83</td>
 <td style="text-align: right;">5.33</td>
-<td style="text-align: right;">22.99</td>
+<td style="text-align: right;">23.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">total</td>
-<td style="text-align: right;">40.82</td>
-<td style="text-align: right;">36.19</td>
-<td style="text-align: right;">22.99</td>
+<td style="text-align: right;">40.77</td>
+<td style="text-align: right;">36.23</td>
+<td style="text-align: right;">23.00</td>
 <td style="text-align: right;">100.00</td>
 </tr>
 </tbody>
@@ -1002,17 +1008,116 @@ U_i \mid \theta_i &amp;\ind \text{Multinomial}(\theta_i),\\
 <li class="fragment">You have several choices:
 <ul>
 <li class="fragment">use <span class="math inline">\(\eta_{1, i} = \rho_{12,i} - \rho_{21,i} \in [-1, 1]\)</span>;</li>
-<li class="fragment">use <span class="math inline">\(\eta_{2,i} = \frac{\rho_{12,i}}{\rho_{21,i}} \in [0, \infty)\)</span>;</li>
-<li class="fragment">use <span class="math inline">\(\eta_{3,i} = \frac{\rho_{12,i}}{\rho_{21,i}} &gt; 1\)</span>.</li>
+<li class="fragment">use <span class="math inline">\(\eta_{2, i} = \log\frac{\rho_{12,i}}{\rho_{21,i}} \in (-\infty, \infty)\)</span>;</li>
 </ul></li>
-<li class="fragment">Remark: Since we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended). You cannot arbitrarily subtract conditional probabilities or marginal probabilities.</li>
-<li class="fragment">For example, it is meaningless to compute <span class="math display">\[\begin{align*}
-&amp; \P(X = 1) - \P(Y = 0) \text{or}\\
+<li class="fragment">Since we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended).<br>
+</li>
+<li class="fragment">You cannot arbitrarily subtract conditional probabilities or marginal probabilities.</li>
+<li class="fragment">For example, it is <strong>meaningless</strong> to compute <span class="math display">\[\begin{align*}
+&amp; \P(X = 1) - \P(Y = 0) \quad \text{or}\\
 &amp; \P(X = 1 \mid Y = 1) - \P(X = 1 \mid Y = 0).
 \end{align*}\]</span></li>
 </ul>
+</section>
+<section id="analysis" class="slide level2">
+<h2>Analysis</h2>
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-9_fe59d99db3add52709a473446e876994">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">source</span>(<span class="st">"../dataset/survey/survey_Missing.R"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>survey_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../dataset/survey/survey_data.csv"</span>,<span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">attach</span>(survey_data)</span>
+<span id="cb6-4"><a href="#cb6-4"></a>N1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">round</span>(n<span class="sc">*</span>p_1), <span class="fu">round</span>(n<span class="sc">*</span>p_2))</span>
+<span id="cb6-5"><a href="#cb6-5"></a>N1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(N1, n <span class="sc">-</span> N1[,<span class="dv">1</span>] <span class="sc">-</span> N1[,<span class="dv">2</span>])</span>
+<span id="cb6-6"><a href="#cb6-6"></a>N2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">round</span>(n<span class="sc">*</span>q_1), <span class="fu">round</span>(n<span class="sc">*</span>q_2))</span>
+<span id="cb6-7"><a href="#cb6-7"></a>N2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(N2, n <span class="sc">-</span> N2[,<span class="dv">1</span>] <span class="sc">-</span> N2[,<span class="dv">2</span>])</span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="fu">detach</span>(survey_data)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>Y <span class="ot">&lt;-</span> <span class="fu">cbind</span>(N1, N2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb6-10"><a href="#cb6-10"></a>Y <span class="sc">|&gt;</span> <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="fu">c</span>(<span class="st">"n_1."</span>, <span class="st">"n_2."</span>, <span class="st">"n_3."</span>, <span class="st">"n_.1"</span>, <span class="st">"n_.2"</span>)) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">n_1.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n_2.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n_3.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n_.1</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n_.2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">988</td>
+<td style="text-align: right;">802</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: right;">943</td>
+<td style="text-align: right;">851</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">471</td>
+<td style="text-align: right;">402</td>
+<td style="text-align: right;">276</td>
+<td style="text-align: right;">483</td>
+<td style="text-align: right;">414</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">518</td>
+<td style="text-align: right;">368</td>
+<td style="text-align: right;">226</td>
+<td style="text-align: right;">517</td>
+<td style="text-align: right;">388</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">512</td>
+<td style="text-align: right;">358</td>
+<td style="text-align: right;">242</td>
+<td style="text-align: right;">454</td>
+<td style="text-align: right;">399</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">476</td>
+<td style="text-align: right;">346</td>
+<td style="text-align: right;">260</td>
+<td style="text-align: right;">430</td>
+<td style="text-align: right;">357</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">576</td>
+<td style="text-align: right;">435</td>
+<td style="text-align: right;">473</td>
+<td style="text-align: right;">567</td>
+<td style="text-align: right;">454</td>
+</tr>
+</tbody>
+</table>
 
-<div class="footer footer-default">
+
+</div>
+</div>
+</section>
+<section id="analysis-1" class="slide level2">
+<h2>Analysis</h2>
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-10_d14a74bcf0e93895c318ea3416f0e430">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>model <span class="ot">&lt;-</span> <span class="fu">stan_model</span>(<span class="st">"../dataset/survey/multi_survey.stan"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>samples <span class="ot">&lt;-</span> <span class="fu">multi_survey_sampler</span>(Y, model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="survey_example_cache/revealjs/unnamed-chunk-11_1cd7e88c591a76254336037f3fc2ea78">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>eta1 <span class="ot">&lt;-</span> samples<span class="sc">$</span>theta[,<span class="dv">4</span>,] <span class="sc">-</span> samples<span class="sc">$</span>theta[,<span class="dv">5</span>,]</span>
+<span id="cb8-2"><a href="#cb8-2"></a>eta2 <span class="ot">&lt;-</span> <span class="fu">log</span>(samples<span class="sc">$</span>theta[,<span class="dv">4</span>,]) <span class="sc">-</span> <span class="fu">log</span>(samples<span class="sc">$</span>theta[,<span class="dv">5</span>,])</span>
+<span id="cb8-3"><a href="#cb8-3"></a>eta1_overall <span class="ot">&lt;-</span> samples<span class="sc">$</span>nu[,<span class="dv">4</span>] <span class="sc">-</span> samples<span class="sc">$</span>nu[,<span class="dv">5</span>]</span>
+<span id="cb8-4"><a href="#cb8-4"></a>eta2_overall <span class="ot">&lt;-</span> <span class="fu">log</span>(samples<span class="sc">$</span>nu[,<span class="dv">4</span>]) <span class="sc">-</span> <span class="fu">log</span>(samples<span class="sc">$</span>nu[,<span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+<div>
+<ul>
+<li><span class="math inline">\(\eta_1 = \rho_{12} - \rho_{21} =\)</span> (prefer A &gt; B &gt; A’) - (prefer A’ &gt; B &gt; A)</li>
+<li><span class="math inline">\(\eta_2 = \log\frac{\rho_{12}}{\rho_{21}} =\)</span> log(prefer A &gt; B &gt; A’) - log(prefer A’ &gt; B &gt; A)</li>
+<li>The red dashed line is the overall estimate.</li>
+</ul>
+</div>
+
+
+<img data-src="survey_example_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>

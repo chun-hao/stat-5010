@@ -1,5 +1,5 @@
 ---
-title: "Lecture 10: Generalized Linear Model and Latent Variable Model"
+title: "Lecture 10: Generalized Linear Model"
 footer: "[Home](https://chunhaoy.com/stat-5010/)"
 format: 
     revealjs:
@@ -190,12 +190,3 @@ t_all <- tbl_merge(tbls = list(t1, t2),
 t_all
 ```
     
-# Hierarchical GLM
-
-
-
-
-
-# Latent Variable Models
-
-# Latent Dirichlet Allocation

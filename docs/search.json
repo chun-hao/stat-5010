@@ -2314,7 +2314,7 @@
     "href": "slides/10-glm.html#example-2",
     "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example",
-    "text": "Example\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      \n        Poisson\n      \n      \n        Neg-Bin\n      \n    \n    \n      IRR1\n      95% CI1\n      p-value\n      IRR1\n      95% CI1\n      p-value\n    \n  \n  \n    quality\n1.60\n1.55, 1.66\n&lt;0.001\n2.06\n1.89, 2.25\n&lt;0.001\n    ski\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n1.52\n1.36, 1.70\n&lt;0.001\n1.84\n1.38, 2.48\n&lt;0.001\n    income\n0.89\n0.86, 0.93\n&lt;0.001\n0.97\n0.89, 1.06\n0.5\n    userfee\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n2.46\n2.10, 2.86\n&lt;0.001\n1.95\n1.01, 4.22\n0.058\n    costC\n1.00\n0.99, 1.00\n0.3\n1.05\n1.02, 1.08\n&lt;0.001\n    costS\n0.96\n0.96, 0.96\n&lt;0.001\n0.91\n0.90, 0.93\n&lt;0.001\n    costH\n1.04\n1.03, 1.04\n&lt;0.001\n1.04\n1.02, 1.06\n&lt;0.001\n  \n  \n  \n    \n      1 IRR = Incidence Rate Ratio, CI = Confidence Interval"
+    "text": "Example\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      \n        Poisson\n      \n      \n        Neg-Bin\n      \n    \n    \n      IRR1\n      95% CI1\n      p-value\n      IRR1\n      95% CI1\n      p-value\n    \n  \n  \n    quality\n1.60\n1.55, 1.66\n&lt;0.001\n2.06\n1.89, 2.25\n&lt;0.001\n    ski\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n1.52\n1.36, 1.70\n&lt;0.001\n1.84\n1.38, 2.48\n&lt;0.001\n    income\n0.89\n0.86, 0.93\n&lt;0.001\n0.97\n0.89, 1.06\n0.5\n    userfee\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n2.46\n2.10, 2.86\n&lt;0.001\n1.95\n1.01, 4.22\n0.058\n    costC\n1.00\n0.99, 1.00\n0.3\n1.05\n1.02, 1.08\n&lt;0.001\n    costS\n0.96\n0.96, 0.96\n&lt;0.001\n0.91\n0.90, 0.93\n&lt;0.001\n    costH\n1.04\n1.03, 1.04\n&lt;0.001\n1.04\n1.02, 1.06\n&lt;0.001\n  \n  \n  \n    \n      1 IRR = Incidence Rate Ratio, CI = Confidence Interval\n    \n  \n\n\n\n\n\n\nHome"
   },
   {
     "objectID": "slides/survey_example.html#imaginary-survey-2023",
@@ -2496,14 +2496,14 @@
     "href": "slides/survey_example.html#analysis-for-survey-1",
     "title": "An example survey",
     "section": "Analysis for Survey 1",
-    "text": "Analysis for Survey 1\n\nsource(\"../dataset/survey/survey_Missing.R\")\n\nY &lt;- c(988, 902, 256, 943, 851)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\napply(theta_sample, 2, \\(x) mean(x*100)) |&gt;\n    theta_to_prob() |&gt;\n    matrix(3, 3, byrow = TRUE) |&gt;\n    `rownames&lt;-`(paste(\"Q_1\", c(\"A\", \"B\", \"No response\"), sep = \".\")) |&gt;\n    `colnames&lt;-`(paste(\"Q_2\", c(\"A'\", \"B\", \"No response\"), sep = \".\")) |&gt;\n    kable(row.names = TRUE, digits = 2)\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\n\n\n\n\nQ_1.A\n20.29\n18.20\n6.1\n\n\nQ_1.B\n18.41\n16.69\n6.1\n\n\nQ_1.No response\n6.10\n6.10\n2.0"
+    "text": "Analysis for Survey 1\n\nsource(\"../dataset/survey/survey_Missing.R\")\n\nY &lt;- c(988, 802, 256, 943, 851)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n22.23\n20.07\n5.43\n47.73\n\n\nQ_1.B\n18.09\n16.30\n5.43\n39.82\n\n\nQ_1.No response\n5.43\n5.43\n1.59\n12.45\n\n\ntotal\n45.75\n41.80\n12.45\n100.00"
   },
   {
     "objectID": "slides/survey_example.html#analysis-for-survey-2",
     "href": "slides/survey_example.html#analysis-for-survey-2",
     "title": "An example survey",
     "section": "Analysis for Survey 2",
-    "text": "Analysis for Survey 2\n\nY &lt;- c(471, 402, 276, 483, 414)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n17.26\n14.77\n8.83\n40.86\n\n\nQ_1.B\n14.73\n12.58\n8.83\n36.15\n\n\nQ_1.No response\n8.83\n8.83\n5.33\n22.99\n\n\ntotal\n40.82\n36.19\n22.99\n100.00"
+    "text": "Analysis for Survey 2\n\nY &lt;- c(471, 402, 276, 483, 414)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n17.19\n14.81\n8.83\n40.83\n\n\nQ_1.B\n14.75\n12.58\n8.83\n36.17\n\n\nQ_1.No response\n8.83\n8.83\n5.33\n23.00\n\n\ntotal\n40.77\n36.23\n23.00\n100.00"
   },
   {
     "objectID": "slides/survey_example.html#analysis-for-survey-3",
@@ -2538,7 +2538,7 @@
     "href": "slides/survey_example.html#what-is-the-question",
     "title": "An example survey",
     "section": "What is the question?",
-    "text": "What is the question?\n\nSuppose you have obtained posterior samples of \\(\\theta_i = (\\rho_{1,i}, \\rho_{2,i}, \\rho_{3,i}, \\rho_{12,i}, \\rho_{21,i}, \\gamma_i)\\) for \\(i = 1, \\ldots, 6\\).\nWhat do you want to know?\nProbably, you want to compare \\(\\rho_{12,i}\\) and \\(\\rho_{21,i}\\) for each \\(i = 1, \\ldots, 6\\).\nYou have several choices:\n\nuse \\(\\eta_{1, i} = \\rho_{12,i} - \\rho_{21,i} \\in [-1, 1]\\);\nuse \\(\\eta_{2,i} = \\frac{\\rho_{12,i}}{\\rho_{21,i}} \\in [0, \\infty)\\);\nuse \\(\\eta_{3,i} = \\frac{\\rho_{12,i}}{\\rho_{21,i}} &gt; 1\\).\n\nRemark: Since we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended). You cannot arbitrarily subtract conditional probabilities or marginal probabilities.\nFor example, it is meaningless to compute \\[\\begin{align*}\n& \\P(X = 1) - \\P(Y = 0) \\text{or}\\\\\n& \\P(X = 1 \\mid Y = 1) - \\P(X = 1 \\mid Y = 0).\n\\end{align*}\\]\n\n\n\nHome"
+    "text": "What is the question?\n\nSuppose you have obtained posterior samples of \\(\\theta_i = (\\rho_{1,i}, \\rho_{2,i}, \\rho_{3,i}, \\rho_{12,i}, \\rho_{21,i}, \\gamma_i)\\) for \\(i = 1, \\ldots, 6\\).\nWhat do you want to know?\nProbably, you want to compare \\(\\rho_{12,i}\\) and \\(\\rho_{21,i}\\) for each \\(i = 1, \\ldots, 6\\).\nYou have several choices:\n\nuse \\(\\eta_{1, i} = \\rho_{12,i} - \\rho_{21,i} \\in [-1, 1]\\);\nuse \\(\\eta_{2, i} = \\log\\frac{\\rho_{12,i}}{\\rho_{21,i}} \\in (-\\infty, \\infty)\\);\n\nSince we are using the joint distribution, it is okay to subtract probabilities (although it is not recommended).\n\nYou cannot arbitrarily subtract conditional probabilities or marginal probabilities.\nFor example, it is meaningless to compute \\[\\begin{align*}\n& \\P(X = 1) - \\P(Y = 0) \\quad \\text{or}\\\\\n& \\P(X = 1 \\mid Y = 1) - \\P(X = 1 \\mid Y = 0).\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/survey_example.html#interpretation-of-the-parameters",
@@ -2546,5 +2546,33 @@
     "title": "An example survey",
     "section": "Interpretation of the parameters",
     "text": "Interpretation of the parameters\n\n\\(\\rho_1\\): the proportion of people that always prefer A type.\n\\(\\rho_2\\): the proportion of people that always prefer B type.\n\\(\\rho_3\\): the proportion of people that always give no response.\n\\(\\rho_{12}\\): the proportion of people that prefer \\(A &gt; B &gt; A'\\).\n\\(\\rho_{21}\\): the proportion of people that prefer \\(A' &gt; B &gt; A\\).\n\\(\\gamma\\): the proportion of people that answer only one of the two questions."
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis",
+    "href": "slides/survey_example.html#analysis",
+    "title": "An example survey",
+    "section": "Analysis",
+    "text": "Analysis\n\nsource(\"../dataset/survey/survey_Missing.R\")\nsurvey_data &lt;- read.csv(\"../dataset/survey/survey_data.csv\",header = TRUE)\nattach(survey_data)\nN1 &lt;- cbind(round(n*p_1), round(n*p_2))\nN1 &lt;- cbind(N1, n - N1[,1] - N1[,2])\nN2 &lt;- cbind(round(n*q_1), round(n*q_2))\nN2 &lt;- cbind(N2, n - N2[,1] - N2[,2])\ndetach(survey_data)\nY &lt;- cbind(N1, N2[,1:2])\nY |&gt; `colnames&lt;-`(c(\"n_1.\", \"n_2.\", \"n_3.\", \"n_.1\", \"n_.2\")) |&gt; kable()\n\n\n\n\nn_1.\nn_2.\nn_3.\nn_.1\nn_.2\n\n\n\n\n988\n802\n256\n943\n851\n\n\n471\n402\n276\n483\n414\n\n\n518\n368\n226\n517\n388\n\n\n512\n358\n242\n454\n399\n\n\n476\n346\n260\n430\n357\n\n\n576\n435\n473\n567\n454"
+  },
+  {
+    "objectID": "slides/survey_example.html#analysis-1",
+    "href": "slides/survey_example.html#analysis-1",
+    "title": "An example survey",
+    "section": "Analysis",
+    "text": "Analysis\n\nmodel &lt;- stan_model(\"../dataset/survey/multi_survey.stan\")\nsamples &lt;- multi_survey_sampler(Y, model)\n\n\neta1 &lt;- samples$theta[,4,] - samples$theta[,5,]\neta2 &lt;- log(samples$theta[,4,]) - log(samples$theta[,5,])\neta1_overall &lt;- samples$nu[,4] - samples$nu[,5]\neta2_overall &lt;- log(samples$nu[,4]) - log(samples$nu[,5])"
+  },
+  {
+    "objectID": "slides/survey_example.html#results",
+    "href": "slides/survey_example.html#results",
+    "title": "An example survey",
+    "section": "Results",
+    "text": "Results\n\n\n\\(\\eta_1 = \\rho_{12} - \\rho_{21} =\\) (prefer A &gt; B &gt; A’) - (prefer A’ &gt; B &gt; A)\n\\(\\eta_2 = \\log\\frac{\\rho_{12}}{\\rho_{21}} =\\) log(prefer A &gt; B &gt; A’) - log(prefer A’ &gt; B &gt; A)\nThe red dashed line is the overall estimate.\n\n\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/10-glm.html#example-recreation-demand",
+    "href": "slides/10-glm.html#example-recreation-demand",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
+    "section": "Example: Recreation Demand",
+    "text": "Example: Recreation Demand"
   }
 ]
