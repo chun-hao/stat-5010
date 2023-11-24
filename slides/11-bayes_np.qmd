@@ -1,0 +1,184 @@
+---
+title: "Lecture 11: Bayesian Nonparametrics"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+        scrollable: true
+        include-in-header: 
+            - text: 
+                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: true
+---
+
+## Non-, Semi-, and Parametric Models
+
+{{< include macro.qmd >}}
+
+-   What we have learned so far are called **parametric models**, i.e., models that are determined by a finite number of parameters.
+-   **Nonparametric models** are models whose ``parameter'' is infinite dimensional.
+-   Two common types of nonparametric models:
+    +   **Nonparametric regression**: $Y = f(X) + \epsilon$, where $f$ is an unknown function.
+    +   **Nonparametric density estimation**: $X_1, \ldots, X_n \iid F$, where $F$ is an unknown distribution (without assuming any parametric family).
+-   **Semiparametric models** are models that have both parametric and nonparametric components, e.g., $Y = X^T\beta + f(Z) + \epsilon$.
+
+## Bayesian Nonparametrics
+
+-   For a nonparametric model, a Bayesian treats the unknown function/distribution as the parameter.
+-   Therefore, we need prior distributions for these parameters.
+-   We will introduce two "distributions" that are useful for nonparametric models:
+    +   Gaussian process (GP, the "distribution" of random functions)
+    +   Dirichlet process (DP, the "distribution" of random distributions)
+-   That is,
+    +   $Y = f(x) + \epsilon$, $f \sim \text{GP}$, $\epsilon \sim N(0, \sigma^2)$.
+    +   $X_1, \ldots, X_n \sim F$, $F \sim \text{DP}$.
+    
+## Why nonparametrics?
+
+## Parametric nonlinear model
+
+# Gaussian Process
+
+## Definition
+
+A ``random function'' $f$ is said to follow a Gaussian process, denoted by 
+$$
+f \sim \mc{GP}(\mu, K),
+$$
+if for **any** $x_1, \ldots, x_n$, the random vector $(f(x_1), \ldots, f(x_n))$ has a multivariate normal distribution, i.e.,
+$$
+\left[\begin{array}{c}
+f(x_1)\\
+\vdots\\
+f(x_n)
+\end{array}\right] \sim N\left(\left[\begin{array}{c}
+\mu(x_1)\\
+\vdots\\
+\mu(x_n),
+\end{array}\right], \left[\begin{array}{ccc}
+K(x_1, x_1) & \cdots & K(x_1, x_n)\\
+\vdots & \ddots & \vdots\\
+K(x_n, x_1) & \cdots & K(x_n, x_n)
+\end{array}\right]\right).
+$$
+
+-   The parameter $\mu: \R \to \R$ is called the **mean function**.
+-   The parameter $K: \R \times \R \to \R$ is called the **covariance function/operator** or **kernel**.
+-   The kernel $K$ needs to be symmetric and positive definite, i.e, for any $x_1, \ldots, x_n \in \R$, the matrix above is symmetric and positive definite.
+
+## Commonly used kernels
+
+-   Notation: for $x, x^{\prime} \in \R^n$, $K(x, x^{\prime})$ is an $n \times n$ matrix whose $(i,j)$th entry is $K(x_i, x^{\prime}_j)$.
+
+-   Linear kernel: $K(x, x^{\prime}) = x^Tx^{\prime}$.
+-   Polynomial kernel: $K_{c,d}(x, x^{\prime}) = (x^Tx^{\prime} + c)^d$.
+-   Gaussian kernel: $K_{\sigma}(x, x^{\prime}) = \exp\left(-\frac{\|x-x^{\prime}\|^2}{2\sigma^2}\right)$.
+
+## Realizations of Gaussian processes
+
+```{r}
+
+GP_sim <- function(from = 0, to = 1, mean = function(x){0},
+                   cov_func = function(x1, x2){exp(-(x1-x2)^2/2)}, 
+                   start = 0, m = 1000){
+ 
+    x <- seq(from, to, length.out = m)
+    
+    
+}
+
+```
+
+## Gaussian Process Regression
+
+-   Suppose we observe $\{x_i, y_i\}_{i=1}^n$, $x_i, y_i \in \R$.
+-   Let $\mathbf{y} = [y_1, \ldots, y_n]^T$ and $\mathbf{x} = [x_1, \ldots, x_n]^T$.
+-   Consider the model:
+    \begin{align*}
+    \mathbf{Y} \mid f, \mathbf{x}, \sigma^2 &\sim N(f(\mathbf{x}), \sigma^2I_n)\\
+    f \mid \mu, K &\sim \mc{GP}(\mu, K).
+    \end{align*}
+-   The GP prior is equivalent to $f(\mathbf{x}) \mid \mathbf{x}, \mu, K \sim N(\mu(\mathbf{x}), K(\mathbf{x}, \mathbf{x}))$.
+-   We need to compute two distributions:
+    +   The posterior distribution of $f$ given $\mathbf{y}$ and $\mathbf{x}$.
+    +   The posterior predictive distribution of $f(\mathbf{x}^{\prime})$ given $\mathbf{y}$ and $\mathbf{x}$.
+
+    
+    
+## Posterior Predictive Distribution
+-   The posterior distribution of $f$ is
+    $$
+    f \mid 
+    $$
+
+## Derivation
+
+-   For any $m$ and $\mathbf{x}^{\prime} \in \R^m$,
+    $$
+    \left[\begin{array}{c}
+    f(\mathbf{x})\\
+    f(\mathbf{x}^{\prime})
+    \end{array}
+    \right] \sim N\left(\left[\begin{array}{c}
+    \mu(\mathbf{x})\\
+    \mu(\mathbf{x}^{\prime})
+    \end{array}\right], \left[\begin{array}{cc}
+    K(\mathbf{x}, \mathbf{x}) & K(\mathbf{x}, \mathbf{x}^{\prime})\\
+    K(\mathbf{x}^{\prime}, \mathbf{x}) & K(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})
+    \end{array}\right]\right).
+    $$
+
+## Gaussian Process Regression
+
+## Posterior
+
+## Prediction
+
+## Kernel
+
+
+
+# Dirichlet Process
+
+## Dirichlet distribution
+
+-   Beta distribution $p \sim \text{Beta}(\alpha, \beta)$:  
+    $$
+    f(p \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \quad p \in [0,1].
+    $$
+-   Alternative parameterization: $\alpha^{\prime} = \alpha + \beta$, $\nu = \frac{\alpha}{\alpha + \beta} = \E(p)$.
+-   Dirichlet distribution $(p_1, p_2, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$: 
+    $$
+    f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) = 
+    \frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
+    $$
+    where $p_i \in [0,1]$ and $\sum_{i=1}^k p_i = 1$.
+-   Alternative: $\alpha = \sum_{i=1}^k\alpha_i$ and $\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]$.
+
+## Definition
+A ``random distribution'' $F$ is said to follow a Dirichlet process, denoted by 
+$$
+F \sim \mc{DP}(\alpha, F_0),
+$$
+if for **any** measurable partition $B_1, \ldots, B_n$ of the sample space of $F_0$, the random vector $(F(B_1), \ldots, F(B_n))$ has a Dirichlet distribution, i.e.,
+$$
+(F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
+$$
+
+-   The parameter $\alpha > 0$ is called the **concentration parameter**.
+-   The parameter $F_0$ is called the **mean distribution**.
+
+## Example 
+
+
+
+

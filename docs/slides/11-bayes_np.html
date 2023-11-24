@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Chun-Hao Yang">
-  <title>STAT 5010 - Lecture 12: Bayesian Nonparametrics</title>
+  <title>STAT 5010 - Lecture 11: Bayesian Nonparametrics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -329,7 +329,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 12: Bayesian Nonparametrics</h1>
+  <h1 class="title">Lecture 11: Bayesian Nonparametrics</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -340,13 +340,201 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
+<section id="non--semi--and-parametric-models" class="slide level2">
+<h2>Non-, Semi-, and Parametric Models</h2>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">What we have learned so far are called <strong>parametric models</strong>, i.e., models that are determined by a finite number of parameters.</li>
+<li class="fragment"><strong>Nonparametric models</strong> are models whose ``parameter’’ is infinite dimensional.</li>
+<li class="fragment">Two common types of nonparametric models:
+<ul>
+<li class="fragment"><strong>Nonparametric regression</strong>: <span class="math inline">\(Y = f(X) + \epsilon\)</span>, where <span class="math inline">\(f\)</span> is an unknown function.</li>
+<li class="fragment"><strong>Nonparametric density estimation</strong>: <span class="math inline">\(X_1, \ldots, X_n \iid F\)</span>, where <span class="math inline">\(F\)</span> is an unknown distribution (without assuming any parametric family).</li>
+</ul></li>
+<li class="fragment"><strong>Semiparametric models</strong> are models that have both parametric and nonparametric components, e.g., <span class="math inline">\(Y = X^T\beta + f(Z) + \epsilon\)</span>.</li>
+</ul>
+</section>
+<section id="bayesian-nonparametrics" class="slide level2">
+<h2>Bayesian Nonparametrics</h2>
+<ul>
+<li class="fragment">For a nonparametric model, a Bayesian treats the unknown function/distribution as the parameter.</li>
+<li class="fragment">Therefore, we need prior distributions for these parameters.</li>
+<li class="fragment">We will introduce two “distributions” that are useful for nonparametric models:
+<ul>
+<li class="fragment">Gaussian process (GP, the “distribution” of random functions)</li>
+<li class="fragment">Dirichlet process (DP, the “distribution” of random distributions)</li>
+</ul></li>
+<li class="fragment">That is,
+<ul>
+<li class="fragment"><span class="math inline">\(Y = f(x) + \epsilon\)</span>, <span class="math inline">\(f \sim \text{GP}\)</span>, <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>.</li>
+<li class="fragment"><span class="math inline">\(X_1, \ldots, X_n \sim F\)</span>, <span class="math inline">\(F \sim \text{DP}\)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="why-nonparametrics" class="slide level2">
+<h2>Why nonparametrics?</h2>
+</section>
+<section id="parametric-nonlinear-model" class="slide level2">
+<h2>Parametric nonlinear model</h2>
+</section>
+<section>
+<section id="gaussian-process" class="title-slide slide level1 center">
+<h1>Gaussian Process</h1>
 
+</section>
+<section id="definition" class="slide level2">
+<h2>Definition</h2>
+<p>A ``random function’’ <span class="math inline">\(f\)</span> is said to follow a Gaussian process, denoted by <span class="math display">\[
+f \sim \mc{GP}(\mu, K),
+\]</span> if for <strong>any</strong> <span class="math inline">\(x_1, \ldots, x_n\)</span>, the random vector <span class="math inline">\((f(x_1), \ldots, f(x_n))\)</span> has a multivariate normal distribution, i.e., <span class="math display">\[
+\left[\begin{array}{c}
+f(x_1)\\
+\vdots\\
+f(x_n)
+\end{array}\right] \sim N\left(\left[\begin{array}{c}
+\mu(x_1)\\
+\vdots\\
+\mu(x_n),
+\end{array}\right], \left[\begin{array}{ccc}
+K(x_1, x_1) &amp; \cdots &amp; K(x_1, x_n)\\
+\vdots &amp; \ddots &amp; \vdots\\
+K(x_n, x_1) &amp; \cdots &amp; K(x_n, x_n)
+\end{array}\right]\right).
+\]</span></p>
+<ul>
+<li class="fragment">The parameter <span class="math inline">\(\mu: \R \to \R\)</span> is called the <strong>mean function</strong>.</li>
+<li class="fragment">The parameter <span class="math inline">\(K: \R \times \R \to \R\)</span> is called the <strong>covariance function/operator</strong> or <strong>kernel</strong>.</li>
+<li class="fragment">The kernel <span class="math inline">\(K\)</span> needs to be symmetric and positive definite, i.e, for any <span class="math inline">\(x_1, \ldots, x_n \in \R\)</span>, the matrix above is symmetric and positive definite.</li>
+</ul>
+</section>
+<section id="commonly-used-kernels" class="slide level2">
+<h2>Commonly used kernels</h2>
+<ul>
+<li class="fragment"><p>Notation: for <span class="math inline">\(x, x^{\prime} \in \R^n\)</span>, <span class="math inline">\(K(x, x^{\prime})\)</span> is an <span class="math inline">\(n \times n\)</span> matrix whose <span class="math inline">\((i,j)\)</span>th entry is <span class="math inline">\(K(x_i, x^{\prime}_j)\)</span>.</p></li>
+<li class="fragment"><p>Linear kernel: <span class="math inline">\(K(x, x^{\prime}) = x^Tx^{\prime}\)</span>.</p></li>
+<li class="fragment"><p>Polynomial kernel: <span class="math inline">\(K_{c,d}(x, x^{\prime}) = (x^Tx^{\prime} + c)^d\)</span>.</p></li>
+<li class="fragment"><p>Gaussian kernel: <span class="math inline">\(K_{\sigma}(x, x^{\prime}) = \exp\left(-\frac{\|x-x^{\prime}\|^2}{2\sigma^2}\right)\)</span>.</p></li>
+</ul>
+</section>
+<section id="realizations-of-gaussian-processes" class="slide level2">
+<h2>Realizations of Gaussian processes</h2>
+</section>
+<section id="gaussian-process-regression" class="slide level2">
+<h2>Gaussian Process Regression</h2>
+<ul>
+<li class="fragment">Suppose we observe <span class="math inline">\(\{x_i, y_i\}_{i=1}^n\)</span>, <span class="math inline">\(x_i, y_i \in \R\)</span>.</li>
+<li class="fragment">Let <span class="math inline">\(\mathbf{y} = [y_1, \ldots, y_n]^T\)</span> and <span class="math inline">\(\mathbf{x} = [x_1, \ldots, x_n]^T\)</span>.</li>
+<li class="fragment">Consider the model: <span class="math display">\[\begin{align*}
+\mathbf{Y} \mid f, \mathbf{x}, \sigma^2 &amp;\sim N(f(\mathbf{x}), \sigma^2I_n)\\
+f \mid \mu, K &amp;\sim \mc{GP}(\mu, K).
+\end{align*}\]</span></li>
+<li class="fragment">The GP prior is equivalent to <span class="math inline">\(f(\mathbf{x}) \mid \mathbf{x}, \mu, K \sim N(\mu(\mathbf{x}), K(\mathbf{x}, \mathbf{x}))\)</span>.</li>
+<li class="fragment">We need to compute two distributions:
+<ul>
+<li class="fragment">The posterior distribution of <span class="math inline">\(f\)</span> given <span class="math inline">\(\mathbf{y}\)</span> and <span class="math inline">\(\mathbf{x}\)</span>.</li>
+<li class="fragment">The posterior predictive distribution of <span class="math inline">\(f(\mathbf{x}^{\prime})\)</span> given <span class="math inline">\(\mathbf{y}\)</span> and <span class="math inline">\(\mathbf{x}\)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="posterior-predictive-distribution" class="slide level2">
+<h2>Posterior Predictive Distribution</h2>
+<ul>
+<li class="fragment">The posterior distribution of <span class="math inline">\(f\)</span> is <span class="math display">\[
+f \mid
+\]</span></li>
+</ul>
+</section>
+<section id="derivation" class="slide level2">
+<h2>Derivation</h2>
+<ul>
+<li class="fragment">For any <span class="math inline">\(m\)</span> and <span class="math inline">\(\mathbf{x}^{\prime} \in \R^m\)</span>, <span class="math display">\[
+\left[\begin{array}{c}
+f(\mathbf{x})\\
+f(\mathbf{x}^{\prime})
+\end{array}
+\right] \sim N\left(\left[\begin{array}{c}
+\mu(\mathbf{x})\\
+\mu(\mathbf{x}^{\prime})
+\end{array}\right], \left[\begin{array}{cc}
+K(\mathbf{x}, \mathbf{x}) &amp; K(\mathbf{x}, \mathbf{x}^{\prime})\\
+K(\mathbf{x}^{\prime}, \mathbf{x}) &amp; K(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})
+\end{array}\right]\right).
+\]</span></li>
+</ul>
+</section>
+<section id="gaussian-process-regression-1" class="slide level2">
+<h2>Gaussian Process Regression</h2>
+</section>
+<section id="posterior" class="slide level2">
+<h2>Posterior</h2>
+</section>
+<section id="prediction" class="slide level2">
+<h2>Prediction</h2>
+</section>
+<section id="kernel" class="slide level2">
+<h2>Kernel</h2>
+</section></section>
+<section>
+<section id="dirichlet-process" class="title-slide slide level1 center">
+<h1>Dirichlet Process</h1>
+
+</section>
+<section id="dirichlet-distribution" class="slide level2">
+<h2>Dirichlet distribution</h2>
+<ul>
+<li class="fragment">Beta distribution <span class="math inline">\(p \sim \text{Beta}(\alpha, \beta)\)</span>:<br>
+<span class="math display">\[
+f(p \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \quad p \in [0,1].
+\]</span></li>
+<li class="fragment">Alternative parameterization: <span class="math inline">\(\alpha^{\prime} = \alpha + \beta\)</span>, <span class="math inline">\(\nu = \frac{\alpha}{\alpha + \beta} = \E(p)\)</span>.</li>
+<li class="fragment">Dirichlet distribution <span class="math inline">\((p_1, p_2, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)\)</span>: <span class="math display">\[
+f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) =
+\frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
+\]</span> where <span class="math inline">\(p_i \in [0,1]\)</span> and <span class="math inline">\(\sum_{i=1}^k p_i = 1\)</span>.</li>
+<li class="fragment">Alternative: <span class="math inline">\(\alpha = \sum_{i=1}^k\alpha_i\)</span> and <span class="math inline">\(\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]\)</span>.</li>
+</ul>
+</section>
+<section id="definition-1" class="slide level2">
+<h2>Definition</h2>
+<p>A ``random distribution’’ <span class="math inline">\(F\)</span> is said to follow a Dirichlet process, denoted by <span class="math display">\[
+F \sim \mc{DP}(\alpha, F_0),
+\]</span> if for <strong>any</strong> measurable partition <span class="math inline">\(B_1, \ldots, B_n\)</span> of the sample space of <span class="math inline">\(F_0\)</span>, the random vector <span class="math inline">\((F(B_1), \ldots, F(B_n))\)</span> has a Dirichlet distribution, i.e., <span class="math display">\[
+(F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
+\]</span></p>
+<ul>
+<li class="fragment">The parameter <span class="math inline">\(\alpha &gt; 0\)</span> is called the <strong>concentration parameter</strong>.</li>
+<li class="fragment">The parameter <span class="math inline">\(F_0\)</span> is called the <strong>mean distribution</strong>.</li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -560,6 +748,44 @@ Chun-Hao Yang
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

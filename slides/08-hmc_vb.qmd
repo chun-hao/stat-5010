@@ -201,7 +201,7 @@ algorithm.
     $$
     \begin{aligned}
     x_i(t + \epsilon) &= x_i(t) + \epsilon\frac{dx_i}{dt}(t) = x_i(t) + \epsilon \frac{y_i(t)}{m},\\
-    y_i(t + \epsilon) &= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon \frac{\partial}{\partial x_i}\log \pi(x(t)).
+    y_i(t + \epsilon) &= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) + \epsilon \frac{\partial}{\partial x_i}\log \pi(x(t)).
     \end{aligned}
     $$
 -   It turns out that the Euler method is inaccurate, and the most widely used method is the **leapfrog method**.
@@ -209,9 +209,9 @@ algorithm.
 ## Leapfrog method
 
 -   The leapfrog method maps $(x(t), y(t))$ to $(x(t+\epsilon), y(t+\epsilon))$ through the following steps:
-    1.   $y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))$;
+    1.   $y(t + \epsilon/2) = y(t) + \frac{\epsilon}{2}\nabla_x \log \pi(x(t))$;
     2.   $x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}$;
-    3.   $y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\nabla_x\log \pi(x(t + \epsilon))$.
+    3.   $y(t + \epsilon) = y(t + \epsilon/2) + \frac{\epsilon}{2}\nabla_x\log \pi(x(t + \epsilon))$.
 
 -   In HMC, the leapfrog method evolves $(x(0), y(0))$ for $L$ iterations. 
 
@@ -226,9 +226,9 @@ algorithm.
     -   generate $y^{(0)} \sim N(0, M)$;
     -   set $\tilde{x} \leftarrow x^{(i-1)}$, $\tilde{y} \leftarrow y^{(0)}$;
     -   **for** $j = 1, \ldots, L$:
-        +   $\tilde{y} \leftarrow \tilde{y} - \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})$;
+        +   $\tilde{y} \leftarrow \tilde{y} + \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})$;
         +   $\tilde{x} \leftarrow \tilde{x} + \epsilon M^{-1}\tilde{y}$;
-        +   $\tilde{y} \leftarrow \tilde{y} - \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})$;
+        +   $\tilde{y} \leftarrow \tilde{y} + \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})$;
     -   $u \sim \text{Unif}(0, 1)$;
     -   **if** $u < \exp(-H(\tilde{x}, \tilde{y}) + H(x^{(i-1)}, y^{(0)}))$:
         +   $x^{(i)} \leftarrow \tilde{x}$;

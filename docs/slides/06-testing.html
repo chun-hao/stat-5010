@@ -573,7 +573,7 @@ B_{01}^\pi(x)=\left.\frac{P\left(\theta \in \Theta_0 \mid x\right)}{P\left(\thet
 <section id="example" class="slide level2">
 <h2>Example</h2>
 <p>This is a dataset which shows the effect of two soporific drugs (increase in hours of sleep compared to control) on 10 patients.</p>
-<div class="cell" data-layout-align="center" data-hash="06-testing_cache/revealjs/sleep_data_fe5a012a2bb43a4c18cfd927e6d13b4d">
+<div class="cell" data-layout-align="center" data-hash="06-testing_cache/revealjs/sleep_data_e8be45a956c6d361511d17a72f7c12dc">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(BayesFactor)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyverse)</span>
@@ -586,7 +586,7 @@ B_{01}^\pi(x)=\left.\frac{P\left(\theta \in \Theta_0 \mid x\right)}{P\left(\thet
 <section id="example-1" class="slide level2">
 <h2>Example</h2>
 <p>We want to see the difference in efficacy of the drugs.</p>
-<div class="cell" data-hash="06-testing_cache/revealjs/sleep_data_BF_dfa303fa8ab658dc0de9e64d2bea4154">
+<div class="cell" data-hash="06-testing_cache/revealjs/sleep_data_BF_2a85afef51e099b4ca18d2b90a16dcc6">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">ttestBF</span>(<span class="at">x =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">1</span>], </span>
 <span id="cb2-2"><a href="#cb2-2"></a>        <span class="at">y =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">2</span>], </span>
 <span id="cb2-3"><a href="#cb2-3"></a>        <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -613,7 +613,7 @@ Bayes factor type: BFoneSample, JZS</code></pre>
 <section id="example-2" class="slide level2">
 <h2>Example</h2>
 <p>To check the quality of the posterior samples, you can ask the function to return posterior rather than the Bayes factor.</p>
-<div class="cell" data-layout-align="center" data-hash="06-testing_cache/revealjs/sleep_data_posterior_4bea42658b1543631fd862778e57865f">
+<div class="cell" data-layout-align="center" data-hash="06-testing_cache/revealjs/sleep_data_posterior_bfda500943e988f41818916c11e5a3f9">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(<span class="at">x =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">1</span>],</span>
 <span id="cb4-2"><a href="#cb4-2"></a>                   <span class="at">y =</span> sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">2</span>], </span>
 <span id="cb4-3"><a href="#cb4-3"></a>                   <span class="at">paired=</span><span class="cn">TRUE</span>, </span>
