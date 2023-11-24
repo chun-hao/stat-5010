@@ -186,7 +186,7 @@
     "href": "slides/11-bayes_np.html#realizations-of-gaussian-processes",
     "title": "Lecture 11: Bayesian Nonparametrics",
     "section": "Realizations of Gaussian processes",
-    "text": "Realizations of Gaussian processes"
+    "text": "Realizations of Gaussian processes\n\nlibrary(mvtnorm)\nGP_sim &lt;- function(from = 0, to = 1, mean_func = function(x){0},\n                   cov_func = function(x1, x2){exp(-16*(x1-x2)^2)}, \n                   m = 100){\n    x &lt;- seq(from, to, length.out = m)\n    mu &lt;- sapply(x, mean_func)\n    Sigma &lt;- outer(x, x, Vectorize(cov_func))\n    y &lt;- rmvnorm(1, mu, Sigma)\n    return(list(x = x, y = y))\n}"
   },
   {
     "objectID": "slides/11-bayes_np.html#gaussian-process-regression",
@@ -2560,5 +2560,33 @@
     "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example",
     "text": "Example\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      \n        Poisson\n      \n      \n        Neg-Bin\n      \n    \n    \n      IRR1\n      95% CI1\n      p-value\n      IRR1\n      95% CI1\n      p-value\n    \n  \n  \n    quality\n1.60\n1.55, 1.66\n&lt;0.001\n2.06\n1.89, 2.25\n&lt;0.001\n    ski\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n1.52\n1.36, 1.70\n&lt;0.001\n1.84\n1.38, 2.48\n&lt;0.001\n    income\n0.89\n0.86, 0.93\n&lt;0.001\n0.97\n0.89, 1.06\n0.5\n    userfee\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n2.46\n2.10, 2.86\n&lt;0.001\n1.95\n1.01, 4.22\n0.058\n    costC\n1.00\n0.99, 1.00\n0.3\n1.05\n1.02, 1.08\n&lt;0.001\n    costS\n0.96\n0.96, 0.96\n&lt;0.001\n0.91\n0.90, 0.93\n&lt;0.001\n    costH\n1.04\n1.03, 1.04\n&lt;0.001\n1.04\n1.02, 1.06\n&lt;0.001\n  \n  \n  \n    \n      1 IRR = Incidence Rate Ratio, CI = Confidence Interval\n    \n  \n\n\n\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#simulating-gaussian-processes",
+    "href": "slides/11-bayes_np.html#simulating-gaussian-processes",
+    "title": "Lecture 11: Bayesian Nonparametrics",
+    "section": "Simulating Gaussian processes",
+    "text": "Simulating Gaussian processes\n\nlibrary(mvtnorm)\nGP_sim &lt;- function(from = 0, to = 1, mean_func = function(x){0},\n                   cov_func = function(x1, x2){exp(-16*(x1-x2)^2)}, \n                   m = 500){\n    x &lt;- seq(from, to, length.out = m)\n    mu &lt;- sapply(x, mean_func)\n    Sigma &lt;- outer(x, x, Vectorize(cov_func))\n    y &lt;- rmvnorm(1, mu, Sigma)\n    return(list(x = x, y = y))\n}"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#simulating-gaussian-processes-1",
+    "href": "slides/11-bayes_np.html#simulating-gaussian-processes-1",
+    "title": "Lecture 11: Bayesian Nonparametrics",
+    "section": "Simulating Gaussian processes",
+    "text": "Simulating Gaussian processes"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#simulating-dirichlet-processes",
+    "href": "slides/11-bayes_np.html#simulating-dirichlet-processes",
+    "title": "Lecture 11: Bayesian Nonparametrics",
+    "section": "Simulating Dirichlet processes",
+    "text": "Simulating Dirichlet processes\n\nlibrary(MCMCpack)\nDP_sim &lt;- function(from = -3, to = 3, alpha = 10, F0 = dnorm, m = 100){\n    x &lt;- seq(from, to, length.out = m)\n    x_mid &lt;- (x[2:m] + x[1:(m-1)])/2\n    nu &lt;- F0(x_mid)*(x[2:m] - x[1:(m-1)])\n    y &lt;- rdirichlet(1, alpha*nu)\n    y &lt;- y/(x[2:m] - x[1:(m-1)]) # make it a density\n    return(list(x = x_mid, y = y))\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#simulating-dirichlet-process",
+    "href": "slides/11-bayes_np.html#simulating-dirichlet-process",
+    "title": "Lecture 11: Bayesian Nonparametrics",
+    "section": "Simulating Dirichlet process",
+    "text": "Simulating Dirichlet process\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\)."
   }
 ]
