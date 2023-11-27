@@ -460,10 +460,94 @@ Chun-Hao Yang
 </section>
 <section id="why-nonparametrics" class="slide level2">
 <h2>Why nonparametrics?</h2>
+<ul>
+<li class="fragment">Nonparametric models are more flexible than parametric models.</li>
+<li class="fragment">Yet, nonparametric models are not always better than parametric models.</li>
+<li class="fragment">As we increase the complexity of the model, we may
+<ul>
+<li class="fragment">overfit the data;</li>
+<li class="fragment">increase the computational cost;</li>
+<li class="fragment">lose interpretability.</li>
+</ul></li>
+<li class="fragment">??</li>
+</ul>
 </section>
-<section id="parametric-nonlinear-model" class="slide level2">
-<h2>Parametric nonlinear model</h2>
+<section id="nonparametric-regressioncmu_note" class="slide level2">
+<h2>Nonparametric regression<sup>1</sup></h2>
+<ul>
+<li class="fragment">Recall that a linear regression model assumes <span class="math inline">\(\E(Y \mid X) = X^T\beta\)</span>.</li>
+<li class="fragment">A nonparametric regression model assumes <span class="math inline">\(\E(Y \mid X) = f(X)\)</span>, where <span class="math inline">\(f\)</span> is an unknown function.</li>
+<li class="fragment">There are different ways to estimate <span class="math inline">\(f\)</span>:
+<ul>
+<li class="fragment">Kernel regression</li>
+<li class="fragment">Regression splines</li>
+<li class="fragment">Gaussian process regression</li>
+</ul></li>
+<li class="fragment">For simplicity, we consider the one-dimensional regression problem, i.e., we have <span class="math inline">\(\{x_i, y_i\}_{i=1}^n\)</span> where <span class="math inline">\(x_i, y_i \in \R\)</span>.</li>
+<li class="fragment">The extension to higher dimensions is straightforward.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>A good reference is this <a href="https://www.stat.cmu.edu/~larry/=sml/nonpar.pdf">course note</a>.</p></li></ol></aside></section>
+<section id="kernel-regression" class="slide level2">
+<h2>Kernel regression</h2>
+<ul>
+<li class="fragment">The Nadaraya–Watson kernel regression estimator of <span class="math inline">\(f\)</span> is <span class="math display">\[
+\hat{f}(x) = \frac{\sum_{i=1}^n K_h(x - X_i) Y_i}{\sum_{i=1}^n K_h(x - X_i)},
+\]</span> where <span class="math inline">\(K_h(x) = K(x/h)/h\)</span> is a kernel function, and <span class="math inline">\(h\)</span> is a bandwidth parameter.</li>
+<li class="fragment">That is, <span class="math inline">\(\hat{f}(x)\)</span> is a weighted average of the <span class="math inline">\(Y_i\)</span>’s, where the weights are determined by the kernel function <span class="math inline">\(K\)</span>.</li>
+<li class="fragment">The kernel function <span class="math inline">\(K\)</span> is usually chosen to be a symmetric density function, e.g., the standard normal density function.</li>
+</ul>
 </section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/kernel_regression_706c21e1b984e1c87958b9a2dbc6196d">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(gplm) <span class="co"># for kreg()</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">plot</span>(x,y,<span class="at">col=</span><span class="st">"gray"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">curve</span>(<span class="fu">sin</span>(x), <span class="at">add =</span> T, <span class="at">col =</span> <span class="st">"green"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">lines</span>(<span class="fu">kreg</span>(x,y), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="example-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/kernel_regression_706c21e1b984e1c87958b9a2dbc6196d">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="11-bayes_np_files/figure-revealjs/kernel_regression-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="regression-splines" class="slide level2">
+<h2>Regression splines</h2>
+<ul>
+<li class="fragment">A function <span class="math inline">\(g\)</span> is called a <u><span class="math inline">\(k\)</span>th order spline with knots <span class="math inline">\(t_0 &lt; \cdots &lt; t_m\)</span></u> if
+<ul>
+<li class="fragment"><span class="math inline">\(g\)</span> is a polynomial of degree <span class="math inline">\(k\)</span> on the intervals <span class="math inline">\((-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)\)</span>.</li>
+<li class="fragment"><span class="math inline">\(g\)</span> has continuous derivatives up to order <span class="math inline">\(k-1\)</span> at each knot <span class="math inline">\(t_i\)</span>.</li>
+</ul></li>
+<li class="fragment">Given a set of knots <span class="math inline">\(t_0 &lt; \cdots &lt; t_m\)</span>, the space of <span class="math inline">\(k\)</span>th order spline has dimension <span class="math inline">\(m + k + 1\)</span>.</li>
+<li class="fragment">There are many choices of basis for the space of splines. The most popular one is the <strong>B-spline</strong> basis.</li>
+<li class="fragment">Hence a regression spline model is <span class="math display">\[
+\E(Y \mid x) = \sum_{j=1}^{m + k + 1} \beta_j B_j(x),
+\]</span> where <span class="math inline">\(B_j\)</span> is the <span class="math inline">\(j\)</span>th B-spline basis function.</li>
+</ul>
+</section>
+<section id="regression-splines-1" class="slide level2">
+<h2>Regression splines</h2>
+<ul>
+<li class="fragment">Although a regression spline is determined by <span class="math inline">\(m+k+1\)</span> parameters, it is usually referred to as a nonparametric model, since we are not interested in those parameters.</li>
+<li class="fragment">The choice of knots is important.</li>
+<li class="fragment">A <strong>smoothing spline</strong> uses all inputs as knots and avoids overfitting by shrinking the coefficients.</li>
+<li class="fragment">A <strong>natural spline</strong> assumes polynomial of degree <span class="math inline">\((k-1)/2\)</span> on <span class="math inline">\((-\infty, t_0]\)</span> and <span class="math inline">\([t_m, \infty)\)</span> to reduce variance at the boundary.</li>
+<li class="fragment">Natural spline with cubic order is the most common special case.</li>
+</ul>
+</section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+
+<img data-src="11-bayes_np_files/figure-revealjs/spline-1.png" width="768" class="r-stretch quarto-figure-center"></section>
 <section>
 <section id="gaussian-process" class="title-slide slide level1 center">
 <h1>Gaussian Process</h1>
@@ -505,17 +589,17 @@ K(x_n, x_1) &amp; \cdots &amp; K(x_n, x_n)
 </section>
 <section id="simulating-gaussian-processes" class="slide level2">
 <h2>Simulating Gaussian processes</h2>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/GP_sim_0e1ab52871bdf8cb511f1c8c128203c3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mvtnorm)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>GP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">mean_func =</span> <span class="cf">function</span>(x){<span class="dv">0</span>},</span>
-<span id="cb1-3"><a href="#cb1-3"></a>                   <span class="at">cov_func =</span> <span class="cf">function</span>(x1, x2){<span class="fu">exp</span>(<span class="sc">-</span><span class="dv">16</span><span class="sc">*</span>(x1<span class="sc">-</span>x2)<span class="sc">^</span><span class="dv">2</span>)}, </span>
-<span id="cb1-4"><a href="#cb1-4"></a>                   <span class="at">m =</span> <span class="dv">500</span>){</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    x <span class="ot">&lt;-</span> <span class="fu">seq</span>(from, to, <span class="at">length.out =</span> m)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    mu <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, mean_func)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    Sigma <span class="ot">&lt;-</span> <span class="fu">outer</span>(x, x, <span class="fu">Vectorize</span>(cov_func))</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    y <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="dv">1</span>, mu, Sigma)</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y))</span>
-<span id="cb1-10"><a href="#cb1-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="11-bayes_np_cache/revealjs/GP_sim_2ea5290dabf7e5e7e374c657b47d78b0">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>GP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">mean_func =</span> <span class="cf">function</span>(x){<span class="dv">0</span>},</span>
+<span id="cb2-3"><a href="#cb2-3"></a>                   <span class="at">cov_func =</span> <span class="cf">function</span>(x1, x2){<span class="fu">exp</span>(<span class="sc">-</span><span class="dv">16</span><span class="sc">*</span>(x1<span class="sc">-</span>x2)<span class="sc">^</span><span class="dv">2</span>)}, </span>
+<span id="cb2-4"><a href="#cb2-4"></a>                   <span class="at">m =</span> <span class="dv">500</span>){</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    x <span class="ot">&lt;-</span> <span class="fu">seq</span>(from, to, <span class="at">length.out =</span> m)</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    mu <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, mean_func)</span>
+<span id="cb2-7"><a href="#cb2-7"></a>    Sigma <span class="ot">&lt;-</span> <span class="fu">outer</span>(x, x, <span class="fu">Vectorize</span>(cov_func))</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    y <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="dv">1</span>, mu, Sigma)</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y))</span>
+<span id="cb2-10"><a href="#cb2-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulating-gaussian-processes-1" class="slide level2">
@@ -532,6 +616,7 @@ K(x_n, x_1) &amp; \cdots &amp; K(x_n, x_n)
 f \mid \mu, K &amp;\sim \mc{GP}(\mu, K).
 \end{align*}\]</span></li>
 <li class="fragment">The GP prior is equivalent to <span class="math inline">\(f(\mathbf{x}) \mid \mathbf{x}, \mu, K \sim N(\mu(\mathbf{x}), K(\mathbf{x}, \mathbf{x}))\)</span>.</li>
+<li class="fragment">The likelihood is equivalent to <span class="math inline">\(\mathbf{Y} = f(\mathbf{x}) + \epsilon\)</span>, <span class="math inline">\(\epsilon \sim N(0, \sigma^2I_n)\)</span>.</li>
 <li class="fragment">We need to compute two distributions:
 <ul>
 <li class="fragment">The posterior distribution of <span class="math inline">\(f\)</span> given <span class="math inline">\(\mathbf{y}\)</span> and <span class="math inline">\(\mathbf{x}\)</span>.</li>
@@ -542,8 +627,14 @@ f \mid \mu, K &amp;\sim \mc{GP}(\mu, K).
 <section id="posterior-predictive-distribution" class="slide level2">
 <h2>Posterior Predictive Distribution</h2>
 <ul>
-<li class="fragment">The posterior distribution of <span class="math inline">\(f\)</span> is <span class="math display">\[
-f \mid
+<li class="fragment">The posterior distribution of <span class="math inline">\(f\)</span> is also a Gaussian process <span class="math display">\[
+f \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim \mc{GP}(\bar{\mu}, \bar{K})
+\]</span> where <span class="math display">\[\begin{align*}
+\bar{\mu}(\cdot) &amp; = \mu(\cdot) + K(\cdot, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}(\mathbf{y} - \mu(\mathbf{x}))\\
+\bar{K}(\cdot, \cdot) &amp; = K(\cdot, \cdot) - K(\cdot, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}K(\mathbf{x}, \cdot).
+\end{align*}\]</span></li>
+<li class="fragment">Hence the predictive distribution is a multivariate normal <span class="math display">\[
+f(\mathbf{x}^{\prime}) \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim N(\bar{\mu}(\mathbf{x}^{\prime}), \bar{K}(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})).
 \]</span></li>
 </ul>
 </section>
@@ -552,35 +643,120 @@ f \mid
 <ul>
 <li class="fragment">For any <span class="math inline">\(m\)</span> and <span class="math inline">\(\mathbf{x}^{\prime} \in \R^m\)</span>, <span class="math display">\[
 \left[\begin{array}{c}
-f(\mathbf{x})\\
+\mathbf{Y}\\
 f(\mathbf{x}^{\prime})
 \end{array}
 \right] \sim N\left(\left[\begin{array}{c}
 \mu(\mathbf{x})\\
 \mu(\mathbf{x}^{\prime})
 \end{array}\right], \left[\begin{array}{cc}
-K(\mathbf{x}, \mathbf{x}) &amp; K(\mathbf{x}, \mathbf{x}^{\prime})\\
+K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n&amp; K(\mathbf{x}, \mathbf{x}^{\prime})\\
 K(\mathbf{x}^{\prime}, \mathbf{x}) &amp; K(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})
 \end{array}\right]\right).
 \]</span></li>
+<li class="fragment">Therefore <span class="math display">\[
+f(\mathbf{x}^{\prime}) \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim N\left(\bar{\mu}(\mathbf{x}^{\prime}) , \bar{K}(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})\right).
+\]</span> where <span class="math display">\[\begin{align*}
+\bar{\mu}(\mathbf{x}^{\prime}) &amp; = \mu(\mathbf{x}^{\prime}) + K(\mathbf{x}^{\prime}, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}(\mathbf{y} - \mu(\mathbf{x}))\\
+\bar{K}(\mathbf{x}^{\prime}, \mathbf{x}^{\prime}) &amp; = K(\mathbf{x}^{\prime}, \mathbf{x}^{\prime}) - K(\mathbf{x}^{\prime}, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}K(\mathbf{x}, \mathbf{x}^{\prime}).
+\end{align*}\]</span></li>
+<li class="fragment">That is, <span class="math inline">\(f \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim \mc{GP}(\bar{\mu}, \bar{K})\)</span></li>
 </ul>
 </section>
-<section id="gaussian-process-regression-1" class="slide level2">
-<h2>Gaussian Process Regression</h2>
+<section id="example-2" class="slide level2">
+<h2>Example</h2>
+<p>Take <span class="math inline">\(n = 20\)</span> and generate <span class="math inline">\(Y = \sin(X) + \exp(X/5) + \epsilon\)</span> where <span class="math inline">\(\epsilon \sim N(0, 0.1^2)\)</span>.</p>
+
+<img data-src="11-bayes_np_files/figure-revealjs/GP_example_data-1.png" width="576" class="r-stretch quarto-figure-center"></section>
+<section id="example-3" class="slide level2">
+<h2>Example</h2>
+<p>Fit a Gaussian process regression model with <span class="math inline">\(\mu(x) = 0\)</span> and Gaussian Kernel.</p>
+<div class="cell" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/GP_example_fit_8d6cfd46223315d053afbffc4778c6d9">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(GauPro)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>gp <span class="ot">&lt;-</span> <span class="fu">GauPro</span>(X, Y)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">plot</span>(gp)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">curve</span>(<span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">exp</span>(x<span class="sc">/</span><span class="dv">5</span>), <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="11-bayes_np_files/figure-revealjs/GP_example_fit-1.png" width="576" class="r-stretch quarto-figure-center"></section>
+<section id="computational-issues" class="slide level2">
+<h2>Computational issues</h2>
+<ul>
+<li class="fragment"><p>It seems that posterior computation in Gaussian process regression is trivial, but there are two main hurdles involved.</p></li>
+<li class="fragment"><p>The first hurdle is that the covariance matrix <span class="math inline">\(K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n\)</span> is <span class="math inline">\(n \times n\)</span> and the computational complexity of the inverse matrix is <span class="math inline">\(O(n^3)\)</span>.</p></li>
+<li class="fragment"><p>The second hurdle is that the posterior distribution is high dimensional, making the sampling inefficient.</p></li>
+<li class="fragment"><p>We can rewrite the model as <span class="math display">\[\begin{align*}
+Y \mid f, \sigma^2 &amp;\ind N(f, \sigma^2I_n)\\
+f \mid x &amp;\sim N(\mu, K(x, x))\\
+\sigma^2 &amp;\sim \text{IG}(a, b)
+\end{align*}\]</span></p></li>
+<li class="fragment"><p>Suppose <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are known hyperparameters.</p></li>
+<li class="fragment"><p>The posterior distribution is <span class="math inline">\(\pi(f, \sigma^2 \mid \mathbf{y}, \mathbf{x})\)</span>, which is in <span class="math inline">\((n+1)\)</span>-dimension.</p></li>
+</ul>
 </section>
-<section id="posterior" class="slide level2">
-<h2>Posterior</h2>
+<section id="example-4" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-output.var="GP_model" data-hash="11-bayes_np_cache/revealjs/unnamed-chunk-7_f2ad5fcae500d260789c383091ac7331">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">data</span> {</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; N;</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">real</span> x[N];</span>
+<span id="cb4-4"><a href="#cb4-4"></a>}</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="kw">transformed data</span> {</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="dt">matrix</span>[N, N] K = cov_exp_quad(x, <span class="fl">1.0</span>, <span class="fl">1.0</span>); <span class="co">// l = 1.0, tau^2 = 1.0</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="dt">vector</span>[N] mu = rep_vector(<span class="dv">0</span>, N); <span class="co">// mu = 0</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    K[n, n] = K[n, n] + <span class="fl">0.1</span>; <span class="co">// sigma^2 = 0.1</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">parameters</span> {</span>
+<span id="cb4-12"><a href="#cb4-12"></a>  <span class="dt">vector</span>[N] y;</span>
+<span id="cb4-13"><a href="#cb4-13"></a>}</span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="kw">model</span> {</span>
+<span id="cb4-15"><a href="#cb4-15"></a>  y ~ multi_normal(mu, K);</span>
+<span id="cb4-16"><a href="#cb4-16"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="prediction" class="slide level2">
-<h2>Prediction</h2>
+<section id="example-5" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-hash="11-bayes_np_cache/revealjs/unnamed-chunk-8_e0c18985c7dc510dcc7e598543ee928c">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">100</span>, <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>))</span>
+<span id="cb5-3"><a href="#cb5-3"></a>GP_sample <span class="ot">&lt;-</span> <span class="fu">sampling</span>(GP_model, <span class="at">data =</span> data, <span class="at">chains =</span> <span class="dv">1</span>, <span class="at">iter =</span> <span class="dv">1000</span>,</span>
+<span id="cb5-4"><a href="#cb5-4"></a>                      <span class="at">refresh =</span> <span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a>y <span class="ot">&lt;-</span> GP_sample<span class="sc">@</span>sim<span class="sc">$</span>samples[[<span class="dv">1</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>] <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>    <span class="fu">unlist</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">100</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
+<span id="cb5-12"><a href="#cb5-12"></a>  <span class="fu">lines</span>(data<span class="sc">$</span>x, y[i,], <span class="at">col =</span> <span class="st">"grey"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span>
+<span id="cb5-13"><a href="#cb5-13"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="11-bayes_np_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section id="hierarchical-gaussian-process-model" class="slide level2">
+<h2>Hierarchical Gaussian Process model</h2>
+<ul>
+<li class="fragment">Consider a fully Bayesian hierarchical model <span class="math display">\[\begin{align*}
+\rho &amp; \sim \text{InvGamma}(5,5) \\
+\alpha &amp; \sim N(0,1) \\
+\sigma &amp; \sim N(0,1) \\
+f_i &amp; \iid N(0, K(x \mid \alpha, \rho)) \\
+y_i &amp; \ind N\left(f_i, \sigma^2\right) \quad i = 1, \ldots, n.
+\end{align*}\]</span></li>
+</ul>
 </section>
-<section id="kernel" class="slide level2">
-<h2>Kernel</h2>
+<section id="marginal-likelihood-gp" class="slide level2">
+<h2>Marginal likelihood GP</h2>
+</section>
+<section id="latent-gaussian-process-model" class="slide level2">
+<h2>Latent Gaussian Process model</h2>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
+
     </div>
   </div>
 

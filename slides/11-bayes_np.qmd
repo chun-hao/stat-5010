@@ -44,7 +44,94 @@ execute:
     
 ## Why nonparametrics?
 
-## Parametric nonlinear model
+-   Nonparametric models are more flexible than parametric models.
+-   Yet, nonparametric models are not always better than parametric models.
+-   As we increase the complexity of the model, we may 
+    +   overfit the data;
+    +   increase the computational cost;
+    +   lose interpretability.
+-   ??
+
+## Nonparametric regression[^cmu_note]
+
+-   Recall that a linear regression model assumes $\E(Y \mid X) = X^T\beta$.
+-   A nonparametric regression model assumes $\E(Y \mid X) = f(X)$, where $f$ is an unknown function.
+-   There are different ways to estimate $f$:
+    +   Kernel regression
+    +   Regression splines
+    +   Gaussian process regression
+-   For simplicity, we consider the one-dimensional regression problem, i.e., we have  $\{x_i, y_i\}_{i=1}^n$ where $x_i, y_i \in \R$.
+-   The extension to higher dimensions is straightforward.
+
+
+[^cmu_note]: A good reference is this [course note](https://www.stat.cmu.edu/~larry/=sml/nonpar.pdf).
+    
+## Kernel regression
+
+-   The Nadaraya–Watson kernel regression estimator of $f$ is 
+$$
+\hat{f}(x) = \frac{\sum_{i=1}^n K_h(x - X_i) Y_i}{\sum_{i=1}^n K_h(x - X_i)},
+$$
+where $K_h(x) = K(x/h)/h$ is a kernel function, and $h$ is a bandwidth parameter.
+-   That is, $\hat{f}(x)$ is a weighted average of the $Y_i$'s, where the weights are determined by the kernel function $K$.
+-   The kernel function $K$ is usually chosen to be a symmetric density function, e.g., the standard normal density function.
+
+## Example
+
+```{r, fig.height=6, fig.width=8}
+#| label: kernel_regression
+#| echo: true
+#| fig-align: center
+#| output-location: slide
+library(gplm) # for kreg()
+set.seed(1)
+n <- 1000
+x <- rnorm(n)
+y <- sin(x) + rnorm(n)
+plot(x,y,col="gray")
+curve(sin(x), add = T, col = "green")
+lines(kreg(x,y), lwd = 2, col = "blue")
+```
+
+
+
+## Regression splines
+
+-   A function $g$ is called a [$k$th order spline with knots $t_0 < \cdots < t_m$]{.underline} if
+    +   $g$ is a polynomial of degree $k$ on the intervals $(-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)$.
+    +   $g$ has continuous derivatives up to order $k-1$ at each knot $t_i$.
+-   Given a set of knots $t_0 < \cdots < t_m$, the space of $k$th order spline has dimension $m + k + 1$.
+-   There are many choices of basis for the space of splines. The most popular one is the **B-spline** basis.
+-   Hence a regression spline model is 
+    $$
+    \E(Y \mid x) = \sum_{j=1}^{m + k + 1} \beta_j B_j(x),
+    $$ 
+    where $B_j$ is the $j$th B-spline basis function.
+    
+## Regression splines
+
+-   Although a regression spline is determined by $m+k+1$ parameters, it is usually referred to as a nonparametric model, since we are not interested in those parameters.
+-   The choice of knots is important. 
+-   A **smoothing spline** uses all inputs as knots and avoids overfitting by shrinking the coefficients.
+-   A **natural spline** assumes polynomial of degree $(k-1)/2$ on $(-\infty, t_0]$ and $[t_m, \infty)$ to reduce variance at the boundary.
+-   Natural spline with cubic order is the most common special case.
+
+## Example
+
+```{r, fig.height=6, fig.width=8}
+#| label: spline
+#| fig-align: center
+library(gplm) # for kreg()
+set.seed(1)
+n <- 1000
+x <- rnorm(n)
+y <- sin(x) + rnorm(n)
+plot(x,y,col="gray")
+curve(sin(x), add = T, col = "green")
+lines(kreg(x,y), lwd = 2, col = "blue")
+lines(smooth.spline(x,y), lwd = 2, col = "red")
+```
+
 
 # Gaussian Process
 
@@ -136,6 +223,7 @@ for(i in 1:10){
     f \mid \mu, K &\sim \mc{GP}(\mu, K).
     \end{align*}
 -   The GP prior is equivalent to $f(\mathbf{x}) \mid \mathbf{x}, \mu, K \sim N(\mu(\mathbf{x}), K(\mathbf{x}, \mathbf{x}))$.
+-   The likelihood is equivalent to $\mathbf{Y} = f(\mathbf{x}) + \epsilon$, $\epsilon \sim N(0, \sigma^2I_n)$.
 -   We need to compute two distributions:
     +   The posterior distribution of $f$ given $\mathbf{y}$ and $\mathbf{x}$.
     +   The posterior predictive distribution of $f(\mathbf{x}^{\prime})$ given $\mathbf{y}$ and $\mathbf{x}$.
@@ -143,9 +231,18 @@ for(i in 1:10){
     
     
 ## Posterior Predictive Distribution
--   The posterior distribution of $f$ is
+-   The posterior distribution of $f$ is also a Gaussian process
     $$
-    f \mid 
+    f \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim \mc{GP}(\bar{\mu}, \bar{K})
+    $$
+    where
+    \begin{align*}
+    \bar{\mu}(\cdot) & = \mu(\cdot) + K(\cdot, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}(\mathbf{y} - \mu(\mathbf{x}))\\
+    \bar{K}(\cdot, \cdot) & = K(\cdot, \cdot) - K(\cdot, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}K(\mathbf{x}, \cdot).
+    \end{align*}
+-   Hence the predictive distribution is a multivariate normal
+    $$
+    f(\mathbf{x}^{\prime}) \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim N(\bar{\mu}(\mathbf{x}^{\prime}), \bar{K}(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})).
     $$
 
 ## Derivation
@@ -153,25 +250,137 @@ for(i in 1:10){
 -   For any $m$ and $\mathbf{x}^{\prime} \in \R^m$,
     $$
     \left[\begin{array}{c}
-    f(\mathbf{x})\\
+    \mathbf{Y}\\
     f(\mathbf{x}^{\prime})
     \end{array}
     \right] \sim N\left(\left[\begin{array}{c}
     \mu(\mathbf{x})\\
     \mu(\mathbf{x}^{\prime})
     \end{array}\right], \left[\begin{array}{cc}
-    K(\mathbf{x}, \mathbf{x}) & K(\mathbf{x}, \mathbf{x}^{\prime})\\
+    K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n& K(\mathbf{x}, \mathbf{x}^{\prime})\\
     K(\mathbf{x}^{\prime}, \mathbf{x}) & K(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})
     \end{array}\right]\right).
     $$
+-   Therefore
+    $$
+    f(\mathbf{x}^{\prime}) \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim N\left(\bar{\mu}(\mathbf{x}^{\prime}) , \bar{K}(\mathbf{x}^{\prime}, \mathbf{x}^{\prime})\right).
+    $$
+    where
+    \begin{align*}
+    \bar{\mu}(\mathbf{x}^{\prime}) & = \mu(\mathbf{x}^{\prime}) + K(\mathbf{x}^{\prime}, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}(\mathbf{y} - \mu(\mathbf{x}))\\
+    \bar{K}(\mathbf{x}^{\prime}, \mathbf{x}^{\prime}) & = K(\mathbf{x}^{\prime}, \mathbf{x}^{\prime}) - K(\mathbf{x}^{\prime}, \mathbf{x})[K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n]^{-1}K(\mathbf{x}, \mathbf{x}^{\prime}).
+    \end{align*}
+-   That is, $f \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim \mc{GP}(\bar{\mu}, \bar{K})$
 
-## Gaussian Process Regression
 
-## Posterior
+## Example
 
-## Prediction
+Take $n = 20$ and generate $Y = \sin(X) + \exp(X/5) + \epsilon$ where $\epsilon \sim N(0, 0.1^2)$.
 
-## Kernel
 
+```{r, fig.height=4, fig.width=6}
+#| label: GP_example_data
+#| fig.align: center
+n <- 20
+set.seed(123)
+X <- runif(n, -5, 5)
+Y <- sin(X) + exp(X/5) + rnorm(n, 0, 0.1)
+plot(X, Y, pch = 16, cex = 1.5)
+```
+
+## Example
+
+Fit a Gaussian process regression model with $\mu(x) = 0$ and Gaussian Kernel.
+
+```{r, fig.height=4, fig.width=6}
+#| label: GP_example_fit
+#| echo: true
+#| fig.align: center
+library(GauPro)
+gp <- GauPro(X, Y)
+plot(gp)
+curve(sin(x) + exp(x/5), -5, 5, add = TRUE, col = "red", lwd = 2)
+```
+
+
+
+
+## Computational issues
+
+-   It seems that posterior computation in Gaussian process regression is trivial, but there are two main hurdles involved.
+-   The first hurdle is that the covariance matrix $K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n$ is $n \times n$ and the computational complexity of the inverse matrix is $O(n^3)$.
+-   The second hurdle is that the posterior distribution is high dimensional, making the sampling inefficient.
+
+
+-   We can rewrite the model as 
+    \begin{align*}
+    Y \mid f, \sigma^2 &\ind N(f, \sigma^2I_n)\\
+    f \mid x &\sim N(\mu, K(x, x))\\
+    \sigma^2 &\sim \text{IG}(a, b)
+    \end{align*}
+-   Suppose $a$ and $b$ are known hyperparameters.
+-   The posterior distribution is $\pi(f, \sigma^2 \mid \mathbf{y}, \mathbf{x})$, which is in $(n+1)$-dimension.
+
+
+
+
+## Example 
+
+```{stan output.var = "GP_model"}
+#| echo: true
+data {
+  int<lower=1> N;
+  real x[N];
+}
+transformed data {
+  matrix[N, N] K = cov_exp_quad(x, 1.0, 1.0); // l = 1.0, tau^2 = 1.0
+  vector[N] mu = rep_vector(0, N); // mu = 0
+  for (n in 1:N)
+    K[n, n] = K[n, n] + 0.1; // sigma^2 = 0.1
+}
+parameters {
+  vector[N] y;
+}
+model {
+  y ~ multi_normal(mu, K);
+}
+```
+
+## Example
+
+```{r}
+#| echo: true
+library(rstan)
+data <- list(N = 100, x = seq(0, 1, length.out = 100))
+GP_sample <- sampling(GP_model, data = data, chains = 1, iter = 1000,
+                      refresh = 0)
+
+y <- GP_sample@sim$samples[[1]][1:100] |>
+    unlist() |>
+    matrix(ncol = 100, byrow = TRUE)
+
+plot(0, xlim = c(0, 1), ylim = c(-3, 3), xlab = "x", ylab = "y")
+for(i in 1:10){
+  lines(data$x, y[i,], col = "grey", lwd = 0.5)
+}
+
+
+```
+
+## Hierarchical Gaussian Process model
+
+-   Consider a fully Bayesian hierarchical model
+    \begin{align*}
+    \rho & \sim \text{InvGamma}(5,5) \\
+    \alpha & \sim N(0,1) \\
+    \sigma & \sim N(0,1) \\
+    f_i & \iid N(0, K(x \mid \alpha, \rho)) \\
+    y_i & \ind N\left(f_i, \sigma^2\right) \quad i = 1, \ldots, n.
+    \end{align*}
+
+## Marginal likelihood GP
+
+
+## Latent Gaussian Process model
 
 

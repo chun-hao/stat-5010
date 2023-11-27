@@ -158,7 +158,7 @@
     "href": "slides/11-bayes_np.html#why-nonparametrics",
     "title": "Lecture 11: Gaussian Process",
     "section": "Why nonparametrics?",
-    "text": "Why nonparametrics?"
+    "text": "Why nonparametrics?\n\nNonparametric models are more flexible than parametric models.\nYet, nonparametric models are not always better than parametric models.\nAs we increase the complexity of the model, we may\n\noverfit the data;\nincrease the computational cost;\nlose interpretability.\n\n??"
   },
   {
     "objectID": "slides/11-bayes_np.html#parametric-nonlinear-model",
@@ -193,21 +193,21 @@
     "href": "slides/11-bayes_np.html#gaussian-process-regression",
     "title": "Lecture 11: Gaussian Process",
     "section": "Gaussian Process Regression",
-    "text": "Gaussian Process Regression\n\nSuppose we observe \\(\\{x_i, y_i\\}_{i=1}^n\\), \\(x_i, y_i \\in \\R\\).\nLet \\(\\mathbf{y} = [y_1, \\ldots, y_n]^T\\) and \\(\\mathbf{x} = [x_1, \\ldots, x_n]^T\\).\nConsider the model: \\[\\begin{align*}\n\\mathbf{Y} \\mid f, \\mathbf{x}, \\sigma^2 &\\sim N(f(\\mathbf{x}), \\sigma^2I_n)\\\\\nf \\mid \\mu, K &\\sim \\mc{GP}(\\mu, K).\n\\end{align*}\\]\nThe GP prior is equivalent to \\(f(\\mathbf{x}) \\mid \\mathbf{x}, \\mu, K \\sim N(\\mu(\\mathbf{x}), K(\\mathbf{x}, \\mathbf{x}))\\).\nWe need to compute two distributions:\n\nThe posterior distribution of \\(f\\) given \\(\\mathbf{y}\\) and \\(\\mathbf{x}\\).\nThe posterior predictive distribution of \\(f(\\mathbf{x}^{\\prime})\\) given \\(\\mathbf{y}\\) and \\(\\mathbf{x}\\)."
+    "text": "Gaussian Process Regression\n\nSuppose we observe \\(\\{x_i, y_i\\}_{i=1}^n\\), \\(x_i, y_i \\in \\R\\).\nLet \\(\\mathbf{y} = [y_1, \\ldots, y_n]^T\\) and \\(\\mathbf{x} = [x_1, \\ldots, x_n]^T\\).\nConsider the model: \\[\\begin{align*}\n\\mathbf{Y} \\mid f, \\mathbf{x}, \\sigma^2 &\\sim N(f(\\mathbf{x}), \\sigma^2I_n)\\\\\nf \\mid \\mu, K &\\sim \\mc{GP}(\\mu, K).\n\\end{align*}\\]\nThe GP prior is equivalent to \\(f(\\mathbf{x}) \\mid \\mathbf{x}, \\mu, K \\sim N(\\mu(\\mathbf{x}), K(\\mathbf{x}, \\mathbf{x}))\\).\nThe likelihood is equivalent to \\(\\mathbf{Y} = f(\\mathbf{x}) + \\epsilon\\), \\(\\epsilon \\sim N(0, \\sigma^2I_n)\\).\nWe need to compute two distributions:\n\nThe posterior distribution of \\(f\\) given \\(\\mathbf{y}\\) and \\(\\mathbf{x}\\).\nThe posterior predictive distribution of \\(f(\\mathbf{x}^{\\prime})\\) given \\(\\mathbf{y}\\) and \\(\\mathbf{x}\\)."
   },
   {
     "objectID": "slides/11-bayes_np.html#posterior-predictive-distribution",
     "href": "slides/11-bayes_np.html#posterior-predictive-distribution",
     "title": "Lecture 11: Gaussian Process",
     "section": "Posterior Predictive Distribution",
-    "text": "Posterior Predictive Distribution\n\nThe posterior distribution of \\(f\\) is \\[\nf \\mid\n\\]"
+    "text": "Posterior Predictive Distribution\n\nThe posterior distribution of \\(f\\) is also a Gaussian process \\[\nf \\mid \\mathbf{y}, \\mathbf{x}, \\sigma^2 \\sim \\mc{GP}(\\bar{\\mu}, \\bar{K})\n\\] where \\[\\begin{align*}\n\\bar{\\mu}(\\cdot) & = \\mu(\\cdot) + K(\\cdot, \\mathbf{x})[K(\\mathbf{x}, \\mathbf{x}) + \\sigma^2I_n]^{-1}(\\mathbf{y} - \\mu(\\mathbf{x}))\\\\\n\\bar{K}(\\cdot, \\cdot) & = K(\\cdot, \\cdot) - K(\\cdot, \\mathbf{x})[K(\\mathbf{x}, \\mathbf{x}) + \\sigma^2I_n]^{-1}K(\\mathbf{x}, \\cdot).\n\\end{align*}\\]\nHence the predictive distribution is a multivariate normal \\[\nf(\\mathbf{x}^{\\prime}) \\mid \\mathbf{y}, \\mathbf{x}, \\sigma^2 \\sim N(\\bar{\\mu}(\\mathbf{x}^{\\prime}), \\bar{K}(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime})).\n\\]"
   },
   {
     "objectID": "slides/11-bayes_np.html#derivation",
     "href": "slides/11-bayes_np.html#derivation",
     "title": "Lecture 11: Gaussian Process",
     "section": "Derivation",
-    "text": "Derivation\n\nFor any \\(m\\) and \\(\\mathbf{x}^{\\prime} \\in \\R^m\\), \\[\n\\left[\\begin{array}{c}\nf(\\mathbf{x})\\\\\nf(\\mathbf{x}^{\\prime})\n\\end{array}\n\\right] \\sim N\\left(\\left[\\begin{array}{c}\n\\mu(\\mathbf{x})\\\\\n\\mu(\\mathbf{x}^{\\prime})\n\\end{array}\\right], \\left[\\begin{array}{cc}\nK(\\mathbf{x}, \\mathbf{x}) & K(\\mathbf{x}, \\mathbf{x}^{\\prime})\\\\\nK(\\mathbf{x}^{\\prime}, \\mathbf{x}) & K(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime})\n\\end{array}\\right]\\right).\n\\]"
+    "text": "Derivation\n\nFor any \\(m\\) and \\(\\mathbf{x}^{\\prime} \\in \\R^m\\), \\[\n\\left[\\begin{array}{c}\n\\mathbf{Y}\\\\\nf(\\mathbf{x}^{\\prime})\n\\end{array}\n\\right] \\sim N\\left(\\left[\\begin{array}{c}\n\\mu(\\mathbf{x})\\\\\n\\mu(\\mathbf{x}^{\\prime})\n\\end{array}\\right], \\left[\\begin{array}{cc}\nK(\\mathbf{x}, \\mathbf{x}) + \\sigma^2I_n& K(\\mathbf{x}, \\mathbf{x}^{\\prime})\\\\\nK(\\mathbf{x}^{\\prime}, \\mathbf{x}) & K(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime})\n\\end{array}\\right]\\right).\n\\]\nTherefore \\[\nf(\\mathbf{x}^{\\prime}) \\mid \\mathbf{y}, \\mathbf{x}, \\sigma^2 \\sim N\\left(\\bar{\\mu}(\\mathbf{x}^{\\prime}) , \\bar{K}(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime})\\right).\n\\] where \\[\\begin{align*}\n\\bar{\\mu}(\\mathbf{x}^{\\prime}) & = \\mu(\\mathbf{x}^{\\prime}) + K(\\mathbf{x}^{\\prime}, \\mathbf{x})[K(\\mathbf{x}, \\mathbf{x}) + \\sigma^2I_n]^{-1}(\\mathbf{y} - \\mu(\\mathbf{x}))\\\\\n\\bar{K}(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime}) & = K(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime}) - K(\\mathbf{x}^{\\prime}, \\mathbf{x})[K(\\mathbf{x}, \\mathbf{x}) + \\sigma^2I_n]^{-1}K(\\mathbf{x}, \\mathbf{x}^{\\prime}).\n\\end{align*}\\]\nThat is, \\(f \\mid \\mathbf{y}, \\mathbf{x}, \\sigma^2 \\sim \\mc{GP}(\\bar{\\mu}, \\bar{K})\\)"
   },
   {
     "objectID": "slides/11-bayes_np.html#gaussian-process-regression-1",
@@ -256,7 +256,7 @@
     "href": "slides/11-bayes_np.html#example",
     "title": "Lecture 11: Gaussian Process",
     "section": "Example",
-    "text": "Example\n\nn &lt;- 10\nx &lt;- rcauchy(n)\nalpha &lt;- 10\ncurve(pnorm(x), -5, 5, lty = 2, lwd = 2, \n      ylab = TeX(\"$P(X \\\\leq x)$\"), xlab = \"x\")\nlines(ecdf(x), col = \"red\", lwd = 2)\n\nF_bar &lt;- function(m, alpha, n, F0, x){\n    u &lt;- runif(m)\n    out &lt;- rep(NA, m)\n    out[u &lt; alpha/(alpha + n)] &lt;- F0(sum(u &lt; alpha/(alpha + n)))\n    out[u &gt;= alpha/(alpha + n)] &lt;- sample(x, sum(u &gt;= alpha/(alpha + n)), replace = TRUE)\n    return(out)\n}"
+    "text": "Example\n\nlibrary(gplm) # for kreg()\nset.seed(1)\nn &lt;- 1000\nx &lt;- rnorm(n)\ny &lt;- sin(x) + rnorm(n)\nplot(x,y,col=\"gray\")\ncurve(sin(x), add = T, col = \"green\")\nlines(kreg(x,y), lwd = 2, col = \"blue\")"
   },
   {
     "objectID": "slides/09-regression.html#linear-regression",
@@ -2728,5 +2728,138 @@
     "title": "Lecture 12: Dirichlet Process",
     "section": "Dirichlet process mixture model",
     "text": "Dirichlet process mixture model\n\nFor density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.\nInstead, we can use a Dirichlet process mixture model (DPMM): \\[\\begin{align*}\nF \\mid \\alpha, F_0 & \\sim \\text{DP}(\\alpha, F_0)\\\\\n\\theta_1, \\ldots, \\theta_n \\mid F & \\iid F\\\\\nX_i \\mid \\theta_i & \\ind f(x \\mid \\theta_i).\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#nonparametric-regression",
+    "href": "slides/11-bayes_np.html#nonparametric-regression",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Nonparametric regression",
+    "text": "Nonparametric regression\n\nRecall that a linear regression model assumes \\(\\E(Y \\mid X) = X^T\\beta\\).\nA nonparametric regression model assumes \\(\\E(Y \\mid X) = f(X)\\), where \\(f\\) is an unknown function.\nThere are different ways to estimate \\(f\\):\n\nKernel regression\nSpline regression\nGaussian process regression\n\nFor simplicity, we consider the one-dimensional regression problem, i.e., we have \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(x_i, y_i \\in \\R\\).\nThe extension to higher dimensions is straightforward."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#kernel-regression",
+    "href": "slides/11-bayes_np.html#kernel-regression",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Kernel regression",
+    "text": "Kernel regression\n\nThe Nadaraya–Watson kernel regression estimator of \\(f\\) is \\[\n\\hat{f}(x) = \\frac{\\sum_{i=1}^n K_h(x - X_i) Y_i}{\\sum_{i=1}^n K_h(x - X_i)},\n\\] where \\(K_h(x) = K(x/h)/h\\) is a kernel function, and \\(h\\) is a bandwidth parameter.\nThat is, \\(\\hat{f}(x)\\) is a weighted average of the \\(Y_i\\)’s, where the weights are determined by the kernel function \\(K\\).\nThe kernel function \\(K\\) is usually chosen to be a symmetric density function, e.g., the standard normal density function."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#spline-regression",
+    "href": "slides/11-bayes_np.html#spline-regression",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Spline regression",
+    "text": "Spline regression\n\nA function \\(f\\) is called a \\(k\\)th order spline with knots \\(t_0 &lt; \\cdots &lt; t_m\\) if\n\n\\(f\\) is a polynomial of degree \\(k\\) on the intervals \\((-\\infty, t_0], [t_0, t_1],\\ldots, [t_m, \\infty)\\).\n\\(f\\) has continuous derivatives up to order \\(k-1\\) at each knot \\(t_i\\)."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-output",
+    "href": "slides/11-bayes_np.html#example-output",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#nonparametric-regressioncmu_note",
+    "href": "slides/11-bayes_np.html#nonparametric-regressioncmu_note",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Nonparametric regression1",
+    "text": "Nonparametric regression1\n\nRecall that a linear regression model assumes \\(\\E(Y \\mid X) = X^T\\beta\\).\nA nonparametric regression model assumes \\(\\E(Y \\mid X) = f(X)\\), where \\(f\\) is an unknown function.\nThere are different ways to estimate \\(f\\):\n\nKernel regression\nRegression splines\nGaussian process regression\n\nFor simplicity, we consider the one-dimensional regression problem, i.e., we have \\(\\{x_i, y_i\\}_{i=1}^n\\) where \\(x_i, y_i \\in \\R\\).\nThe extension to higher dimensions is straightforward.\n\nA good reference is this course note."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#problems-with-kernel-regression",
+    "href": "slides/11-bayes_np.html#problems-with-kernel-regression",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Problems with kernel regression",
+    "text": "Problems with kernel regression"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#regression-splines",
+    "href": "slides/11-bayes_np.html#regression-splines",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Regression splines",
+    "text": "Regression splines\n\nA function \\(g\\) is called a \\(k\\)th order spline with knots \\(t_0 &lt; \\cdots &lt; t_m\\) if\n\n\\(g\\) is a polynomial of degree \\(k\\) on the intervals \\((-\\infty, t_0], [t_0, t_1],\\ldots, [t_m, \\infty)\\).\n\\(g\\) has continuous derivatives up to order \\(k-1\\) at each knot \\(t_i\\).\n\nGiven a set of knots \\(t_0 &lt; \\cdots &lt; t_m\\), the space of \\(k\\)th order spline has dimension \\(m + k + 1\\).\nThere are many choices of basis for the space of splines. The most popular one is the B-spline basis.\nHence a regression spline model is \\[\n\\E(Y \\mid x) = \\sum_{j=1}^{m + k + 1} \\beta_j B_j(x),\n\\] where \\(B_j\\) is the \\(j\\)th B-spline basis function."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#regression-splines-1",
+    "href": "slides/11-bayes_np.html#regression-splines-1",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Regression splines",
+    "text": "Regression splines\n\nAlthough a regression spline is determined by \\(m+k+1\\) parameters, it is usually referred to as a nonparametric model, since we are not interested in those parameters.\nThe choice of knots is important.\nA smoothing spline uses all inputs as knots and avoids overfitting by shrinking the coefficients.\nA natural spline assumes polynomial of degree \\((k-1)/2\\) on \\((-\\infty, t_0]\\) and \\([t_m, \\infty)\\) to reduce variance at the boundary.\nNatural spline with cubic order is the most common special case."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-1",
+    "href": "slides/11-bayes_np.html#example-1",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#computational-issues",
+    "href": "slides/11-bayes_np.html#computational-issues",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Computational issues",
+    "text": "Computational issues\n\nIt seems that posterior computation in Gaussian process regression is trivial, but there are two main hurdles involved.\nThe first hurdle is that the covariance matrix \\(K(\\mathbf{x}, \\mathbf{x}) + \\sigma^2I_n\\) is \\(n \\times n\\) and the computational complexity of the inverse matrix is \\(O(n^3)\\).\nThe second hurdle is that the posterior distribution is high dimensional, making the sampling inefficient.\nWe can rewrite the model as \\[\\begin{align*}\nY \\mid f, \\sigma^2 &\\ind N(f, \\sigma^2I_n)\\\\\nf \\mid x &\\sim N(\\mu, K(x, x))\\\\\n\\sigma^2 &\\sim \\text{IG}(a, b)\n\\end{align*}\\]\nSuppose \\(a\\) and \\(b\\) are known hyperparameters.\nThe posterior distribution is \\(\\pi(f, \\sigma^2 \\mid \\mathbf{y}, \\mathbf{x})\\), which is in \\((n+1)\\)-dimension."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-2",
+    "href": "slides/11-bayes_np.html#example-2",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example\nTake \\(n = 20\\) and generate \\(Y = \\sin(X) + \\exp(X/5) + \\epsilon\\) where \\(\\epsilon \\sim N(0, 0.1^2)\\)."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-3",
+    "href": "slides/11-bayes_np.html#example-3",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example\nFit a Gaussian process regression model with \\(\\mu(x) = 0\\) and Gaussian Kernel.\n\nlibrary(GauPro)\ngp &lt;- GauPro(X, Y)\nplot(gp)\ncurve(sin(x) + exp(x/5), -5, 5, add = TRUE, col = \"red\", lwd = 2)"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#hierarchical-gaussian-process-model",
+    "href": "slides/11-bayes_np.html#hierarchical-gaussian-process-model",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Hierarchical Gaussian Process model",
+    "text": "Hierarchical Gaussian Process model\n\nConsider a fully Bayesian hierarchical model \\[\\begin{align*}\n\\rho & \\sim \\text{InvGamma}(5,5) \\\\\n\\alpha & \\sim N(0,1) \\\\\n\\sigma & \\sim N(0,1) \\\\\nf_i & \\iid N(0, K(x \\mid \\alpha, \\rho)) \\\\\ny_i & \\ind N\\left(f_i, \\sigma^2\\right) \\quad i = 1, \\ldots, n.\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#computational-issues-1",
+    "href": "slides/11-bayes_np.html#computational-issues-1",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Computational issues",
+    "text": "Computational issues\n\nWe can rewrite the model as \\[\\begin{align*}\nY \\mid f, \\sigma^2 &\\ind N(f, \\sigma^2I_n)\\\\\nf \\mid x &\\sim N(\\mu, K(x, x))\\\\\n\\sigma^2 &\\sim \\text{IG}(a, b)\n\\end{align*}\\]\nSuppose \\(a\\) and \\(b\\) are known hyperparameters.\nThe posterior distribution is \\(\\pi(f, \\sigma^2 \\mid \\mathbf{y}, \\mathbf{x})\\), which is in \\((n+1)\\)-dimension."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#marginal-likelihood-gp",
+    "href": "slides/11-bayes_np.html#marginal-likelihood-gp",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Marginal likelihood GP",
+    "text": "Marginal likelihood GP"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-4",
+    "href": "slides/11-bayes_np.html#example-4",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example\n\ndata {\n  int&lt;lower=1&gt; N;\n  real x[N];\n}\ntransformed data {\n  matrix[N, N] K = cov_exp_quad(x, 1.0, 1.0); // l = 1.0, tau^2 = 1.0\n  vector[N] mu = rep_vector(0, N); // mu = 0\n  for (n in 1:N)\n    K[n, n] = K[n, n] + 0.1; // sigma^2 = 0.1\n}\nparameters {\n  vector[N] y;\n}\nmodel {\n  y ~ multi_normal(mu, K);\n}"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#latent-gaussian-process-model",
+    "href": "slides/11-bayes_np.html#latent-gaussian-process-model",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Latent Gaussian Process model",
+    "text": "Latent Gaussian Process model\n\n\nHome"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-5",
+    "href": "slides/11-bayes_np.html#example-5",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example\n\nlibrary(rstan)\ndata &lt;- list(N = 100, x = seq(0, 1, length.out = 100))\nGP_sample &lt;- sampling(GP_model, data = data, chains = 1, iter = 1000,\n                      refresh = 0)\n\ny &lt;- GP_sample@sim$samples[[1]][1:100] |&gt;\n    unlist() |&gt;\n    matrix(ncol = 100, byrow = TRUE)\n\nplot(0, xlim = c(0, 1), ylim = c(-3, 3), xlab = \"x\", ylab = \"y\")\nfor(i in 1:10){\n  lines(data$x, y[i,], col = \"grey\", lwd = 0.5)\n}"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#example-3-output",
+    "href": "slides/11-bayes_np.html#example-3-output",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Example",
+    "text": "Example\n\nError in eval(expr, envir, enclos) : solve(): solution not found\n\nplot(gp)"
   }
 ]
