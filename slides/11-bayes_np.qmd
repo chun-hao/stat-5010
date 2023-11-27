@@ -1,23 +1,5 @@
 ---
 title: "Lecture 11: Gaussian Process"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-        include-in-header: 
-            - text: 
-                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: true
 ---
 
 ## Non-, Semi-, and Parametric Models
@@ -50,7 +32,16 @@ execute:
     +   overfit the data;
     +   increase the computational cost;
     +   lose interpretability.
--   ??
+
+## Double descent phenomenon
+![Double descent phenomenon](images/lec11/double_descent.png)
+
+
+::: aside
+
+Image source: [Shaeffer et. al. (2023)](https://arxiv.org/pdf/2303.14151v1.pdf)
+
+:::
 
 ## Nonparametric regression[^cmu_note]
 
@@ -305,82 +296,120 @@ curve(sin(x) + exp(x/5), -5, 5, add = TRUE, col = "red", lwd = 2)
 
 
 
+## Hierarchical Gaussian Process model
+
+-   In practice, there are other unknown parameters, for example $\sigma^2$ or the hyperparameters in the kernel function.
+-   The hyperparameters in the kernel function can be selected via cross-validation.
+
+-   However, as a Bayesian, we can consider a fully Bayesian hierarchical model
+    \begin{align*}
+    \tau^2 & \sim \text{InvGamma}(c,d) \\
+    \sigma^2 & \sim \text{InvGamma}(a ,b) \\
+    f_i \mid x, \tau & \iid N(0, K(x, x\mid \tau) \\
+    y_i \mid f_i, \sigma^2& \ind N\left(f_i, \sigma^2\right) \quad i = 1, \ldots, n
+    \end{align*}
+    where $K(x, y) = \exp\left(-\frac{(x-y)^2}{2\tau^2}\right)$.
+-   Additional priors can be assigned to the hyperparameters $a,b,c$ and $d$.
+-   The posterior distribution is $\pi(f, \sigma^2, \tau^2 \mid \mathbf{y}, \mathbf{x})$.
+
+
 ## Computational issues
 
 -   It seems that posterior computation in Gaussian process regression is trivial, but there are two main hurdles involved.
--   The first hurdle is that the covariance matrix $K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n$ is $n \times n$ and the computational complexity of the inverse matrix is $O(n^3)$.
+-   The first hurdle is that the covariance matrix $K(\mathbf{x}, \mathbf{x}\mid \tau^2) + \sigma^2I_n$ is $n \times n$ and the computational complexity of the inverse matrix is $O(n^3)$.
+-   This inverse matrix needs to be computed in each iteration of the MCMC algorithm, since we are also updating $\sigma^2$ and $\tau^2$.
 -   The second hurdle is that the posterior distribution is high dimensional, making the sampling inefficient.
+-   In this case, the posterior distribution is $(n + 2)$-dimensional.
+-   There are some approaches to overcome these hurdles:
+    +   Marginalization
+    +   Approximation
 
-
--   We can rewrite the model as 
-    \begin{align*}
-    Y \mid f, \sigma^2 &\ind N(f, \sigma^2I_n)\\
-    f \mid x &\sim N(\mu, K(x, x))\\
-    \sigma^2 &\sim \text{IG}(a, b)
-    \end{align*}
--   Suppose $a$ and $b$ are known hyperparameters.
--   The posterior distribution is $\pi(f, \sigma^2 \mid \mathbf{y}, \mathbf{x})$, which is in $(n+1)$-dimension.
-
-
-
-
-## Example 
-
-```{stan output.var = "GP_model"}
-#| echo: true
-data {
-  int<lower=1> N;
-  real x[N];
-}
-transformed data {
-  matrix[N, N] K = cov_exp_quad(x, 1.0, 1.0); // l = 1.0, tau^2 = 1.0
-  vector[N] mu = rep_vector(0, N); // mu = 0
-  for (n in 1:N)
-    K[n, n] = K[n, n] + 0.1; // sigma^2 = 0.1
-}
-parameters {
-  vector[N] y;
-}
-model {
-  y ~ multi_normal(mu, K);
-}
-```
-
-## Example
-
-```{r}
-#| echo: true
-library(rstan)
-data <- list(N = 100, x = seq(0, 1, length.out = 100))
-GP_sample <- sampling(GP_model, data = data, chains = 1, iter = 1000,
-                      refresh = 0)
-
-y <- GP_sample@sim$samples[[1]][1:100] |>
-    unlist() |>
-    matrix(ncol = 100, byrow = TRUE)
-
-plot(0, xlim = c(0, 1), ylim = c(-3, 3), xlab = "x", ylab = "y")
-for(i in 1:10){
-  lines(data$x, y[i,], col = "grey", lwd = 0.5)
-}
-
-
-```
-
-## Hierarchical Gaussian Process model
-
--   Consider a fully Bayesian hierarchical model
-    \begin{align*}
-    \rho & \sim \text{InvGamma}(5,5) \\
-    \alpha & \sim N(0,1) \\
-    \sigma & \sim N(0,1) \\
-    f_i & \iid N(0, K(x \mid \alpha, \rho)) \\
-    y_i & \ind N\left(f_i, \sigma^2\right) \quad i = 1, \ldots, n.
-    \end{align*}
 
 ## Marginal likelihood GP
+
+-   If the data model is Gaussian, we can integrate over $f$ analytically to get the log marginal likelihood for the covariance function parameter $\tau^2$ and residual variance $\sigma^2$ :
+\begin{align*}
+\log p\left(y \mid \tau^2, \sigma^2\right) & =-\frac{n}{2} \log (2 \pi)-\frac{1}{2} \log \left|K(x, x \mid \tau^2) + \sigma^2 I\right|\\
+& \qquad -\frac{1}{2} y^{T}\left(K(x, x \mid \tau^2)+\sigma^2 I\right)^{-1} y
+\end{align*}
+-   Then we only need to sample from the posterior of $\tau^2$ and $\sigma^2$.
+-   With $\tau^2$ and $\sigma^2$, we can easily generate $f$ from the posterior distribution, since it's normal.
 
 
 ## Latent Gaussian Process model
 
+-   We can also extend GP to non-Gaussian likelihoods, similar to GLM.
+-   That is,
+    \begin{align*}
+    Y \mid f, X, \phi & \sim F_{\theta, \phi}\\
+    \theta & = g^{-1}(f(X))\\
+    f & \sim \mc{GP}(\mu, K)
+    \end{align*}
+    where $g$ is the link function and $\phi$ is the dispersion parameter.
+-   For example, if $Y$ is binary, we can use
+    \begin{align*}
+    Y \mid X & \sim \text{Ber}\left(\frac{\exp(f(X))}{1+\exp(f(X))}\right)\\
+    f & \sim \mc{GP}(\mu, K).
+    \end{align*}
+-   Similar for the Poisson log-linear model.
+
+## Sum of Gaussian processes
+
+-   Gaussian processes can be directly fit to data, but more generally they can be used as components in a larger model. For example,
+    \begin{align*}
+    Y & = \sum_{i=1}^M f_i(X) + \epsilon\\
+    f_i & \ind \mc{GP}(0, K_i)
+    \end{align*}
+-   Since the sum of normal is still a normal, the decomposition above is equivalent to the decomposition of kernel functions, i.e.,
+    \begin{align*}
+    f \sim \mc{GP}(0, \tilde{K}), \quad \tilde{K} = \sum_{i=1}^M K_i.
+    \end{align*}
+
+## Example: Decomposing the time series 
+
+-   The dataset contains records of all births in the United States on each day during the years 1969–1988.
+-   Additive model:
+    $$
+    y(t)=f_1(t)+f_2(t)+f_3(t)+f_4(t)+f_5(t)+\epsilon_t,
+    $$
+    where $y(t)$ is the number of births on day $t$.
+-   The components $f_i$ represent variation with different scales and periodicity
+
+::: aside
+
+This example is from BDA Ch. 21.2.
+
+:::
+
+## Example: Decomposing the time series
+
+1.  Long-term trends: $f_1(t) \sim \operatorname{GP}\left(0, k_1\right), \quad k_1\left(t, t^{\prime}\right)=\sigma_1^2 \exp \left(-\frac{\left|t-t^{\prime}\right|^2}{2 l_1^2}\right)$
+2.  Short-term variation: $f_2(t) \sim \operatorname{GP}\left(0, k_2\right), \quad k_2\left(t, t^{\prime}\right)=\sigma_2^2 \exp \left(-\frac{\left|t-t^{\prime}\right|^2}{2 l_2^2}\right)$
+3.  Weekly quasi-periodic pattern: $f_3(t) \sim \operatorname{GP}\left(0, k_3\right), \quad k_3\left(t, t^{\prime}\right)=\sigma_3^2 \exp \left(-\frac{2 \sin ^2\left(\pi\left(t-t^{\prime}\right) / 7\right)}{l_{3,1}^2}\right) \exp \left(-\frac{\left|t-t^{\prime}\right|^2}{2 l_{3,2}^2}\right)$
+4.  Yearly smooth seasonal pattern: $f_4(t) \sim \operatorname{GP}\left(0, k_4\right), \quad k_4\left(s, s^{\prime}\right)=\sigma_4^2 \exp \left(-\frac{2 \sin ^2\left(\pi\left(s-s^{\prime}\right) / 365.25\right)}{l_{4,1}^2}\right) \exp \left(-\frac{\left|s-s^{\prime}\right|^2}{2 l_{4,2}^2}\right)$
+where $s = t \text{ mod } 365.25$
+5.  Special days including an interaction term with weekend: $f_5(t)=I_{\text {special day }}(t) \beta_a+I_{\text {weekend }}(t) I_{\text {special day }}(t) \beta_b$
+6.  Unstructured residuals: $\epsilon_t \sim N\left(0, \sigma^2\right)$
+
+## Example: Decomposing the time series
+
+![](images/lec11/result1.png)
+
+## Example: Decomposing the time series
+
+![](images/lec11/result2.png)
+
+## Example: Decomposing the time series
+
+-   This model can be improved by further decomposing the time series.
+-   For example, assume that the effect pf special day will change over time.
+
+## Other applications of GP
+
+There are many other applications of GP:
+
+-   Functional data analysis: the observed data are functions
+-   Spatial data analysis: the data has spatial (location) characteristics
+-   Density estimation:
+    +   Assume the unknown density to be $p(x \mid f) = \frac{\exp(f(x))}{\int \exp(f(x^{\prime})) dx^{\prime}}$ and $f \sim \mc{GP}(\mu, K)$.
 
