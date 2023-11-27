@@ -1,5 +1,5 @@
 ---
-title: "Lecture 11: Bayesian Nonparametrics"
+title: "Lecture 11: Gaussian Process"
 author: "Chun-Hao Yang"
 footer: "[Home](https://chunhaoy.com/stat-5010/)"
 format: 
@@ -105,7 +105,6 @@ GP_sim <- function(from = 0, to = 1, mean_func = function(x){0},
 ```{r, fig.width = 10}
 #| label: GP_sim_plot
 #| fig-align: center
-#| output-location: slide
 library(latex2exp)
 set.seed(2023)
 par(mfrow = c(1, 2))
@@ -173,113 +172,6 @@ for(i in 1:10){
 ## Prediction
 
 ## Kernel
-
-
-
-# Dirichlet Process
-
-## Dirichlet distribution
-
--   Beta distribution $p \sim \text{Beta}(\alpha, \beta)$:  
-    $$
-    f(p \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \quad p \in [0,1].
-    $$
--   Alternative parameterization: $\alpha^{\prime} = \alpha + \beta$, $\nu = \frac{\alpha}{\alpha + \beta} = \E(p)$.
--   Dirichlet distribution $(p_1, p_2, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$: 
-    $$
-    f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) = 
-    \frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
-    $$
-    where $p_i \in [0,1]$ and $\sum_{i=1}^k p_i = 1$.
--   Alternative: $\alpha = \sum_{i=1}^k\alpha_i$ and $\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]$.
-
-## Definition
-A ``random distribution'' $F$ is said to follow a Dirichlet process, denoted by 
-$$
-F \sim \mc{DP}(\alpha, F_0),
-$$
-if for **any** measurable partition $B_1, \ldots, B_n$ of the sample space of $F_0$, the random vector $(F(B_1), \ldots, F(B_n))$ has a Dirichlet distribution, i.e.,
-$$
-(F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
-$$
-
--   The parameter $\alpha > 0$ is called the **concentration parameter**.
--   The parameter $F_0$ is called the **mean distribution**.
-
-## Simulating Dirichlet processes[^ref]
-
-1. Draw $s_1, s_2, \ldots$ independently from $F_0$.
-2. Draw $V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)$.
-3. Let $w_1=V_1$ and $w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)$ for $j=2,3, \ldots$
-4. Let $F$ be the discrete distribution that puts mass $w_j$ at $s_j$, that is, $F=\sum_{j=1}^{\infty} w_j \delta_{s_j}$ where $\delta_{s_j}$ is a point mass at $s_j$.
-
-[^ref]: <https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf>
-
-
-## Simulating Dirichlet processes
-
-```{r}
-#| label: DP_sim
-#| echo: true
-library(MCMCpack)
-DP_sim <- function(from = -3, to = 3, alpha = 10, F0 = dnorm, m = 100){
-    x <- seq(from, to, length.out = m)
-    x_mid <- (x[2:m] + x[1:(m-1)])/2
-    nu <- F0(x_mid)*(x[2:m] - x[1:(m-1)])
-    y <- rdirichlet(1, alpha*nu)
-    y <- y/(x[2:m] - x[1:(m-1)]) # make it a density
-    return(list(x = x_mid, y = y))
-}
-```
-
-```{r, fig.width = 10}
-par(mfrow = c(1, 2))
-curve(dnorm(x), -3, 3, lty = 2, lwd = 2)
-for(i in 1:10){
-    f <- DP_sim()
-    lines(f$x, f$y, col = i)
-}
-```
-
-```{r}
-library(distr)
-
-cdf_sample <- function(emp_cdf, n=1e3) {
-  emp_cdf@r(n)
-}
-
-dp <- function(alpha, F0, n=1e3) { # n should be large since it's an approx for +oo
-  
-  s <- cdf_sample(F0,n)            # step 1: draw from F0
-  V <- rbeta(n,1,alpha)            # step 2: draw from beta(1,alpha)
-  w <- c(1, rep(NA,n-1))           # step 3: compute 'stick breaking process' into w[i]
-  w[2:n] <- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))
-
-  # return the sampled function F which can be itself sampled 
-  # this F is a probability mass function where each s[i] has mass w[i]
-  function (size=1e4) {
-    sample(s, size, prob=w, replace=TRUE)
-  }
-}
-
-f0 <- function(n) rnorm(n, 0, 1)    # eg pdf of prior guess
-F0 <- DiscreteDistribution(f0(1e4)) # make its cdf
-
-
-
-# generate a prior from the Dirichlet process
-dpF <- dp(10, F0, n=1e4)
-```
-
-```{r}
-curve(dnorm(x), -3, 3, lty = 2, lwd = 2)
-for(i in 1:3){
-    f <- dp(10, F0, n=1e4)
-    lines(density(f()), col = i)
-}
-
-```
-
 
 
 

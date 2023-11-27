@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Chun-Hao Yang">
-  <title>STAT 5010 - Lecture 11: Empirical Bayes</title>
+  <title>STAT 5010 - Lecture 12: Dirichlet Process</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -329,7 +394,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 11: Empirical Bayes</h1>
+  <h1 class="title">Lecture 12: Dirichlet Process</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -340,13 +405,191 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section class="slide level2">
+<section>
+<section id="dirichlet-process" class="title-slide slide level1 center">
+<h1>Dirichlet Process</h1>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\var}{{\rm Var}} % Variance
+\newcommand{\mse}{{\rm MSE}} % MSE
+\newcommand{\bias}{{\rm Bias}} % MSE
+\newcommand{\cov}{{\rm Cov}} % Covariance
+\newcommand{\iid}{\stackrel{\rm iid}{\sim}}
+\newcommand{\ind}{\stackrel{\rm ind}{\sim}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}  % Choose
+\newcommand{\chooses}[2]{{}_{#1}C_{#2}}  % Small choose
+\newcommand{\cd}{\stackrel{d}{\rightarrow}}
+\newcommand{\cas}{\stackrel{a.s.}{\rightarrow}}
+\newcommand{\cp}{\stackrel{p}{\rightarrow}}
+\newcommand{\bin}{{\rm Bin}}
+\newcommand{\ber}{{\rm Ber}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\]</span></p>
+</div>
+</section>
+<section id="dirichlet-distribution" class="slide level2">
+<h2>Dirichlet distribution</h2>
+<ul>
+<li class="fragment">Beta distribution <span class="math inline">\(p \sim \text{Beta}(\alpha, \beta)\)</span>:<br>
+<span class="math display">\[
+f(p \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \quad p \in [0,1].
+\]</span></li>
+<li class="fragment">Alternative parameterization: <span class="math inline">\(\alpha^{\prime} = \alpha + \beta\)</span>, <span class="math inline">\(\nu = \frac{\alpha}{\alpha + \beta} = \E(p)\)</span>.</li>
+<li class="fragment">Dirichlet distribution <span class="math inline">\((p_1, p_2, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)\)</span>: <span class="math display">\[
+f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) =
+\frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
+\]</span> where <span class="math inline">\(p_i \in [0,1]\)</span> and <span class="math inline">\(\sum_{i=1}^k p_i = 1\)</span>.</li>
+<li class="fragment">Alternative: <span class="math inline">\(\alpha = \sum_{i=1}^k\alpha_i\)</span> and <span class="math inline">\(\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]\)</span>.</li>
+</ul>
+</section>
+<section id="definition" class="slide level2">
+<h2>Definition</h2>
+<p>A ``random distribution’’ <span class="math inline">\(F\)</span> is said to follow a Dirichlet process, denoted by <span class="math display">\[
+F \sim \mc{DP}(\alpha, F_0),
+\]</span> if for <strong>any</strong> measurable partition <span class="math inline">\(B_1, \ldots, B_n\)</span> of the sample space of <span class="math inline">\(F_0\)</span>, the random vector <span class="math inline">\((F(B_1), \ldots, F(B_n))\)</span> has a Dirichlet distribution, i.e., <span class="math display">\[
+(F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
+\]</span></p>
+<ul>
+<li class="fragment">The parameter <span class="math inline">\(\alpha &gt; 0\)</span> is called the <strong>concentration parameter</strong>.</li>
+<li class="fragment">The parameter <span class="math inline">\(F_0\)</span> is called the <strong>mean distribution</strong>.</li>
+</ul>
+</section>
+<section id="simulating-dirichlet-processesref" class="slide level2">
+<h2>Simulating Dirichlet processes<sup>1</sup></h2>
+<ol type="1">
+<li class="fragment">Draw <span class="math inline">\(s_1, s_2, \ldots\)</span> independently from <span class="math inline">\(F_0\)</span>.</li>
+<li class="fragment">Draw <span class="math inline">\(V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)\)</span>.</li>
+<li class="fragment">Let <span class="math inline">\(w_1=V_1\)</span> and <span class="math inline">\(w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)\)</span> for <span class="math inline">\(j=2,3, \ldots\)</span></li>
+<li class="fragment">Let <span class="math inline">\(F\)</span> be the discrete distribution that puts mass <span class="math inline">\(w_j\)</span> at <span class="math inline">\(s_j\)</span>, that is, <span class="math inline">\(F=\sum_{j=1}^{\infty} w_j \delta_{s_j}\)</span> where <span class="math inline">\(\delta_{s_j}\)</span> is a point mass at <span class="math inline">\(s_j\)</span>.</li>
+</ol>
+<aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf" class="uri">https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf</a></p></li></ol></aside></section>
+<section id="simulating-dirichlet-processes" class="slide level2">
+<h2>Simulating Dirichlet processes</h2>
+<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_sim_3001e035d7121303e138193c70ae11bc">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(MCMCpack)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>DP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">alpha =</span> <span class="dv">10</span>, <span class="at">F0 =</span> rnorm, <span class="at">n =</span> <span class="fl">1e3</span>){</span>
+<span id="cb1-3"><a href="#cb1-3"></a>    s <span class="ot">&lt;-</span> <span class="fu">F0</span>(n)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    V <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">1</span>, alpha)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    w <span class="ot">&lt;-</span> <span class="fu">c</span>(V[<span class="dv">1</span>], <span class="fu">rep</span>(<span class="dv">0</span>, n<span class="dv">-1</span>))</span>
+<span id="cb1-6"><a href="#cb1-6"></a>    w[<span class="dv">2</span><span class="sc">:</span>n] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">2</span><span class="sc">:</span>n, <span class="cf">function</span>(i) V[i] <span class="sc">*</span> <span class="fu">prod</span>(<span class="dv">1</span> <span class="sc">-</span> V[<span class="dv">1</span><span class="sc">:</span>(i<span class="dv">-1</span>)]))</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    s_ord <span class="ot">&lt;-</span> <span class="fu">order</span>(s)</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    s <span class="ot">&lt;-</span> s[s_ord]</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    cum_prob <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(w[s_ord])</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> s, <span class="at">cdf =</span> cum_prob))</span>
+<span id="cb1-12"><a href="#cb1-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="simulating-dirichlet-processes-1" class="slide level2">
+<h2>Simulating Dirichlet processes</h2>
 
+<img data-src="12-ebayes_files/figure-revealjs/DP_sim_plot-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="estimating-a-cdf" class="slide level2">
+<h2>Estimating a cdf</h2>
+<ul>
+<li class="fragment">Suppose we have <span class="math inline">\(X_1, \ldots, X_n \iid F\)</span> and we want to estimate <span class="math inline">\(F\)</span>.</li>
+<li class="fragment">The most common estimate is the <strong>empirical cdf</strong>: <span class="math display">\[
+\hat{F}_n(x) = \frac{1}{n}\sum_{i=1}^n I(X_i \leq x).
+\]</span></li>
+<li class="fragment">The Glivenko-Cantelli theorem states that <span class="math inline">\(\hat{F}_n \to F\)</span> almost surely (in the sup norm).</li>
+<li class="fragment">A Bayesian approach is to put a prior on <span class="math inline">\(F\)</span> and find the posterior distribution of <span class="math inline">\(F\)</span>, i.e., <span class="math display">\[\begin{align*}
+X_1, \ldots, X_n &amp;\iid F\\
+F &amp; \sim \text{Dir}(\alpha, F_0).
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="posterior" class="slide level2">
+<h2>Posterior</h2>
+<ul>
+<li class="fragment">The posterior of <span class="math inline">\(F\)</span> given <span class="math inline">\(X_1,\ldots, X_n\)</span> is <span class="math display">\[
+F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n\right).
+\]</span></li>
+<li class="fragment">Hence the posterior mean is <span class="math display">\[
+\E[F \mid X_1, \ldots, X_n] = \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n.
+\]</span></li>
+<li class="fragment">For any measurable set <span class="math inline">\(A\)</span>, we have <span class="math display">\[\begin{align*}
+\E[F(A) \mid X_1, \ldots, X_n] &amp; = \frac{\alpha}{\alpha + n}F_0(A) + \frac{1}{\alpha + n}\sum_{i=1}^n\delta_{x_i}(A)
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_post_e2ee3af06c090dff0bc05bc1b2f9ef88">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>x <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(n)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>alpha <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">curve</span>(<span class="fu">pnorm</span>(x), <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb2-5"><a href="#cb2-5"></a>      <span class="at">ylab =</span> <span class="fu">TeX</span>(<span class="st">"$P(X </span><span class="sc">\\</span><span class="st">leq x)$"</span>), <span class="at">xlab =</span> <span class="st">"x"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">lines</span>(<span class="fu">ecdf</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>F_bar <span class="ot">&lt;-</span> <span class="cf">function</span>(m, alpha, n, F0, x){</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(m)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    out <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, m)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    out[u <span class="sc">&lt;</span> alpha<span class="sc">/</span>(alpha <span class="sc">+</span> n)] <span class="ot">&lt;-</span> <span class="fu">F0</span>(<span class="fu">sum</span>(u <span class="sc">&lt;</span> alpha<span class="sc">/</span>(alpha <span class="sc">+</span> n)))</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    out[u <span class="sc">&gt;=</span> alpha<span class="sc">/</span>(alpha <span class="sc">+</span> n)] <span class="ot">&lt;-</span> <span class="fu">sample</span>(x, <span class="fu">sum</span>(u <span class="sc">&gt;=</span> alpha<span class="sc">/</span>(alpha <span class="sc">+</span> n)), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    <span class="fu">return</span>(out)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<img data-src="12-ebayes_files/figure-revealjs/DP_post-1.png" width="960" class="r-stretch"></section>
+<section id="density-estimation" class="slide level2">
+<h2>Density Estimation</h2>
+<ul>
+<li class="fragment">Suppose we have <span class="math inline">\(X_1, \ldots, X_n \iid F\)</span> with density <span class="math inline">\(f\)</span> and we want to estimate <span class="math inline">\(f\)</span>.</li>
+<li class="fragment">The most common estimate is the <strong>kernel density estimate (KDE)</strong>: <span class="math display">\[
+\hat{f}_n(x) = \frac{1}{n}\sum_{i=1}^n \frac{1}{h}K\left(\frac{x-X_i}{h}\right)
+\]</span> where <span class="math inline">\(K\)</span> is a kernel function and <span class="math inline">\(h\)</span> is a bandwidth.</li>
+<li class="fragment">For example, the Gaussian kernel is <span class="math inline">\(K(u) = \exp(-u^2/2)\)</span>.</li>
+<li class="fragment">In <code>R</code>, the KDE is implemented in the function <code>density</code>.</li>
+</ul>
+</section>
+<section id="mixture-model" class="slide level2">
+<h2>Mixture model</h2>
+<ul>
+<li class="fragment">A related approach is to use a mixture model: <span class="math display">\[
+\hat{f}(x) = \sum_{i=1}^k w_if(x \mid \theta_i)
+\]</span> where <span class="math inline">\(f(x \mid \theta_i)\)</span> are density functions and <span class="math inline">\(w_i\)</span> are weights.</li>
+<li class="fragment">For example, the Gaussian mixture model (GMM) is <span class="math display">\[
+\hat{f}(x) = \sum_{i=1}^k w_i\phi(x \mid \mu_i, \sigma_i^2)
+\]</span> where <span class="math inline">\(\phi(x \mid \mu_i, \sigma_i^2)\)</span> is the density of a normal distribution with mean <span class="math inline">\(\mu_i\)</span> and variance <span class="math inline">\(\sigma_i^2\)</span>.</li>
+<li class="fragment">In fact, a GMM can approximate any density (on <span class="math inline">\(\R\)</span>) arbitrarily well.</li>
+</ul>
+</section>
+<section id="infinite-mixture-model" class="slide level2">
+<h2>Infinite mixture model</h2>
+<ul>
+<li class="fragment">We can also consider an infinite mixture model: <span class="math display">\[
+\hat{f}(x) = \sum_{i=1}^\infty w_if(x \mid \theta_i).
+\]</span></li>
+<li class="fragment">Dirichlet process is an example of infinite mixture models, since <span class="math display">\[
+F = \sum_{i=1}^{\infty}w_i \delta_{x_i}
+\]</span> where</li>
+</ul>
+</section>
+<section id="dirichlet-process-mixture-model" class="slide level2">
+<h2>Dirichlet process mixture model</h2>
+<ul>
+<li class="fragment">For density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.</li>
+<li class="fragment">Instead, we can use a Dirichlet process mixture model (DPMM): <span class="math display">\[\begin{align*}
+F \mid \alpha, F_0 &amp; \sim \text{DP}(\alpha, F_0)\\
+\theta_1, \ldots, \theta_n \mid F &amp; \iid F\\
+X_i \mid \theta_i &amp; \ind f(x \mid \theta_i).
+\end{align*}\]</span></li>
+</ul>
+</section></section>
+<section id="empirical-bayes" class="title-slide slide level1 center">
+<h1>Empirical Bayes</h1>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section>
+
+
     </div>
   </div>
 
@@ -560,6 +803,44 @@ Chun-Hao Yang
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Chun-Hao Yang">
-  <title>STAT 5010 - Lecture 11: Bayesian Nonparametrics</title>
+  <title>STAT 5010 - Lecture 11: Gaussian Process</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -394,7 +394,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 11: Bayesian Nonparametrics</h1>
+  <h1 class="title">Lecture 11: Gaussian Process</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -505,7 +505,7 @@ K(x_n, x_1) &amp; \cdots &amp; K(x_n, x_n)
 </section>
 <section id="simulating-gaussian-processes" class="slide level2">
 <h2>Simulating Gaussian processes</h2>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/GP_sim_2ea5290dabf7e5e7e374c657b47d78b0">
+<div class="cell" data-hash="11-bayes_np_cache/revealjs/GP_sim_0e1ab52871bdf8cb511f1c8c128203c3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mvtnorm)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>GP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">mean_func =</span> <span class="cf">function</span>(x){<span class="dv">0</span>},</span>
 <span id="cb1-3"><a href="#cb1-3"></a>                   <span class="at">cov_func =</span> <span class="cf">function</span>(x1, x2){<span class="fu">exp</span>(<span class="sc">-</span><span class="dv">16</span><span class="sc">*</span>(x1<span class="sc">-</span>x2)<span class="sc">^</span><span class="dv">2</span>)}, </span>
@@ -576,71 +576,6 @@ K(\mathbf{x}^{\prime}, \mathbf{x}) &amp; K(\mathbf{x}^{\prime}, \mathbf{x}^{\pri
 </section>
 <section id="kernel" class="slide level2">
 <h2>Kernel</h2>
-</section></section>
-<section>
-<section id="dirichlet-process" class="title-slide slide level1 center">
-<h1>Dirichlet Process</h1>
-
-</section>
-<section id="dirichlet-distribution" class="slide level2">
-<h2>Dirichlet distribution</h2>
-<ul>
-<li class="fragment">Beta distribution <span class="math inline">\(p \sim \text{Beta}(\alpha, \beta)\)</span>:<br>
-<span class="math display">\[
-f(p \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \quad p \in [0,1].
-\]</span></li>
-<li class="fragment">Alternative parameterization: <span class="math inline">\(\alpha^{\prime} = \alpha + \beta\)</span>, <span class="math inline">\(\nu = \frac{\alpha}{\alpha + \beta} = \E(p)\)</span>.</li>
-<li class="fragment">Dirichlet distribution <span class="math inline">\((p_1, p_2, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)\)</span>: <span class="math display">\[
-f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) =
-\frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
-\]</span> where <span class="math inline">\(p_i \in [0,1]\)</span> and <span class="math inline">\(\sum_{i=1}^k p_i = 1\)</span>.</li>
-<li class="fragment">Alternative: <span class="math inline">\(\alpha = \sum_{i=1}^k\alpha_i\)</span> and <span class="math inline">\(\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]\)</span>.</li>
-</ul>
-</section>
-<section id="definition-1" class="slide level2">
-<h2>Definition</h2>
-<p>A ``random distribution’’ <span class="math inline">\(F\)</span> is said to follow a Dirichlet process, denoted by <span class="math display">\[
-F \sim \mc{DP}(\alpha, F_0),
-\]</span> if for <strong>any</strong> measurable partition <span class="math inline">\(B_1, \ldots, B_n\)</span> of the sample space of <span class="math inline">\(F_0\)</span>, the random vector <span class="math inline">\((F(B_1), \ldots, F(B_n))\)</span> has a Dirichlet distribution, i.e., <span class="math display">\[
-(F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
-\]</span></p>
-<ul>
-<li class="fragment">The parameter <span class="math inline">\(\alpha &gt; 0\)</span> is called the <strong>concentration parameter</strong>.</li>
-<li class="fragment">The parameter <span class="math inline">\(F_0\)</span> is called the <strong>mean distribution</strong>.</li>
-</ul>
-</section>
-<section id="simulating-dirichlet-process" class="slide level2">
-<h2>Simulating Dirichlet process</h2>
-<ol type="1">
-<li class="fragment">Draw <span class="math inline">\(s_1, s_2, \ldots\)</span> independently from <span class="math inline">\(F_0\)</span>.</li>
-<li class="fragment">Draw <span class="math inline">\(V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)\)</span>.</li>
-<li class="fragment">Let <span class="math inline">\(w_1=V_1\)</span> and <span class="math inline">\(w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)\)</span> for <span class="math inline">\(j=2,3, \ldots\)</span></li>
-<li class="fragment">Let <span class="math inline">\(F\)</span> be the discrete distribution that puts mass <span class="math inline">\(w_j\)</span> at <span class="math inline">\(s_j\)</span>, that is, <span class="math inline">\(F=\sum_{j=1}^{\infty} w_j \delta_{s_j}\)</span> where <span class="math inline">\(\delta_{s_j}\)</span> is a point mass at <span class="math inline">\(s_j\)</span>.</li>
-</ol>
-</section>
-<section id="simulating-dirichlet-processes" class="slide level2">
-<h2>Simulating Dirichlet processes</h2>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/DP_sim_1a2e9713105f085693732884b2bf3eed">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(MCMCpack)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>DP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">to =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="dv">10</span>, <span class="at">F0 =</span> dnorm, <span class="at">m =</span> <span class="dv">100</span>){</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    x <span class="ot">&lt;-</span> <span class="fu">seq</span>(from, to, <span class="at">length.out =</span> m)</span>
-<span id="cb2-4"><a href="#cb2-4"></a>    x_mid <span class="ot">&lt;-</span> (x[<span class="dv">2</span><span class="sc">:</span>m] <span class="sc">+</span> x[<span class="dv">1</span><span class="sc">:</span>(m<span class="dv">-1</span>)])<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>    nu <span class="ot">&lt;-</span> <span class="fu">F0</span>(x_mid)<span class="sc">*</span>(x[<span class="dv">2</span><span class="sc">:</span>m] <span class="sc">-</span> x[<span class="dv">1</span><span class="sc">:</span>(m<span class="dv">-1</span>)])</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    y <span class="ot">&lt;-</span> <span class="fu">rdirichlet</span>(<span class="dv">1</span>, alpha<span class="sc">*</span>nu)</span>
-<span id="cb2-7"><a href="#cb2-7"></a>    y <span class="ot">&lt;-</span> y<span class="sc">/</span>(x[<span class="dv">2</span><span class="sc">:</span>m] <span class="sc">-</span> x[<span class="dv">1</span><span class="sc">:</span>(m<span class="dv">-1</span>)]) <span class="co"># make it a density</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x_mid, <span class="at">y =</span> y))</span>
-<span id="cb2-9"><a href="#cb2-9"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/unnamed-chunk-4_c716568c53b53db6da5280e06c5b2c72">
-<div class="cell-output-display">
-<p><img data-src="11-bayes_np_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
-</div>
-</div>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/unnamed-chunk-6_653956d3498095314ac08da25567e1b4">
-<div class="cell-output-display">
-<p><img data-src="11-bayes_np_files/figure-revealjs/unnamed-chunk-6-1.png" width="960"></p>
-</div>
-</div>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>

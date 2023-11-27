@@ -1,3 +1,214 @@
 ---
-title: "Lecture 11: Empirical Bayes"
+title: "Lecture 12: Dirichlet Process"
+author: "Chun-Hao Yang"
+footer: "[Home](https://chunhaoy.com/stat-5010/)"
+format: 
+    revealjs:
+        theme: slides.scss
+        chalkboard: true
+        slide-number: true
+        html-math-method: mathjax
+        incremental: true
+        scrollable: true
+        include-in-header: 
+            - text: 
+                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
+execute:
+    echo: false
+    warning: false
+    cache: true
+    freeze: true
 ---
+
+# Dirichlet Process
+
+{{< include macro.qmd >}}
+
+## Dirichlet distribution
+
+-   Beta distribution $p \sim \text{Beta}(\alpha, \beta)$:  
+    $$
+    f(p \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \quad p \in [0,1].
+    $$
+-   Alternative parameterization: $\alpha^{\prime} = \alpha + \beta$, $\nu = \frac{\alpha}{\alpha + \beta} = \E(p)$.
+-   Dirichlet distribution $(p_1, p_2, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$: 
+    $$
+    f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) = 
+    \frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
+    $$
+    where $p_i \in [0,1]$ and $\sum_{i=1}^k p_i = 1$.
+-   Alternative: $\alpha = \sum_{i=1}^k\alpha_i$ and $\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]$.
+
+## Definition
+A ``random distribution'' $F$ is said to follow a Dirichlet process, denoted by 
+$$
+F \sim \mc{DP}(\alpha, F_0),
+$$
+if for **any** measurable partition $B_1, \ldots, B_n$ of the sample space of $F_0$, the random vector $(F(B_1), \ldots, F(B_n))$ has a Dirichlet distribution, i.e.,
+$$
+(F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
+$$
+
+-   The parameter $\alpha > 0$ is called the **concentration parameter**.
+-   The parameter $F_0$ is called the **mean distribution**.
+
+## Simulating Dirichlet processes[^ref]
+
+1. Draw $s_1, s_2, \ldots$ independently from $F_0$.
+2. Draw $V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)$.
+3. Let $w_1=V_1$ and $w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)$ for $j=2,3, \ldots$
+4. Let $F$ be the discrete distribution that puts mass $w_j$ at $s_j$, that is, $F=\sum_{j=1}^{\infty} w_j \delta_{s_j}$ where $\delta_{s_j}$ is a point mass at $s_j$.
+
+[^ref]: <https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf>
+
+
+## Simulating Dirichlet processes
+
+```{r}
+#| label: DP_sim
+#| echo: true
+library(MCMCpack)
+DP_sim <- function(alpha = 10, F0 = rnorm, n = 1e3){
+    s <- F0(n)
+    V <- rbeta(n, 1, alpha)
+    w <- c(V[1], rep(0, n-1))
+    w[2:n] <- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))
+    s_ord <- order(s)
+    s <- s[s_ord]
+    cum_prob <- cumsum(w[s_ord])
+
+    return(list(x = s, cdf = cum_prob))
+}
+```
+
+## Simulating Dirichlet processes
+
+```{r, fig.width = 10}
+#| label: DP_sim_plot
+#| fig-align: center
+library(latex2exp)
+set.seed(2023)
+par(mfrow = c(1, 2))
+curve(pnorm(x), -3, 3, lty = 2, lwd = 2, 
+      ylab = TeX("$P(X \\leq x)$"), xlab = "x",
+      main = TeX("$\\alpha = 10$, $F_0 = N(0,1)$"))
+for(i in 1:10){
+    f <- DP_sim()
+    lines(f$x, f$cdf, col = i)
+}
+
+curve(pgamma(x, 5, 3), 0, 5, lty = 2, lwd = 2, 
+      ylab = TeX("$P(X \\leq x)$"), xlab = "x",
+      main = TeX("$\\alpha = 10$, $F_0 =$ Gamma(5,3)$"))
+for(i in 1:10){
+    f <- DP_sim(alpha = 10, F0 = function(x) rgamma(x, 5, 3))
+    lines(f$x, f$cdf, col = i)
+}
+```
+
+## Estimating a cdf
+
+-   Suppose we have $X_1, \ldots, X_n \iid F$ and we want to estimate $F$.
+-   The most common estimate is the **empirical cdf**:
+    $$
+    \hat{F}_n(x) = \frac{1}{n}\sum_{i=1}^n I(X_i \leq x).
+    $$
+-   The Glivenko-Cantelli theorem states that $\hat{F}_n \to F$ almost surely (in the sup norm).
+-   A Bayesian approach is to put a prior on $F$ and find the posterior distribution of $F$, i.e.,
+    \begin{align*}
+    X_1, \ldots, X_n &\iid F\\
+    F & \sim \text{Dir}(\alpha, F_0).
+    \end{align*}
+
+## Posterior
+
+-   The posterior of $F$ given $X_1,\ldots, X_n$ is 
+    $$
+    F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n\right).
+    $$
+-   Hence the posterior mean is 
+    $$
+    \E[F \mid X_1, \ldots, X_n] = \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n.
+    $$
+-   For any measurable set $A$, we have
+    \begin{align*}
+    \E[F(A) \mid X_1, \ldots, X_n] & = \frac{\alpha}{\alpha + n}F_0(A) + \frac{1}{\alpha + n}\sum_{i=1}^n\delta_{x_i}(A)
+    \end{align*}
+
+## Example
+
+```{r}
+#| label: DP_post
+#| echo: true
+n <- 10
+x <- rcauchy(n)
+alpha <- 10
+curve(pnorm(x), -5, 5, lty = 2, lwd = 2, 
+      ylab = TeX("$P(X \\leq x)$"), xlab = "x")
+lines(ecdf(x), col = "red", lwd = 2)
+F_bar <- function(m, alpha, n, F0, x){
+    u <- runif(m)
+    out <- rep(NA, m)
+    out[u < alpha/(alpha + n)] <- F0(sum(u < alpha/(alpha + n)))
+    out[u >= alpha/(alpha + n)] <- sample(x, sum(u >= alpha/(alpha + n)), replace = TRUE)
+    return(out)
+}
+
+```
+
+## Density Estimation
+
+-   Suppose we have $X_1, \ldots, X_n \iid F$ with density $f$ and we want to estimate $f$.
+-   The most common estimate is the **kernel density estimate (KDE)**:
+    $$
+    \hat{f}_n(x) = \frac{1}{n}\sum_{i=1}^n \frac{1}{h}K\left(\frac{x-X_i}{h}\right)
+    $$
+    where $K$ is a kernel function and $h$ is a bandwidth.
+-   For example, the Gaussian kernel is $K(u) = \exp(-u^2/2)$.
+-   In `R`, the KDE is implemented in the function `density`.
+
+## Mixture model
+
+-   A related approach is to use a mixture model:
+    $$
+    \hat{f}(x) = \sum_{i=1}^k w_if(x \mid \theta_i)
+    $$
+    where $f(x \mid \theta_i)$ are density functions and $w_i$ are weights.
+-   For example, the Gaussian mixture model (GMM) is
+    $$
+    \hat{f}(x) = \sum_{i=1}^k w_i\phi(x \mid \mu_i, \sigma_i^2)
+    $$
+    where $\phi(x \mid \mu_i, \sigma_i^2)$ is the density of a normal distribution with mean $\mu_i$ and variance $\sigma_i^2$.
+-   In fact, a GMM can approximate any density (on $\R$) arbitrarily well.
+
+## Infinite mixture model
+
+-   We can also consider an infinite mixture model:
+    $$
+    \hat{f}(x) = \sum_{i=1}^\infty w_if(x \mid \theta_i).
+    $$
+-   Dirichlet process is an example of infinite mixture models, since
+    $$
+    F = \sum_{i=1}^{\infty}w_i \delta_{x_i}
+    $$
+    where 
+    
+
+
+## Dirichlet process mixture model
+
+-   For density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.
+-   Instead, we can use a Dirichlet process mixture model (DPMM):
+    \begin{align*}
+    F \mid \alpha, F_0 & \sim \text{DP}(\alpha, F_0)\\
+    \theta_1, \ldots, \theta_n \mid F & \iid F\\
+    X_i \mid \theta_i & \ind f(x \mid \theta_i).
+    \end{align*}
+
+# Empirical Bayes
+
+
+
+
+
+

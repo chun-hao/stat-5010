@@ -142,42 +142,42 @@
   {
     "objectID": "slides/11-bayes_np.html#non--semi--and-parametric-models",
     "href": "slides/11-bayes_np.html#non--semi--and-parametric-models",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Non-, Semi-, and Parametric Models",
     "text": "Non-, Semi-, and Parametric Models\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nWhat we have learned so far are called parametric models, i.e., models that are determined by a finite number of parameters.\nNonparametric models are models whose ``parameter’’ is infinite dimensional.\nTwo common types of nonparametric models:\n\nNonparametric regression: \\(Y = f(X) + \\epsilon\\), where \\(f\\) is an unknown function.\nNonparametric density estimation: \\(X_1, \\ldots, X_n \\iid F\\), where \\(F\\) is an unknown distribution (without assuming any parametric family).\n\nSemiparametric models are models that have both parametric and nonparametric components, e.g., \\(Y = X^T\\beta + f(Z) + \\epsilon\\)."
   },
   {
     "objectID": "slides/11-bayes_np.html#bayesian-nonparametrics",
     "href": "slides/11-bayes_np.html#bayesian-nonparametrics",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Bayesian Nonparametrics",
     "text": "Bayesian Nonparametrics\n\nFor a nonparametric model, a Bayesian treats the unknown function/distribution as the parameter.\nTherefore, we need prior distributions for these parameters.\nWe will introduce two “distributions” that are useful for nonparametric models:\n\nGaussian process (GP, the “distribution” of random functions)\nDirichlet process (DP, the “distribution” of random distributions)\n\nThat is,\n\n\\(Y = f(x) + \\epsilon\\), \\(f \\sim \\text{GP}\\), \\(\\epsilon \\sim N(0, \\sigma^2)\\).\n\\(X_1, \\ldots, X_n \\sim F\\), \\(F \\sim \\text{DP}\\)."
   },
   {
     "objectID": "slides/11-bayes_np.html#why-nonparametrics",
     "href": "slides/11-bayes_np.html#why-nonparametrics",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Why nonparametrics?",
     "text": "Why nonparametrics?"
   },
   {
     "objectID": "slides/11-bayes_np.html#parametric-nonlinear-model",
     "href": "slides/11-bayes_np.html#parametric-nonlinear-model",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Parametric nonlinear model",
     "text": "Parametric nonlinear model"
   },
   {
     "objectID": "slides/11-bayes_np.html#definition",
     "href": "slides/11-bayes_np.html#definition",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Definition",
     "text": "Definition\nA ``random function’’ \\(f\\) is said to follow a Gaussian process, denoted by \\[\nf \\sim \\mc{GP}(\\mu, K),\n\\] if for any \\(x_1, \\ldots, x_n\\), the random vector \\((f(x_1), \\ldots, f(x_n))\\) has a multivariate normal distribution, i.e., \\[\n\\left[\\begin{array}{c}\nf(x_1)\\\\\n\\vdots\\\\\nf(x_n)\n\\end{array}\\right] \\sim N\\left(\\left[\\begin{array}{c}\n\\mu(x_1)\\\\\n\\vdots\\\\\n\\mu(x_n),\n\\end{array}\\right], \\left[\\begin{array}{ccc}\nK(x_1, x_1) & \\cdots & K(x_1, x_n)\\\\\n\\vdots & \\ddots & \\vdots\\\\\nK(x_n, x_1) & \\cdots & K(x_n, x_n)\n\\end{array}\\right]\\right).\n\\]\n\nThe parameter \\(\\mu: \\R \\to \\R\\) is called the mean function.\nThe parameter \\(K: \\R \\times \\R \\to \\R\\) is called the covariance function/operator or kernel.\nThe kernel \\(K\\) needs to be symmetric and positive definite, i.e, for any \\(x_1, \\ldots, x_n \\in \\R\\), the matrix above is symmetric and positive definite."
   },
   {
     "objectID": "slides/11-bayes_np.html#commonly-used-kernels",
     "href": "slides/11-bayes_np.html#commonly-used-kernels",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Commonly used kernels",
     "text": "Commonly used kernels\n\nNotation: for \\(x, x^{\\prime} \\in \\R^n\\), \\(K(x, x^{\\prime})\\) is an \\(n \\times n\\) matrix whose \\((i,j)\\)th entry is \\(K(x_i, x^{\\prime}_j)\\).\nLinear kernel: \\(K(x, x^{\\prime}) = x^Tx^{\\prime}\\).\nPolynomial kernel: \\(K_{c,d}(x, x^{\\prime}) = (x^Tx^{\\prime} + c)^d\\).\nGaussian kernel: \\(K_{\\sigma}(x, x^{\\prime}) = \\exp\\left(-\\frac{\\|x-x^{\\prime}\\|^2}{2\\sigma^2}\\right)\\)."
   },
@@ -191,72 +191,72 @@
   {
     "objectID": "slides/11-bayes_np.html#gaussian-process-regression",
     "href": "slides/11-bayes_np.html#gaussian-process-regression",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Gaussian Process Regression",
     "text": "Gaussian Process Regression\n\nSuppose we observe \\(\\{x_i, y_i\\}_{i=1}^n\\), \\(x_i, y_i \\in \\R\\).\nLet \\(\\mathbf{y} = [y_1, \\ldots, y_n]^T\\) and \\(\\mathbf{x} = [x_1, \\ldots, x_n]^T\\).\nConsider the model: \\[\\begin{align*}\n\\mathbf{Y} \\mid f, \\mathbf{x}, \\sigma^2 &\\sim N(f(\\mathbf{x}), \\sigma^2I_n)\\\\\nf \\mid \\mu, K &\\sim \\mc{GP}(\\mu, K).\n\\end{align*}\\]\nThe GP prior is equivalent to \\(f(\\mathbf{x}) \\mid \\mathbf{x}, \\mu, K \\sim N(\\mu(\\mathbf{x}), K(\\mathbf{x}, \\mathbf{x}))\\).\nWe need to compute two distributions:\n\nThe posterior distribution of \\(f\\) given \\(\\mathbf{y}\\) and \\(\\mathbf{x}\\).\nThe posterior predictive distribution of \\(f(\\mathbf{x}^{\\prime})\\) given \\(\\mathbf{y}\\) and \\(\\mathbf{x}\\)."
   },
   {
     "objectID": "slides/11-bayes_np.html#posterior-predictive-distribution",
     "href": "slides/11-bayes_np.html#posterior-predictive-distribution",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Posterior Predictive Distribution",
     "text": "Posterior Predictive Distribution\n\nThe posterior distribution of \\(f\\) is \\[\nf \\mid\n\\]"
   },
   {
     "objectID": "slides/11-bayes_np.html#derivation",
     "href": "slides/11-bayes_np.html#derivation",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Derivation",
     "text": "Derivation\n\nFor any \\(m\\) and \\(\\mathbf{x}^{\\prime} \\in \\R^m\\), \\[\n\\left[\\begin{array}{c}\nf(\\mathbf{x})\\\\\nf(\\mathbf{x}^{\\prime})\n\\end{array}\n\\right] \\sim N\\left(\\left[\\begin{array}{c}\n\\mu(\\mathbf{x})\\\\\n\\mu(\\mathbf{x}^{\\prime})\n\\end{array}\\right], \\left[\\begin{array}{cc}\nK(\\mathbf{x}, \\mathbf{x}) & K(\\mathbf{x}, \\mathbf{x}^{\\prime})\\\\\nK(\\mathbf{x}^{\\prime}, \\mathbf{x}) & K(\\mathbf{x}^{\\prime}, \\mathbf{x}^{\\prime})\n\\end{array}\\right]\\right).\n\\]"
   },
   {
     "objectID": "slides/11-bayes_np.html#gaussian-process-regression-1",
     "href": "slides/11-bayes_np.html#gaussian-process-regression-1",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Gaussian Process Regression",
     "text": "Gaussian Process Regression"
   },
   {
     "objectID": "slides/11-bayes_np.html#posterior",
     "href": "slides/11-bayes_np.html#posterior",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Posterior",
     "text": "Posterior"
   },
   {
     "objectID": "slides/11-bayes_np.html#prediction",
     "href": "slides/11-bayes_np.html#prediction",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Prediction",
     "text": "Prediction"
   },
   {
     "objectID": "slides/11-bayes_np.html#kernel",
     "href": "slides/11-bayes_np.html#kernel",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Kernel",
-    "text": "Kernel"
+    "text": "Kernel\n\n\nHome"
   },
   {
     "objectID": "slides/11-bayes_np.html#dirichlet-distribution",
     "href": "slides/11-bayes_np.html#dirichlet-distribution",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Dirichlet distribution",
     "text": "Dirichlet distribution\n\nBeta distribution \\(p \\sim \\text{Beta}(\\alpha, \\beta)\\):\n\\[\nf(p \\mid \\alpha, \\beta) = \\frac{\\Gamma(\\alpha + \\beta)}{\\Gamma(\\alpha)\\Gamma(\\beta)}p^{\\alpha-1}(1-p)^{\\beta-1}, \\quad p \\in [0,1].\n\\]\nAlternative parameterization: \\(\\alpha^{\\prime} = \\alpha + \\beta\\), \\(\\nu = \\frac{\\alpha}{\\alpha + \\beta} = \\E(p)\\).\nDirichlet distribution \\((p_1, p_2, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\): \\[\nf(p_1, \\ldots, p_k \\mid \\alpha_1, \\ldots, \\alpha_k) =\n\\frac{\\Gamma(\\alpha_1 + \\cdots + \\alpha_k)}{\\Gamma(\\alpha_1)\\cdots\\Gamma(\\alpha_k)} p_1^{\\alpha_1-1}\\cdots p_k^{\\alpha_k-1}\n\\] where \\(p_i \\in [0,1]\\) and \\(\\sum_{i=1}^k p_i = 1\\).\nAlternative: \\(\\alpha = \\sum_{i=1}^k\\alpha_i\\) and \\(\\nu = \\left(\\alpha_1/\\alpha, \\ldots \\alpha_k/\\alpha\\right) = \\E[(p_1, \\ldots, p_k)]\\)."
   },
   {
     "objectID": "slides/11-bayes_np.html#definition-1",
     "href": "slides/11-bayes_np.html#definition-1",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Definition",
     "text": "Definition\nA ``random distribution’’ \\(F\\) is said to follow a Dirichlet process, denoted by \\[\nF \\sim \\mc{DP}(\\alpha, F_0),\n\\] if for any measurable partition \\(B_1, \\ldots, B_n\\) of the sample space of \\(F_0\\), the random vector \\((F(B_1), \\ldots, F(B_n))\\) has a Dirichlet distribution, i.e., \\[\n(F(B_1), \\ldots, F(B_n)) \\sim \\text{Dir}(\\alpha F_0(B_1), \\ldots, \\alpha F_0(B_n)).\n\\]\n\nThe parameter \\(\\alpha &gt; 0\\) is called the concentration parameter.\nThe parameter \\(F_0\\) is called the mean distribution."
   },
   {
     "objectID": "slides/11-bayes_np.html#example",
     "href": "slides/11-bayes_np.html#example",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Example",
-    "text": "Example\n\n\nHome"
+    "text": "Example\n\nn &lt;- 10\nx &lt;- rcauchy(n)\nalpha &lt;- 10\ncurve(pnorm(x), -5, 5, lty = 2, lwd = 2, \n      ylab = TeX(\"$P(X \\\\leq x)$\"), xlab = \"x\")\nlines(ecdf(x), col = \"red\", lwd = 2)\n\nF_bar &lt;- function(m, alpha, n, F0, x){\n    u &lt;- runif(m)\n    out &lt;- rep(NA, m)\n    out[u &lt; alpha/(alpha + n)] &lt;- F0(sum(u &lt; alpha/(alpha + n)))\n    out[u &gt;= alpha/(alpha + n)] &lt;- sample(x, sum(u &gt;= alpha/(alpha + n)), replace = TRUE)\n    return(out)\n}"
   },
   {
     "objectID": "slides/09-regression.html#linear-regression",
@@ -1530,14 +1530,14 @@
     "href": "index.html",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nSlide\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\nSlide Survey\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nSlide\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\nSlide Survey\nBDA Ch. 16, 18\n\n\n13\n11/28\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n14\n12/5\nEmpirical Bayes\n\nBC Ch. 10\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#course-schedule",
     "href": "index.html#course-schedule",
     "title": "Bayesian Statistical Methods (Fall 2023)",
     "section": "",
-    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nSlide\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\nSlide Survey\nBDA Ch. 16, 18\n\n\n13\n11/28\nEmpirical Bayes\n\nBC Ch. 10\n\n\n14\n12/5\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
+    "text": "Week\nDate\nTopics\nLecture\nReading\n\n\n\n\n1\n9/5\nIntroduction & History of Bayes Theorem\nSlide\n\n\n\n2\n9/12\nOne-parameter Models; Conjugate Priors\nSlide\nHoff Ch. 1-3, BC Ch. 1\n\n\n3\n9/19\nPrior Information and Prior Distribution\nSlide\nBC Ch. 3\n\n\n4\n9/26\nDecision Theory and Bayesian Estimation\nSlide\nBC Ch. 2, 4\n\n\n5\n10/3\nConnections to non-Bayesian Analysis; Hierarchical Models\nSlide\nBDA Ch. 4, 5\n\n\n6\n10/10\nNo class (National Holiday)\n\n\n\n\n7\n10/17\nTesting and Model Comparison\nSlide\nBC Ch. 5, 7, BDA Ch. 6, 7\n\n\n8\n10/24\nProject Proposal\n\n\n\n\n9\n10/31\nMetropolis-Hastings algorithms; Gibbs sampler\nSlide\nBDA Ch. 10-11\n\n\n10\n11/7\nHamiltonian Monte Carlo; Variational Inference\nSlide\nBDA Ch. 12-13\n\n\n11\n11/14\nBayesian regression\nSlide\nBDA Ch. 14\n\n\n12\n11/21\nGeneralized Linear Models; Latent Variable Model\nSlide Survey\nBDA Ch. 16, 18\n\n\n13\n11/28\nBayesian Nonparametrics\n\nBDA Ch. 21, 23\n\n\n14\n12/5\nEmpirical Bayes\n\nBC Ch. 10\n\n\n15\n12/12\nFinal Project Presentation\n\n\n\n\n16\n12/19\nFinal Project Presentation"
   },
   {
     "objectID": "index.html#important-dates",
@@ -2564,23 +2564,23 @@
   {
     "objectID": "slides/11-bayes_np.html#simulating-gaussian-processes",
     "href": "slides/11-bayes_np.html#simulating-gaussian-processes",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Simulating Gaussian processes",
     "text": "Simulating Gaussian processes\n\nlibrary(mvtnorm)\nGP_sim &lt;- function(from = 0, to = 1, mean_func = function(x){0},\n                   cov_func = function(x1, x2){exp(-16*(x1-x2)^2)}, \n                   m = 500){\n    x &lt;- seq(from, to, length.out = m)\n    mu &lt;- sapply(x, mean_func)\n    Sigma &lt;- outer(x, x, Vectorize(cov_func))\n    y &lt;- rmvnorm(1, mu, Sigma)\n    return(list(x = x, y = y))\n}"
   },
   {
     "objectID": "slides/11-bayes_np.html#simulating-gaussian-processes-1",
     "href": "slides/11-bayes_np.html#simulating-gaussian-processes-1",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Simulating Gaussian processes",
     "text": "Simulating Gaussian processes"
   },
   {
     "objectID": "slides/11-bayes_np.html#simulating-dirichlet-processes",
     "href": "slides/11-bayes_np.html#simulating-dirichlet-processes",
-    "title": "Lecture 11: Bayesian Nonparametrics",
+    "title": "Lecture 11: Gaussian Process",
     "section": "Simulating Dirichlet processes",
-    "text": "Simulating Dirichlet processes\n\nlibrary(MCMCpack)\nDP_sim &lt;- function(from = -3, to = 3, alpha = 10, F0 = dnorm, m = 100){\n    x &lt;- seq(from, to, length.out = m)\n    x_mid &lt;- (x[2:m] + x[1:(m-1)])/2\n    nu &lt;- F0(x_mid)*(x[2:m] - x[1:(m-1)])\n    y &lt;- rdirichlet(1, alpha*nu)\n    y &lt;- y/(x[2:m] - x[1:(m-1)]) # make it a density\n    return(list(x = x_mid, y = y))\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\nHome"
+    "text": "Simulating Dirichlet processes\n\nlibrary(MCMCpack)\nDP_sim &lt;- function(alpha = 10, F0 = rnorm, n = 1e3){\n    s &lt;- F0(n)\n    V &lt;- rbeta(n, 1, alpha)\n    w &lt;- c(V[1], rep(0, n-1))\n    w[2:n] &lt;- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))\n    s_ord &lt;- order(s)\n    s &lt;- s[s_ord]\n    cum_prob &lt;- cumsum(w[s_ord])\n\n    return(list(x = s, cdf = cum_prob))\n}"
   },
   {
     "objectID": "slides/11-bayes_np.html#simulating-dirichlet-process",
@@ -2588,5 +2588,145 @@
     "title": "Lecture 11: Bayesian Nonparametrics",
     "section": "Simulating Dirichlet process",
     "text": "Simulating Dirichlet process\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\)."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#simulating-dirichlet-processesref",
+    "href": "slides/11-bayes_np.html#simulating-dirichlet-processesref",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Simulating Dirichlet processes1",
+    "text": "Simulating Dirichlet processes1\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\).\n\nhttps://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#simulating-dirichlet-processes-1",
+    "href": "slides/11-bayes_np.html#simulating-dirichlet-processes-1",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Simulating Dirichlet processes",
+    "text": "Simulating Dirichlet processes"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#estimating-a-cdf",
+    "href": "slides/11-bayes_np.html#estimating-a-cdf",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Estimating a cdf",
+    "text": "Estimating a cdf\n\nSuppose we have \\(X_1, \\ldots, X_n \\iid F\\) and we want to estimate \\(F\\).\nThe most common estimate is the empirical cdf: \\[\n\\hat{F}_n(x) = \\frac{1}{n}\\sum_{i=1}^n I(X_i \\leq x).\n\\]\nThe Glivenko-Cantelli theorem states that \\(\\hat{F}_n \\to F\\) almost surely (in the sup norm).\nA Bayesian approach is to put a prior on \\(F\\) and find the posterior distribution of \\(F\\), i.e., \\[\\begin{align*}\nX_1, \\ldots, X_n &\\iid F\\\\\nF & \\sim \\text{Dir}(\\alpha, F_0).\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#posterior-1",
+    "href": "slides/11-bayes_np.html#posterior-1",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Posterior",
+    "text": "Posterior\n\nThe posterior of \\(F\\) given \\(X_1,\\ldots, X_n\\) is \\[\nF \\mid X_1, \\ldots, X_n \\sim \\text{Dir}\\left(\\alpha + n, \\frac{\\alpha}{\\alpha + n}F_0 + \\frac{n}{\\alpha + n}\\hat{F}_n\\right).\n\\]\nHence the posterior mean is \\[\n\\E[F \\mid X_1, \\ldots, X_n] = \\frac{\\alpha}{\\alpha + n}F_0 + \\frac{n}{\\alpha + n}\\hat{F}_n.\n\\]\nFor any measurable set \\(A\\), we have \\[\\begin{align*}\n\\E[F(A) \\mid X_1, \\ldots, X_n] & = \\frac{\\alpha}{\\alpha + n}F_0(A) + \\frac{1}{\\alpha + n}\\sum_{i=1}^n\\delta_{x_i}(A)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#dirichlet-process-mixture-model",
+    "href": "slides/11-bayes_np.html#dirichlet-process-mixture-model",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Dirichlet process mixture model",
+    "text": "Dirichlet process mixture model\n\nFor density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.\nInstead, we can use a Dirichlet process mixture model (DPMM): \\[\\begin{align*}\nF \\mid \\alpha, F_0 & \\sim \\text{DP}(\\alpha, F_0)\\\\\n\\theta_1, \\ldots, \\theta_n & \\iid F\\\\\nX_i \\mid \\theta_i & \\sim f(x \\mid \\theta_i).\n\\end{align*}\\]\n\n\n\nHome"
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#density-estimation",
+    "href": "slides/11-bayes_np.html#density-estimation",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Density Estimation",
+    "text": "Density Estimation\n\nSuppose we have \\(X_1, \\ldots, X_n \\iid F\\) with density \\(f\\) and we want to estimate \\(f\\).\nThe most common estimate is the kernel density estimate (KDE): \\[\n\\hat{f}_n(x) = \\frac{1}{n}\\sum_{i=1}^n \\frac{1}{h}K\\left(\\frac{x-X_i}{h}\\right)\n\\] where \\(K\\) is a kernel function and \\(h\\) is a bandwidth.\nFor example, the Gaussian kernel is \\(K(u) = \\exp(-u^2/2)\\).\nIn R, the KDE is implemented in the function density."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#mixture-model",
+    "href": "slides/11-bayes_np.html#mixture-model",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Mixture model",
+    "text": "Mixture model\n\nA related approach is to use a mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_if(x \\mid \\theta_i)\n\\] where \\(f(x \\mid \\theta_i)\\) are density functions and \\(w_i\\) are weights.\nFor example, the Gaussian mixture model (GMM) is \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_i\\phi(x \\mid \\mu_i, \\sigma_i^2)\n\\] where \\(\\phi(x \\mid \\mu_i, \\sigma_i^2)\\) is the density of a normal distribution with mean \\(\\mu_i\\) and variance \\(\\sigma_i^2\\).\nIn fact, a GMM can approximate any density (on \\(\\R\\)) arbitrarily well."
+  },
+  {
+    "objectID": "slides/11-bayes_np.html#infinite-mixture-model",
+    "href": "slides/11-bayes_np.html#infinite-mixture-model",
+    "title": "Lecture 11: Gaussian Process",
+    "section": "Infinite mixture model",
+    "text": "Infinite mixture model\n\nWe can also consider an infinite mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^\\infty w_if(x \\mid \\theta_i).\n\\]\nDirichlet process is an example of infinite mixture models, since \\[\nF = \\sum_{i=1}^{\\infty}w_i \\delta_{x_i}\n\\] where"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#dirichlet-distribution",
+    "href": "slides/12-ebayes.html#dirichlet-distribution",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Dirichlet distribution",
+    "text": "Dirichlet distribution\n\nBeta distribution \\(p \\sim \\text{Beta}(\\alpha, \\beta)\\):\n\\[\nf(p \\mid \\alpha, \\beta) = \\frac{\\Gamma(\\alpha + \\beta)}{\\Gamma(\\alpha)\\Gamma(\\beta)}p^{\\alpha-1}(1-p)^{\\beta-1}, \\quad p \\in [0,1].\n\\]\nAlternative parameterization: \\(\\alpha^{\\prime} = \\alpha + \\beta\\), \\(\\nu = \\frac{\\alpha}{\\alpha + \\beta} = \\E(p)\\).\nDirichlet distribution \\((p_1, p_2, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\): \\[\nf(p_1, \\ldots, p_k \\mid \\alpha_1, \\ldots, \\alpha_k) =\n\\frac{\\Gamma(\\alpha_1 + \\cdots + \\alpha_k)}{\\Gamma(\\alpha_1)\\cdots\\Gamma(\\alpha_k)} p_1^{\\alpha_1-1}\\cdots p_k^{\\alpha_k-1}\n\\] where \\(p_i \\in [0,1]\\) and \\(\\sum_{i=1}^k p_i = 1\\).\nAlternative: \\(\\alpha = \\sum_{i=1}^k\\alpha_i\\) and \\(\\nu = \\left(\\alpha_1/\\alpha, \\ldots \\alpha_k/\\alpha\\right) = \\E[(p_1, \\ldots, p_k)]\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#definition",
+    "href": "slides/12-ebayes.html#definition",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Definition",
+    "text": "Definition\nA ``random distribution’’ \\(F\\) is said to follow a Dirichlet process, denoted by \\[\nF \\sim \\mc{DP}(\\alpha, F_0),\n\\] if for any measurable partition \\(B_1, \\ldots, B_n\\) of the sample space of \\(F_0\\), the random vector \\((F(B_1), \\ldots, F(B_n))\\) has a Dirichlet distribution, i.e., \\[\n(F(B_1), \\ldots, F(B_n)) \\sim \\text{Dir}(\\alpha F_0(B_1), \\ldots, \\alpha F_0(B_n)).\n\\]\n\nThe parameter \\(\\alpha &gt; 0\\) is called the concentration parameter.\nThe parameter \\(F_0\\) is called the mean distribution."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#simulating-dirichlet-processesref",
+    "href": "slides/12-ebayes.html#simulating-dirichlet-processesref",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Simulating Dirichlet processes1",
+    "text": "Simulating Dirichlet processes1\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\).\n\nhttps://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#simulating-dirichlet-processes",
+    "href": "slides/12-ebayes.html#simulating-dirichlet-processes",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Simulating Dirichlet processes",
+    "text": "Simulating Dirichlet processes\n\nlibrary(MCMCpack)\nDP_sim &lt;- function(alpha = 10, F0 = rnorm, n = 1e3){\n    s &lt;- F0(n)\n    V &lt;- rbeta(n, 1, alpha)\n    w &lt;- c(V[1], rep(0, n-1))\n    w[2:n] &lt;- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))\n    s_ord &lt;- order(s)\n    s &lt;- s[s_ord]\n    cum_prob &lt;- cumsum(w[s_ord])\n\n    return(list(x = s, cdf = cum_prob))\n}"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#simulating-dirichlet-processes-1",
+    "href": "slides/12-ebayes.html#simulating-dirichlet-processes-1",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Simulating Dirichlet processes",
+    "text": "Simulating Dirichlet processes"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#estimating-a-cdf",
+    "href": "slides/12-ebayes.html#estimating-a-cdf",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Estimating a cdf",
+    "text": "Estimating a cdf\n\nSuppose we have \\(X_1, \\ldots, X_n \\iid F\\) and we want to estimate \\(F\\).\nThe most common estimate is the empirical cdf: \\[\n\\hat{F}_n(x) = \\frac{1}{n}\\sum_{i=1}^n I(X_i \\leq x).\n\\]\nThe Glivenko-Cantelli theorem states that \\(\\hat{F}_n \\to F\\) almost surely (in the sup norm).\nA Bayesian approach is to put a prior on \\(F\\) and find the posterior distribution of \\(F\\), i.e., \\[\\begin{align*}\nX_1, \\ldots, X_n &\\iid F\\\\\nF & \\sim \\text{Dir}(\\alpha, F_0).\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#posterior",
+    "href": "slides/12-ebayes.html#posterior",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Posterior",
+    "text": "Posterior\n\nThe posterior of \\(F\\) given \\(X_1,\\ldots, X_n\\) is \\[\nF \\mid X_1, \\ldots, X_n \\sim \\text{Dir}\\left(\\alpha + n, \\frac{\\alpha}{\\alpha + n}F_0 + \\frac{n}{\\alpha + n}\\hat{F}_n\\right).\n\\]\nHence the posterior mean is \\[\n\\E[F \\mid X_1, \\ldots, X_n] = \\frac{\\alpha}{\\alpha + n}F_0 + \\frac{n}{\\alpha + n}\\hat{F}_n.\n\\]\nFor any measurable set \\(A\\), we have \\[\\begin{align*}\n\\E[F(A) \\mid X_1, \\ldots, X_n] & = \\frac{\\alpha}{\\alpha + n}F_0(A) + \\frac{1}{\\alpha + n}\\sum_{i=1}^n\\delta_{x_i}(A)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#example",
+    "href": "slides/12-ebayes.html#example",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Example",
+    "text": "Example\n\nn &lt;- 10\nx &lt;- rcauchy(n)\nalpha &lt;- 10\ncurve(pnorm(x), -5, 5, lty = 2, lwd = 2, \n      ylab = TeX(\"$P(X \\\\leq x)$\"), xlab = \"x\")\nlines(ecdf(x), col = \"red\", lwd = 2)\n\nF_bar &lt;- function(m, alpha, n, F0, x){\n    u &lt;- runif(m)\n    out &lt;- rep(NA, m)\n    out[u &lt; alpha/(alpha + n)] &lt;- F0(sum(u &lt; alpha/(alpha + n)))\n    out[u &gt;= alpha/(alpha + n)] &lt;- sample(x, sum(u &gt;= alpha/(alpha + n)), replace = TRUE)\n    return(out)\n}"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#density-estimation",
+    "href": "slides/12-ebayes.html#density-estimation",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Density Estimation",
+    "text": "Density Estimation\n\nSuppose we have \\(X_1, \\ldots, X_n \\iid F\\) with density \\(f\\) and we want to estimate \\(f\\).\nThe most common estimate is the kernel density estimate (KDE): \\[\n\\hat{f}_n(x) = \\frac{1}{n}\\sum_{i=1}^n \\frac{1}{h}K\\left(\\frac{x-X_i}{h}\\right)\n\\] where \\(K\\) is a kernel function and \\(h\\) is a bandwidth.\nFor example, the Gaussian kernel is \\(K(u) = \\exp(-u^2/2)\\).\nIn R, the KDE is implemented in the function density."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#mixture-model",
+    "href": "slides/12-ebayes.html#mixture-model",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Mixture model",
+    "text": "Mixture model\n\nA related approach is to use a mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_if(x \\mid \\theta_i)\n\\] where \\(f(x \\mid \\theta_i)\\) are density functions and \\(w_i\\) are weights.\nFor example, the Gaussian mixture model (GMM) is \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_i\\phi(x \\mid \\mu_i, \\sigma_i^2)\n\\] where \\(\\phi(x \\mid \\mu_i, \\sigma_i^2)\\) is the density of a normal distribution with mean \\(\\mu_i\\) and variance \\(\\sigma_i^2\\).\nIn fact, a GMM can approximate any density (on \\(\\R\\)) arbitrarily well."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#infinite-mixture-model",
+    "href": "slides/12-ebayes.html#infinite-mixture-model",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Infinite mixture model",
+    "text": "Infinite mixture model\n\nWe can also consider an infinite mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^\\infty w_if(x \\mid \\theta_i).\n\\]\nDirichlet process is an example of infinite mixture models, since \\[\nF = \\sum_{i=1}^{\\infty}w_i \\delta_{x_i}\n\\] where"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#dirichlet-process-mixture-model",
+    "href": "slides/12-ebayes.html#dirichlet-process-mixture-model",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Dirichlet process mixture model",
+    "text": "Dirichlet process mixture model\n\nFor density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.\nInstead, we can use a Dirichlet process mixture model (DPMM): \\[\\begin{align*}\nF \\mid \\alpha, F_0 & \\sim \\text{DP}(\\alpha, F_0)\\\\\n\\theta_1, \\ldots, \\theta_n \\mid F & \\iid F\\\\\nX_i \\mid \\theta_i & \\ind f(x \\mid \\theta_i).\n\\end{align*}\\]"
   }
 ]
