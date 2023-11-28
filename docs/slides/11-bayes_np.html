@@ -469,9 +469,15 @@ Chun-Hao Yang
 <li class="fragment">increase the computational cost;</li>
 <li class="fragment">lose interpretability.</li>
 </ul></li>
-<li class="fragment">??</li>
 </ul>
 </section>
+<section id="double-descent-phenomenon" class="slide level2">
+<h2>Double descent phenomenon</h2>
+<p><img data-src="images/lec11/double_descent.png"></p>
+
+<aside><div>
+<p>Image source: <a href="https://arxiv.org/pdf/2303.14151v1.pdf">Shaeffer et. al.&nbsp;(2023)</a></p>
+</div></aside></section>
 <section id="nonparametric-regressioncmu_note" class="slide level2">
 <h2>Nonparametric regression<sup>1</sup></h2>
 <ul>
@@ -524,8 +530,8 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">A function <span class="math inline">\(g\)</span> is called a <u><span class="math inline">\(k\)</span>th order spline with knots <span class="math inline">\(t_0 &lt; \cdots &lt; t_m\)</span></u> if
 <ul>
-<li class="fragment"><span class="math inline">\(g\)</span> is a polynomial of degree <span class="math inline">\(k\)</span> on the intervals <span class="math inline">\((-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)\)</span>.</li>
-<li class="fragment"><span class="math inline">\(g\)</span> has continuous derivatives up to order <span class="math inline">\(k-1\)</span> at each knot <span class="math inline">\(t_i\)</span>.</li>
+<li class="fragment"><span class="math inline">\(g\)</span> is a polynomial of degree <span class="math inline">\(k - 1\)</span> on the intervals <span class="math inline">\((-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)\)</span>.</li>
+<li class="fragment"><span class="math inline">\(g\)</span> has continuous derivatives up to order <span class="math inline">\(k - 2\)</span> at each knot <span class="math inline">\(t_i\)</span>.</li>
 </ul></li>
 <li class="fragment">Given a set of knots <span class="math inline">\(t_0 &lt; \cdots &lt; t_m\)</span>, the space of <span class="math inline">\(k\)</span>th order spline has dimension <span class="math inline">\(m + k + 1\)</span>.</li>
 <li class="fragment">There are many choices of basis for the space of splines. The most popular one is the <strong>B-spline</strong> basis.</li>
@@ -541,7 +547,7 @@ Chun-Hao Yang
 <li class="fragment">The choice of knots is important.</li>
 <li class="fragment">A <strong>smoothing spline</strong> uses all inputs as knots and avoids overfitting by shrinking the coefficients.</li>
 <li class="fragment">A <strong>natural spline</strong> assumes polynomial of degree <span class="math inline">\((k-1)/2\)</span> on <span class="math inline">\((-\infty, t_0]\)</span> and <span class="math inline">\([t_m, \infty)\)</span> to reduce variance at the boundary.</li>
-<li class="fragment">Natural spline with cubic order is the most common special case.</li>
+<li class="fragment">Natural spline with cubic polynomial is the most common special case.</li>
 </ul>
 </section>
 <section id="example-1" class="slide level2">
@@ -679,78 +685,125 @@ f(\mathbf{x}^{\prime}) \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim N\left(\bar{\m
 
 </div>
 <img data-src="11-bayes_np_files/figure-revealjs/GP_example_fit-1.png" width="576" class="r-stretch quarto-figure-center"></section>
-<section id="computational-issues" class="slide level2">
-<h2>Computational issues</h2>
-<ul>
-<li class="fragment"><p>It seems that posterior computation in Gaussian process regression is trivial, but there are two main hurdles involved.</p></li>
-<li class="fragment"><p>The first hurdle is that the covariance matrix <span class="math inline">\(K(\mathbf{x}, \mathbf{x}) + \sigma^2I_n\)</span> is <span class="math inline">\(n \times n\)</span> and the computational complexity of the inverse matrix is <span class="math inline">\(O(n^3)\)</span>.</p></li>
-<li class="fragment"><p>The second hurdle is that the posterior distribution is high dimensional, making the sampling inefficient.</p></li>
-<li class="fragment"><p>We can rewrite the model as <span class="math display">\[\begin{align*}
-Y \mid f, \sigma^2 &amp;\ind N(f, \sigma^2I_n)\\
-f \mid x &amp;\sim N(\mu, K(x, x))\\
-\sigma^2 &amp;\sim \text{IG}(a, b)
-\end{align*}\]</span></p></li>
-<li class="fragment"><p>Suppose <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are known hyperparameters.</p></li>
-<li class="fragment"><p>The posterior distribution is <span class="math inline">\(\pi(f, \sigma^2 \mid \mathbf{y}, \mathbf{x})\)</span>, which is in <span class="math inline">\((n+1)\)</span>-dimension.</p></li>
-</ul>
-</section>
-<section id="example-4" class="slide level2">
-<h2>Example</h2>
-<div class="cell" data-output.var="GP_model" data-hash="11-bayes_np_cache/revealjs/unnamed-chunk-7_f2ad5fcae500d260789c383091ac7331">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">data</span> {</span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; N;</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">real</span> x[N];</span>
-<span id="cb4-4"><a href="#cb4-4"></a>}</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="kw">transformed data</span> {</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="dt">matrix</span>[N, N] K = cov_exp_quad(x, <span class="fl">1.0</span>, <span class="fl">1.0</span>); <span class="co">// l = 1.0, tau^2 = 1.0</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="dt">vector</span>[N] mu = rep_vector(<span class="dv">0</span>, N); <span class="co">// mu = 0</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
-<span id="cb4-9"><a href="#cb4-9"></a>    K[n, n] = K[n, n] + <span class="fl">0.1</span>; <span class="co">// sigma^2 = 0.1</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>}</span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">parameters</span> {</span>
-<span id="cb4-12"><a href="#cb4-12"></a>  <span class="dt">vector</span>[N] y;</span>
-<span id="cb4-13"><a href="#cb4-13"></a>}</span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="kw">model</span> {</span>
-<span id="cb4-15"><a href="#cb4-15"></a>  y ~ multi_normal(mu, K);</span>
-<span id="cb4-16"><a href="#cb4-16"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="example-5" class="slide level2">
-<h2>Example</h2>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/unnamed-chunk-8_e0c18985c7dc510dcc7e598543ee928c">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">100</span>, <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>))</span>
-<span id="cb5-3"><a href="#cb5-3"></a>GP_sample <span class="ot">&lt;-</span> <span class="fu">sampling</span>(GP_model, <span class="at">data =</span> data, <span class="at">chains =</span> <span class="dv">1</span>, <span class="at">iter =</span> <span class="dv">1000</span>,</span>
-<span id="cb5-4"><a href="#cb5-4"></a>                      <span class="at">refresh =</span> <span class="dv">0</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a>y <span class="ot">&lt;-</span> GP_sample<span class="sc">@</span>sim<span class="sc">$</span>samples[[<span class="dv">1</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>] <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>    <span class="fu">unlist</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>    <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">100</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="fu">plot</span>(<span class="dv">0</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
-<span id="cb5-12"><a href="#cb5-12"></a>  <span class="fu">lines</span>(data<span class="sc">$</span>x, y[i,], <span class="at">col =</span> <span class="st">"grey"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span>
-<span id="cb5-13"><a href="#cb5-13"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="11-bayes_np_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
 <section id="hierarchical-gaussian-process-model" class="slide level2">
 <h2>Hierarchical Gaussian Process model</h2>
 <ul>
-<li class="fragment">Consider a fully Bayesian hierarchical model <span class="math display">\[\begin{align*}
-\rho &amp; \sim \text{InvGamma}(5,5) \\
-\alpha &amp; \sim N(0,1) \\
-\sigma &amp; \sim N(0,1) \\
-f_i &amp; \iid N(0, K(x \mid \alpha, \rho)) \\
-y_i &amp; \ind N\left(f_i, \sigma^2\right) \quad i = 1, \ldots, n.
-\end{align*}\]</span></li>
+<li class="fragment"><p>In practice, there are other unknown parameters, for example <span class="math inline">\(\sigma^2\)</span> or the hyperparameters in the kernel function.</p></li>
+<li class="fragment"><p>The hyperparameters in the kernel function can be selected via cross-validation.</p></li>
+<li class="fragment"><p>However, as a Bayesian, we can consider a fully Bayesian hierarchical model <span class="math display">\[\begin{align*}
+\tau^2 &amp; \sim \text{InvGamma}(c,d) \\
+\sigma^2 &amp; \sim \text{InvGamma}(a ,b) \\
+f_i \mid x, \tau &amp; \iid N(0, K(x, x\mid \tau) \\
+y_i \mid f_i, \sigma^2&amp; \ind N\left(f_i, \sigma^2\right) \quad i = 1, \ldots, n
+\end{align*}\]</span> where <span class="math inline">\(K(x, y) = \exp\left(-\frac{(x-y)^2}{2\tau^2}\right)\)</span>.</p></li>
+<li class="fragment"><p>Additional priors can be assigned to the hyperparameters <span class="math inline">\(a,b,c\)</span> and <span class="math inline">\(d\)</span>.</p></li>
+<li class="fragment"><p>The posterior distribution is <span class="math inline">\(\pi(f, \sigma^2, \tau^2 \mid \mathbf{y}, \mathbf{x})\)</span>.</p></li>
+</ul>
+</section>
+<section id="computational-issues" class="slide level2">
+<h2>Computational issues</h2>
+<ul>
+<li class="fragment">It seems that posterior computation in Gaussian process regression is trivial, but there are two main hurdles involved.</li>
+<li class="fragment">The first hurdle is that the covariance matrix <span class="math inline">\(K(\mathbf{x}, \mathbf{x}\mid \tau^2) + \sigma^2I_n\)</span> is <span class="math inline">\(n \times n\)</span> and the computational complexity of the inverse matrix is <span class="math inline">\(O(n^3)\)</span>.</li>
+<li class="fragment">This inverse matrix needs to be computed in each iteration of the MCMC algorithm, since we are also updating <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\tau^2\)</span>.</li>
+<li class="fragment">The second hurdle is that the posterior distribution is high dimensional, making the sampling inefficient.</li>
+<li class="fragment">In this case, the posterior distribution is <span class="math inline">\((n + 2)\)</span>-dimensional.</li>
+<li class="fragment">There are some approaches to overcome these hurdles:
+<ul>
+<li class="fragment">Marginalization</li>
+<li class="fragment">Approximation</li>
+</ul></li>
 </ul>
 </section>
 <section id="marginal-likelihood-gp" class="slide level2">
 <h2>Marginal likelihood GP</h2>
+<ul>
+<li class="fragment">If the data model is Gaussian, we can integrate over <span class="math inline">\(f\)</span> analytically to get the log marginal likelihood for the covariance function parameter <span class="math inline">\(\tau^2\)</span> and residual variance <span class="math inline">\(\sigma^2\)</span> : <span class="math display">\[\begin{align*}
+\log p\left(y \mid \tau^2, \sigma^2\right) &amp; =-\frac{n}{2} \log (2 \pi)-\frac{1}{2} \log \left|K(x, x \mid \tau^2) + \sigma^2 I\right|\\
+&amp; \qquad -\frac{1}{2} y^{T}\left(K(x, x \mid \tau^2)+\sigma^2 I\right)^{-1} y
+\end{align*}\]</span></li>
+<li class="fragment">Then we only need to sample from the posterior of <span class="math inline">\(\tau^2\)</span> and <span class="math inline">\(\sigma^2\)</span>.</li>
+<li class="fragment">With <span class="math inline">\(\tau^2\)</span> and <span class="math inline">\(\sigma^2\)</span>, we can easily generate <span class="math inline">\(f\)</span> from the posterior distribution, since it’s normal.</li>
+</ul>
 </section>
 <section id="latent-gaussian-process-model" class="slide level2">
 <h2>Latent Gaussian Process model</h2>
+<ul>
+<li class="fragment">We can also extend GP to non-Gaussian likelihoods, similar to GLM.</li>
+<li class="fragment">That is, <span class="math display">\[\begin{align*}
+Y \mid f, X, \phi &amp; \sim F_{\theta, \phi}\\
+\theta &amp; = g^{-1}(f(X))\\
+f &amp; \sim \mc{GP}(\mu, K)
+\end{align*}\]</span> where <span class="math inline">\(g\)</span> is the link function and <span class="math inline">\(\phi\)</span> is the dispersion parameter.</li>
+<li class="fragment">For example, if <span class="math inline">\(Y\)</span> is binary, we can use <span class="math display">\[\begin{align*}
+Y \mid X &amp; \sim \text{Ber}\left(\frac{\exp(f(X))}{1+\exp(f(X))}\right)\\
+f &amp; \sim \mc{GP}(\mu, K).
+\end{align*}\]</span></li>
+<li class="fragment">Similar for the Poisson log-linear model.</li>
+</ul>
+</section>
+<section id="sum-of-gaussian-processes" class="slide level2">
+<h2>Sum of Gaussian processes</h2>
+<ul>
+<li class="fragment">Gaussian processes can be directly fit to data, but more generally they can be used as components in a larger model. For example, <span class="math display">\[\begin{align*}
+Y &amp; = \sum_{i=1}^M f_i(X) + \epsilon\\
+f_i &amp; \ind \mc{GP}(0, K_i)
+\end{align*}\]</span></li>
+<li class="fragment">Since the sum of normal is still a normal, the decomposition above is equivalent to the decomposition of kernel functions, i.e., <span class="math display">\[\begin{align*}
+f \sim \mc{GP}(0, \tilde{K}), \quad \tilde{K} = \sum_{i=1}^M K_i.
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="example-decomposing-the-time-series" class="slide level2">
+<h2>Example: Decomposing the time series</h2>
+<ul>
+<li class="fragment">The dataset contains records of all births in the United States on each day during the years 1969–1988.</li>
+<li class="fragment">Additive model: <span class="math display">\[
+y(t)=f_1(t)+f_2(t)+f_3(t)+f_4(t)+f_5(t)+\epsilon_t,
+\]</span> where <span class="math inline">\(y(t)\)</span> is the number of births on day <span class="math inline">\(t\)</span>.</li>
+<li class="fragment">The components <span class="math inline">\(f_i\)</span> represent variation with different scales and periodicity</li>
+</ul>
+
+<aside><div>
+<p>This example is from BDA Ch. 21.2.</p>
+</div></aside></section>
+<section id="example-decomposing-the-time-series-1" class="slide level2">
+<h2>Example: Decomposing the time series</h2>
+<ol type="1">
+<li class="fragment">Long-term trends: <span class="math inline">\(f_1(t) \sim \operatorname{GP}\left(0, k_1\right), \quad k_1\left(t, t^{\prime}\right)=\sigma_1^2 \exp \left(-\frac{\left|t-t^{\prime}\right|^2}{2 l_1^2}\right)\)</span></li>
+<li class="fragment">Short-term variation: <span class="math inline">\(f_2(t) \sim \operatorname{GP}\left(0, k_2\right), \quad k_2\left(t, t^{\prime}\right)=\sigma_2^2 \exp \left(-\frac{\left|t-t^{\prime}\right|^2}{2 l_2^2}\right)\)</span></li>
+<li class="fragment">Weekly quasi-periodic pattern: <span class="math inline">\(f_3(t) \sim \operatorname{GP}\left(0, k_3\right), \quad k_3\left(t, t^{\prime}\right)=\sigma_3^2 \exp \left(-\frac{2 \sin ^2\left(\pi\left(t-t^{\prime}\right) / 7\right)}{l_{3,1}^2}\right) \exp \left(-\frac{\left|t-t^{\prime}\right|^2}{2 l_{3,2}^2}\right)\)</span></li>
+<li class="fragment">Yearly smooth seasonal pattern: <span class="math inline">\(f_4(t) \sim \operatorname{GP}\left(0, k_4\right), \quad k_4\left(s, s^{\prime}\right)=\sigma_4^2 \exp \left(-\frac{2 \sin ^2\left(\pi\left(s-s^{\prime}\right) / 365.25\right)}{l_{4,1}^2}\right) \exp \left(-\frac{\left|s-s^{\prime}\right|^2}{2 l_{4,2}^2}\right)\)</span> where <span class="math inline">\(s = t \text{ mod } 365.25\)</span></li>
+<li class="fragment">Special days including an interaction term with weekend: <span class="math inline">\(f_5(t)=I_{\text {special day }}(t) \beta_a+I_{\text {weekend }}(t) I_{\text {special day }}(t) \beta_b\)</span></li>
+<li class="fragment">Unstructured residuals: <span class="math inline">\(\epsilon_t \sim N\left(0, \sigma^2\right)\)</span></li>
+</ol>
+</section>
+<section id="example-decomposing-the-time-series-2" class="slide level2">
+<h2>Example: Decomposing the time series</h2>
+
+<img data-src="images/lec11/result1.png" class="r-stretch"></section>
+<section id="example-decomposing-the-time-series-3" class="slide level2">
+<h2>Example: Decomposing the time series</h2>
+
+<img data-src="images/lec11/result2.png" class="r-stretch"></section>
+<section id="example-decomposing-the-time-series-4" class="slide level2">
+<h2>Example: Decomposing the time series</h2>
+<ul>
+<li class="fragment">This model can be improved by further decomposing the time series.</li>
+<li class="fragment">For example, assume that the effect pf special day will change over time.</li>
+</ul>
+</section>
+<section id="other-applications-of-gp" class="slide level2">
+<h2>Other applications of GP</h2>
+<p>There are many other applications of GP:</p>
+<ul>
+<li class="fragment">Functional data analysis: the observed data are functions</li>
+<li class="fragment">Spatial data analysis: the data has spatial (location) characteristics</li>
+<li class="fragment">Density estimation:
+<ul>
+<li class="fragment">Assume the unknown density to be <span class="math inline">\(p(x \mid f) = \frac{\exp(f(x))}{\int \exp(f(x^{\prime})) dx^{\prime}}\)</span> and <span class="math inline">\(f \sim \mc{GP}(\mu, K)\)</span>.</li>
+</ul></li>
+</ul>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
