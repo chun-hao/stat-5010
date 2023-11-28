@@ -34,7 +34,7 @@ title: "Lecture 11: Gaussian Process"
     +   lose interpretability.
 
 ## Double descent phenomenon
-![Double descent phenomenon](images/lec11/double_descent.png)
+![](images/lec11/double_descent.png)
 
 
 ::: aside
@@ -89,8 +89,8 @@ lines(kreg(x,y), lwd = 2, col = "blue")
 ## Regression splines
 
 -   A function $g$ is called a [$k$th order spline with knots $t_0 < \cdots < t_m$]{.underline} if
-    +   $g$ is a polynomial of degree $k$ on the intervals $(-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)$.
-    +   $g$ has continuous derivatives up to order $k-1$ at each knot $t_i$.
+    +   $g$ is a polynomial of degree $k - 1$ on the intervals $(-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)$.
+    +   $g$ has continuous derivatives up to order $k - 2$ at each knot $t_i$.
 -   Given a set of knots $t_0 < \cdots < t_m$, the space of $k$th order spline has dimension $m + k + 1$.
 -   There are many choices of basis for the space of splines. The most popular one is the **B-spline** basis.
 -   Hence a regression spline model is 
@@ -105,7 +105,7 @@ lines(kreg(x,y), lwd = 2, col = "blue")
 -   The choice of knots is important. 
 -   A **smoothing spline** uses all inputs as knots and avoids overfitting by shrinking the coefficients.
 -   A **natural spline** assumes polynomial of degree $(k-1)/2$ on $(-\infty, t_0]$ and $[t_m, \infty)$ to reduce variance at the boundary.
--   Natural spline with cubic order is the most common special case.
+-   Natural spline with cubic polynomial is the most common special case.
 
 ## Example
 

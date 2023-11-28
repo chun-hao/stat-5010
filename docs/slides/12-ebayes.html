@@ -470,7 +470,7 @@ F \sim \mc{DP}(\alpha, F_0),
 <aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf" class="uri">https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf</a></p></li></ol></aside></section>
 <section id="simulating-dirichlet-processes" class="slide level2">
 <h2>Simulating Dirichlet processes</h2>
-<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_sim_3001e035d7121303e138193c70ae11bc">
+<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_sim_996cd65e406dadda7d0793c70063a3d1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(MCMCpack)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>DP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">alpha =</span> <span class="dv">10</span>, <span class="at">F0 =</span> rnorm, <span class="at">n =</span> <span class="fl">1e3</span>){</span>
 <span id="cb1-3"><a href="#cb1-3"></a>    s <span class="ot">&lt;-</span> <span class="fu">F0</span>(n)</span>
@@ -519,7 +519,7 @@ F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + 
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_post_e2ee3af06c090dff0bc05bc1b2f9ef88">
+<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_post_1a36a23d4e1befd33ab2b4222e17e883">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>x <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(n)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>alpha <span class="ot">&lt;-</span> <span class="dv">10</span></span>

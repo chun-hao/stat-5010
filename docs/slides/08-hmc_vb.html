@@ -387,6 +387,9 @@
       margin-right: 0; 
     }
   </style>
+  
+  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fira Code" rel="stylesheet">
 </head>
 <body class="quarto-light">
@@ -448,7 +451,7 @@ Chun-Hao Yang
 </ul>
 </div>
 
-<img data-src="08-hmc_vb_files/figure-html/unnamed-chunk-1-1.png" width="672" class="r-stretch quarto-figure-center"></section>
+<img data-src="08-hmc_vb_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="adaptive-mcmc" class="slide level2">
 <h2>Adaptive MCMC</h2>
 <ul>
@@ -539,7 +542,7 @@ H(x, v) = U(x) + K(v).
 \]</span></li>
 <li class="fragment">The potential energy <span class="math inline">\(U(x)\)</span> is proportional to the height at <span class="math inline">\(x\)</span>.</li>
 <li class="fragment">The kinetic energy is <span class="math inline">\(K(v) = \frac{1}{2}mv^Tv\)</span>, where <span class="math inline">\(m\)</span> is the mass of the particle <span class="math inline">\(p\)</span>.</li>
-<li class="fragment">The <strong>momentum</strong>of <span class="math inline">\(p\)</span> is defined as <span class="math inline">\(y = mv\)</span> and hence <span class="math inline">\(K(y) = \frac{y^Ty}{2m}\)</span>.</li>
+<li class="fragment">The <strong>momentum</strong> of <span class="math inline">\(p\)</span> is defined as <span class="math inline">\(y = mv\)</span> and hence <span class="math inline">\(K(y) = \frac{y^Ty}{2m}\)</span>.</li>
 <li class="fragment">The total energy is constant:
 <ul>
 <li class="fragment">when <span class="math inline">\(p\)</span> moves upward, potential energy <em>increases</em> and kinetic energy <em>decreases</em>;</li>
@@ -576,7 +579,7 @@ p(x, y) \propto \exp(-H(x, y)) = \pi(x)\exp\left(-\frac{y^Ty}{2m}\right).
 <li class="fragment">Accept <span class="math inline">\((x(t), y(t))\)</span> with probability <span class="math display">\[
 \rho = \frac{\exp(-H(x(t), y(t)))}{\exp(-H(x(0), y(0)))} = \exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).
 \]</span></li>
-<li class="fragment">If accepted, set <span class="math inline">\(x^{(n)} = x(\delta)\)</span>; otherwise, set <span class="math inline">\(x^{(n)} = x^{(n-1)}\)</span>.</li>
+<li class="fragment">If accepted, set <span class="math inline">\(x^{(n)} = x(t)\)</span>; otherwise, set <span class="math inline">\(x^{(n)} = x^{(n-1)}\)</span>.</li>
 </ul>
 </section>
 <section id="evolution-of-hamiltonian-dynamics" class="slide level2">
@@ -586,7 +589,7 @@ p(x, y) \propto \exp(-H(x, y)) = \pi(x)\exp\left(-\frac{y^Ty}{2m}\right).
 <li class="fragment">The most natural way is Euler’s method: <span class="math display">\[
 \begin{aligned}
 x_i(t + \epsilon) &amp;= x_i(t) + \epsilon\frac{dx_i}{dt}(t) = x_i(t) + \epsilon \frac{y_i(t)}{m},\\
-y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon \frac{\partial}{\partial x_i}\log \pi(x(t)).
+y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) + \epsilon \frac{\partial}{\partial x_i}\log \pi(x(t)).
 \end{aligned}
 \]</span></li>
 <li class="fragment">It turns out that the Euler method is inaccurate, and the most widely used method is the <strong>leapfrog method</strong>.</li>
@@ -597,9 +600,9 @@ y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon
 <ul>
 <li class="fragment">The leapfrog method maps <span class="math inline">\((x(t), y(t))\)</span> to <span class="math inline">\((x(t+\epsilon), y(t+\epsilon))\)</span> through the following steps:
 <ol type="1">
-<li class="fragment"><span class="math inline">\(y(t + \epsilon/2) = y(t) - \frac{\epsilon}{2}\nabla_x \log \pi(x(t))\)</span>;</li>
+<li class="fragment"><span class="math inline">\(y(t + \epsilon/2) = y(t) + \frac{\epsilon}{2}\nabla_x \log \pi(x(t))\)</span>;</li>
 <li class="fragment"><span class="math inline">\(x(t + \epsilon) = x(t) + \epsilon\frac{y(t + \epsilon/2)}{m}\)</span>;</li>
-<li class="fragment"><span class="math inline">\(y(t + \epsilon) = y(t + \epsilon/2) - \frac{\epsilon}{2}\frac{\partial}{\partial x}\log \pi(x(t + \epsilon))\)</span>.</li>
+<li class="fragment"><span class="math inline">\(y(t + \epsilon) = y(t + \epsilon/2) + \frac{\epsilon}{2}\nabla_x\log \pi(x(t + \epsilon))\)</span>.</li>
 </ol></li>
 <li class="fragment">In HMC, the leapfrog method evolves <span class="math inline">\((x(0), y(0))\)</span> for <span class="math inline">\(L\)</span> iterations.</li>
 </ul>
@@ -617,9 +620,9 @@ y_i(t + \epsilon) &amp;= y_i(t) + \epsilon\frac{dy_i}{dt}(t) = y_i(t) - \epsilon
 <li>set <span class="math inline">\(\tilde{x} \leftarrow x^{(i-1)}\)</span>, <span class="math inline">\(\tilde{y} \leftarrow y^{(0)}\)</span>;</li>
 <li><strong>for</strong> <span class="math inline">\(j = 1, \ldots, L\)</span>:
 <ul>
-<li><span class="math inline">\(\tilde{y} \leftarrow \tilde{y} - \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})\)</span>;</li>
+<li><span class="math inline">\(\tilde{y} \leftarrow \tilde{y} + \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})\)</span>;</li>
 <li><span class="math inline">\(\tilde{x} \leftarrow \tilde{x} + \epsilon M^{-1}\tilde{y}\)</span>;</li>
-<li><span class="math inline">\(\tilde{y} \leftarrow \tilde{y} - \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})\)</span>;</li>
+<li><span class="math inline">\(\tilde{y} \leftarrow \tilde{y} + \frac{\epsilon}{2}\nabla_x \log \pi(\tilde{x})\)</span>;</li>
 </ul></li>
 <li><span class="math inline">\(u \sim \text{Unif}(0, 1)\)</span>;</li>
 <li><strong>if</strong> <span class="math inline">\(u &lt; \exp(-H(\tilde{x}, \tilde{y}) + H(x^{(i-1)}, y^{(0)}))\)</span>:
@@ -781,7 +784,7 @@ p(y) = \int \pi(y, \theta) d\theta = \int \pi(y \mid \theta) \pi(\theta) d\theta
 <li class="fragment">The ELBO is <span class="math display">\[
 \mc{L}(q_1, \ldots, q_d) = \int \E_{-j}\left[\log \pi(y, \theta)\right] q_j(\theta_j) d\theta_j - \sum_{j=1}^d \E_{j}\left[\log q_j(\theta_j \mid \phi_j)\right].
 \]</span></li>
-<li class="fragment">We need to find <span class="math inline">\(q_1, \ldots, q_d\)</span> to maximize <span class="math inline">\(\mc{L}(q_1, \ldots, q_d)\)</span> subject to the constraints <span class="math inline">\(\int q_j(\theta_j) d\theta_j = 1\)</span>.</li>
+<li class="fragment">We need to find <span class="math inline">\(q_1, \ldots, q_d\)</span> that maximize <span class="math inline">\(\mc{L}(q_1, \ldots, q_d)\)</span> subject to the constraints <span class="math inline">\(\int q_j(\theta_j) d\theta_j = 1\)</span>.</li>
 <li class="fragment">Use Lagrange multipliers, take ``functional derivative’’ with respect to <span class="math inline">\(q_j\)</span>, set it to zero, and we have <span class="math display">\[
 \log q_j(\theta_j) = \E_{-j}\left[\log \pi(y, \theta)\right] + \text{const}.
 \]</span></li>
@@ -810,10 +813,10 @@ Y_i &amp; \ind N(\alpha_i, \sigma_i^2), \quad i = 1, \ldots, 8 \\
 <h2>Mean-field approximation: <span class="math inline">\(\alpha_j\)</span></h2>
 <ul>
 <li class="fragment">Averaging over all the parameters other than <span class="math inline">\(\alpha_j\)</span>, we have <span class="math display">\[
-\E_{-\alpha_j} \log p(\theta \mid y)=-\frac{1}{2} \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}-\frac{1}{2} \E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
+\E_{-\alpha_j} \log p(\theta \mid y)=-\frac{1}{2} \frac{\left(y_j-\alpha_j\right)^2}{\sigma_j^2}-\frac{1}{2} \E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}\left(\left(\alpha_j-\mu\right)^2\right)+\text{const.}
 \]</span> which is a quadratic function of <span class="math inline">\(\alpha_j\)</span>.</li>
-<li class="fragment">Hence the optimal <span class="math inline">\(q(\alpha_j)\)</span> is a Gaussian distribution <span class="math display">\[
-g\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}, \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}\right).
+<li class="fragment">The optimal <span class="math inline">\(q(\alpha_j)\)</span> is a Gaussian distribution <span class="math display">\[
+q\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}, \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)}\right).
 \]</span></li>
 </ul>
 </section>
@@ -821,21 +824,21 @@ g\left(\alpha_j\right)=N\left(\alpha_j \middle| \frac{\frac{1}{\sigma_j^2} y_j+\
 <h2>Mean-field approximation: <span class="math inline">\(\mu\)</span></h2>
 <ul>
 <li class="fragment">Averaging over all the parameters other than <span class="math inline">\(\mu\)</span>, we have <span class="math display">\[
-\E_{-\mu} \log p(\theta \mid y) = -\frac{1}{2} \E_{-\mu}\left(\frac{1}{\tau^2}\right) \sum_{j=1}^8\left(\mu - \E_{-\mu} \left(\alpha_j\right)\right)^2+\text{constant.}
+\E_{-\mu} \log p(\theta \mid y) = -\frac{1}{2} \E_{-\mu}\left(\frac{1}{\tau^2}\right) \sum_{j=1}^8\left(\mu - \E_{-\mu} \left(\alpha_j\right)\right)^2+\text{const.}
 \]</span></li>
-<li class="fragment">This is the logarithm of a normal density function: <span class="math display">\[\begin{align*}
-g(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\right), \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)}\right)
-\end{align*}\]</span></li>
+<li class="fragment">The optimal <span class="math inline">\(q(\mu)\)</span> is also a Gaussian distribution <span class="math display">\[
+q(\mu)=N\left(\mu \middle| \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}\left(\alpha_j\right), \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)}\right)
+\]</span></li>
 </ul>
 </section>
 <section id="mean-field-approximation-tau" class="slide level2">
 <h2>Mean-field approximation: <span class="math inline">\(\tau\)</span></h2>
 <ul>
 <li class="fragment"><p>Averaging over all the parameters other than <span class="math inline">\(\tau\)</span>, we have <span class="math display">\[
-\E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{constant.}
+\E_{-\tau} \log p(\theta \mid y) = -8 \log \tau -\frac{1}{2} \frac{1}{\tau^2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)+\text{const.}
 \]</span></p></li>
-<li class="fragment"><p>This is the logarithm of an inverse-gamma density function: <span class="math display">\[
-g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
+<li class="fragment"><p>The optimal <span class="math inline">\(q(\tau^2)\)</span> is an Inverse-Gamma distribution <span class="math display">\[
+q(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right)\right).
 \]</span></p></li>
 </ul>
 </section>
@@ -845,10 +848,10 @@ g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_
 <li class="fragment">The mean-field approximation is <span class="math display">\[\begin{align*}
 \alpha_j &amp; \sim N(M_{\alpha_j}, S^2_{\alpha_j})\\
 \mu &amp; \sim N(M_{\mu}, S^2_{\mu})\\
-\tau^2 &amp; \sim \text{Inv-Gamma}\left(\frac{7}{2}, B_{\tau}\right).
+\tau^2 &amp; \sim \text{Inv-Gamma}\left(\frac{7}{2}, \frac{7}{2}B^2_{\tau}\right).
 \end{align*}\]</span></li>
-<li class="fragment">Thus <span class="math display">\[\begin{align*}
-\E_{-\alpha_j}(\tau^{-2}) &amp; = \E_{-\mu}(\tau^{-2})= \frac{7}{2B_{\tau}}\\
+<li class="fragment">Therefore <span class="math display">\[\begin{align*}
+\E_{-\alpha_j}(\tau^{-2}) &amp; = \E_{-\mu}(\tau^{-2})= \frac{1}{B^2_{\tau}}\\
 \E_{-\mu}(\alpha_j) &amp; = M_{\alpha_j}\\
 \E_{-\tau}(\alpha_j-\mu)^2 &amp; = S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}.
 \end{align*}\]</span></li>
@@ -858,16 +861,16 @@ g(\tau^2) = \text{Inv-Gamma}\left(\tau^2 \middle| \frac{7}{2}, \frac{1}{2} \sum_
 <h2>Summarizing the mean-field approximation</h2>
 <p>Combining all the results we have</p>
 <p><span class="math display">\[\begin{align*}
-M_{\alpha_j} &amp; = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{3.5}{B_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{3.5}{B_{\tau}}} = \frac{B_{\tau} y_j + 3.5\sigma_j^2 M_{\mu}}{3.5\sigma_j^2 + B_{\tau}}\\
-S^2_{\alpha_j} &amp; = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{3.5}{B_{\tau}}} = \frac{B_{\tau}\sigma_j^2}{3.5\sigma_j^2 + B_{\tau}}\\
+M_{\alpha_j} &amp; = \frac{\frac{1}{\sigma_j^2} y_j+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right) \E_{-\alpha_j}(\mu)}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{\frac{1}{\sigma_j^2} y_j+\frac{1}{B^2_{\tau}} M_{\mu}}{\frac{1}{\sigma_j^2}+\frac{1}{B^2_{\tau}}} = \frac{B^2_{\tau} y_j + \sigma_j^2 M_{\mu}}{\sigma_j^2 + B^2_{\tau}}\\
+S^2_{\alpha_j} &amp; = \frac{1}{\frac{1}{\sigma_j^2}+\E_{-\alpha_j}\left(\frac{1}{\tau^2}\right)} = \frac{1}{\frac{1}{\sigma_j^2}+\frac{1}{B^2_{\tau}}} = \frac{B^2_{\tau}\sigma_j^2}{\sigma_j^2 + B^2_{\tau}}\\
 M_{\mu} &amp; = \frac{1}{8} \sum_{j=1}^8 \E_{-\mu}(\alpha_j) = \frac{1}{8} \sum_{j=1}^8 M_{\alpha_j}\\
-S^2_{\mu} &amp; = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{3.5}{B_{\tau}}} = \frac{B_{\tau}}{28}\\
-B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right) = \frac{1}{2} \sum_{j=1}^8 \left(S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}\right)
+S^2_{\mu} &amp; = \frac{1}{8} \frac{1}{\E_{-\mu}\left(\frac{1}{\tau^2}\right)} = \frac{1}{8} \frac{1}{\frac{1}{B^2_{\tau}}} = \frac{B^2_{\tau}}{8}\\
+B^2_{\tau} &amp; = \frac{1}{7} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\right)^2\right) = \frac{1}{7} \sum_{j=1}^8 \left(S^2_{\alpha_j} + M^2_{\alpha_j} - 2M_{\alpha_j}M_{\mu}+ S^2_{\mu} + M^2_{\mu}\right)
 \end{align*}\]</span></p>
 </section>
 <section id="r-code" class="slide level2">
 <h2>R code</h2>
-<div class="cell" data-hash="08-hmc_vb_cache/html/unnamed-chunk-2_95c4bbe4db3ca29fe98d2658b87f8441">
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-2_2be391e429496aed5b1fc5c9c1826f93">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>max_iter <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Data</span></span>
@@ -879,30 +882,313 @@ B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\rig
 <span id="cb1-9"><a href="#cb1-9"></a>                <span class="at">S2_alpha =</span> <span class="fu">matrix</span>(<span class="dv">1</span>, <span class="at">nrow =</span> max_iter, <span class="at">ncol =</span> <span class="dv">8</span>),</span>
 <span id="cb1-10"><a href="#cb1-10"></a>                <span class="at">M_mu =</span> <span class="fu">rep</span>(<span class="dv">0</span>, max_iter),</span>
 <span id="cb1-11"><a href="#cb1-11"></a>                <span class="at">S2_mu =</span> <span class="fu">rep</span>(<span class="dv">1</span>, max_iter),</span>
-<span id="cb1-12"><a href="#cb1-12"></a>                <span class="at">B_tau =</span> <span class="fu">rep</span>(<span class="dv">1</span>, max_iter))</span>
+<span id="cb1-12"><a href="#cb1-12"></a>                <span class="at">B2_tau =</span> <span class="fu">rep</span>(<span class="dv">1</span>, max_iter))</span>
 <span id="cb1-13"><a href="#cb1-13"></a></span>
 <span id="cb1-14"><a href="#cb1-14"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>max_iter){</span>
 <span id="cb1-15"><a href="#cb1-15"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>){</span>
-<span id="cb1-16"><a href="#cb1-16"></a>        var_par<span class="sc">$</span>M_alpha[i, j] <span class="ot">&lt;-</span> (var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> y[j] <span class="sc">+</span> <span class="fl">3.5</span> <span class="sc">*</span> sig2[j] <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i<span class="dv">-1</span>]) <span class="sc">/</span> </span>
-<span id="cb1-17"><a href="#cb1-17"></a>            (<span class="fl">3.5</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
-<span id="cb1-18"><a href="#cb1-18"></a>        var_par<span class="sc">$</span>S2_alpha[i, j] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">*</span> sig2[j] <span class="sc">/</span> </span>
-<span id="cb1-19"><a href="#cb1-19"></a>            (<span class="fl">3.5</span> <span class="sc">*</span> sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>])</span>
+<span id="cb1-16"><a href="#cb1-16"></a>        var_par<span class="sc">$</span>M_alpha[i, j] <span class="ot">&lt;-</span> (var_par<span class="sc">$</span>B2_tau[i<span class="dv">-1</span>] <span class="sc">*</span> y[j] <span class="sc">+</span> sig2[j] <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i<span class="dv">-1</span>]) <span class="sc">/</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>            (sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B2_tau[i<span class="dv">-1</span>])</span>
+<span id="cb1-18"><a href="#cb1-18"></a>        var_par<span class="sc">$</span>S2_alpha[i, j] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B2_tau[i<span class="dv">-1</span>] <span class="sc">*</span> sig2[j] <span class="sc">/</span> </span>
+<span id="cb1-19"><a href="#cb1-19"></a>            (sig2[j] <span class="sc">+</span> var_par<span class="sc">$</span>B2_tau[i<span class="dv">-1</span>])</span>
 <span id="cb1-20"><a href="#cb1-20"></a>    }</span>
 <span id="cb1-21"><a href="#cb1-21"></a>    var_par<span class="sc">$</span>M_mu[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(var_par<span class="sc">$</span>M_alpha[i, ])</span>
-<span id="cb1-22"><a href="#cb1-22"></a>    var_par<span class="sc">$</span>S2_mu[i] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B_tau[i<span class="dv">-1</span>] <span class="sc">/</span> <span class="dv">28</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a>    var_par<span class="sc">$</span>B_tau[i] <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>S2_alpha[i, ]) <span class="sc">+</span> </span>
-<span id="cb1-24"><a href="#cb1-24"></a>        <span class="fl">0.5</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> </span>
-<span id="cb1-25"><a href="#cb1-25"></a>        <span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]) <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i] <span class="sc">+</span></span>
-<span id="cb1-26"><a href="#cb1-26"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>S2_mu[i] <span class="sc">+</span> </span>
-<span id="cb1-27"><a href="#cb1-27"></a>        <span class="dv">4</span><span class="sc">*</span>var_par<span class="sc">$</span>M_mu[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    var_par<span class="sc">$</span>S2_mu[i] <span class="ot">&lt;-</span> var_par<span class="sc">$</span>B2_tau[i<span class="dv">-1</span>] <span class="sc">/</span> <span class="dv">8</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>    var_par<span class="sc">$</span>B2_tau[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(var_par<span class="sc">$</span>S2_alpha[i, ])<span class="sc">/</span><span class="dv">7</span> <span class="sc">+</span> </span>
+<span id="cb1-24"><a href="#cb1-24"></a>        <span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">7</span> <span class="sc">-</span> </span>
+<span id="cb1-25"><a href="#cb1-25"></a>        <span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(var_par<span class="sc">$</span>M_alpha[i, ]) <span class="sc">*</span> var_par<span class="sc">$</span>M_mu[i]<span class="sc">/</span><span class="dv">7</span> <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a>        var_par<span class="sc">$</span>S2_mu[i]<span class="sc">*</span><span class="dv">8</span><span class="sc">/</span><span class="dv">7</span> <span class="sc">+</span> </span>
+<span id="cb1-27"><a href="#cb1-27"></a>        var_par<span class="sc">$</span>M_mu[i]<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="dv">8</span><span class="sc">/</span><span class="dv">7</span></span>
 <span id="cb1-28"><a href="#cb1-28"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="results" class="slide level2">
 <h2>Results</h2>
 
+<img data-src="08-hmc_vb_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="vb-inference" class="slide level2">
+<h2>VB Inference</h2>
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-4_4e5cb4db0a4d75a272d60b4c782aaf7a">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<caption>Posterior mean and standard deviation</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">parameter</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">post.mean</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">post.sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">alpha_1</td>
+<td style="text-align: center;">13.715</td>
+<td style="text-align: center;">7.970</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">alpha_2</td>
+<td style="text-align: center;">8.051</td>
+<td style="text-align: center;">6.852</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">alpha_3</td>
+<td style="text-align: center;">5.246</td>
+<td style="text-align: center;">8.109</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">alpha_4</td>
+<td style="text-align: center;">7.633</td>
+<td style="text-align: center;">7.149</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">alpha_5</td>
+<td style="text-align: center;">3.347</td>
+<td style="text-align: center;">6.503</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">alpha_6</td>
+<td style="text-align: center;">5.099</td>
+<td style="text-align: center;">7.149</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">alpha_7</td>
+<td style="text-align: center;">12.746</td>
+<td style="text-align: center;">6.852</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">alpha_8</td>
+<td style="text-align: center;">8.934</td>
+<td style="text-align: center;">8.337</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mu</td>
+<td style="text-align: center;">8.096</td>
+<td style="text-align: center;">3.326</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">tau</td>
+<td style="text-align: center;">10.591</td>
+<td style="text-align: center;">3.423</td>
+</tr>
+</tbody>
+</table>
 
-<img data-src="08-hmc_vb_files/figure-html/unnamed-chunk-3-1.png" width="672" class="r-stretch quarto-figure-center"><div class="footer footer-default">
+
+</div>
+</div>
+</section>
+<section id="vb-using-stan" class="slide level2">
+<h2>VB using Stan</h2>
+<p>You can also perform VB using Stan. The following is the Stan code for the school example.</p>
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-5_fcfca09489f97a796f62e699e975c1e2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>school_model <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan_model</span>(<span class="at">model_code =</span> <span class="st">"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="st">    data {</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="st">      int&lt;lower=0&gt; J;         </span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="st">      real y[J];              </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="st">      real&lt;lower=0&gt; sigma[J];</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">    }</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">    parameters {</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="st">      real mu;                </span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="st">      real&lt;lower=0&gt; tau;      </span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="st">      real alpha[J];</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="st">    }</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="st">    model {</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="st">      alpha ~ normal(mu, tau); // prior</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="st">      y ~ normal(alpha, sigma); // likelihood</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="st">    }"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="vb-using-stan-1" class="slide level2">
+<h2>VB using Stan</h2>
+<div class="cell" data-layout-align="center" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-6_3d4a15f7eb0498f155175e9d4bf08b2f">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>schools_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">J =</span> <span class="dv">8</span>,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">8</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="dv">7</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">18</span>, <span class="dv">12</span>),</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="at">sigma =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">11</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">10</span>, <span class="dv">18</span>)) </span>
+<span id="cb3-5"><a href="#cb3-5"></a>fit_vb <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">vb</span>(school_model, <span class="at">data =</span> schools_dat, </span>
+<span id="cb3-6"><a href="#cb3-6"></a>                    <span class="at">algorithm =</span> <span class="st">"meanfield"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>fit_sampling <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">sampling</span>(school_model, <span class="at">data =</span> schools_dat, </span>
+<span id="cb3-8"><a href="#cb3-8"></a>                                <span class="at">iter =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stan-output-vb" class="slide level2">
+<h2>Stan output (VB)</h2>
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-7_b67e663a1cf7cc74d8bb4d36667dab17">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">chain:1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mu</td>
+<td style="text-align: center;">1.960</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tau</td>
+<td style="text-align: center;">10.271</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha.1</td>
+<td style="text-align: center;">4.828</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha.2</td>
+<td style="text-align: center;">2.878</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha.3</td>
+<td style="text-align: center;">-0.873</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha.4</td>
+<td style="text-align: center;">1.647</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha.5</td>
+<td style="text-align: center;">0.027</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha.6</td>
+<td style="text-align: center;">1.156</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha.7</td>
+<td style="text-align: center;">5.013</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha.8</td>
+<td style="text-align: center;">1.404</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lp__</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="stan-output-sampling" class="slide level2">
+<h2>Stan output (sampling)</h2>
+<div class="cell" data-hash="08-hmc_vb_cache/revealjs/unnamed-chunk-8_be75ce44a3d3b615c4856260f5d877f9">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean-chain:1</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean-chain:2</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean-chain:3</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean-chain:4</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">mean-all chains</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mu</td>
+<td style="text-align: center;">8.184</td>
+<td style="text-align: center;">7.792</td>
+<td style="text-align: center;">7.693</td>
+<td style="text-align: center;">8.177</td>
+<td style="text-align: center;">7.961</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tau</td>
+<td style="text-align: center;">7.277</td>
+<td style="text-align: center;">7.948</td>
+<td style="text-align: center;">8.428</td>
+<td style="text-align: center;">6.167</td>
+<td style="text-align: center;">7.455</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha[1]</td>
+<td style="text-align: center;">12.076</td>
+<td style="text-align: center;">11.829</td>
+<td style="text-align: center;">11.925</td>
+<td style="text-align: center;">10.648</td>
+<td style="text-align: center;">11.619</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha[2]</td>
+<td style="text-align: center;">8.036</td>
+<td style="text-align: center;">8.353</td>
+<td style="text-align: center;">8.149</td>
+<td style="text-align: center;">8.519</td>
+<td style="text-align: center;">8.264</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha[3]</td>
+<td style="text-align: center;">6.550</td>
+<td style="text-align: center;">5.451</td>
+<td style="text-align: center;">5.088</td>
+<td style="text-align: center;">6.471</td>
+<td style="text-align: center;">5.890</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha[4]</td>
+<td style="text-align: center;">7.620</td>
+<td style="text-align: center;">7.781</td>
+<td style="text-align: center;">7.503</td>
+<td style="text-align: center;">8.004</td>
+<td style="text-align: center;">7.727</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha[5]</td>
+<td style="text-align: center;">4.761</td>
+<td style="text-align: center;">4.094</td>
+<td style="text-align: center;">4.231</td>
+<td style="text-align: center;">5.642</td>
+<td style="text-align: center;">4.682</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha[6]</td>
+<td style="text-align: center;">6.059</td>
+<td style="text-align: center;">5.497</td>
+<td style="text-align: center;">6.013</td>
+<td style="text-align: center;">6.566</td>
+<td style="text-align: center;">6.034</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha[7]</td>
+<td style="text-align: center;">11.143</td>
+<td style="text-align: center;">11.490</td>
+<td style="text-align: center;">11.501</td>
+<td style="text-align: center;">10.567</td>
+<td style="text-align: center;">11.175</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha[8]</td>
+<td style="text-align: center;">8.447</td>
+<td style="text-align: center;">8.167</td>
+<td style="text-align: center;">7.922</td>
+<td style="text-align: center;">8.836</td>
+<td style="text-align: center;">8.343</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lp__</td>
+<td style="text-align: center;">-18.207</td>
+<td style="text-align: center;">-19.714</td>
+<td style="text-align: center;">-19.857</td>
+<td style="text-align: center;">-17.177</td>
+<td style="text-align: center;">-18.739</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="remark" class="slide level2">
+<h2>Remark</h2>
+<p>The <code>rstan::vb</code> function is buggy and unstable. DO NOT use it for your research.</p>
+
+<div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
 </section></section>
@@ -1120,6 +1406,44 @@ B_{\tau} &amp; = \frac{1}{2} \sum_{j=1}^8 \E_{-\tau}\left(\left(\alpha_j-\mu\rig
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
