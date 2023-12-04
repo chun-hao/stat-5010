@@ -2742,5 +2742,19 @@
     "title": "Lecture 12: Dirichlet Process",
     "section": "Dirichlet process mixture model",
     "text": "Dirichlet process mixture model\n\nFor density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.\nInstead, we can use a Dirichlet process mixture model (DPMM): \\[\\begin{align*}\nF \\mid \\alpha, F_0 & \\sim \\text{DP}(\\alpha, F_0)\\\\\n\\theta_1, \\ldots, \\theta_n \\mid F & \\iid F\\\\\nX_i \\mid \\theta_i & \\ind f(x \\mid \\theta_i).\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#nonparametric-estimation-of-distribution",
+    "href": "slides/12-ebayes.html#nonparametric-estimation-of-distribution",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Nonparametric estimation of distribution",
+    "text": "Nonparametric estimation of distribution\n\n\\[\n\\newcommand{\\mc}[1]{\\mathcal{#1}}\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\E}{\\mathbb{E}}\n\\renewcommand{\\P}{\\mathbb{P}}\n\\newcommand{\\var}{{\\rm Var}} % Variance\n\\newcommand{\\mse}{{\\rm MSE}} % MSE\n\\newcommand{\\bias}{{\\rm Bias}} % MSE\n\\newcommand{\\cov}{{\\rm Cov}} % Covariance\n\\newcommand{\\iid}{\\stackrel{\\rm iid}{\\sim}}\n\\newcommand{\\ind}{\\stackrel{\\rm ind}{\\sim}}\n\\renewcommand{\\choose}[2]{\\binom{#1}{#2}}  % Choose\n\\newcommand{\\chooses}[2]{{}_{#1}C_{#2}}  % Small choose\n\\newcommand{\\cd}{\\stackrel{d}{\\rightarrow}}\n\\newcommand{\\cas}{\\stackrel{a.s.}{\\rightarrow}}\n\\newcommand{\\cp}{\\stackrel{p}{\\rightarrow}}\n\\newcommand{\\bin}{{\\rm Bin}}\n\\newcommand{\\ber}{{\\rm Ber}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\DeclareMathOperator*{\\argmin}{argmin}\n\\]\n\n\nLet \\(X_1, \\ldots, X_n \\iid F\\) be a random sample from a distribution \\(F\\).\nWe want to estimate \\(F\\) without posing any parametric assumption.\nThere are several cases:\n\n\\(F\\) is a discrete distribution on \\(\\{1, \\ldots, k\\}\\).\n\\(F\\) is a discrete distribution on \\(\\{1,2,\\ldots\\}\\).\n\\(F\\) is a continuous distribution and we want to estimate its cdf\n\\(F\\) is a continuous distribution and we want to estimate its pdf\n\nThe first case is the simplest: we are estimating \\(p_j = \\P(X = j)\\) such that \\(\\sum_{j=1}^k p_j = 1\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#empirical-distribution",
+    "href": "slides/12-ebayes.html#empirical-distribution",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Empirical distribution",
+    "text": "Empirical distribution\n\nBased on the observations \\(X_1,\\ ldots, X_n\\), the empirical cdf is \\[\n\\hat{F}_n(x) = \\frac{1}{n} \\sum_{i=1}^n I(X_i \\leq x).\n\\]\nThe empirical cdf is always a discrete distribution on \\(\\{X_1, \\ldots, X_n\\}\\).\nIt is the simplest nonparametric estimator of \\(F\\).\nThe Glivenko-Cantelli theorem states that \\(\\hat{F}_n \\to F\\) almost surely (in the sup norm), i.e., \\(\\sup_x \\| \\hat{F}_n(x) - F(x)\\| \\cas 0\\)."
   }
 ]

@@ -20,9 +20,31 @@ execute:
     freeze: true
 ---
 
-# Dirichlet Process
+## Nonparametric estimation of distribution
 
 {{< include macro.qmd >}}
+
+-   Let $X_1, \ldots, X_n \iid F$ be a random sample from a distribution $F$.
+-   We want to estimate $F$ without posing any parametric assumption.
+-   There are several cases:
+    1.  $F$ is a discrete distribution on $\{1, \ldots, k\}$.
+    2.  $F$ is a discrete distribution on $\{1,2,\ldots\}$.
+    3.  $F$ is a continuous distribution and we want to estimate its **cdf**
+    4.  $F$ is a continuous distribution and we want to estimate its **pdf**
+-   The first case is the simplest: we are estimating $p_j = \P(X = j)$ such that $\sum_{j=1}^k p_j = 1$.
+
+## Empirical distribution
+
+-   Based on the observations $X_1,\ ldots, X_n$, the **empirical cdf** is
+    $$
+    \hat{F}_n(x) = \frac{1}{n} \sum_{i=1}^n I(X_i \leq x).
+    $$
+-   The empirical cdf is always a discrete distribution on $\{X_1, \ldots, X_n\}$.
+-   It is the simplest nonparametric estimator of $F$.
+-   The Glivenko-Cantelli theorem states that $\hat{F}_n \to F$ almost surely (in the sup norm), i.e., $\sup_x \| \hat{F}_n(x) - F(x)\| \cas 0$.
+
+# Dirichlet Process
+
 
 ## Dirichlet distribution
 
