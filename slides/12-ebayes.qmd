@@ -35,7 +35,7 @@ execute:
 
 ## Empirical distribution
 
--   Based on the observations $X_1,\ ldots, X_n$, the **empirical cdf** is
+-   Based on the observations $X_1, \ldots, X_n$, the **empirical cdf** is
     $$
     \hat{F}_n(x) = \frac{1}{n} \sum_{i=1}^n I(X_i \leq x).
     $$
@@ -71,26 +71,37 @@ $$
 (F(B_1), \ldots, F(B_n)) \sim \text{Dir}(\alpha F_0(B_1), \ldots, \alpha F_0(B_n)).
 $$
 
--   The parameter $\alpha > 0$ is called the **concentration parameter**.
+-   The parameter $\alpha > 0$ is called the **concentration parameter**: large $\alpha$ means $F$ is more concentrated around $F_0$.
 -   The parameter $F_0$ is called the **mean distribution**.
 
-## Simulating Dirichlet processes[^ref]
-
-1. Draw $s_1, s_2, \ldots$ independently from $F_0$.
-2. Draw $V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)$.
-3. Let $w_1=V_1$ and $w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)$ for $j=2,3, \ldots$
-4. Let $F$ be the discrete distribution that puts mass $w_j$ at $s_j$, that is, $F=\sum_{j=1}^{\infty} w_j \delta_{s_j}$ where $\delta_{s_j}$ is a point mass at $s_j$.
-
-[^ref]: <https://www.stat.cmu.edu/~larry/=sml/nonparbayes.pdf>
-
-
 ## Simulating Dirichlet processes
+
+-   The original definition of Dirichlet process is not very useful for simulation.
+-   In order to do actual computation, we introduce two equivalent definitions of Dirichlet processes:
+    1.  Stick-breaking construction[^stick]
+    2.  Pólya Urn Scheme[^polya]
+-   These two definitions allow us to simulate Dirichlet processes easily.
+    
+[^stick]: Sethuraman, J. (1994). A constructive definition of Dirichlet priors. *Statistica sinica*, 4(2), 639-650.
+[^polya]: Blackwell, D., & MacQueen, J. B. (1973). Ferguson distributions via Pólya urn schemes. *The Annals of Statistics*, 1(2), 353-355.
+
+## Stick-breaking Construction
+
+-   The **stick-breaking construction** is as follows:
+    1. Draw $s_1, s_2, \ldots$ independently from $F_0$.
+    2. Draw $V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)$.
+    3. Let $w_1=V_1$ and $w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)$ for $j=2,3, \ldots$
+    4. Let $F$ be the discrete distribution that puts mass $w_j$ at $s_j$, that is, $F=\sum_{j=1}^{\infty} w_j \delta_{s_j}$ where $\delta_{s_j}$ is a point mass at $s_j$.
+    
+-   The distribution $F$ is a random distribution from the Dirichlet process $\mc{DP}(\alpha, F_0)$.
+
+
+## Stick-breaking Construction
 
 ```{r}
 #| label: DP_sim
 #| echo: true
-library(MCMCpack)
-DP_sim <- function(alpha = 10, F0 = rnorm, n = 1e3){
+DP_stick <- function(alpha = 10, F0 = rnorm, n = 1e3){
     s <- F0(n)
     V <- rbeta(n, 1, alpha)
     w <- c(V[1], rep(0, n-1))
@@ -103,7 +114,7 @@ DP_sim <- function(alpha = 10, F0 = rnorm, n = 1e3){
 }
 ```
 
-## Simulating Dirichlet processes
+## Stick-breaking Construction
 
 ```{r, fig.width = 10}
 #| label: DP_sim_plot
@@ -115,18 +126,44 @@ curve(pnorm(x), -3, 3, lty = 2, lwd = 2,
       ylab = TeX("$P(X \\leq x)$"), xlab = "x",
       main = TeX("$\\alpha = 10$, $F_0 = N(0,1)$"))
 for(i in 1:10){
-    f <- DP_sim()
+    f <- DP_stick(alpha = 10)
     lines(f$x, f$cdf, col = i)
 }
 
 curve(pgamma(x, 5, 3), 0, 5, lty = 2, lwd = 2, 
       ylab = TeX("$P(X \\leq x)$"), xlab = "x",
-      main = TeX("$\\alpha = 10$, $F_0 =$ Gamma(5,3)$"))
+      main = TeX("$\\alpha = 50$, $F_0 =$ Gamma(5,3)$"))
 for(i in 1:10){
-    f <- DP_sim(alpha = 10, F0 = function(x) rgamma(x, 5, 3))
+    f <- DP_stick(alpha = 50, F0 = function(x) rgamma(x, 5, 3))
     lines(f$x, f$cdf, col = i)
 }
 ```
+
+## Pólya Urn
+
+-   Consider an urn containing balls of $k$ different colors.
+-   Initially, there are $\alpha_i$ balls of color $i$.
+-   At each step, a ball is drawn from the urn and then put back together with another ball of the same color.
+-   Repeat indefinitely.
+-   Let $(p_1(n), \ldots, p_k(n))$ be the proportion of balls of each color after $n$ steps.
+-   Results:
+    +   $(p_1(n), \ldots p_k(n))$ converges to a random vector $(p_1, \ldots, p_k)$.
+    +   $(p_1, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$.
+    +   Equivalently, $(p_1(n), \ldots p_k(n)) \cd \text{Dir}(\alpha_1, \ldots, \alpha_k)$.
+
+
+## Pólya Urn Scheme (general)
+
+-   Let $\alpha$ be any finite measure on $\R$.
+-   A sequence of random variables $\{X_1, X_2, \ldots \}$ is a **Pólya Urn sequence** with parameter measure $\alpha$ if 
+    1.  $\P(X_1 \in B) = \alpha(B)/\alpha(\R)$,
+    2.  for every $n$,
+    $$
+    \P(X_{n+1} \in B \mid X_1, \ldots, X_n) = \frac{\alpha(B) + \sum_{i=1}^n I(X_i \in B)}{\alpha(\R) + n}.
+    $$
+-   Let $F_n$ be the distribution function of $X_{n+1}$ given $X_1,\ldots, X_n$.
+-   Then $F_n \to F$ and $F \sim \mc{DP}(\alpha(\R), F_0)$, $F_0(B) = \alpha(B)/\alpha(\R)$.
+
 
 ## Estimating a cdf
 
@@ -159,24 +196,40 @@ for(i in 1:10){
 
 ## Example
 
+Consider $X_1, \ldots X_n \iid F$ and $F \sim \mc{DP}(\alpha, F_0)$ where $\alpha = 10$ and $F_0 = N(0,1)$.
+
+
 ```{r}
 #| label: DP_post
 #| echo: true
 n <- 10
+set.seed(1)
 x <- rcauchy(n)
 alpha <- 10
-curve(pnorm(x), -5, 5, lty = 2, lwd = 2, 
-      ylab = TeX("$P(X \\leq x)$"), xlab = "x")
-lines(ecdf(x), col = "red", lwd = 2)
-F_bar <- function(m, alpha, n, F0, x){
-    u <- runif(m)
-    out <- rep(NA, m)
-    out[u < alpha/(alpha + n)] <- F0(sum(u < alpha/(alpha + n)))
-    out[u >= alpha/(alpha + n)] <- sample(x, sum(u >= alpha/(alpha + n)), replace = TRUE)
-    return(out)
+F_bar <- function(z){
+    n/(alpha+n)*ecdf(x)(z) + alpha/(alpha+n)*pnorm(z)
 }
 
 ```
+
+```{r, fig.width = 7, fig.height = 6}
+#| label: DP_post_plot
+#| echo: true
+#| output-location: slide
+#| fig-align: center
+curve(pnorm(x), -5, 5, lty = 2, lwd = 2, 
+      ylab = TeX("$P(X \\leq x)$"), xlab = "x")
+lines(ecdf(x), col = "red", lwd = 2)
+curve(F_bar(x), add = T, col = "blue", lwd = 2)
+```
+
+
+## Problems with DP
+
+-   There is a lack of smoothness in the posterior.
+-   Smoothness would imply dependence between $F(B_1)$ and $F(B_2)$ for adjacent bins $B_1$ and $B_2$.
+-   However, the DP actually induces negative correlation between $F(B_1)$ and $F(B_2)$ for any two disjoint sets $B_1$ and $B_2$, with no account for the distance between these sets.
+-   The realization of a DP is almost surely discrete.
 
 ## Density Estimation
 
@@ -189,13 +242,24 @@ F_bar <- function(m, alpha, n, F0, x){
 -   For example, the Gaussian kernel is $K(u) = \exp(-u^2/2)$.
 -   In `R`, the KDE is implemented in the function `density`.
 
+## Example
+
+```{r}
+#| label: KDE
+#| echo: true
+#| fig-align: center
+set.seed(1); x <- rnorm(30)
+hist(x, freq = F, breaks = 10)
+lines(density(x), col = "red", lwd = 2)
+```
+
 ## Mixture model
 
 -   A related approach is to use a mixture model:
     $$
-    \hat{f}(x) = \sum_{i=1}^k w_if(x \mid \theta_i)
+    \hat{f}(x) = \sum_{i=1}^k w_i h(x \mid \theta_i)
     $$
-    where $f(x \mid \theta_i)$ are density functions and $w_i$ are weights.
+    where $h(x \mid \theta_i)$ are density functions and $w_i$ are weights.
 -   For example, the Gaussian mixture model (GMM) is
     $$
     \hat{f}(x) = \sum_{i=1}^k w_i\phi(x \mid \mu_i, \sigma_i^2)
@@ -207,27 +271,124 @@ F_bar <- function(m, alpha, n, F0, x){
 
 -   We can also consider an infinite mixture model:
     $$
-    \hat{f}(x) = \sum_{i=1}^\infty w_if(x \mid \theta_i).
+    \hat{f}(x) = \sum_{i=1}^\infty w_i h(x \mid \theta_i).
     $$
--   Dirichlet process is an example of infinite mixture models, since
+-   Dirichlet process is an example of infinite mixture models, since $F = \sum_{i=1}^{\infty}w_i \delta_{x_i}$ from the stick-breaking construction.
+-   However, the realization of a Dirichlet process is a mixture of Dirac distributions and therefore does not have a density. 
+-   A more general form of mixture model is 
     $$
-    F = \sum_{i=1}^{\infty}w_i \delta_{x_i}
+    f(x) = \int h(x \mid \theta) dP(\theta)
     $$
-    where 
-    
-
+    where $P$ is a mixing distribution and $h$ is a given kernel.
 
 ## Dirichlet process mixture model
 
 -   For density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.
--   Instead, we can use a Dirichlet process mixture model (DPMM):
+-   Alternatively, we assume the density to be estimated is
+    $$
+    f(x) = \int h(x \mid \theta) dP(\theta)
+    $$
+    where $P$ is unknown.
+-   We assume a Dirichlet process prior on $P$,
     \begin{align*}
-    F \mid \alpha, F_0 & \sim \text{DP}(\alpha, F_0)\\
-    \theta_1, \ldots, \theta_n \mid F & \iid F\\
-    X_i \mid \theta_i & \ind f(x \mid \theta_i).
+    X \mid P & \sim f(x) = \int h(x \mid \theta) dP(\theta)\\
+    P \mid \alpha, P_0 & \sim \mc{DP}(\alpha, P_0),
     \end{align*}
+    which is called a Dirichlet process mixture model (DPMM).
+    
+## Dirichlet process mixture model
 
-# Empirical Bayes
+-   Using the stick-breaking representation, the DPMM is equivalent to
+    \begin{align*}
+    f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
+    \end{align*}
+    where $\pi_h$ is from the stick-breaking construction and $\theta_i^* \iid P_0$, $i = 1,\ldots, \infty$.
+-   Suppose we observe $X_1, \ldots, X_n \iid f$ and we want to estimate $f$ using DPMM.
+-   We need to sample $\theta_1^*, \ldots, \theta_n^*$ the posterior.
+-   However, in this case, we no longer have the conjugacy due to the presence of $h$.
+
+## Sampling from DPMM
+
+-   We can use the Pólya Urn Scheme to sample $\theta_1^*, \ldots, \theta_n^*$, i.e.,
+    $$
+    \theta_i^* \mid \theta_1^*, \ldots, \theta_{i-1}^*, \alpha, P_0 \sim \left(\frac{\alpha}{\alpha+i-1}\right) P_0\left(\theta_i\right)+\sum_{j=1}^{i-1}\left(\frac{1}{\alpha+i-1}\right) \delta_{\theta_j}.
+    $$
+-   Then obtain $w_i$'s from the stick-breaking construction.
+-   We
+
+
+## Example
+
+We will use the `R` package `dirichletprocess` for demonstration.
+
+::: {.nonincremental}
+
+-   The function `DirichletProcessGaussian` creates a DPMM with
+    +   $h$ being Gaussian
+    +   $P_0$ being the normal-inverse-gamma distribution which is conjugate to normal.
+
+:::
+
+
+```{r}
+#| label: DPMM
+#| echo: true
+#| fig-align: center
+#| warning: false
+#| output-location: slide
+library(dirichletprocess)
+its <- 500 # Number of iterations
+faithfulTransformed <- scale(faithful$waiting)
+dp <- DirichletProcessGaussian(faithfulTransformed)
+dp <- Fit(dp, its)
+plot(dp, data_method="hist")
+```
+
+::: aside
+
+The dataset `faithful` contains the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park.
+
+:::
+
+
+
+## Other applications
+
+There are many other applications:
+
+1.  Nonparametric residual distributions
+2.  Nonparametric models for parameters that vary by group
+3.  Clustering Analysis
+
+## Cluster Analysis
+
+::: {.nonincremental}
+
+-   For a DPMM, each $X_i$ is assigned a cluster parameter $\theta_i$, for example,
+    \begin{align*}
+    X_i & \sim N\left(y \mid \theta_i\right), \\
+    \theta_i & =\left\{\boldsymbol{\mu}_i, \Sigma_i\right\} \\
+    \theta_i & \sim G \\
+    G & \sim \mc{DP}\left(\alpha, G_0\right).
+    \end{align*}
+-   The collection of all unique $\theta_i$'s allows for a natural way of grouping the data and hence the Dirichlet process is an effective way of performing cluster analysis.
+
+:::
+
+```{r}
+#| label: DPMM-cluster
+#| echo: true
+#| fig-align: center
+#| warning: false
+#| output-location: slide
+faithfulTrans <- scale(faithful)
+dp <-  DirichletProcessMvnormal(faithfulTrans)
+dp <- Fit(dp, 1000)
+plot(dp)
+```
+
+
+## Hierarchical Dirichlet process
 
 
 

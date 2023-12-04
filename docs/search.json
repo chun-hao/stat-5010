@@ -2671,7 +2671,7 @@
     "href": "slides/12-ebayes.html#definition",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Definition",
-    "text": "Definition\nA ``random distribution’’ \\(F\\) is said to follow a Dirichlet process, denoted by \\[\nF \\sim \\mc{DP}(\\alpha, F_0),\n\\] if for any measurable partition \\(B_1, \\ldots, B_n\\) of the sample space of \\(F_0\\), the random vector \\((F(B_1), \\ldots, F(B_n))\\) has a Dirichlet distribution, i.e., \\[\n(F(B_1), \\ldots, F(B_n)) \\sim \\text{Dir}(\\alpha F_0(B_1), \\ldots, \\alpha F_0(B_n)).\n\\]\n\nThe parameter \\(\\alpha &gt; 0\\) is called the concentration parameter.\nThe parameter \\(F_0\\) is called the mean distribution."
+    "text": "Definition\nA ``random distribution’’ \\(F\\) is said to follow a Dirichlet process, denoted by \\[\nF \\sim \\mc{DP}(\\alpha, F_0),\n\\] if for any measurable partition \\(B_1, \\ldots, B_n\\) of the sample space of \\(F_0\\), the random vector \\((F(B_1), \\ldots, F(B_n))\\) has a Dirichlet distribution, i.e., \\[\n(F(B_1), \\ldots, F(B_n)) \\sim \\text{Dir}(\\alpha F_0(B_1), \\ldots, \\alpha F_0(B_n)).\n\\]\n\nThe parameter \\(\\alpha &gt; 0\\) is called the concentration parameter: large \\(\\alpha\\) means \\(F\\) is more concentrated around \\(F_0\\).\nThe parameter \\(F_0\\) is called the mean distribution."
   },
   {
     "objectID": "slides/12-ebayes.html#simulating-dirichlet-processesref",
@@ -2685,14 +2685,14 @@
     "href": "slides/12-ebayes.html#simulating-dirichlet-processes",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Simulating Dirichlet processes",
-    "text": "Simulating Dirichlet processes\n\nlibrary(MCMCpack)\nDP_sim &lt;- function(alpha = 10, F0 = rnorm, n = 1e3){\n    s &lt;- F0(n)\n    V &lt;- rbeta(n, 1, alpha)\n    w &lt;- c(V[1], rep(0, n-1))\n    w[2:n] &lt;- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))\n    s_ord &lt;- order(s)\n    s &lt;- s[s_ord]\n    cum_prob &lt;- cumsum(w[s_ord])\n\n    return(list(x = s, cdf = cum_prob))\n}"
+    "text": "Simulating Dirichlet processes\n\nThe original definition of Dirichlet process is not very useful for simulation.\nIn order to do actual computation, we introduce two equivalent definitions of Dirichlet processes:\n\nStick-breaking construction1\nPólya Urn Scheme2\n\nThese two definitions allow us to simulate Dirichlet processes easily.\n\nSethuraman, J. (1994). A constructive definition of Dirichlet priors. Statistica sinica, 4(2), 639-650.Blackwell, D., & MacQueen, J. B. (1973). Ferguson distributions via Pólya urn schemes. The Annals of Statistics, 1(2), 353-355."
   },
   {
     "objectID": "slides/12-ebayes.html#simulating-dirichlet-processes-1",
     "href": "slides/12-ebayes.html#simulating-dirichlet-processes-1",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Simulating Dirichlet processes",
-    "text": "Simulating Dirichlet processes"
+    "text": "Simulating Dirichlet processes\n\nlibrary(MCMCpack)\nDP_sim &lt;- function(alpha = 10, F0 = rnorm, n = 1e3){\n    s &lt;- F0(n)\n    V &lt;- rbeta(n, 1, alpha)\n    w &lt;- c(V[1], rep(0, n-1))\n    w[2:n] &lt;- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))\n    s_ord &lt;- order(s)\n    s &lt;- s[s_ord]\n    cum_prob &lt;- cumsum(w[s_ord])\n\n    return(list(x = s, cdf = cum_prob))\n}"
   },
   {
     "objectID": "slides/12-ebayes.html#estimating-a-cdf",
@@ -2713,7 +2713,7 @@
     "href": "slides/12-ebayes.html#example",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Example",
-    "text": "Example\n\nn &lt;- 10\nx &lt;- rcauchy(n)\nalpha &lt;- 10\ncurve(pnorm(x), -5, 5, lty = 2, lwd = 2, \n      ylab = TeX(\"$P(X \\\\leq x)$\"), xlab = \"x\")\nlines(ecdf(x), col = \"red\", lwd = 2)\n\nF_bar &lt;- function(m, alpha, n, F0, x){\n    u &lt;- runif(m)\n    out &lt;- rep(NA, m)\n    out[u &lt; alpha/(alpha + n)] &lt;- F0(sum(u &lt; alpha/(alpha + n)))\n    out[u &gt;= alpha/(alpha + n)] &lt;- sample(x, sum(u &gt;= alpha/(alpha + n)), replace = TRUE)\n    return(out)\n}"
+    "text": "Example\nConsider \\(X_1, \\ldots X_n \\iid F\\) and \\(F \\sim \\mc{DP}(\\alpha, F_0)\\) where \\(\\alpha = 10\\) and \\(F_0 = N(0,1)\\).\n\nn &lt;- 10\nset.seed(1)\nx &lt;- rcauchy(n)\nalpha &lt;- 10\nF_bar &lt;- function(z){\n    n/(alpha+n)*ecdf(x)(z) + alpha/(alpha+n)*pnorm(z)\n}\n\n\ncurve(pnorm(x), -5, 5, lty = 2, lwd = 2, \n      ylab = TeX(\"$P(X \\\\leq x)$\"), xlab = \"x\")\nlines(ecdf(x), col = \"red\", lwd = 2)\ncurve(F_bar(x), add = T, col = \"blue\", lwd = 2)"
   },
   {
     "objectID": "slides/12-ebayes.html#density-estimation",
@@ -2727,21 +2727,21 @@
     "href": "slides/12-ebayes.html#mixture-model",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Mixture model",
-    "text": "Mixture model\n\nA related approach is to use a mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_if(x \\mid \\theta_i)\n\\] where \\(f(x \\mid \\theta_i)\\) are density functions and \\(w_i\\) are weights.\nFor example, the Gaussian mixture model (GMM) is \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_i\\phi(x \\mid \\mu_i, \\sigma_i^2)\n\\] where \\(\\phi(x \\mid \\mu_i, \\sigma_i^2)\\) is the density of a normal distribution with mean \\(\\mu_i\\) and variance \\(\\sigma_i^2\\).\nIn fact, a GMM can approximate any density (on \\(\\R\\)) arbitrarily well."
+    "text": "Mixture model\n\nA related approach is to use a mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_i h(x \\mid \\theta_i)\n\\] where \\(h(x \\mid \\theta_i)\\) are density functions and \\(w_i\\) are weights.\nFor example, the Gaussian mixture model (GMM) is \\[\n\\hat{f}(x) = \\sum_{i=1}^k w_i\\phi(x \\mid \\mu_i, \\sigma_i^2)\n\\] where \\(\\phi(x \\mid \\mu_i, \\sigma_i^2)\\) is the density of a normal distribution with mean \\(\\mu_i\\) and variance \\(\\sigma_i^2\\).\nIn fact, a GMM can approximate any density (on \\(\\R\\)) arbitrarily well."
   },
   {
     "objectID": "slides/12-ebayes.html#infinite-mixture-model",
     "href": "slides/12-ebayes.html#infinite-mixture-model",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Infinite mixture model",
-    "text": "Infinite mixture model\n\nWe can also consider an infinite mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^\\infty w_if(x \\mid \\theta_i).\n\\]\nDirichlet process is an example of infinite mixture models, since \\[\nF = \\sum_{i=1}^{\\infty}w_i \\delta_{x_i}\n\\] where"
+    "text": "Infinite mixture model\n\nWe can also consider an infinite mixture model: \\[\n\\hat{f}(x) = \\sum_{i=1}^\\infty w_i h(x \\mid \\theta_i).\n\\]\nDirichlet process is an example of infinite mixture models, since \\(F = \\sum_{i=1}^{\\infty}w_i \\delta_{x_i}\\) from the stick-breaking construction.\nHowever, the realization of a Dirichlet process is a mixture of Dirac distributions and therefore does not have a density.\nA more general form of mixture model is \\[\nf(x) = \\int h(x \\mid \\theta) dP(\\theta)\n\\] where \\(P\\) is a mixing distribution and \\(h\\) is a given kernel."
   },
   {
     "objectID": "slides/12-ebayes.html#dirichlet-process-mixture-model",
     "href": "slides/12-ebayes.html#dirichlet-process-mixture-model",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Dirichlet process mixture model",
-    "text": "Dirichlet process mixture model\n\nFor density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.\nInstead, we can use a Dirichlet process mixture model (DPMM): \\[\\begin{align*}\nF \\mid \\alpha, F_0 & \\sim \\text{DP}(\\alpha, F_0)\\\\\n\\theta_1, \\ldots, \\theta_n \\mid F & \\iid F\\\\\nX_i \\mid \\theta_i & \\ind f(x \\mid \\theta_i).\n\\end{align*}\\]"
+    "text": "Dirichlet process mixture model\n\nFor density estimation, the Dirichlet process is not a useful prior, since it produces discrete distributions.\nAlternatively, we assume the density to be estimated is \\[\nf(x) = \\int h(x \\mid \\theta) dP(\\theta)\n\\] where \\(P\\) is unknown.\nWe assume a Dirichlet process prior on \\(P\\), \\[\\begin{align*}\nX \\mid P & \\sim f(x) = \\int h(x \\mid \\theta) dP(\\theta)\\\\\nP \\mid \\alpha, P_0 & \\sim \\mc{DP}(\\alpha, P_0),\n\\end{align*}\\] which is called a Dirichlet process mixture model (DPMM)."
   },
   {
     "objectID": "slides/12-ebayes.html#nonparametric-estimation-of-distribution",
@@ -2755,6 +2755,167 @@
     "href": "slides/12-ebayes.html#empirical-distribution",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Empirical distribution",
-    "text": "Empirical distribution\n\nBased on the observations \\(X_1,\\ ldots, X_n\\), the empirical cdf is \\[\n\\hat{F}_n(x) = \\frac{1}{n} \\sum_{i=1}^n I(X_i \\leq x).\n\\]\nThe empirical cdf is always a discrete distribution on \\(\\{X_1, \\ldots, X_n\\}\\).\nIt is the simplest nonparametric estimator of \\(F\\).\nThe Glivenko-Cantelli theorem states that \\(\\hat{F}_n \\to F\\) almost surely (in the sup norm), i.e., \\(\\sup_x \\| \\hat{F}_n(x) - F(x)\\| \\cas 0\\)."
+    "text": "Empirical distribution\n\nBased on the observations \\(X_1, \\ldots, X_n\\), the empirical cdf is \\[\n\\hat{F}_n(x) = \\frac{1}{n} \\sum_{i=1}^n I(X_i \\leq x).\n\\]\nThe empirical cdf is always a discrete distribution on \\(\\{X_1, \\ldots, X_n\\}\\).\nIt is the simplest nonparametric estimator of \\(F\\).\nThe Glivenko-Cantelli theorem states that \\(\\hat{F}_n \\to F\\) almost surely (in the sup norm), i.e., \\(\\sup_x \\| \\hat{F}_n(x) - F(x)\\| \\cas 0\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#stick-breaking-construction-of-dp",
+    "href": "slides/12-ebayes.html#stick-breaking-construction-of-dp",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Stick-breaking Construction of DP",
+    "text": "Stick-breaking Construction of DP\n\nThere is a different way to define a Dirichlet process, called the stick-breaking construction:\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\).\n\nThe equivalence of these two definitions is given in Sethuraman, J. (1994)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#polya-urn",
+    "href": "slides/12-ebayes.html#polya-urn",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "P'{o}lya Urn",
+    "text": "P'{o}lya Urn\n\nConsider an urn containing balls of \\(k\\) different colors.\nInitially, there are \\(\\alpha_i\\) balls of color \\(i\\).\nAt each step, a ball is drawn from the urn and then put back together with another ball of the same color.\nRepeat indefinitely.\nLet \\((p_1(n), \\ldots, p_k(n))\\) be the proportion of balls of each color after \\(n\\) steps.\nResults:\n\n\\((p_1(n), \\ldots p_k(n))\\) converges to a random vector \\((p_1, \\ldots, p_k)\\).\n\\((p_1, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\).\nEquivalently, \\((p_1(n), \\ldots p_k(n)) \\cd \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#polya-urn-general",
+    "href": "slides/12-ebayes.html#polya-urn-general",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Polya Urn (general)",
+    "text": "Polya Urn (general)"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#problems-with-dp",
+    "href": "slides/12-ebayes.html#problems-with-dp",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Problems with DP",
+    "text": "Problems with DP\n\nThere is a lack of smoothness in the posterior.\nSmoothness would imply dependence between \\(F(B_1)\\) and \\(F(B_2)\\) for adjacent bins \\(B_1\\) and \\(B_2\\).\nHowever, the DP actually induces negative correlation between \\(F(B_1)\\) and \\(F(B_2)\\) for any two disjoint sets \\(B_1\\) and \\(B_2\\), with no account for the distance between these sets.\nThe realization of a DP is almost surely discrete."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#polya-urn-scheme-general",
+    "href": "slides/12-ebayes.html#polya-urn-scheme-general",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Polya Urn Scheme (general)",
+    "text": "Polya Urn Scheme (general)\n\nDefine a sequence"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#pólya-urn",
+    "href": "slides/12-ebayes.html#pólya-urn",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Pólya Urn",
+    "text": "Pólya Urn\n\nConsider an urn containing balls of \\(k\\) different colors.\nInitially, there are \\(\\alpha_i\\) balls of color \\(i\\).\nAt each step, a ball is drawn from the urn and then put back together with another ball of the same color.\nRepeat indefinitely.\nLet \\((p_1(n), \\ldots, p_k(n))\\) be the proportion of balls of each color after \\(n\\) steps.\nResults:\n\n\\((p_1(n), \\ldots p_k(n))\\) converges to a random vector \\((p_1, \\ldots, p_k)\\).\n\\((p_1, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\).\nEquivalently, \\((p_1(n), \\ldots p_k(n)) \\cd \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#pólya-urn-scheme-general",
+    "href": "slides/12-ebayes.html#pólya-urn-scheme-general",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Pólya Urn Scheme (general)",
+    "text": "Pólya Urn Scheme (general)\n\nLet \\(\\alpha\\) be any finite measure on \\(\\R\\).\nA sequence of random variables \\(\\{X_1, X_2, \\ldots \\}\\) is a Pólya Urn sequence with parameter measure \\(\\alpha\\) if\n\n\\(\\P(X_1 \\in B) = \\alpha(B)/\\alpha(\\R)\\),\nfor every \\(n\\), \\[\n\\P(X_{n+1} \\in B \\mid X_1, \\ldots, X_n) = \\frac{\\alpha(B) + \\sum_{i=1}^n I(X_i \\in B)}{\\alpha(\\R) + n}.\n\\]\n\nLet \\(F_n\\) be the distribution function of \\(X_{n+1}\\) given \\(X_1,\\ldots, X_n\\).\nThen \\(F_n \\to F\\) and \\(F \\sim \\mc{DP}(\\alpha(\\R), F_0)\\), \\(F_0(B) = \\alpha(B)/\\alpha(\\R)\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#stick-breaking-construction",
+    "href": "slides/12-ebayes.html#stick-breaking-construction",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Stick-breaking Construction",
+    "text": "Stick-breaking Construction\n\nThe stick-breaking construction is as follows:\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\).\n\nThe distribution \\(F\\) is a random distribution from the Dirichlet process \\(\\mc{DP}(\\alpha, F_0)\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#simulating-dirichlet-processes-2",
+    "href": "slides/12-ebayes.html#simulating-dirichlet-processes-2",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Simulating Dirichlet processes",
+    "text": "Simulating Dirichlet processes"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#stick-breaking-construction-1",
+    "href": "slides/12-ebayes.html#stick-breaking-construction-1",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Stick-breaking Construction",
+    "text": "Stick-breaking Construction\n\nDP_stick &lt;- function(alpha = 10, F0 = rnorm, n = 1e3){\n    s &lt;- F0(n)\n    V &lt;- rbeta(n, 1, alpha)\n    w &lt;- c(V[1], rep(0, n-1))\n    w[2:n] &lt;- sapply(2:n, function(i) V[i] * prod(1 - V[1:(i-1)]))\n    s_ord &lt;- order(s)\n    s &lt;- s[s_ord]\n    cum_prob &lt;- cumsum(w[s_ord])\n\n    return(list(x = s, cdf = cum_prob))\n}"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#stick-breaking-construction-2",
+    "href": "slides/12-ebayes.html#stick-breaking-construction-2",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Stick-breaking Construction",
+    "text": "Stick-breaking Construction"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#other-applications",
+    "href": "slides/12-ebayes.html#other-applications",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Other applications",
+    "text": "Other applications\nThere are many other applications:\n\nNonparametric residual distributions\nNonparametric models for parameters that vary by group\nClustering Analysis"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#example-output",
+    "href": "slides/12-ebayes.html#example-output",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#example-1",
+    "href": "slides/12-ebayes.html#example-1",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Example",
+    "text": "Example\n\nset.seed(1); x &lt;- rnorm(30)\nhist(x, freq = F, breaks = 10)\nlines(density(x), col = \"red\", lwd = 2)"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#sampling-from-dpmm",
+    "href": "slides/12-ebayes.html#sampling-from-dpmm",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Sampling from DPMM",
+    "text": "Sampling from DPMM\n\nWe can use the Pólya Urn Scheme to sample \\(\\theta_1^*, \\ldots, \\theta_n^*\\), i.e., \\[\n\\theta_i^* \\mid \\theta_1^*, \\ldots, \\theta_{i-1}^*, \\alpha, P_0 \\sim \\left(\\frac{\\alpha}{\\alpha+i-1}\\right) P_0\\left(\\theta_i\\right)+\\sum_{j=1}^{i-1}\\left(\\frac{1}{\\alpha+i-1}\\right) \\delta_{\\theta_j}.\n\\]\nThen obtain \\(w_i\\)’s from the stick-breaking construction.\nWe"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#dirichlet-process-mixture-model-1",
+    "href": "slides/12-ebayes.html#dirichlet-process-mixture-model-1",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Dirichlet process mixture model",
+    "text": "Dirichlet process mixture model\n\nUsing the stick-breaking representation, the DPMM is equivalent to \\[\\begin{align*}\nf(x)=\\sum_{i=1}^{\\infty} w_i h\\left(x \\mid \\theta_i^*\\right)\n\\end{align*}\\] where \\(\\pi_h\\) is from the stick-breaking construction and \\(\\theta_i^* \\iid P_0\\), \\(i = 1,\\ldots, \\infty\\).\nSuppose we observe \\(X_1, \\ldots, X_n \\iid f\\) and we want to estimate \\(f\\) using DPMM.\nWe need to sample \\(\\theta_1^*, \\ldots, \\theta_n^*\\) the posterior.\nHowever, in this case, we no longer have the conjugacy due to the presence of \\(h\\)."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#example-2",
+    "href": "slides/12-ebayes.html#example-2",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Example",
+    "text": "Example\nWe will use the R package dirichletprocess for demonstration.\n\n\nThe function DirichletProcessGaussian creates a DPMM with\n\n\\(h\\) being Gaussian\n\\(P_0\\) being the normal-inverse-gamma distribution which is conjugate to normal.\n\n\n\n\nlibrary(dirichletprocess)\nits &lt;- 500 # Number of iterations\nfaithfulTransformed &lt;- scale(faithful$waiting)\ndp &lt;- DirichletProcessGaussian(faithfulTransformed)\ndp &lt;- Fit(dp, its)\nplot(dp, data_method=\"hist\")\n\n\n\n\nThe dataset faithful contains the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park."
+  },
+  {
+    "objectID": "slides/12-ebayes.html#example-2-output",
+    "href": "slides/12-ebayes.html#example-2-output",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Example",
+    "text": "Example"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#cluster-analysis",
+    "href": "slides/12-ebayes.html#cluster-analysis",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Cluster Analysis",
+    "text": "Cluster Analysis\n\n\nFor a DPMM, each \\(X_i\\) is assigned a cluster parameter \\(\\theta_i\\), for example, \\[\\begin{align*}\nX_i & \\sim N\\left(y \\mid \\theta_i\\right), \\\\\n\\theta_i & =\\left\\{\\boldsymbol{\\mu}_i, \\Sigma_i\\right\\} \\\\\n\\theta_i & \\sim G \\\\\nG & \\sim \\mc{DP}\\left(\\alpha, G_0\\right).\n\\end{align*}\\]\nThe collection of all unique \\(\\theta_i\\)’s allows for a natural way of grouping the data and hence the Dirichlet process is an effective way of performing cluster analysis.\n\n\n\nfaithfulTrans &lt;- scale(faithful)\ndp &lt;-  DirichletProcessMvnormal(faithfulTrans)\ndp &lt;- Fit(dp, 1000)\nplot(dp)"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#cluster-analysis-output",
+    "href": "slides/12-ebayes.html#cluster-analysis-output",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Cluster Analysis",
+    "text": "Cluster Analysis"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#density-estimation-on-bounded-intervals",
+    "href": "slides/12-ebayes.html#density-estimation-on-bounded-intervals",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Density Estimation on Bounded Intervals",
+    "text": "Density Estimation on Bounded Intervals\n\nlibrary(ggplot2)\ny &lt;- c(rbeta(150, 1, 3), rbeta(150, 7, 3)) #generate sample data\ndp &lt;- DirichletProcessBeta(y, 1, verbose = F)\ndp &lt;- Fit(dp, 1000, progressBar = F)\n\nposteriorFrame &lt;- PosteriorFrame(dp, ppoints(100), ci_size = 0.05)\ntrueFrame &lt;- data.frame(x=ppoints(100),\n                        y=0.5*dbeta(ppoints(100), 1, 3)+\n                          0.5*dbeta(ppoints(100), 7, 3))\nggplot() +\n    geom_ribbon(data=posteriorFrame,\n                aes(x=x, ymin=X2.5., ymax=X97.5.),\n                alpha=0.2,\n                colour=NA,\n                fill=\"red\") +\n    geom_line(data=posteriorFrame, aes(x=x, y=Mean), colour=\"red\") +\n    geom_line(data=trueFrame, aes(x=x, y=y))"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#density-estimation-on-bounded-intervals-output",
+    "href": "slides/12-ebayes.html#density-estimation-on-bounded-intervals-output",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Density Estimation on Bounded Intervals",
+    "text": "Density Estimation on Bounded Intervals"
+  },
+  {
+    "objectID": "slides/12-ebayes.html#hierarchical-dirichlet-process",
+    "href": "slides/12-ebayes.html#hierarchical-dirichlet-process",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Hierarchical Dirichlet process",
+    "text": "Hierarchical Dirichlet process\n\n\nHome"
   }
 ]
