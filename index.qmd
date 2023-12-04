@@ -19,7 +19,7 @@ title: "Bayesian Statistical Methods (Fall 2023)"
 |  11  | 11/14 | Bayesian regression                                       | [Slide](slides/09-regression.qmd)  | BDA Ch. 14                |
 |  12  | 11/21 | Generalized Linear Models; Latent Variable Model |         [Slide](slides/10-glm.qmd) [Survey](slides/survey_example.qmd) | BDA Ch. 16, 18            |
 |  13  | 11/28 | Gaussian Processes                                        | [Slide](slides/11-bayes_np.qmd)    | BDA Ch. 20, 21            |
-|  14  | 12/5  | Dirichlet Processes and Empirical Bayes                   |                                    | BDA Ch. 22, 23, BC Ch. 10 |
+|  14  | 12/5  | Dirichlet Processes                                       | [Slide](slides/12-dirichlet.qmd)   | BDA Ch. 22, 23            |
 |  15  | 12/12 | Final Project Presentation                                |                                    |                           |
 |  16  | 12/19 | Final Project Presentation                                |                                    |                           |
 

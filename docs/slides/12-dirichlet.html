@@ -433,20 +433,32 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">Let <span class="math inline">\(X_1, \ldots, X_n \iid F\)</span> be a random sample from a distribution <span class="math inline">\(F\)</span>.</li>
 <li class="fragment">We want to estimate <span class="math inline">\(F\)</span> without posing any parametric assumption.</li>
-<li class="fragment">There are several cases:
+<li class="fragment">We focus on the two cases:
 <ol type="1">
-<li class="fragment"><span class="math inline">\(F\)</span> is a discrete distribution on <span class="math inline">\(\{1, \ldots, k\}\)</span>.</li>
-<li class="fragment"><span class="math inline">\(F\)</span> is a discrete distribution on <span class="math inline">\(\{1,2,\ldots\}\)</span>.</li>
 <li class="fragment"><span class="math inline">\(F\)</span> is a continuous distribution and we want to estimate its <strong>cdf</strong></li>
 <li class="fragment"><span class="math inline">\(F\)</span> is a continuous distribution and we want to estimate its <strong>pdf</strong></li>
 </ol></li>
-<li class="fragment">The first case is the simplest: we are estimating <span class="math inline">\(p_j = \P(X = j)\)</span> such that <span class="math inline">\(\sum_{j=1}^k p_j = 1\)</span>.</li>
+<li class="fragment">A Bayesian approach is to view <span class="math inline">\(F\)</span> as a random distribution and put a prior on it.</li>
+</ul>
+</section>
+<section id="random-distribution" class="slide level2">
+<h2>Random distribution</h2>
+<ul>
+<li class="fragment">A <strong>random distribution function</strong> is just a random function with additional constraints:
+<ol type="1">
+<li class="fragment"><span class="math inline">\(\lim_{x \to -\infty} F(x) = 0\)</span></li>
+<li class="fragment"><span class="math inline">\(\lim_{x \to \infty} F(x) = 1\)</span></li>
+<li class="fragment"><span class="math inline">\(F\)</span> is non-decreasing</li>
+<li class="fragment"><span class="math inline">\(F\)</span> is right-continuous</li>
+</ol></li>
+<li class="fragment">Enforcing these constraints on Gaussian process is not easy.</li>
+<li class="fragment">Therefore, we need another process that can generate random distribution functions.</li>
 </ul>
 </section>
 <section id="empirical-distribution" class="slide level2">
 <h2>Empirical distribution</h2>
 <ul>
-<li class="fragment">Based on the observations <span class="math inline">\(X_1, \ldots, X_n\)</span>, the <strong>empirical cdf</strong> is <span class="math display">\[
+<li class="fragment">Based on the observations <span class="math inline">\(X_1, \ldots, X_n\)</span>, the <strong>empirical cdf (ecdf)</strong> is <span class="math display">\[
 \hat{F}_n(x) = \frac{1}{n} \sum_{i=1}^n I(X_i \leq x).
 \]</span></li>
 <li class="fragment">The empirical cdf is always a discrete distribution on <span class="math inline">\(\{X_1, \ldots, X_n\}\)</span>.</li>
@@ -454,10 +466,24 @@ Chun-Hao Yang
 <li class="fragment">The Glivenko-Cantelli theorem states that <span class="math inline">\(\hat{F}_n \to F\)</span> almost surely (in the sup norm), i.e., <span class="math inline">\(\sup_x \| \hat{F}_n(x) - F(x)\| \cas 0\)</span>.</li>
 </ul>
 </section>
-<section>
-<section id="dirichlet-process" class="title-slide slide level1 center">
-<h1>Dirichlet Process</h1>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p>The ecdf can be easily computed in R:</p>
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/ecdf_bd220ea1b52465c262f4f9e024f70e42">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>); x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">curve</span>(<span class="fu">pnorm</span>(x), <span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"cdf"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">lines</span>(<span class="fu">ecdf</span>(x), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
+</div>
+<img data-src="12-dirichlet_files/figure-revealjs/ecdf-1.png" width="576" class="r-stretch quarto-figure-center"></section>
+<section id="dirichlet-process" class="slide level2">
+<h2>Dirichlet Process</h2>
+<ul>
+<li class="fragment">An obvious problem with the ecdf is that it is discrete.</li>
+<li class="fragment">Therefore we can not directly differentiate the ecdf to get the pdf.</li>
+<li class="fragment">The most commonly used prior for random distributions is the <strong>Dirichlet process</strong>.</li>
+<li class="fragment">It is the infinite-dimensional generalization of the Dirichlet distribution, just like the Gaussian process is the infinite-dimensional generalization of the multivariate normal distribution.</li>
+</ul>
 </section>
 <section id="dirichlet-distribution" class="slide level2">
 <h2>Dirichlet distribution</h2>
@@ -472,8 +498,20 @@ f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) =
 \frac{\Gamma(\alpha_1 + \cdots + \alpha_k)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_k)} p_1^{\alpha_1-1}\cdots p_k^{\alpha_k-1}
 \]</span> where <span class="math inline">\(p_i \in [0,1]\)</span> and <span class="math inline">\(\sum_{i=1}^k p_i = 1\)</span>.</li>
 <li class="fragment">Alternative: <span class="math inline">\(\alpha = \sum_{i=1}^k\alpha_i\)</span> and <span class="math inline">\(\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]\)</span>.</li>
+<li class="fragment">The domain of a Dirichlet distribution is a <span class="math inline">\(k-1\)</span> dimensional simplex <span class="math inline">\(\triangle^{k} = \{(p_1, \ldots, p_k): \sum p_i = 1, p_i \geq 0\}\)</span>.</li>
 </ul>
 </section>
+<section id="dirichlet-distribution-1" class="slide level2">
+<h2>Dirichlet distribution</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/lec12/dirichlet.jpg" style="width:65.0%"></p>
+</figure>
+</div>
+
+<aside><div>
+<p>Image source: <a href="https://en.wikipedia.org/wiki/Dirichlet_distribution">Wikipedia</a></p>
+</div></aside></section>
 <section id="definition" class="slide level2">
 <h2>Definition</h2>
 <p>A ``random distribution’’ <span class="math inline">\(F\)</span> is said to follow a Dirichlet process, denoted by <span class="math display">\[
@@ -484,6 +522,15 @@ F \sim \mc{DP}(\alpha, F_0),
 <ul>
 <li class="fragment">The parameter <span class="math inline">\(\alpha &gt; 0\)</span> is called the <strong>concentration parameter</strong>: large <span class="math inline">\(\alpha\)</span> means <span class="math inline">\(F\)</span> is more concentrated around <span class="math inline">\(F_0\)</span>.</li>
 <li class="fragment">The parameter <span class="math inline">\(F_0\)</span> is called the <strong>mean distribution</strong>.</li>
+</ul>
+</section>
+<section id="expectation-and-variance" class="slide level2">
+<h2>Expectation and variance</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(F\)</span> be a random cdf from a Dirichlet process <span class="math inline">\(\mc{DP}(\alpha, F_0)\)</span>.</li>
+<li class="fragment">Expectation: <span class="math inline">\(\E(F(t)) = F_0(t)\)</span>.</li>
+<li class="fragment">Variance: <span class="math inline">\(\var(F(t)) = \frac{F_0(t)(1-F_0(t))}{\alpha + 1}\)</span>.</li>
+<li class="fragment">Covariance: <span class="math inline">\(\cov(F(t), F(s)) = \frac{-F_0(t)F_0(s)}{\alpha + 1}\)</span> for <span class="math inline">\(s \neq t\)</span>.</li>
 </ul>
 </section>
 <section id="simulating-dirichlet-processes" class="slide level2">
@@ -513,24 +560,24 @@ F \sim \mc{DP}(\alpha, F_0),
 </section>
 <section id="stick-breaking-construction-1" class="slide level2">
 <h2>Stick-breaking Construction</h2>
-<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_sim_e6acac220c871e196d5764581df8f9d5">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>DP_stick <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">alpha =</span> <span class="dv">10</span>, <span class="at">F0 =</span> rnorm, <span class="at">n =</span> <span class="fl">1e3</span>){</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    s <span class="ot">&lt;-</span> <span class="fu">F0</span>(n)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    V <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">1</span>, alpha)</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    w <span class="ot">&lt;-</span> <span class="fu">c</span>(V[<span class="dv">1</span>], <span class="fu">rep</span>(<span class="dv">0</span>, n<span class="dv">-1</span>))</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    w[<span class="dv">2</span><span class="sc">:</span>n] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">2</span><span class="sc">:</span>n, <span class="cf">function</span>(i) V[i] <span class="sc">*</span> <span class="fu">prod</span>(<span class="dv">1</span> <span class="sc">-</span> V[<span class="dv">1</span><span class="sc">:</span>(i<span class="dv">-1</span>)]))</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    s_ord <span class="ot">&lt;-</span> <span class="fu">order</span>(s)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    s <span class="ot">&lt;-</span> s[s_ord]</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    cum_prob <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(w[s_ord])</span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> s, <span class="at">cdf =</span> cum_prob))</span>
-<span id="cb1-11"><a href="#cb1-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="12-dirichlet_cache/revealjs/DP_sim_16dfaac2c63228d7acf779f9d84fcced">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>DP_stick <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">alpha =</span> <span class="dv">10</span>, <span class="at">F0 =</span> rnorm, <span class="at">n =</span> <span class="fl">1e3</span>){</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    s <span class="ot">&lt;-</span> <span class="fu">F0</span>(n)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>    V <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">1</span>, alpha)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    w <span class="ot">&lt;-</span> <span class="fu">c</span>(V[<span class="dv">1</span>], <span class="fu">rep</span>(<span class="dv">0</span>, n<span class="dv">-1</span>))</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    w[<span class="dv">2</span><span class="sc">:</span>n] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">2</span><span class="sc">:</span>n, <span class="cf">function</span>(i) V[i] <span class="sc">*</span> <span class="fu">prod</span>(<span class="dv">1</span> <span class="sc">-</span> V[<span class="dv">1</span><span class="sc">:</span>(i<span class="dv">-1</span>)]))</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    s_ord <span class="ot">&lt;-</span> <span class="fu">order</span>(s)</span>
+<span id="cb2-7"><a href="#cb2-7"></a>    s <span class="ot">&lt;-</span> s[s_ord]</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    cum_prob <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(w[s_ord])</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> s, <span class="at">cdf =</span> cum_prob))</span>
+<span id="cb2-11"><a href="#cb2-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stick-breaking-construction-2" class="slide level2">
 <h2>Stick-breaking Construction</h2>
 
-<img data-src="12-ebayes_files/figure-revealjs/DP_sim_plot-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<img data-src="12-dirichlet_files/figure-revealjs/DP_sim_plot-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="pólya-urn" class="slide level2">
 <h2>Pólya Urn</h2>
 <ul>
@@ -566,55 +613,43 @@ F \sim \mc{DP}(\alpha, F_0),
 <h2>Estimating a cdf</h2>
 <ul>
 <li class="fragment">Suppose we have <span class="math inline">\(X_1, \ldots, X_n \iid F\)</span> and we want to estimate <span class="math inline">\(F\)</span>.</li>
-<li class="fragment">The most common estimate is the <strong>empirical cdf</strong>: <span class="math display">\[
-\hat{F}_n(x) = \frac{1}{n}\sum_{i=1}^n I(X_i \leq x).
-\]</span></li>
-<li class="fragment">The Glivenko-Cantelli theorem states that <span class="math inline">\(\hat{F}_n \to F\)</span> almost surely (in the sup norm).</li>
 <li class="fragment">A Bayesian approach is to put a prior on <span class="math inline">\(F\)</span> and find the posterior distribution of <span class="math inline">\(F\)</span>, i.e., <span class="math display">\[\begin{align*}
-X_1, \ldots, X_n &amp;\iid F\\
-F &amp; \sim \text{Dir}(\alpha, F_0).
+X_1, \ldots, X_n \iid F, \quad
+F \sim \text{Dir}(\alpha, F_0).
 \end{align*}\]</span></li>
-</ul>
-</section>
-<section id="posterior" class="slide level2">
-<h2>Posterior</h2>
-<ul>
 <li class="fragment">The posterior of <span class="math inline">\(F\)</span> given <span class="math inline">\(X_1,\ldots, X_n\)</span> is <span class="math display">\[
-F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n\right).
-\]</span></li>
+F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n\right),
+\]</span> where <span class="math inline">\(\hat{F}_n = \frac{1}{n}\sum_{i=1}^n \delta_{X_i}\)</span> is the empirical cdf.</li>
 <li class="fragment">Hence the posterior mean is <span class="math display">\[
 \E[F \mid X_1, \ldots, X_n] = \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n.
 \]</span></li>
-<li class="fragment">For any measurable set <span class="math inline">\(A\)</span>, we have <span class="math display">\[\begin{align*}
-\E[F(A) \mid X_1, \ldots, X_n] &amp; = \frac{\alpha}{\alpha + n}F_0(A) + \frac{1}{\alpha + n}\sum_{i=1}^n\delta_{x_i}(A)
-\end{align*}\]</span></li>
 </ul>
 </section>
-<section id="example" class="slide level2">
+<section id="example-1" class="slide level2">
 <h2>Example</h2>
 <p>Consider <span class="math inline">\(X_1, \ldots X_n \iid F\)</span> and <span class="math inline">\(F \sim \mc{DP}(\alpha, F_0)\)</span> where <span class="math inline">\(\alpha = 10\)</span> and <span class="math inline">\(F_0 = N(0,1)\)</span>.</p>
-<div class="cell" data-hash="12-ebayes_cache/revealjs/DP_post_6ab7ed0fec3ed27304a2844afdca8635">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>x <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(n)</span>
-<span id="cb2-4"><a href="#cb2-4"></a>alpha <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>F_bar <span class="ot">&lt;-</span> <span class="cf">function</span>(z){</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    n<span class="sc">/</span>(alpha<span class="sc">+</span>n)<span class="sc">*</span><span class="fu">ecdf</span>(x)(z) <span class="sc">+</span> alpha<span class="sc">/</span>(alpha<span class="sc">+</span>n)<span class="sc">*</span><span class="fu">pnorm</span>(z)</span>
-<span id="cb2-7"><a href="#cb2-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="12-dirichlet_cache/revealjs/DP_post_f8dc5de0f03782206aaed2339df67612">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>x <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(n)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>alpha <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>F_bar <span class="ot">&lt;-</span> <span class="cf">function</span>(z){</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    n<span class="sc">/</span>(alpha<span class="sc">+</span>n)<span class="sc">*</span><span class="fu">ecdf</span>(x)(z) <span class="sc">+</span> alpha<span class="sc">/</span>(alpha<span class="sc">+</span>n)<span class="sc">*</span><span class="fu">pnorm</span>(z)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/DP_post_plot_c2484ad0a7088cdcbc7189268eba66ed">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">curve</span>(<span class="fu">pnorm</span>(x), <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb3-2"><a href="#cb3-2"></a>      <span class="at">ylab =</span> <span class="fu">TeX</span>(<span class="st">"$P(X </span><span class="sc">\\</span><span class="st">leq x)$"</span>), <span class="at">xlab =</span> <span class="st">"x"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">lines</span>(<span class="fu">ecdf</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">curve</span>(<span class="fu">F_bar</span>(x), <span class="at">add =</span> T, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DP_post_plot_27f7a6a4fa678e40ba009ba134467632">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">curve</span>(<span class="fu">pnorm</span>(x), <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb4-2"><a href="#cb4-2"></a>      <span class="at">ylab =</span> <span class="fu">TeX</span>(<span class="st">"$P(X </span><span class="sc">\\</span><span class="st">leq x)$"</span>), <span class="at">xlab =</span> <span class="st">"x"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">lines</span>(<span class="fu">ecdf</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">curve</span>(<span class="fu">F_bar</span>(x), <span class="at">add =</span> T, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section>
-<section id="example-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/DP_post_plot_c2484ad0a7088cdcbc7189268eba66ed">
+<section id="example-1-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DP_post_plot_27f7a6a4fa678e40ba009ba134467632">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="12-ebayes_files/figure-revealjs/DP_post_plot-1.png" width="672"></p>
+<p><img data-src="12-dirichlet_files/figure-revealjs/DP_post_plot-1.png" width="672"></p>
 </figure>
 </div>
 </div>
@@ -638,15 +673,15 @@ F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + 
 <li class="fragment">In <code>R</code>, the KDE is implemented in the function <code>density</code>.</li>
 </ul>
 </section>
-<section id="example-1" class="slide level2">
+<section id="example-2" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/KDE_9fbef932feb798ed41a1cfb001de641a">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>); x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">hist</span>(x, <span class="at">freq =</span> F, <span class="at">breaks =</span> <span class="dv">10</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">lines</span>(<span class="fu">density</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/KDE_18874a24d0d52a8b46a506898cdcfe50">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>); x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">hist</span>(x, <span class="at">freq =</span> F, <span class="at">breaks =</span> <span class="dv">10</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">lines</span>(<span class="fu">density</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="12-ebayes_files/figure-revealjs/KDE-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<img data-src="12-dirichlet_files/figure-revealjs/KDE-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="mixture-model" class="slide level2">
 <h2>Mixture model</h2>
 <ul>
@@ -681,8 +716,8 @@ f(x) = \int h(x \mid \theta) dP(\theta)
 \]</span> where <span class="math inline">\(P\)</span> is unknown.</li>
 <li class="fragment">We assume a Dirichlet process prior on <span class="math inline">\(P\)</span>, <span class="math display">\[\begin{align*}
 X \mid P &amp; \sim f(x) = \int h(x \mid \theta) dP(\theta)\\
-P \mid \alpha, P_0 &amp; \sim \mc{DP}(\alpha, P_0),
-\end{align*}\]</span> which is called a Dirichlet process mixture model (DPMM).</li>
+P \mid \alpha, P_0 &amp; \sim \mc{DP}(\alpha, P_0);
+\end{align*}\]</span> this is called a Dirichlet process mixture model (DPMM).</li>
 </ul>
 </section>
 <section id="dirichlet-process-mixture-model-1" class="slide level2">
@@ -690,23 +725,22 @@ P \mid \alpha, P_0 &amp; \sim \mc{DP}(\alpha, P_0),
 <ul>
 <li class="fragment">Using the stick-breaking representation, the DPMM is equivalent to <span class="math display">\[\begin{align*}
 f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
-\end{align*}\]</span> where <span class="math inline">\(\pi_h\)</span> is from the stick-breaking construction and <span class="math inline">\(\theta_i^* \iid P_0\)</span>, <span class="math inline">\(i = 1,\ldots, \infty\)</span>.</li>
+\end{align*}\]</span> where <span class="math inline">\(w_i\)</span> is from the stick-breaking process and <span class="math inline">\(\theta_i^* \iid P_0\)</span>, <span class="math inline">\(i = 1,\ldots, \infty\)</span>.</li>
 <li class="fragment">Suppose we observe <span class="math inline">\(X_1, \ldots, X_n \iid f\)</span> and we want to estimate <span class="math inline">\(f\)</span> using DPMM.</li>
-<li class="fragment">We need to sample <span class="math inline">\(\theta_1^*, \ldots, \theta_n^*\)</span> the posterior.</li>
+<li class="fragment">We need to sample <span class="math inline">\(\theta_1^*, \theta_2^*, \ldots\)</span> the posterior.</li>
 <li class="fragment">However, in this case, we no longer have the conjugacy due to the presence of <span class="math inline">\(h\)</span>.</li>
 </ul>
 </section>
 <section id="sampling-from-dpmm" class="slide level2">
 <h2>Sampling from DPMM</h2>
 <ul>
-<li class="fragment">We can use the Pólya Urn Scheme to sample <span class="math inline">\(\theta_1^*, \ldots, \theta_n^*\)</span>, i.e., <span class="math display">\[
-\theta_i^* \mid \theta_1^*, \ldots, \theta_{i-1}^*, \alpha, P_0 \sim \left(\frac{\alpha}{\alpha+i-1}\right) P_0\left(\theta_i\right)+\sum_{j=1}^{i-1}\left(\frac{1}{\alpha+i-1}\right) \delta_{\theta_j}.
-\]</span></li>
-<li class="fragment">Then obtain <span class="math inline">\(w_i\)</span>’s from the stick-breaking construction.</li>
-<li class="fragment">We</li>
+<li class="fragment">When <span class="math inline">\(P_0\)</span> and <span class="math inline">\(h\)</span> are conjugate, sampling <span class="math inline">\(\theta^*_1,\theta^*_2, \ldots\)</span> can be done using the Pólya Urn Scheme and Gibbs sampler.</li>
+<li class="fragment">For example, when <span class="math inline">\(h(x \mid \theta)\)</span> is normal and <span class="math inline">\(\theta = (\mu, \sigma^2)\)</span>, <span class="math inline">\(P_0\)</span> is normal-inverse-gamma.</li>
+<li class="fragment">When <span class="math inline">\(P_0\)</span> and <span class="math inline">\(h\)</span> are not conjugate, we can Metropolis-Hastings to sample <span class="math inline">\(\theta^*_1,\theta^*_2, \ldots\)</span>.</li>
+<li class="fragment">See <a href="https://www.jstor.org/stable/1390653">Neal (2000)</a> for details.</li>
 </ul>
 </section>
-<section id="example-2" class="slide level2">
+<section id="example-3" class="slide level2">
 <h2>Example</h2>
 <p>We will use the <code>R</code> package <code>dirichletprocess</code> for demonstration.</p>
 <div>
@@ -718,24 +752,24 @@ f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
 </ul></li>
 </ul>
 </div>
-<div class="cell" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/DPMM_feadaf78993c8639c23f180a32ec029c">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(dirichletprocess)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>its <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="co"># Number of iterations</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>faithfulTransformed <span class="ot">&lt;-</span> <span class="fu">scale</span>(faithful<span class="sc">$</span>waiting)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>dp <span class="ot">&lt;-</span> <span class="fu">DirichletProcessGaussian</span>(faithfulTransformed)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>dp <span class="ot">&lt;-</span> <span class="fu">Fit</span>(dp, its)</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="fu">plot</span>(dp, <span class="at">data_method=</span><span class="st">"hist"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM_cd4ca9e40e857eeeee0c8bfe590d5ce6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(dirichletprocess)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>its <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="co"># Number of iterations</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>faithfulTransformed <span class="ot">&lt;-</span> <span class="fu">scale</span>(faithful<span class="sc">$</span>waiting)</span>
+<span id="cb6-4"><a href="#cb6-4"></a>dp <span class="ot">&lt;-</span> <span class="fu">DirichletProcessGaussian</span>(faithfulTransformed)</span>
+<span id="cb6-5"><a href="#cb6-5"></a>dp <span class="ot">&lt;-</span> <span class="fu">Fit</span>(dp, its)</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="fu">plot</span>(dp, <span class="at">data_method=</span><span class="st">"hist"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
 <aside><div>
 <p>The dataset <code>faithful</code> contains the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park.</p>
 </div></aside></section>
-<section id="example-2-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/DPMM_feadaf78993c8639c23f180a32ec029c">
+<section id="example-3-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM_cd4ca9e40e857eeeee0c8bfe590d5ce6">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="12-ebayes_files/figure-revealjs/DPMM-1.png" width="960"></p>
+<p><img data-src="12-dirichlet_files/figure-revealjs/DPMM-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -743,8 +777,12 @@ f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
 <h2>Other applications</h2>
 <p>There are many other applications:</p>
 <ol type="1">
-<li class="fragment">Nonparametric residual distributions</li>
-<li class="fragment">Nonparametric models for parameters that vary by group</li>
+<li class="fragment">Nonparametric residual distributions: <span class="math display">\[
+y_i=X_i \beta+\epsilon_i, \quad \epsilon_i \sim F, \quad F \sim \mc{DP}(\alpha, F_0)
+\]</span></li>
+<li class="fragment">Nonparametric models for parameters that vary by group: <span class="math display">\[
+y_{i j}=\mu_i+\epsilon_{i j}, \quad \mu_i \sim f, \quad \epsilon_{i j} \sim g
+\]</span></li>
 <li class="fragment">Clustering Analysis</li>
 </ol>
 </section>
@@ -759,31 +797,59 @@ X_i &amp; \sim N\left(y \mid \theta_i\right), \\
 G &amp; \sim \mc{DP}\left(\alpha, G_0\right).
 \end{align*}\]</span></li>
 <li>The collection of all unique <span class="math inline">\(\theta_i\)</span>’s allows for a natural way of grouping the data and hence the Dirichlet process is an effective way of performing cluster analysis.</li>
+<li>The cluster assignment is obtained through the Chinese Restaurant Process.</li>
 </ul>
 </div>
-<div class="cell" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/DPMM-cluster_7d800a6c02755888aa5ab63460fdc8db">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>faithfulTrans <span class="ot">&lt;-</span> <span class="fu">scale</span>(faithful)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>dp <span class="ot">&lt;-</span>  <span class="fu">DirichletProcessMvnormal</span>(faithfulTrans)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>dp <span class="ot">&lt;-</span> <span class="fu">Fit</span>(dp, <span class="dv">1000</span>)</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="fu">plot</span>(dp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM-cluster_8dc2944a77fb32ea8683f75ca13f33dc">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>faithfulTrans <span class="ot">&lt;-</span> <span class="fu">scale</span>(faithful)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>dp <span class="ot">&lt;-</span>  <span class="fu">DirichletProcessMvnormal</span>(faithfulTrans)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>dp <span class="ot">&lt;-</span> <span class="fu">Fit</span>(dp, <span class="dv">1000</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">plot</span>(dp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section>
-<section id="cluster-analysis-output" class="slide level2 output-location-slide"><h2>Cluster Analysis</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-ebayes_cache/revealjs/DPMM-cluster_7d800a6c02755888aa5ab63460fdc8db">
+<section id="cluster-analysis-output" class="slide level2 output-location-slide"><h2>Cluster Analysis</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM-cluster_8dc2944a77fb32ea8683f75ca13f33dc">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="12-ebayes_files/figure-revealjs/DPMM-cluster-1.png" width="960"></p>
+<p><img data-src="12-dirichlet_files/figure-revealjs/DPMM-cluster-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div></section><section id="hierarchical-dirichlet-process" class="slide level2">
 <h2>Hierarchical Dirichlet process</h2>
+<ul>
+<li class="fragment">When the data has some hierarchical structure, we can use the hierarchical Dirichlet process (HDP) to model the data.</li>
+<li class="fragment">For example, suppose <span class="math inline">\(Y_{ij}\)</span> is the annual income of the <span class="math inline">\(i\)</span>th person in city <span class="math inline">\(j\)</span>.</li>
+<li class="fragment">We can use the model: <span class="math display">\[\begin{align*}
+Y_{i j} &amp; \sim F\left(\theta_{i j}\right), \\
+\theta_{i j} &amp; \sim G_j, \\
+G_j &amp; \sim \mc{DP}\left(\alpha_j, G_0\right), \\
+G_0 &amp; \sim \mc{DP}(\gamma, H),
+\end{align*}\]</span></li>
+<li class="fragment">Here <span class="math inline">\(G_0\)</span> is the overall income distribution and <span class="math inline">\(G_j\)</span> is the income distribution of city <span class="math inline">\(j\)</span>.</li>
+<li class="fragment">Try the <code>DirichletProcessHierarchicalMvnormal2</code> function in the <code>dirichletprocess</code> package.</li>
+</ul>
+</section>
+<section id="summary-of-the-course" class="slide level2">
+<h2>Summary of the course</h2>
+<ul>
+<li class="fragment">In my opinion, there are four important techniques in statistics:
+<ul>
+<li class="fragment">Monte Carlo methods (e.g., bootstrap, MCMC, etc)</li>
+<li class="fragment">hierarchical models (e.g., mixed effect models)</li>
+<li class="fragment">latent variable (e.g., data augmentation, missing data, etc)</li>
+<li class="fragment">nonparametric methods (e.g., Gaussian process, Dirichlet process)</li>
+</ul></li>
+<li class="fragment">These four techniques are not limited to Bayesian analysis.</li>
+<li class="fragment">It can be applied to any statistical problems.</li>
+<li class="fragment">However these techniques fits naturally into the Bayesian framework.</li>
+</ul>
 
 <div class="footer footer-default">
 <p><a href="https://chunhaoy.com/stat-5010/">Home</a></p>
 </div>
-</section></section>
+</section>
 
     </div>
   </div>

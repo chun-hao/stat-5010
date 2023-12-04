@@ -473,7 +473,12 @@ Chun-Hao Yang
 </section>
 <section id="double-descent-phenomenon" class="slide level2">
 <h2>Double descent phenomenon</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
 <p><img data-src="images/lec11/double_descent.png"></p>
+<figcaption>Double descent phenomenon</figcaption>
+</figure>
+</div>
 
 <aside><div>
 <p>Image source: <a href="https://arxiv.org/pdf/2303.14151v1.pdf">Shaeffer et. al.&nbsp;(2023)</a></p>
@@ -505,7 +510,7 @@ Chun-Hao Yang
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/kernel_regression_706c21e1b984e1c87958b9a2dbc6196d">
+<div class="cell" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/kernel_regression_59bcc0015fd0f3b3bb69abaac8ff251d">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(gplm) <span class="co"># for kreg()</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
@@ -517,7 +522,7 @@ Chun-Hao Yang
 </div>
 
 </section>
-<section id="example-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/kernel_regression_706c21e1b984e1c87958b9a2dbc6196d">
+<section id="example-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/kernel_regression_59bcc0015fd0f3b3bb69abaac8ff251d">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -530,8 +535,8 @@ Chun-Hao Yang
 <ul>
 <li class="fragment">A function <span class="math inline">\(g\)</span> is called a <u><span class="math inline">\(k\)</span>th order spline with knots <span class="math inline">\(t_0 &lt; \cdots &lt; t_m\)</span></u> if
 <ul>
-<li class="fragment"><span class="math inline">\(g\)</span> is a polynomial of degree <span class="math inline">\(k - 1\)</span> on the intervals <span class="math inline">\((-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)\)</span>.</li>
-<li class="fragment"><span class="math inline">\(g\)</span> has continuous derivatives up to order <span class="math inline">\(k - 2\)</span> at each knot <span class="math inline">\(t_i\)</span>.</li>
+<li class="fragment"><span class="math inline">\(g\)</span> is a polynomial of degree <span class="math inline">\(k\)</span> on the intervals <span class="math inline">\((-\infty, t_0], [t_0, t_1],\ldots, [t_m, \infty)\)</span>.</li>
+<li class="fragment"><span class="math inline">\(g\)</span> has continuous derivatives up to order <span class="math inline">\(k-1\)</span> at each knot <span class="math inline">\(t_i\)</span>.</li>
 </ul></li>
 <li class="fragment">Given a set of knots <span class="math inline">\(t_0 &lt; \cdots &lt; t_m\)</span>, the space of <span class="math inline">\(k\)</span>th order spline has dimension <span class="math inline">\(m + k + 1\)</span>.</li>
 <li class="fragment">There are many choices of basis for the space of splines. The most popular one is the <strong>B-spline</strong> basis.</li>
@@ -547,7 +552,7 @@ Chun-Hao Yang
 <li class="fragment">The choice of knots is important.</li>
 <li class="fragment">A <strong>smoothing spline</strong> uses all inputs as knots and avoids overfitting by shrinking the coefficients.</li>
 <li class="fragment">A <strong>natural spline</strong> assumes polynomial of degree <span class="math inline">\((k-1)/2\)</span> on <span class="math inline">\((-\infty, t_0]\)</span> and <span class="math inline">\([t_m, \infty)\)</span> to reduce variance at the boundary.</li>
-<li class="fragment">Natural spline with cubic polynomial is the most common special case.</li>
+<li class="fragment">Natural spline with cubic order is the most common special case.</li>
 </ul>
 </section>
 <section id="example-1" class="slide level2">
@@ -595,7 +600,7 @@ K(x_n, x_1) &amp; \cdots &amp; K(x_n, x_n)
 </section>
 <section id="simulating-gaussian-processes" class="slide level2">
 <h2>Simulating Gaussian processes</h2>
-<div class="cell" data-hash="11-bayes_np_cache/revealjs/GP_sim_2ea5290dabf7e5e7e374c657b47d78b0">
+<div class="cell" data-hash="11-bayes_np_cache/revealjs/GP_sim_0e1ab52871bdf8cb511f1c8c128203c3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(mvtnorm)</span>
 <span id="cb2-2"><a href="#cb2-2"></a>GP_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">mean_func =</span> <span class="cf">function</span>(x){<span class="dv">0</span>},</span>
 <span id="cb2-3"><a href="#cb2-3"></a>                   <span class="at">cov_func =</span> <span class="cf">function</span>(x1, x2){<span class="fu">exp</span>(<span class="sc">-</span><span class="dv">16</span><span class="sc">*</span>(x1<span class="sc">-</span>x2)<span class="sc">^</span><span class="dv">2</span>)}, </span>
@@ -677,7 +682,7 @@ f(\mathbf{x}^{\prime}) \mid \mathbf{y}, \mathbf{x}, \sigma^2 \sim N\left(\bar{\m
 <section id="example-3" class="slide level2">
 <h2>Example</h2>
 <p>Fit a Gaussian process regression model with <span class="math inline">\(\mu(x) = 0\)</span> and Gaussian Kernel.</p>
-<div class="cell" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/GP_example_fit_8d6cfd46223315d053afbffc4778c6d9">
+<div class="cell" data-layout-align="center" data-hash="11-bayes_np_cache/revealjs/GP_example_fit_b73fdc8ffd7412fb04efce495e820fa7">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(GauPro)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>gp <span class="ot">&lt;-</span> <span class="fu">GauPro</span>(X, Y)</span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="fu">plot</span>(gp)</span>

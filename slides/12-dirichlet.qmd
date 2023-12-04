@@ -1,23 +1,5 @@
 ---
 title: "Lecture 12: Dirichlet Process"
-author: "Chun-Hao Yang"
-footer: "[Home](https://chunhaoy.com/stat-5010/)"
-format: 
-    revealjs:
-        theme: slides.scss
-        chalkboard: true
-        slide-number: true
-        html-math-method: mathjax
-        incremental: true
-        scrollable: true
-        include-in-header: 
-            - text: 
-                <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
-execute:
-    echo: false
-    warning: false
-    cache: true
-    freeze: true
 ---
 
 ## Nonparametric estimation of distribution
@@ -26,16 +8,24 @@ execute:
 
 -   Let $X_1, \ldots, X_n \iid F$ be a random sample from a distribution $F$.
 -   We want to estimate $F$ without posing any parametric assumption.
--   There are several cases:
-    1.  $F$ is a discrete distribution on $\{1, \ldots, k\}$.
-    2.  $F$ is a discrete distribution on $\{1,2,\ldots\}$.
-    3.  $F$ is a continuous distribution and we want to estimate its **cdf**
-    4.  $F$ is a continuous distribution and we want to estimate its **pdf**
--   The first case is the simplest: we are estimating $p_j = \P(X = j)$ such that $\sum_{j=1}^k p_j = 1$.
+-   We focus on the two cases:
+    1.  $F$ is a continuous distribution and we want to estimate its **cdf**
+    2.  $F$ is a continuous distribution and we want to estimate its **pdf**
+-   A Bayesian approach is to view $F$ as a random distribution and put a prior on it.
+
+## Random distribution
+
+-   A **random distribution function** is just a random function with additional constraints:
+    1.   $\lim_{x \to -\infty} F(x) = 0$
+    2.   $\lim_{x \to \infty} F(x) = 1$
+    3.   $F$ is non-decreasing
+    4.   $F$ is right-continuous
+-   Enforcing these constraints on Gaussian process is not easy.
+-   Therefore, we need another process that can generate random distribution functions.
 
 ## Empirical distribution
 
--   Based on the observations $X_1, \ldots, X_n$, the **empirical cdf** is
+-   Based on the observations $X_1, \ldots, X_n$, the **empirical cdf (ecdf)** is
     $$
     \hat{F}_n(x) = \frac{1}{n} \sum_{i=1}^n I(X_i \leq x).
     $$
@@ -43,7 +33,25 @@ execute:
 -   It is the simplest nonparametric estimator of $F$.
 -   The Glivenko-Cantelli theorem states that $\hat{F}_n \to F$ almost surely (in the sup norm), i.e., $\sup_x \| \hat{F}_n(x) - F(x)\| \cas 0$.
 
-# Dirichlet Process
+## Example
+
+The ecdf can be easily computed in R:
+
+```{r, fig.width = 6}
+#| label: ecdf
+#| echo: true
+#| fig-align: center
+set.seed(1); x <- rnorm(20)
+curve(pnorm(x), -3, 3, lwd = 2, ylab = "cdf")
+lines(ecdf(x), col = "blue", lwd = 2)
+```
+
+## Dirichlet Process
+
+-   An obvious problem with the ecdf is that it is discrete.
+-   Therefore we can not directly differentiate the ecdf to get the pdf.
+-   The most commonly used prior for random distributions is the **Dirichlet process**.
+-   It is the infinite-dimensional generalization of the Dirichlet distribution, just like the Gaussian process is the infinite-dimensional generalization of the multivariate normal distribution.
 
 
 ## Dirichlet distribution
@@ -60,6 +68,17 @@ execute:
     $$
     where $p_i \in [0,1]$ and $\sum_{i=1}^k p_i = 1$.
 -   Alternative: $\alpha = \sum_{i=1}^k\alpha_i$ and $\nu = \left(\alpha_1/\alpha, \ldots \alpha_k/\alpha\right) = \E[(p_1, \ldots, p_k)]$.
+-   The domain of a Dirichlet distribution is a $k-1$ dimensional simplex $\triangle^{k} = \{(p_1, \ldots, p_k): \sum p_i = 1, p_i \geq 0\}$.
+
+## Dirichlet distribution
+
+![](images/lec12/dirichlet.jpg){width="65%" fig-align="center"}
+
+::: aside
+
+Image source: [Wikipedia](https://en.wikipedia.org/wiki/Dirichlet_distribution)
+
+:::
 
 ## Definition
 A ``random distribution'' $F$ is said to follow a Dirichlet process, denoted by 
@@ -73,6 +92,14 @@ $$
 
 -   The parameter $\alpha > 0$ is called the **concentration parameter**: large $\alpha$ means $F$ is more concentrated around $F_0$.
 -   The parameter $F_0$ is called the **mean distribution**.
+
+## Expectation and variance
+
+-   Let $F$ be a random cdf from a Dirichlet process $\mc{DP}(\alpha, F_0)$.
+-   Expectation: $\E(F(t)) = F_0(t)$.
+-   Variance: $\var(F(t)) = \frac{F_0(t)(1-F_0(t))}{\alpha + 1}$.
+-   Covariance: $\cov(F(t), F(s)) = \frac{-F_0(t)F_0(s)}{\alpha + 1}$ for $s \neq t$.
+
 
 ## Simulating Dirichlet processes
 
@@ -168,31 +195,20 @@ for(i in 1:10){
 ## Estimating a cdf
 
 -   Suppose we have $X_1, \ldots, X_n \iid F$ and we want to estimate $F$.
--   The most common estimate is the **empirical cdf**:
-    $$
-    \hat{F}_n(x) = \frac{1}{n}\sum_{i=1}^n I(X_i \leq x).
-    $$
--   The Glivenko-Cantelli theorem states that $\hat{F}_n \to F$ almost surely (in the sup norm).
 -   A Bayesian approach is to put a prior on $F$ and find the posterior distribution of $F$, i.e.,
     \begin{align*}
-    X_1, \ldots, X_n &\iid F\\
-    F & \sim \text{Dir}(\alpha, F_0).
+    X_1, \ldots, X_n \iid F, \quad
+    F \sim \text{Dir}(\alpha, F_0).
     \end{align*}
-
-## Posterior
-
 -   The posterior of $F$ given $X_1,\ldots, X_n$ is 
     $$
-    F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n\right).
+    F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n\right),
     $$
+    where $\hat{F}_n = \frac{1}{n}\sum_{i=1}^n \delta_{X_i}$ is the empirical cdf.
 -   Hence the posterior mean is 
     $$
     \E[F \mid X_1, \ldots, X_n] = \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n.
     $$
--   For any measurable set $A$, we have
-    \begin{align*}
-    \E[F(A) \mid X_1, \ldots, X_n] & = \frac{\alpha}{\alpha + n}F_0(A) + \frac{1}{\alpha + n}\sum_{i=1}^n\delta_{x_i}(A)
-    \end{align*}
 
 ## Example
 
@@ -292,9 +308,9 @@ lines(density(x), col = "red", lwd = 2)
 -   We assume a Dirichlet process prior on $P$,
     \begin{align*}
     X \mid P & \sim f(x) = \int h(x \mid \theta) dP(\theta)\\
-    P \mid \alpha, P_0 & \sim \mc{DP}(\alpha, P_0),
+    P \mid \alpha, P_0 & \sim \mc{DP}(\alpha, P_0);
     \end{align*}
-    which is called a Dirichlet process mixture model (DPMM).
+    this is called a Dirichlet process mixture model (DPMM).
     
 ## Dirichlet process mixture model
 
@@ -302,19 +318,17 @@ lines(density(x), col = "red", lwd = 2)
     \begin{align*}
     f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
     \end{align*}
-    where $\pi_h$ is from the stick-breaking construction and $\theta_i^* \iid P_0$, $i = 1,\ldots, \infty$.
+    where $w_i$ is from the stick-breaking process and $\theta_i^* \iid P_0$, $i = 1,\ldots, \infty$.
 -   Suppose we observe $X_1, \ldots, X_n \iid f$ and we want to estimate $f$ using DPMM.
--   We need to sample $\theta_1^*, \ldots, \theta_n^*$ the posterior.
+-   We need to sample $\theta_1^*, \theta_2^*, \ldots$ the posterior.
 -   However, in this case, we no longer have the conjugacy due to the presence of $h$.
 
-## Sampling from DPMM
+## Sampling from DPMM 
 
--   We can use the Pólya Urn Scheme to sample $\theta_1^*, \ldots, \theta_n^*$, i.e.,
-    $$
-    \theta_i^* \mid \theta_1^*, \ldots, \theta_{i-1}^*, \alpha, P_0 \sim \left(\frac{\alpha}{\alpha+i-1}\right) P_0\left(\theta_i\right)+\sum_{j=1}^{i-1}\left(\frac{1}{\alpha+i-1}\right) \delta_{\theta_j}.
-    $$
--   Then obtain $w_i$'s from the stick-breaking construction.
--   We
+-   When $P_0$ and $h$ are conjugate, sampling $\theta^*_1,\theta^*_2, \ldots$ can be done using the Pólya Urn Scheme and Gibbs sampler.
+-   For example, when $h(x \mid \theta)$ is normal and $\theta = (\mu, \sigma^2)$, $P_0$ is normal-inverse-gamma.
+-   When $P_0$ and $h$ are not conjugate, we can Metropolis-Hastings to sample $\theta^*_1,\theta^*_2, \ldots$. 
+-   See [Neal (2000)](https://www.jstor.org/stable/1390653) for details.
 
 
 ## Example
@@ -356,8 +370,14 @@ The dataset `faithful` contains the waiting time between eruptions and the durat
 
 There are many other applications:
 
-1.  Nonparametric residual distributions
-2.  Nonparametric models for parameters that vary by group
+1.  Nonparametric residual distributions:
+    $$
+    y_i=X_i \beta+\epsilon_i, \quad \epsilon_i \sim F, \quad F \sim \mc{DP}(\alpha, F_0)
+    $$
+2.  Nonparametric models for parameters that vary by group:
+    $$
+    y_{i j}=\mu_i+\epsilon_{i j}, \quad \mu_i \sim f, \quad \epsilon_{i j} \sim g
+    $$
 3.  Clustering Analysis
 
 ## Cluster Analysis
@@ -372,6 +392,7 @@ There are many other applications:
     G & \sim \mc{DP}\left(\alpha, G_0\right).
     \end{align*}
 -   The collection of all unique $\theta_i$'s allows for a natural way of grouping the data and hence the Dirichlet process is an effective way of performing cluster analysis.
+-   The cluster assignment is obtained through the Chinese Restaurant Process.
 
 :::
 
@@ -390,6 +411,28 @@ plot(dp)
 
 ## Hierarchical Dirichlet process
 
+-   When the data has some hierarchical structure, we can use the hierarchical Dirichlet process (HDP) to model the data.
+-   For example, suppose $Y_{ij}$ is the annual income of the $i$th person in city $j$.
+-   We can use the model:
+    \begin{align*}
+    Y_{i j} & \sim F\left(\theta_{i j}\right), \\
+    \theta_{i j} & \sim G_j, \\
+    G_j & \sim \mc{DP}\left(\alpha_j, G_0\right), \\
+    G_0 & \sim \mc{DP}(\gamma, H),
+    \end{align*}
+-   Here $G_0$ is the overall income distribution and $G_j$ is the income distribution of city $j$.
+-   Try the `DirichletProcessHierarchicalMvnormal2` function in the `dirichletprocess` package.
+
+## Summary of the course
+
+-   In my opinion, there are four important techniques in statistics:
+    +    Monte Carlo methods (e.g., bootstrap, MCMC, etc)
+    +    hierarchical models (e.g., mixed effect models)
+    +    latent variable (e.g., data augmentation, missing data, etc)
+    +    nonparametric methods (e.g., Gaussian process, Dirichlet process)
+-   These four techniques are not limited to Bayesian analysis.
+-   It can be applied to any statistical problems.
+-   However these techniques fits naturally into the Bayesian framework.
 
 
 
