@@ -18,9 +18,9 @@ title: "Lecture 12: Dirichlet Process"
 -   A **random distribution function** is just a random function with additional constraints:
     1.   $\lim_{x \to -\infty} F(x) = 0$
     2.   $\lim_{x \to \infty} F(x) = 1$
-    3.   $F$ is non-decreasing
+    3.   $F$ is nondecreasing
     4.   $F$ is right-continuous
--   Enforcing these constraints on Gaussian process is not easy.
+-   Enforcing these constraints on a Gaussian process is not easy.
 -   Therefore, we need another process that can generate random distribution functions.
 
 ## Empirical distribution
@@ -35,7 +35,7 @@ title: "Lecture 12: Dirichlet Process"
 
 ## Example
 
-The ecdf can be easily computed in R:
+The ecdf can be easily computed in `R`:
 
 ```{r, fig.width = 6}
 #| label: ecdf
@@ -80,6 +80,15 @@ Image source: [Wikipedia](https://en.wikipedia.org/wiki/Dirichlet_distribution)
 
 :::
 
+## Conjugacy between Multinomial and Dirichlet
+
+-   As the binomial and Beta are conjugate, we have the same conjugacy between multinomial and Dirichlet.
+-   Let $X = (X_1, \ldots, X_k) \sim \text{Multinomial}(n, p_1, \ldots, p_k)$ and $p = (p_1, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$.
+-   Then the posterior distribution of $p$ given $X$ is
+    $$
+    p \mid X \sim \text{Dir}(\alpha_1 + X_1, \ldots, \alpha_k + X_k).
+    $$
+
 ## Definition
 A ``random distribution'' $F$ is said to follow a Dirichlet process, denoted by 
 $$
@@ -119,7 +128,7 @@ $$
     2. Draw $V_1, V_2, \ldots \iid \text{Beta}(1, \alpha)$.
     3. Let $w_1=V_1$ and $w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)$ for $j=2,3, \ldots$
     4. Let $F$ be the discrete distribution that puts mass $w_j$ at $s_j$, that is, $F=\sum_{j=1}^{\infty} w_j \delta_{s_j}$ where $\delta_{s_j}$ is a point mass at $s_j$.
-    
+-   The sequence $w_1, w_2, \ldots$ is said to follow a **stick-breaking process**.
 -   The distribution $F$ is a random distribution from the Dirichlet process $\mc{DP}(\alpha, F_0)$.
 
 
@@ -173,7 +182,7 @@ for(i in 1:10){
 -   At each step, a ball is drawn from the urn and then put back together with another ball of the same color.
 -   Repeat indefinitely.
 -   Let $(p_1(n), \ldots, p_k(n))$ be the proportion of balls of each color after $n$ steps.
--   Results:
+-   Then we have
     +   $(p_1(n), \ldots p_k(n))$ converges to a random vector $(p_1, \ldots, p_k)$.
     +   $(p_1, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$.
     +   Equivalently, $(p_1(n), \ldots p_k(n)) \cd \text{Dir}(\alpha_1, \ldots, \alpha_k)$.
@@ -209,6 +218,15 @@ for(i in 1:10){
     $$
     \E[F \mid X_1, \ldots, X_n] = \frac{\alpha}{\alpha + n}F_0 + \frac{n}{\alpha + n}\hat{F}_n.
     $$
+    
+## Derivation
+
+-   Let $B_1, \ldots, B_m$ be a finite measurable partition.
+-   Let $n_k=\#\left\{i: X_i \in A_k\right\}$ be the number of observed values in $B_k$. 
+-   By the conjugacy between the Dirichlet and the multinomial distributions, we have:
+\begin{multline*}
+\left(F\left(B_1\right), \ldots, F\left(B_m\right)\right) \mid X_1, \ldots, X_n \sim \\ \text{Dir}\left(\alpha F_0(B_1)+n_1, \ldots, \alpha F_0(B_m)+n_m\right).
+\end{multline*}
 
 ## Example
 
@@ -428,10 +446,10 @@ plot(dp)
 -   In my opinion, there are four important techniques in statistics:
     +    Monte Carlo methods (e.g., bootstrap, MCMC, etc)
     +    hierarchical models (e.g., mixed effect models)
-    +    latent variable (e.g., data augmentation, missing data, etc)
+    +    latent variable models (e.g., data augmentation, missing data, etc)
     +    nonparametric methods (e.g., Gaussian process, Dirichlet process)
 -   These four techniques are not limited to Bayesian analysis.
--   It can be applied to any statistical problems.
+-   It can be applied to any statistical problem.
 -   However these techniques fits naturally into the Bayesian framework.
 
 

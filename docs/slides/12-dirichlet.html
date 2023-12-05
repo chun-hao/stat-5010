@@ -448,10 +448,10 @@ Chun-Hao Yang
 <ol type="1">
 <li class="fragment"><span class="math inline">\(\lim_{x \to -\infty} F(x) = 0\)</span></li>
 <li class="fragment"><span class="math inline">\(\lim_{x \to \infty} F(x) = 1\)</span></li>
-<li class="fragment"><span class="math inline">\(F\)</span> is non-decreasing</li>
+<li class="fragment"><span class="math inline">\(F\)</span> is nondecreasing</li>
 <li class="fragment"><span class="math inline">\(F\)</span> is right-continuous</li>
 </ol></li>
-<li class="fragment">Enforcing these constraints on Gaussian process is not easy.</li>
+<li class="fragment">Enforcing these constraints on a Gaussian process is not easy.</li>
 <li class="fragment">Therefore, we need another process that can generate random distribution functions.</li>
 </ul>
 </section>
@@ -468,8 +468,8 @@ Chun-Hao Yang
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<p>The ecdf can be easily computed in R:</p>
-<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/ecdf_bd220ea1b52465c262f4f9e024f70e42">
+<p>The ecdf can be easily computed in <code>R</code>:</p>
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/ecdf_e43f75a2664a4debb0a78849c55333cd">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>); x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">curve</span>(<span class="fu">pnorm</span>(x), <span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"cdf"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">lines</span>(<span class="fu">ecdf</span>(x), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -512,6 +512,16 @@ f(p_1, \ldots, p_k \mid \alpha_1, \ldots, \alpha_k) =
 <aside><div>
 <p>Image source: <a href="https://en.wikipedia.org/wiki/Dirichlet_distribution">Wikipedia</a></p>
 </div></aside></section>
+<section id="conjugacy-between-multinomial-and-dirichlet" class="slide level2">
+<h2>Conjugacy between Multinomial and Dirichlet</h2>
+<ul>
+<li class="fragment">As the binomial and Beta are conjugate, we have the same conjugacy between multinomial and Dirichlet.</li>
+<li class="fragment">Let <span class="math inline">\(X = (X_1, \ldots, X_k) \sim \text{Multinomial}(n, p_1, \ldots, p_k)\)</span> and <span class="math inline">\(p = (p_1, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)\)</span>.</li>
+<li class="fragment">Then the posterior distribution of <span class="math inline">\(p\)</span> given <span class="math inline">\(X\)</span> is <span class="math display">\[
+p \mid X \sim \text{Dir}(\alpha_1 + X_1, \ldots, \alpha_k + X_k).
+\]</span></li>
+</ul>
+</section>
 <section id="definition" class="slide level2">
 <h2>Definition</h2>
 <p>A ``random distribution’’ <span class="math inline">\(F\)</span> is said to follow a Dirichlet process, denoted by <span class="math display">\[
@@ -555,12 +565,13 @@ F \sim \mc{DP}(\alpha, F_0),
 <li class="fragment">Let <span class="math inline">\(w_1=V_1\)</span> and <span class="math inline">\(w_j=V_j \prod_{i=1}^{j-1}\left(1-V_i\right)\)</span> for <span class="math inline">\(j=2,3, \ldots\)</span></li>
 <li class="fragment">Let <span class="math inline">\(F\)</span> be the discrete distribution that puts mass <span class="math inline">\(w_j\)</span> at <span class="math inline">\(s_j\)</span>, that is, <span class="math inline">\(F=\sum_{j=1}^{\infty} w_j \delta_{s_j}\)</span> where <span class="math inline">\(\delta_{s_j}\)</span> is a point mass at <span class="math inline">\(s_j\)</span>.</li>
 </ol></li>
+<li class="fragment">The sequence <span class="math inline">\(w_1, w_2, \ldots\)</span> is said to follow a <strong>stick-breaking process</strong>.</li>
 <li class="fragment">The distribution <span class="math inline">\(F\)</span> is a random distribution from the Dirichlet process <span class="math inline">\(\mc{DP}(\alpha, F_0)\)</span>.</li>
 </ul>
 </section>
 <section id="stick-breaking-construction-1" class="slide level2">
 <h2>Stick-breaking Construction</h2>
-<div class="cell" data-hash="12-dirichlet_cache/revealjs/DP_sim_16dfaac2c63228d7acf779f9d84fcced">
+<div class="cell" data-hash="12-dirichlet_cache/revealjs/DP_sim_e63f2310a2c68f85ac50f0fcd8bd51ac">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>DP_stick <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">alpha =</span> <span class="dv">10</span>, <span class="at">F0 =</span> rnorm, <span class="at">n =</span> <span class="fl">1e3</span>){</span>
 <span id="cb2-2"><a href="#cb2-2"></a>    s <span class="ot">&lt;-</span> <span class="fu">F0</span>(n)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>    V <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">1</span>, alpha)</span>
@@ -586,7 +597,7 @@ F \sim \mc{DP}(\alpha, F_0),
 <li class="fragment">At each step, a ball is drawn from the urn and then put back together with another ball of the same color.</li>
 <li class="fragment">Repeat indefinitely.</li>
 <li class="fragment">Let <span class="math inline">\((p_1(n), \ldots, p_k(n))\)</span> be the proportion of balls of each color after <span class="math inline">\(n\)</span> steps.</li>
-<li class="fragment">Results:
+<li class="fragment">Then we have
 <ul>
 <li class="fragment"><span class="math inline">\((p_1(n), \ldots p_k(n))\)</span> converges to a random vector <span class="math inline">\((p_1, \ldots, p_k)\)</span>.</li>
 <li class="fragment"><span class="math inline">\((p_1, \ldots, p_k) \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)\)</span>.</li>
@@ -625,10 +636,20 @@ F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + 
 \]</span></li>
 </ul>
 </section>
+<section id="derivation" class="slide level2">
+<h2>Derivation</h2>
+<ul>
+<li class="fragment">Let <span class="math inline">\(B_1, \ldots, B_m\)</span> be a finite measurable partition.</li>
+<li class="fragment">Let <span class="math inline">\(n_k=\#\left\{i: X_i \in A_k\right\}\)</span> be the number of observed values in <span class="math inline">\(B_k\)</span>.</li>
+<li class="fragment">By the conjugacy between the Dirichlet and the multinomial distributions, we have: <span class="math display">\[\begin{multline*}
+\left(F\left(B_1\right), \ldots, F\left(B_m\right)\right) \mid X_1, \ldots, X_n \sim \\ \text{Dir}\left(\alpha F_0(B_1)+n_1, \ldots, \alpha F_0(B_m)+n_m\right).
+\end{multline*}\]</span></li>
+</ul>
+</section>
 <section id="example-1" class="slide level2">
 <h2>Example</h2>
 <p>Consider <span class="math inline">\(X_1, \ldots X_n \iid F\)</span> and <span class="math inline">\(F \sim \mc{DP}(\alpha, F_0)\)</span> where <span class="math inline">\(\alpha = 10\)</span> and <span class="math inline">\(F_0 = N(0,1)\)</span>.</p>
-<div class="cell" data-hash="12-dirichlet_cache/revealjs/DP_post_f8dc5de0f03782206aaed2339df67612">
+<div class="cell" data-hash="12-dirichlet_cache/revealjs/DP_post_c3b5bffc76838f573f03a1fc6d060a04">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>x <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(n)</span>
@@ -637,7 +658,7 @@ F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + 
 <span id="cb3-6"><a href="#cb3-6"></a>    n<span class="sc">/</span>(alpha<span class="sc">+</span>n)<span class="sc">*</span><span class="fu">ecdf</span>(x)(z) <span class="sc">+</span> alpha<span class="sc">/</span>(alpha<span class="sc">+</span>n)<span class="sc">*</span><span class="fu">pnorm</span>(z)</span>
 <span id="cb3-7"><a href="#cb3-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DP_post_plot_27f7a6a4fa678e40ba009ba134467632">
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DP_post_plot_e66b5d7a5e32163b8f461efeb65b22cf">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">curve</span>(<span class="fu">pnorm</span>(x), <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
 <span id="cb4-2"><a href="#cb4-2"></a>      <span class="at">ylab =</span> <span class="fu">TeX</span>(<span class="st">"$P(X </span><span class="sc">\\</span><span class="st">leq x)$"</span>), <span class="at">xlab =</span> <span class="st">"x"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="fu">lines</span>(<span class="fu">ecdf</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
@@ -645,7 +666,7 @@ F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + 
 </div>
 
 </section>
-<section id="example-1-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DP_post_plot_27f7a6a4fa678e40ba009ba134467632">
+<section id="example-1-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DP_post_plot_e66b5d7a5e32163b8f461efeb65b22cf">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -675,7 +696,7 @@ F \mid X_1, \ldots, X_n \sim \text{Dir}\left(\alpha + n, \frac{\alpha}{\alpha + 
 </section>
 <section id="example-2" class="slide level2">
 <h2>Example</h2>
-<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/KDE_18874a24d0d52a8b46a506898cdcfe50">
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/KDE_5449dac0228bc191c00c528ea1bebec5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>); x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">hist</span>(x, <span class="at">freq =</span> F, <span class="at">breaks =</span> <span class="dv">10</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="fu">lines</span>(<span class="fu">density</span>(x), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -752,7 +773,7 @@ f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
 </ul></li>
 </ul>
 </div>
-<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM_cd4ca9e40e857eeeee0c8bfe590d5ce6">
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM_f40669d7388560e4e6d6a5b22d0d9db8">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(dirichletprocess)</span>
 <span id="cb6-2"><a href="#cb6-2"></a>its <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="co"># Number of iterations</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>faithfulTransformed <span class="ot">&lt;-</span> <span class="fu">scale</span>(faithful<span class="sc">$</span>waiting)</span>
@@ -765,7 +786,7 @@ f(x)=\sum_{i=1}^{\infty} w_i h\left(x \mid \theta_i^*\right)
 <aside><div>
 <p>The dataset <code>faithful</code> contains the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park.</p>
 </div></aside></section>
-<section id="example-3-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM_cd4ca9e40e857eeeee0c8bfe590d5ce6">
+<section id="example-3-output" class="slide level2 output-location-slide"><h2>Example</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM_f40669d7388560e4e6d6a5b22d0d9db8">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -800,7 +821,7 @@ G &amp; \sim \mc{DP}\left(\alpha, G_0\right).
 <li>The cluster assignment is obtained through the Chinese Restaurant Process.</li>
 </ul>
 </div>
-<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM-cluster_8dc2944a77fb32ea8683f75ca13f33dc">
+<div class="cell" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM-cluster_5ea3f5286f08ee94fd6019b253530a2a">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>faithfulTrans <span class="ot">&lt;-</span> <span class="fu">scale</span>(faithful)</span>
 <span id="cb7-2"><a href="#cb7-2"></a>dp <span class="ot">&lt;-</span>  <span class="fu">DirichletProcessMvnormal</span>(faithfulTrans)</span>
 <span id="cb7-3"><a href="#cb7-3"></a>dp <span class="ot">&lt;-</span> <span class="fu">Fit</span>(dp, <span class="dv">1000</span>)</span>
@@ -808,7 +829,7 @@ G &amp; \sim \mc{DP}\left(\alpha, G_0\right).
 </div>
 
 </section>
-<section id="cluster-analysis-output" class="slide level2 output-location-slide"><h2>Cluster Analysis</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM-cluster_8dc2944a77fb32ea8683f75ca13f33dc">
+<section id="cluster-analysis-output" class="slide level2 output-location-slide"><h2>Cluster Analysis</h2><div class="cell output-location-slide" data-layout-align="center" data-hash="12-dirichlet_cache/revealjs/DPMM-cluster_5ea3f5286f08ee94fd6019b253530a2a">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>

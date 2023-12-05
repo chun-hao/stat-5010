@@ -25,7 +25,7 @@
     "href": "slides/survey_example.html#parametric-bootstrap",
     "title": "An example survey",
     "section": "Parametric Bootstrap",
-    "text": "Parametric Bootstrap\n\nB &lt;- 10^4\nT1_boot &lt;- matrix(0, ncol = B, nrow = 6)\nT2_boot &lt;- matrix(0, ncol = B, nrow = 6)\n\nset.seed(2023)\nattach(survey_data)\nfor (i in 1:B) {\n  for (j in 1:6) {\n    prop_boot_p &lt;- rmultinom(1, n[j], \n        prob = c(p_1[j], p_2[j], 1-p_1[j]-p_2[j]))/n[j]\n    prop_boot_q &lt;- rmultinom(1, n[j], \n        prob = c(q_1[j], q_2[j], 1-q_1[j]-q_2[j]))/n[j]\n    T1_boot[j, i] &lt;- prop_boot_p[1] - prop_boot_q[1]\n    T2_boot[j, i] &lt;- (prop_boot_p[1] - prop_boot_p[2]) - \n        (prop_boot_q[1] - prop_boot_q[2])\n  }\n}\ndetach(survey_data)"
+    "text": "Parametric Bootstrap\n\nB &lt;- 10^4\nT1_boot &lt;- matrix(0, ncol = B, nrow = 6)\nT2_boot &lt;- matrix(0, ncol = B, nrow = 6)\n\nset.seed(2023)\n\nfor (i in 1:B) {\n  for (j in 1:6) {\n    prop_boot_p &lt;- rmultinom(1, n[j], \n        prob = c(p_1[j], p_2[j], 1-p_1[j]-p_2[j]))/n[j]\n    prop_boot_q &lt;- rmultinom(1, n[j], \n        prob = c(q_1[j], q_2[j], 1-q_1[j]-q_2[j]))/n[j]\n    T1_boot[j, i] &lt;- prop_boot_p[1] - prop_boot_q[1]\n    T2_boot[j, i] &lt;- (prop_boot_p[1] - prop_boot_p[2]) - \n        (prop_boot_q[1] - prop_boot_q[2])\n  }\n}"
   },
   {
     "objectID": "slides/survey_example.html#difference-in-proportions",
@@ -81,7 +81,7 @@
     "href": "slides/survey_example.html#sampling-algorithm",
     "title": "An example survey",
     "section": "Sampling Algorithm",
-    "text": "Sampling Algorithm\n\nWe need to sample from \\(\\pi(\\theta, Z \\mid Y)\\).\nThe sampling is achieved by Gibbs sampler:\n\nsample \\(Z\\) from \\(\\pi(Z \\mid \\theta, Y)\\)\nsample \\(\\theta\\) from \\(\\pi(\\theta \\mid Z, Y)\\).\n\nIn our case, \\(\\pi(Z \\mid \\theta, Y)\\) is independent of \\(\\theta\\) and the full conditionals \\(\\pi(z_i \\mid z_{-i}, Y)\\) are hypergeometric distributions.\nYou will find the derivation the same as Fisher’s exact test.\nThe distribution \\(\\pi(\\theta \\mid Z, Y)\\) is exactly \\(\\pi(\\theta \\mid U)\\), i.e., the posterior given the complete data."
+    "text": "Sampling Algorithm\n\nWe need to sample from \\(\\pi(\\theta, Z \\mid Y)\\).\nThe sampling is achieved by Gibbs sampler:\n\nsample \\(Z\\) from \\(\\pi(Z \\mid \\theta, Y)\\)\nsample \\(\\theta\\) from \\(\\pi(\\theta \\mid Z, Y)\\).\n\nIn our case, \\(\\pi(Z \\mid \\theta, Y)\\) is independent of \\(\\theta\\) and the full conditionals \\(\\pi(z_i \\mid z_{-i}, Y)\\) are hypergeometric distributions.\nYou fill find that the derivation is the same as Fisher’s exact test.\nThe distribution \\(\\pi(\\theta \\mid Z, Y)\\) is exactly \\(\\pi(\\theta \\mid U)\\), i.e., the posterior given the complete data."
   },
   {
     "objectID": "slides/survey_example.html#prior-and-posterior",
@@ -95,14 +95,14 @@
     "href": "slides/survey_example.html#analysis-for-survey-1",
     "title": "An example survey",
     "section": "Analysis for Survey 1",
-    "text": "Analysis for Survey 1\n\nsource(\"../dataset/survey/survey_Missing.R\")\n\nY &lt;- c(988, 802, 256, 943, 851)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n22.24\n20.06\n5.44\n47.73\n\n\nQ_1.B\n18.03\n16.35\n5.44\n39.81\n\n\nQ_1.No response\n5.44\n5.44\n1.58\n12.46\n\n\ntotal\n45.70\n41.84\n12.46\n100.00"
+    "text": "Analysis for Survey 1\n\nsource(\"../dataset/survey/survey_Missing.R\")\n\nY &lt;- c(988, 802, 256, 943, 851)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n22.23\n20.07\n5.43\n47.73\n\n\nQ_1.B\n18.09\n16.30\n5.43\n39.82\n\n\nQ_1.No response\n5.43\n5.43\n1.59\n12.45\n\n\ntotal\n45.75\n41.80\n12.45\n100.00"
   },
   {
     "objectID": "slides/survey_example.html#analysis-for-survey-2",
     "href": "slides/survey_example.html#analysis-for-survey-2",
     "title": "An example survey",
     "section": "Analysis for Survey 2",
-    "text": "Analysis for Survey 2\n\nY &lt;- c(471, 402, 276, 483, 414)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n17.23\n14.76\n8.82\n40.81\n\n\nQ_1.B\n14.75\n12.65\n8.82\n36.22\n\n\nQ_1.No response\n8.82\n8.82\n5.32\n22.97\n\n\ntotal\n40.80\n36.23\n22.97\n100.00"
+    "text": "Analysis for Survey 2\n\nY &lt;- c(471, 402, 276, 483, 414)\ntheta_sample &lt;- single_survey_sampler(3000, Y)\n\n\n\n\n\n\n\nQ_2.A'\nQ_2.B\nQ_2.No response\ntotal\n\n\n\n\nQ_1.A\n17.19\n14.81\n8.83\n40.83\n\n\nQ_1.B\n14.75\n12.58\n8.83\n36.17\n\n\nQ_1.No response\n8.83\n8.83\n5.33\n23.00\n\n\ntotal\n40.77\n36.23\n23.00\n100.00"
   },
   {
     "objectID": "slides/survey_example.html#meta-analysis",
@@ -165,7 +165,7 @@
     "href": "slides/11-bayes_np.html#double-descent-phenomenon",
     "title": "Lecture 11: Gaussian Process",
     "section": "Double descent phenomenon",
-    "text": "Double descent phenomenon\n\n\n\nDouble descent phenomenon\n\n\n\n\nImage source: Shaeffer et. al. (2023)"
+    "text": "Double descent phenomenon\n\n\n\nImage source: Shaeffer et. al. (2023)"
   },
   {
     "objectID": "slides/11-bayes_np.html#nonparametric-regressioncmu_note",
@@ -200,14 +200,14 @@
     "href": "slides/11-bayes_np.html#regression-splines",
     "title": "Lecture 11: Gaussian Process",
     "section": "Regression splines",
-    "text": "Regression splines\n\nA function \\(g\\) is called a \\(k\\)th order spline with knots \\(t_0 &lt; \\cdots &lt; t_m\\) if\n\n\\(g\\) is a polynomial of degree \\(k\\) on the intervals \\((-\\infty, t_0], [t_0, t_1],\\ldots, [t_m, \\infty)\\).\n\\(g\\) has continuous derivatives up to order \\(k-1\\) at each knot \\(t_i\\).\n\nGiven a set of knots \\(t_0 &lt; \\cdots &lt; t_m\\), the space of \\(k\\)th order spline has dimension \\(m + k + 1\\).\nThere are many choices of basis for the space of splines. The most popular one is the B-spline basis.\nHence a regression spline model is \\[\n\\E(Y \\mid x) = \\sum_{j=1}^{m + k + 1} \\beta_j B_j(x),\n\\] where \\(B_j\\) is the \\(j\\)th B-spline basis function."
+    "text": "Regression splines\n\nA function \\(g\\) is called a \\(k\\)th order spline with knots \\(t_0 &lt; \\cdots &lt; t_m\\) if\n\n\\(g\\) is a polynomial of degree \\(k - 1\\) on the intervals \\((-\\infty, t_0], [t_0, t_1],\\ldots, [t_m, \\infty)\\).\n\\(g\\) has continuous derivatives up to order \\(k - 2\\) at each knot \\(t_i\\).\n\nGiven a set of knots \\(t_0 &lt; \\cdots &lt; t_m\\), the space of \\(k\\)th order spline has dimension \\(m + k + 1\\).\nThere are many choices of basis for the space of splines. The most popular one is the B-spline basis.\nHence a regression spline model is \\[\n\\E(Y \\mid x) = \\sum_{j=1}^{m + k + 1} \\beta_j B_j(x),\n\\] where \\(B_j\\) is the \\(j\\)th B-spline basis function."
   },
   {
     "objectID": "slides/11-bayes_np.html#regression-splines-1",
     "href": "slides/11-bayes_np.html#regression-splines-1",
     "title": "Lecture 11: Gaussian Process",
     "section": "Regression splines",
-    "text": "Regression splines\n\nAlthough a regression spline is determined by \\(m+k+1\\) parameters, it is usually referred to as a nonparametric model, since we are not interested in those parameters.\nThe choice of knots is important.\nA smoothing spline uses all inputs as knots and avoids overfitting by shrinking the coefficients.\nA natural spline assumes polynomial of degree \\((k-1)/2\\) on \\((-\\infty, t_0]\\) and \\([t_m, \\infty)\\) to reduce variance at the boundary.\nNatural spline with cubic order is the most common special case."
+    "text": "Regression splines\n\nAlthough a regression spline is determined by \\(m+k+1\\) parameters, it is usually referred to as a nonparametric model, since we are not interested in those parameters.\nThe choice of knots is important.\nA smoothing spline uses all inputs as knots and avoids overfitting by shrinking the coefficients.\nA natural spline assumes polynomial of degree \\((k-1)/2\\) on \\((-\\infty, t_0]\\) and \\([t_m, \\infty)\\) to reduce variance at the boundary.\nNatural spline with cubic polynomial is the most common special case."
   },
   {
     "objectID": "slides/11-bayes_np.html#example-1",
@@ -501,7 +501,7 @@
     "href": "slides/09-regression.html#bayesian-lasso-1",
     "title": "Lecture 09: Bayesian Regression",
     "section": "Bayesian LASSO",
-    "text": "Bayesian LASSO\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\")\nfit_lasso &lt;- stan_glm(price ~ highwaympg + citympg + horsepower + \n                          peakrpm + compressionratio, \n                      data = data, \n                      prior = lasso(df = 1, location = 0, \n                                    scale = 0.5, autoscale = TRUE),\n                      prior_intercept = normal(location = 0, scale = 1, \n                                               autoscale = TRUE),\n                      prior_aux = exponential(rate = 1, autoscale = TRUE),\n                      chains = 4, iter = 2000, seed = 2023,\n                      refresh = 0)"
+    "text": "Bayesian LASSO\n\ndata &lt;- read.csv(\"dataset/car_price/CarPrice_Assignment.csv\")\nfit_lasso &lt;- stan_glm(price ~ highwaympg + citympg + horsepower + \n                          peakrpm + compressionratio, \n                      data = data, \n                      prior = lasso(df = 1, location = 0, \n                                    scale = 0.5, autoscale = TRUE),\n                      prior_intercept = normal(location = 0, scale = 1, \n                                               autoscale = TRUE),\n                      prior_aux = exponential(rate = 1, autoscale = TRUE),\n                      chains = 4, iter = 2000, seed = 2023,\n                      refresh = 0)\n\n\n\nData source: https://www.kaggle.com/datasets/hellbuoy/car-price-prediction"
   },
   {
     "objectID": "slides/09-regression.html#summary-of-the-fitted-model-1",
@@ -2363,7 +2363,7 @@
     "href": "slides/08-hmc_vb.html#hamiltonian-dynamics",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Hamiltonian dynamics",
-    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentumof \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
+    "text": "Hamiltonian dynamics\n\nLet \\(p\\) be a particle with position \\(x\\) and velocity \\(v\\).\nThe Hamiltonian of \\(p\\) is the sum of its potential energy and kinetic energy: \\[\nH(x, v) = U(x) + K(v).\n\\]\nThe potential energy \\(U(x)\\) is proportional to the height at \\(x\\).\nThe kinetic energy is \\(K(v) = \\frac{1}{2}mv^Tv\\), where \\(m\\) is the mass of the particle \\(p\\).\nThe momentum of \\(p\\) is defined as \\(y = mv\\) and hence \\(K(y) = \\frac{y^Ty}{2m}\\).\nThe total energy is constant:\n\nwhen \\(p\\) moves upward, potential energy increases and kinetic energy decreases;\nwhen \\(p\\) moves downward, potential energy decreases and kinetic energy increases."
   },
   {
     "objectID": "slides/08-hmc_vb.html#hamiltonian-dynamics-1",
@@ -2377,28 +2377,28 @@
     "href": "slides/08-hmc_vb.html#hmc",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "HMC",
-    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(\\delta)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
+    "text": "HMC\n\nThe HMC is actually sampling from \\[\np(x, y) \\propto \\exp(-H(x, y)) = \\pi(x)\\exp\\left(-\\frac{y^Ty}{2m}\\right).\n\\]\nThat is, \\(X \\sim \\pi\\) and \\(Y \\sim N(0, m^{-1}I)\\) are independent.\nAt \\(n\\)th iteration, we randomly assign a momentum \\(y \\sim N(0, m^{-1}I)\\) to \\(x^{(n-1)}\\).\nLet \\((x(0), y(0)) = (x^{(n-1)}, y)\\).\nEvolve \\((x(0, y(0)))\\) for time \\(t\\) according to Hamiltonian dynamics and get \\((x(t), y(t))\\).\nAccept \\((x(t), y(t))\\) with probability \\[\n\\rho = \\frac{\\exp(-H(x(t), y(t)))}{\\exp(-H(x(0), y(0)))} = \\exp(-H(x(t), y(t)) + H(x^{(n-1)}, y)).\n\\]\nIf accepted, set \\(x^{(n)} = x(t)\\); otherwise, set \\(x^{(n)} = x^{(n-1)}\\)."
   },
   {
     "objectID": "slides/08-hmc_vb.html#evolution-of-hamiltonian-dynamics",
     "href": "slides/08-hmc_vb.html#evolution-of-hamiltonian-dynamics",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Evolution of Hamiltonian dynamics",
-    "text": "Evolution of Hamiltonian dynamics\n\nGiven \\((x(0), y(0))\\), we can evolve \\((x(t), y(t))\\) for time \\(t\\) by solving the Hamiltonian equations.\nThe most natural way is Euler’s method: \\[\n\\begin{aligned}\nx_i(t + \\epsilon) &= x_i(t) + \\epsilon\\frac{dx_i}{dt}(t) = x_i(t) + \\epsilon \\frac{y_i(t)}{m},\\\\\ny_i(t + \\epsilon) &= y_i(t) + \\epsilon\\frac{dy_i}{dt}(t) = y_i(t) - \\epsilon \\frac{\\partial}{\\partial x_i}\\log \\pi(x(t)).\n\\end{aligned}\n\\]\nIt turns out that the Euler method is inaccurate, and the most widely used method is the leapfrog method."
+    "text": "Evolution of Hamiltonian dynamics\n\nGiven \\((x(0), y(0))\\), we can evolve \\((x(t), y(t))\\) for time \\(t\\) by solving the Hamiltonian equations.\nThe most natural way is Euler’s method: \\[\n\\begin{aligned}\nx_i(t + \\epsilon) &= x_i(t) + \\epsilon\\frac{dx_i}{dt}(t) = x_i(t) + \\epsilon \\frac{y_i(t)}{m},\\\\\ny_i(t + \\epsilon) &= y_i(t) + \\epsilon\\frac{dy_i}{dt}(t) = y_i(t) + \\epsilon \\frac{\\partial}{\\partial x_i}\\log \\pi(x(t)).\n\\end{aligned}\n\\]\nIt turns out that the Euler method is inaccurate, and the most widely used method is the leapfrog method."
   },
   {
     "objectID": "slides/08-hmc_vb.html#leapfrog-method",
     "href": "slides/08-hmc_vb.html#leapfrog-method",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Leapfrog method",
-    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) - \\frac{\\epsilon}{2}\\frac{\\partial}{\\partial x}\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
+    "text": "Leapfrog method\n\nThe leapfrog method maps \\((x(t), y(t))\\) to \\((x(t+\\epsilon), y(t+\\epsilon))\\) through the following steps:\n\n\\(y(t + \\epsilon/2) = y(t) + \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(x(t))\\);\n\\(x(t + \\epsilon) = x(t) + \\epsilon\\frac{y(t + \\epsilon/2)}{m}\\);\n\\(y(t + \\epsilon) = y(t + \\epsilon/2) + \\frac{\\epsilon}{2}\\nabla_x\\log \\pi(x(t + \\epsilon))\\).\n\nIn HMC, the leapfrog method evolves \\((x(0), y(0))\\) for \\(L\\) iterations."
   },
   {
     "objectID": "slides/08-hmc_vb.html#general-hmc-algorithm",
     "href": "slides/08-hmc_vb.html#general-hmc-algorithm",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "General HMC algorithm",
-    "text": "General HMC algorithm\n\n\nInput: un-normalized density \\(\\pi(x)\\).\nTuning parameters: step size \\(\\epsilon\\), number of steps \\(L\\), mass matrix \\(M\\).\nInitialize \\(x^{(0)}\\).\nfor \\(i = 1, \\ldots, n\\):\n\ngenerate \\(y^{(0)} \\sim N(0, M)\\);\nset \\(\\tilde{x} \\leftarrow x^{(i-1)}\\), \\(\\tilde{y} \\leftarrow y^{(0)}\\);\nfor \\(j = 1, \\ldots, L\\):\n\n\\(\\tilde{y} \\leftarrow \\tilde{y} - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(\\tilde{x})\\);\n\\(\\tilde{x} \\leftarrow \\tilde{x} + \\epsilon M^{-1}\\tilde{y}\\);\n\\(\\tilde{y} \\leftarrow \\tilde{y} - \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(\\tilde{x})\\);\n\n\\(u \\sim \\text{Unif}(0, 1)\\);\nif \\(u &lt; \\exp(-H(\\tilde{x}, \\tilde{y}) + H(x^{(i-1)}, y^{(0)}))\\):\n\n\\(x^{(i)} \\leftarrow \\tilde{x}\\);\n\nelse:\n\n\\(x^{(i)} \\leftarrow x^{(i-1)}\\);"
+    "text": "General HMC algorithm\n\n\nInput: un-normalized density \\(\\pi(x)\\).\nTuning parameters: step size \\(\\epsilon\\), number of steps \\(L\\), mass matrix \\(M\\).\nInitialize \\(x^{(0)}\\).\nfor \\(i = 1, \\ldots, n\\):\n\ngenerate \\(y^{(0)} \\sim N(0, M)\\);\nset \\(\\tilde{x} \\leftarrow x^{(i-1)}\\), \\(\\tilde{y} \\leftarrow y^{(0)}\\);\nfor \\(j = 1, \\ldots, L\\):\n\n\\(\\tilde{y} \\leftarrow \\tilde{y} + \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(\\tilde{x})\\);\n\\(\\tilde{x} \\leftarrow \\tilde{x} + \\epsilon M^{-1}\\tilde{y}\\);\n\\(\\tilde{y} \\leftarrow \\tilde{y} + \\frac{\\epsilon}{2}\\nabla_x \\log \\pi(\\tilde{x})\\);\n\n\\(u \\sim \\text{Unif}(0, 1)\\);\nif \\(u &lt; \\exp(-H(\\tilde{x}, \\tilde{y}) + H(x^{(i-1)}, y^{(0)}))\\):\n\n\\(x^{(i)} \\leftarrow \\tilde{x}\\);\n\nelse:\n\n\\(x^{(i)} \\leftarrow x^{(i-1)}\\);"
   },
   {
     "objectID": "slides/08-hmc_vb.html#remarks",
@@ -2475,7 +2475,7 @@
     "href": "slides/08-hmc_vb.html#maximizing-elbo-1",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Maximizing ELBO",
-    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) to maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), set it to zero, and we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
+    "text": "Maximizing ELBO\n\nThe ELBO is \\[\n\\mc{L}(q_1, \\ldots, q_d) = \\int \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] q_j(\\theta_j) d\\theta_j - \\sum_{j=1}^d \\E_{j}\\left[\\log q_j(\\theta_j \\mid \\phi_j)\\right].\n\\]\nWe need to find \\(q_1, \\ldots, q_d\\) that maximize \\(\\mc{L}(q_1, \\ldots, q_d)\\) subject to the constraints \\(\\int q_j(\\theta_j) d\\theta_j = 1\\).\nUse Lagrange multipliers, take ``functional derivative’’ with respect to \\(q_j\\), set it to zero, and we have \\[\n\\log q_j(\\theta_j) = \\E_{-j}\\left[\\log \\pi(y, \\theta)\\right] + \\text{const}.\n\\]\nHence the optimal \\(q_j\\) is \\[\nq^{*}_j(\\theta_j) \\propto \\exp\\left(\\E_{-j}\\left[\\log \\pi(y, \\theta)\\right]\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#example-8-school-problem",
@@ -2489,131 +2489,173 @@
     "href": "slides/08-hmc_vb.html#mean-field-approximation-alpha_j",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\alpha_j\\)",
-    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nHence the optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\ng\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\alpha_j\\)\n\nAveraging over all the parameters other than \\(\\alpha_j\\), we have \\[\n\\E_{-\\alpha_j} \\log p(\\theta \\mid y)=-\\frac{1}{2} \\frac{\\left(y_j-\\alpha_j\\right)^2}{\\sigma_j^2}-\\frac{1}{2} \\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{const.}\n\\] which is a quadratic function of \\(\\alpha_j\\).\nThe optimal \\(q(\\alpha_j)\\) is a Gaussian distribution \\[\nq\\left(\\alpha_j\\right)=N\\left(\\alpha_j \\middle| \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}, \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)}\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-mu",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\mu\\)",
-    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{constant.}\n\\]\nThis is the logarithm of a normal density function: \\[\\begin{align*}\ng(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\end{align*}\\]"
+    "text": "Mean-field approximation: \\(\\mu\\)\n\nAveraging over all the parameters other than \\(\\mu\\), we have \\[\n\\E_{-\\mu} \\log p(\\theta \\mid y) = -\\frac{1}{2} \\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right) \\sum_{j=1}^8\\left(\\mu - \\E_{-\\mu} \\left(\\alpha_j\\right)\\right)^2+\\text{const.}\n\\]\nThe optimal \\(q(\\mu)\\) is also a Gaussian distribution \\[\nq(\\mu)=N\\left(\\mu \\middle| \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}\\left(\\alpha_j\\right), \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)}\\right)\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "href": "slides/08-hmc_vb.html#mean-field-approximation-tau",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Mean-field approximation: \\(\\tau\\)",
-    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{constant.}\n\\]\nThis is the logarithm of an inverse-gamma density function: \\[\ng(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
+    "text": "Mean-field approximation: \\(\\tau\\)\n\nAveraging over all the parameters other than \\(\\tau\\), we have \\[\n\\E_{-\\tau} \\log p(\\theta \\mid y) = -8 \\log \\tau -\\frac{1}{2} \\frac{1}{\\tau^2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)+\\text{const.}\n\\]\nThe optimal \\(q(\\tau^2)\\) is an Inverse-Gamma distribution \\[\nq(\\tau^2) = \\text{Inv-Gamma}\\left(\\tau^2 \\middle| \\frac{7}{2}, \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right)\\right).\n\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
     "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Summarizing the mean-field approximation",
-    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}\\left(\\frac{7}{2}, B_{\\tau}\\right).\n\\end{align*}\\]\nThus \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{7}{2B_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
+    "text": "Summarizing the mean-field approximation\n\nThe mean-field approximation is \\[\\begin{align*}\n\\alpha_j & \\sim N(M_{\\alpha_j}, S^2_{\\alpha_j})\\\\\n\\mu & \\sim N(M_{\\mu}, S^2_{\\mu})\\\\\n\\tau^2 & \\sim \\text{Inv-Gamma}\\left(\\frac{7}{2}, \\frac{7}{2}B^2_{\\tau}\\right).\n\\end{align*}\\]\nTherefore \\[\\begin{align*}\n\\E_{-\\alpha_j}(\\tau^{-2}) & = \\E_{-\\mu}(\\tau^{-2})= \\frac{1}{B^2_{\\tau}}\\\\\n\\E_{-\\mu}(\\alpha_j) & = M_{\\alpha_j}\\\\\n\\E_{-\\tau}(\\alpha_j-\\mu)^2 & = S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}.\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
     "href": "slides/08-hmc_vb.html#summarizing-the-mean-field-approximation-1",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Summarizing the mean-field approximation",
-    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{3.5}{B_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau} y_j + 3.5\\sigma_j^2 M_{\\mu}}{3.5\\sigma_j^2 + B_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau}\\sigma_j^2}{3.5\\sigma_j^2 + B_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{3.5}{B_{\\tau}}} = \\frac{B_{\\tau}}{28}\\\\\nB_{\\tau} & = \\frac{1}{2} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{2} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
+    "text": "Summarizing the mean-field approximation\nCombining all the results we have\n\\[\\begin{align*}\nM_{\\alpha_j} & = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right) \\E_{-\\alpha_j}(\\mu)}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{\\frac{1}{\\sigma_j^2} y_j+\\frac{1}{B^2_{\\tau}} M_{\\mu}}{\\frac{1}{\\sigma_j^2}+\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau} y_j + \\sigma_j^2 M_{\\mu}}{\\sigma_j^2 + B^2_{\\tau}}\\\\\nS^2_{\\alpha_j} & = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\E_{-\\alpha_j}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{\\frac{1}{\\sigma_j^2}+\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau}\\sigma_j^2}{\\sigma_j^2 + B^2_{\\tau}}\\\\\nM_{\\mu} & = \\frac{1}{8} \\sum_{j=1}^8 \\E_{-\\mu}(\\alpha_j) = \\frac{1}{8} \\sum_{j=1}^8 M_{\\alpha_j}\\\\\nS^2_{\\mu} & = \\frac{1}{8} \\frac{1}{\\E_{-\\mu}\\left(\\frac{1}{\\tau^2}\\right)} = \\frac{1}{8} \\frac{1}{\\frac{1}{B^2_{\\tau}}} = \\frac{B^2_{\\tau}}{8}\\\\\nB^2_{\\tau} & = \\frac{1}{7} \\sum_{j=1}^8 \\E_{-\\tau}\\left(\\left(\\alpha_j-\\mu\\right)^2\\right) = \\frac{1}{7} \\sum_{j=1}^8 \\left(S^2_{\\alpha_j} + M^2_{\\alpha_j} - 2M_{\\alpha_j}M_{\\mu}+ S^2_{\\mu} + M^2_{\\mu}\\right)\n\\end{align*}\\]"
   },
   {
     "objectID": "slides/08-hmc_vb.html#r-code",
     "href": "slides/08-hmc_vb.html#r-code",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "R code",
-    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28, 8, -3, 7, -1, 1, 18, 12)\nsig2 &lt;- c(15, 10, 16, 11, 9, 11, 10, 18)^2\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B_tau[i-1] * y[j] + 3.5 * sig2[j] * var_par$M_mu[i-1]) / \n            (3.5 * sig2[j] + var_par$B_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B_tau[i-1] * sig2[j] / \n            (3.5 * sig2[j] + var_par$B_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B_tau[i-1] / 28\n    var_par$B_tau[i] &lt;- 0.5*sum(var_par$S2_alpha[i, ]) + \n        0.5*sum(var_par$M_alpha[i, ]^2) - \n        sum(var_par$M_alpha[i, ]) * var_par$M_mu[i] +\n        4*var_par$S2_mu[i] + \n        4*var_par$M_mu[i]^2\n}"
+    "text": "R code\n\nmax_iter &lt;- 100\n\n# Data\ny &lt;- c(28, 8, -3, 7, -1, 1, 18, 12)\nsig2 &lt;- c(15, 10, 16, 11, 9, 11, 10, 18)^2\n\n# Variational parameter\nvar_par &lt;- list(M_alpha = matrix(0, nrow = max_iter, ncol = 8), \n                S2_alpha = matrix(1, nrow = max_iter, ncol = 8),\n                M_mu = rep(0, max_iter),\n                S2_mu = rep(1, max_iter),\n                B2_tau = rep(1, max_iter))\n\nfor (i in 2:max_iter){\n    for(j in 1:8){\n        var_par$M_alpha[i, j] &lt;- (var_par$B2_tau[i-1] * y[j] + sig2[j] * var_par$M_mu[i-1]) / \n            (sig2[j] + var_par$B2_tau[i-1])\n        var_par$S2_alpha[i, j] &lt;- var_par$B2_tau[i-1] * sig2[j] / \n            (sig2[j] + var_par$B2_tau[i-1])\n    }\n    var_par$M_mu[i] &lt;- mean(var_par$M_alpha[i, ])\n    var_par$S2_mu[i] &lt;- var_par$B2_tau[i-1] / 8\n    var_par$B2_tau[i] &lt;- sum(var_par$S2_alpha[i, ])/7 + \n        sum(var_par$M_alpha[i, ]^2)/7 - \n        2*sum(var_par$M_alpha[i, ]) * var_par$M_mu[i]/7 +\n        var_par$S2_mu[i]*8/7 + \n        var_par$M_mu[i]^2*8/7\n}"
   },
   {
     "objectID": "slides/08-hmc_vb.html#results",
     "href": "slides/08-hmc_vb.html#results",
     "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
     "section": "Results",
-    "text": "Results\n\n\n\nHome"
+    "text": "Results"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#vb-inference",
+    "href": "slides/08-hmc_vb.html#vb-inference",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "VB Inference",
+    "text": "VB Inference\n\n\n\nPosterior mean and standard deviation\n\n\nparameter\npost.mean\npost.sd\n\n\n\n\nalpha_1\n13.715\n7.970\n\n\nalpha_2\n8.051\n6.852\n\n\nalpha_3\n5.246\n8.109\n\n\nalpha_4\n7.633\n7.149\n\n\nalpha_5\n3.347\n6.503\n\n\nalpha_6\n5.099\n7.149\n\n\nalpha_7\n12.746\n6.852\n\n\nalpha_8\n8.934\n8.337\n\n\nmu\n8.096\n3.326\n\n\ntau\n10.591\n3.423"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#vb-using-stan",
+    "href": "slides/08-hmc_vb.html#vb-using-stan",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "VB using Stan",
+    "text": "VB using Stan\nYou can also perform VB using Stan. The following is the Stan code for the school example.\n\nschool_model &lt;- rstan::stan_model(model_code = \"\n    data {\n      int&lt;lower=0&gt; J;         \n      real y[J];              \n      real&lt;lower=0&gt; sigma[J];\n    }\n    parameters {\n      real mu;                \n      real&lt;lower=0&gt; tau;      \n      real alpha[J];\n    }\n    model {\n      alpha ~ normal(mu, tau); // prior\n      y ~ normal(alpha, sigma); // likelihood\n    }\")"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#vb-using-stan-1",
+    "href": "slides/08-hmc_vb.html#vb-using-stan-1",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "VB using Stan",
+    "text": "VB using Stan\n\nlibrary(rstan)\nschools_dat &lt;- list(J = 8,\n    y = c(28, 8, -3, 7, -1, 1, 18, 12),\n    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)) \nfit_vb &lt;- rstan::vb(school_model, data = schools_dat, \n                    algorithm = \"meanfield\")\nfit_sampling &lt;- rstan::sampling(school_model, data = schools_dat, \n                                iter = 1000, chains = 4)"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#stan-output-vb",
+    "href": "slides/08-hmc_vb.html#stan-output-vb",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Stan output (VB)",
+    "text": "Stan output (VB)\n\n\n\n\n\n\nchain:1\n\n\n\n\nmu\n1.960\n\n\ntau\n10.271\n\n\nalpha.1\n4.828\n\n\nalpha.2\n2.878\n\n\nalpha.3\n-0.873\n\n\nalpha.4\n1.647\n\n\nalpha.5\n0.027\n\n\nalpha.6\n1.156\n\n\nalpha.7\n5.013\n\n\nalpha.8\n1.404\n\n\nlp__\n0.000"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#stan-output-sampling",
+    "href": "slides/08-hmc_vb.html#stan-output-sampling",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Stan output (sampling)",
+    "text": "Stan output (sampling)\n\n\n\n\n\n\nmean-chain:1\nmean-chain:2\nmean-chain:3\nmean-chain:4\nmean-all chains\n\n\n\n\nmu\n8.184\n7.792\n7.693\n8.177\n7.961\n\n\ntau\n7.277\n7.948\n8.428\n6.167\n7.455\n\n\nalpha[1]\n12.076\n11.829\n11.925\n10.648\n11.619\n\n\nalpha[2]\n8.036\n8.353\n8.149\n8.519\n8.264\n\n\nalpha[3]\n6.550\n5.451\n5.088\n6.471\n5.890\n\n\nalpha[4]\n7.620\n7.781\n7.503\n8.004\n7.727\n\n\nalpha[5]\n4.761\n4.094\n4.231\n5.642\n4.682\n\n\nalpha[6]\n6.059\n5.497\n6.013\n6.566\n6.034\n\n\nalpha[7]\n11.143\n11.490\n11.501\n10.567\n11.175\n\n\nalpha[8]\n8.447\n8.167\n7.922\n8.836\n8.343\n\n\nlp__\n-18.207\n-19.714\n-19.857\n-17.177\n-18.739"
+  },
+  {
+    "objectID": "slides/08-hmc_vb.html#remark",
+    "href": "slides/08-hmc_vb.html#remark",
+    "title": "Lecture 08: Hamiltonian Monte Carlo and Variational Inference",
+    "section": "Remark",
+    "text": "Remark\nThe rstan::vb function is buggy and unstable. DO NOT use it for your research.\n\n\nHome"
   },
   {
     "objectID": "slides/10-glm.html#exponential-family",
     "href": "slides/10-glm.html#exponential-family",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Exponential family",
     "text": "Exponential family\n\nRecall that an exponential family is a family of distributions \\[\nf(x \\mid \\theta) = h(x)\\exp(\\theta^T T(x) - \\psi(\\theta))\n\\] where \\(\\theta \\in \\R^k\\) and \\(T(x) = [T_1(x), \\ldots, T_k(x)]^T\\).\nTwo useful properties (from Bartlett’s identities):\n\n\\(\\E(T(X)) = \\nabla\\psi(\\theta)\\)\n\\(\\var(T(X)) = \\text{Hess}(\\psi(\\theta)) = \\nabla(\\nabla \\psi(\\theta))\\).\n\nThat is, the relationship between the parameter \\(\\theta\\) and the expectation \\(\\E(T(X))\\) determined by \\(\\nabla \\psi\\)."
   },
   {
     "objectID": "slides/10-glm.html#examples",
     "href": "slides/10-glm.html#examples",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Examples",
     "text": "Examples\n\nNormal: \\(f(x \\mid \\mu, \\sigma^2) = \\exp\\left(-\\frac{1}{2\\sigma^2} x^2 + \\frac{\\mu}{\\sigma^2}x - \\frac{\\mu^2}{2\\sigma^2}\\right)\\), \\(x \\in \\R\\)\n\n\\(\\theta = \\left(-\\frac{1}{2\\sigma^2}, \\frac{\\mu}{\\sigma^2}\\right)\\), \\(T(x) = (-x^2, x)\\), \\(\\psi(\\theta) = -\\frac{\\theta_2^2}{4\\theta_1} = \\frac{\\mu^2}{2\\sigma^2}\\)\n\nBernoulli: \\(f(x \\mid p) = p^x(1-p)^{1-x} = \\exp\\left(x\\log\\frac{p}{1-p} + \\log(1-p)\\right)\\), \\(x \\in \\{0, 1\\}\\)\n\n\\(\\theta = \\log\\frac{p}{1-p}\\), \\(T(x) = x\\), \\(\\psi(\\theta) = -\\log(1-p) = \\log(1 + e^{\\theta})\\)\n\nPoisson: \\(f(x \\mid \\lambda) = \\frac{1}{x!}\\exp(x\\log\\lambda - \\lambda)\\), \\(x = 0, 1, 2, \\ldots\\)\n\n\\(\\theta = \\log\\lambda\\), \\(T(x) = x\\), \\(\\psi(\\theta) = \\exp(\\theta) = \\lambda\\)"
   },
   {
     "objectID": "slides/10-glm.html#generalized-linear-model-glm",
     "href": "slides/10-glm.html#generalized-linear-model-glm",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Generalized Linear Model (GLM)",
     "text": "Generalized Linear Model (GLM)\n\nLet \\(Y\\) be univariate, \\(X \\in \\R^p\\), and \\(\\beta \\in \\R^p\\).\nA GLM is assuming \\(Y \\mid X, \\beta \\sim F_{\\theta}\\), where \\(\\theta = X^T\\beta\\) and \\(F_\\theta\\) has the density function \\[\nf(y \\mid \\theta) = h(y)\\exp(\\theta\\cdot y - \\psi(\\theta)).\n\\]\nTherefore, \\[\\begin{align*}\n\\E(Y \\mid X, \\beta) & = \\frac{d}{d\\theta}\\psi(\\theta) = \\psi^{\\prime}(X^T\\beta)\n\\end{align*}\\]\nEquivalently, \\[\ng(\\E(Y \\mid X, \\beta)) = X^T\\beta\n\\] where \\(g\\) is the inverse of \\(\\psi^{\\prime}\\).\nThe function \\(g\\) is called the link function."
   },
   {
     "objectID": "slides/10-glm.html#bernoulli-linear-model",
     "href": "slides/10-glm.html#bernoulli-linear-model",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Bernoulli linear model",
     "text": "Bernoulli linear model\n\nLet \\(Y \\mid X, \\beta \\sim \\text{Ber}(p)\\).\nWe have \\(\\theta = \\log\\frac{p}{1-p}\\), \\(T(x) = x\\), \\(\\psi(\\theta) = -\\log(1-p) = \\log(1 + e^{\\theta})\\)\nThus, \\(\\psi^{\\prime}(\\theta) = \\frac{e^{\\theta}}{1 + e^{\\theta}}\\) and \\(g(u) = (\\psi^{\\prime})^{-1}(u) = \\log\\frac{u}{1-u}\\).\n\\(\\phi^{\\prime}\\) is called the logistic function; \\(g\\) is called the logit function.\nPutting altogether, we have \\[\ng(\\E(Y\\mid X, \\beta)) = \\log\\frac{\\E(Y \\mid X, \\beta)}{1 - \\E(Y \\mid X, \\beta)} = X^T\\beta\n\\] or equivalently \\[\n\\E(Y \\mid X, \\beta) = \\psi^{\\prime}(X^T\\beta) = \\frac{\\exp(X^T\\beta)}{1 + \\exp(X^T\\beta)},\n\\] aka logistic regression."
   },
   {
     "objectID": "slides/10-glm.html#poisson-linear-model",
     "href": "slides/10-glm.html#poisson-linear-model",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Poisson linear model",
     "text": "Poisson linear model\n\nLet \\(Y \\mid X, \\beta \\sim \\text{Pois}(\\lambda)\\).\nWe have \\(\\theta = \\log\\lambda\\), \\(T(x) = x\\), \\(\\psi(\\theta) = \\exp(\\theta) = \\lambda\\).\nThus \\(\\psi^{\\prime}(\\theta) = \\exp(\\theta)\\) and \\(g(u) = (\\psi^{\\prime})^{-1}(u) = \\log u\\).\nPutting altogether, we have \\[\ng(\\E(Y\\mid X, \\beta)) = \\log\\E(Y \\mid X, \\beta) = X^T\\beta\n\\] or equivalently \\[\n\\E(Y \\mid X, \\beta) = \\exp(X^T\\beta),\n\\] aka Poisson log-linear regression."
   },
   {
     "objectID": "slides/10-glm.html#remarks",
     "href": "slides/10-glm.html#remarks",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Remarks",
     "text": "Remarks\n\nThe link function \\(g = (\\psi^{\\prime})^{-1}\\) is sometimes called the canonical link function, since it is derived from the canonical representation of an exponential family.\nAll we need for a link function is that it matches the domain of \\(\\E(Y \\mid X, \\beta)\\) and \\(X^T\\beta\\).\nFor example, in the Bernoulli linear model, we could have used the probit link function \\[\ng(u) = \\Phi^{-1}(u): [0, 1] \\to \\R\n\\] where \\(\\Phi\\) is the CDF of the standard normal distribution.\nThis is called the probit regression."
   },
   {
     "objectID": "slides/10-glm.html#over--and-underdispersion",
     "href": "slides/10-glm.html#over--and-underdispersion",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Over- and underdispersion",
     "text": "Over- and underdispersion\n\nIn the normal linear model, the conditional mean and variance of \\(Y \\mid X\\) are modeled by two different parameters \\(\\beta\\) and \\(\\sigma^2\\).\nHowever, in Poisson linear model, \\[\n\\E(Y \\mid X, \\beta) = \\exp(X^T\\beta) = \\var(Y \\mid X, \\beta).\n\\]\nAlso, in Bernoulli linear model, \\[\n\\var(Y \\mid X, \\beta) = \\E(Y\\mid X, \\beta)(1-\\E(Y \\mid X, \\beta)) = \\frac{\\exp(X^T\\beta)}{(1+\\exp(X^T\\beta))^2}.\n\\]\nThat is, the variance is determined by the mean, which might not be a reasonable assumption in practice.\nWhen the observed variance is smaller or larger than the assumed variance, it is called an underdispersion or overdispersion, respectively."
   },
   {
     "objectID": "slides/10-glm.html#exponential-dispersion-family",
     "href": "slides/10-glm.html#exponential-dispersion-family",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Exponential Dispersion Family",
     "text": "Exponential Dispersion Family\n\nLet \\(\\theta \\in \\R\\) and \\(\\phi \\in \\R\\).\nThe exponential dispersion family is of the form \\[\nf(x \\mid \\theta, \\phi) = \\exp\\left(\\frac{x\\theta - b(\\theta)}{\\phi} + c(x, \\phi)\\right).\n\\]\nSimilarly from Bartlett’s identities1, \\[\n\\E(X) = b^{\\prime}(\\theta) \\quad \\text{and} \\quad\n\\var(X) = \\phi b^{\\prime\\prime}(\\theta).\n\\]\nThe parameter \\(\\phi\\) is called the dispersion parameter.\nLetting \\(\\mu = \\E(X) = b^{\\prime}(\\theta)\\), we have \\(\\var(X) = \\phi b^{\\prime\\prime}\\left((b^{\\prime})^{-1}(\\mu)\\right) = \\phi \\mc{V}(\\mu)\\), where \\(\\mc{V}(\\mu) = b^{\\prime\\prime}\\left((b^{\\prime})^{-1}(\\mu)\\right)\\) is called the variance function.\n\nSee https://bookdown.org/ssjackson300/ASM_Lecture_Notes/exponential_dispersion_family.html for the derivation."
   },
   {
     "objectID": "slides/10-glm.html#example",
     "href": "slides/10-glm.html#example",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example",
     "text": "Example\n\nNormal: \\(\\theta = \\mu\\), \\(\\phi = \\sigma^2\\), \\(b(\\theta) = \\frac{\\theta^2}{2}\\), \\(c(x, \\phi) = -\\frac{x^2}{2\\phi} - \\frac{1}{2}\\log(2\\pi\\phi)\\).\nBernoulli: \\(\\theta = \\log\\frac{p}{1-p}\\), \\(\\phi = 1\\), \\(b(\\theta) = \\log(1 + e^{\\theta})\\), \\(c(x, \\phi) = 0\\).\nPoisson: \\(\\theta = \\log\\lambda\\), \\(\\phi = 1\\), \\(b(\\theta) = e^{\\theta}\\), \\(c(x, \\phi) = -\\log(x!)\\).\nCan we generalize the Poisson/Bernoulli family to include a dispersion parameter?1\nWhat can we do if we observe over-/underdispersion in a Poisson/Bernoulli linear model?\n\nIn R, use family=quasi* which allows you to specify the variance function, e.g., quasipoisson or quasibinomial.\nOr you can use a negative binomial model for count data (you can easily show that the scaled negative binomial distribution is an exponential dispersion family).\n\n\nSee the Wiki and Huang & Kim (2021) for the Conway-Maxwell-Poisson distribution"
   },
   {
     "objectID": "slides/10-glm.html#example-recreation-demand",
     "href": "slides/10-glm.html#example-recreation-demand",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example: Recreation Demand",
-    "text": "Example: Recreation Demand\n\nThis dataset contains the number of recreational boating trips to Lake Somerville, Texas, in 1980.\nThe survey was administered to 2,000 registered boat owners in 23 conuties in esatern Texas.\nThe dataset contains\n\ntrips: Number of recreational boating trips.\nquality: Facility’s subjective quality ranking on a scale of 1 to 5.\nski: factor. Was the individual engaged in water-skiing at the lake?\nincome: Annual household income of the respondent (in 1,000 USD).\nuserfee: factor. Did the individual pay an annual user fee at Lake Somerville?\ncostC: Expenditure when visiting Lake Conroe (in USD).\ncostS: Expenditure when visiting Lake Somerville (in USD).\ncostH: Expenditure when visiting Lake Houston (in USD)."
+    "text": "Example: Recreation Demand"
   },
   {
     "objectID": "slides/10-glm.html#example-1",
     "href": "slides/10-glm.html#example-1",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example",
     "text": "Example\n\nlibrary(AER)\nlibrary(MASS)\nlibrary(gtsummary)\ndata(\"RecreationDemand\")\nfit_pois &lt;- glm(trips ~ ., data = RecreationDemand, family = poisson)\n\ndt &lt;- dispersiontest(fit_pois)\n\nprint(paste(\"Dispersion Test: p-value =\", round(dt$p.value,4)))\n\n[1] \"Dispersion Test: p-value = 0.0079\"\n\nfit_nb &lt;- glm.nb(trips ~ ., data = RecreationDemand)\n\nt1 &lt;- tbl_regression(fit_pois, exponentiate = TRUE)\nt2 &lt;- tbl_regression(fit_nb, exponentiate = TRUE)\n\nt_all &lt;- tbl_merge(tbls = list(t1, t2), \n                   tab_spanner = c(\"**Poisson**\", \"**Neg-Bin**\"))"
   },
   {
     "objectID": "slides/10-glm.html#example-2",
     "href": "slides/10-glm.html#example-2",
-    "title": "Lecture 10: Generalized Linear Model",
+    "title": "Lecture 10: Generalized Linear Model and Latent Variable Model",
     "section": "Example",
     "text": "Example\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      \n        Poisson\n      \n      \n        Neg-Bin\n      \n    \n    \n      IRR1\n      95% CI1\n      p-value\n      IRR1\n      95% CI1\n      p-value\n    \n  \n  \n    quality\n1.60\n1.55, 1.66\n&lt;0.001\n2.06\n1.89, 2.25\n&lt;0.001\n    ski\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n1.52\n1.36, 1.70\n&lt;0.001\n1.84\n1.38, 2.48\n&lt;0.001\n    income\n0.89\n0.86, 0.93\n&lt;0.001\n0.97\n0.89, 1.06\n0.5\n    userfee\n\n\n\n\n\n\n        no\n—\n—\n\n—\n—\n\n        yes\n2.46\n2.10, 2.86\n&lt;0.001\n1.95\n1.01, 4.22\n0.058\n    costC\n1.00\n0.99, 1.00\n0.3\n1.05\n1.02, 1.08\n&lt;0.001\n    costS\n0.96\n0.96, 0.96\n&lt;0.001\n0.91\n0.90, 0.93\n&lt;0.001\n    costH\n1.04\n1.03, 1.04\n&lt;0.001\n1.04\n1.02, 1.06\n&lt;0.001\n  \n  \n  \n    \n      1 IRR = Incidence Rate Ratio, CI = Confidence Interval\n    \n  \n\n\n\n\n\n\nHome"
   },
@@ -2629,7 +2671,7 @@
     "href": "slides/12-dirichlet.html#random-distribution",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Random distribution",
-    "text": "Random distribution\n\nA random distribution function is just a random function with additional constraints:\n\n\\(\\lim_{x \\to -\\infty} F(x) = 0\\)\n\\(\\lim_{x \\to \\infty} F(x) = 1\\)\n\\(F\\) is non-decreasing\n\\(F\\) is right-continuous\n\nEnforcing these constraints on Gaussian process is not easy.\nTherefore, we need another process that can generate random distribution functions."
+    "text": "Random distribution\n\nA random distribution function is just a random function with additional constraints:\n\n\\(\\lim_{x \\to -\\infty} F(x) = 0\\)\n\\(\\lim_{x \\to \\infty} F(x) = 1\\)\n\\(F\\) is nondecreasing\n\\(F\\) is right-continuous\n\nEnforcing these constraints on a Gaussian process is not easy.\nTherefore, we need another process that can generate random distribution functions."
   },
   {
     "objectID": "slides/12-dirichlet.html#empirical-distribution",
@@ -2667,6 +2709,13 @@
     "text": "Dirichlet distribution\n\n\n\n\n\n\n\nImage source: Wikipedia"
   },
   {
+    "objectID": "slides/12-dirichlet.html#conjugacy-between-multinomial-and-dirichlet",
+    "href": "slides/12-dirichlet.html#conjugacy-between-multinomial-and-dirichlet",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Conjugacy between Multinomial and Dirichlet",
+    "text": "Conjugacy between Multinomial and Dirichlet\n\nAs the binomial and Beta are conjugate, we have the same conjugacy between multinomial and Dirichlet.\nLet \\(X = (X_1, \\ldots, X_k) \\sim \\text{Multinomial}(n, p_1, \\ldots, p_k)\\) and \\(p = (p_1, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\).\nThen the posterior distribution of \\(p\\) given \\(X\\) is \\[\np \\mid X \\sim \\text{Dir}(\\alpha_1 + X_1, \\ldots, \\alpha_k + X_k).\n\\]"
+  },
+  {
     "objectID": "slides/12-dirichlet.html#definition",
     "href": "slides/12-dirichlet.html#definition",
     "title": "Lecture 12: Dirichlet Process",
@@ -2692,7 +2741,7 @@
     "href": "slides/12-dirichlet.html#stick-breaking-construction",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Stick-breaking Construction",
-    "text": "Stick-breaking Construction\n\nThe stick-breaking construction is as follows:\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\).\n\nThe distribution \\(F\\) is a random distribution from the Dirichlet process \\(\\mc{DP}(\\alpha, F_0)\\)."
+    "text": "Stick-breaking Construction\n\nThe stick-breaking construction is as follows:\n\nDraw \\(s_1, s_2, \\ldots\\) independently from \\(F_0\\).\nDraw \\(V_1, V_2, \\ldots \\iid \\text{Beta}(1, \\alpha)\\).\nLet \\(w_1=V_1\\) and \\(w_j=V_j \\prod_{i=1}^{j-1}\\left(1-V_i\\right)\\) for \\(j=2,3, \\ldots\\)\nLet \\(F\\) be the discrete distribution that puts mass \\(w_j\\) at \\(s_j\\), that is, \\(F=\\sum_{j=1}^{\\infty} w_j \\delta_{s_j}\\) where \\(\\delta_{s_j}\\) is a point mass at \\(s_j\\).\n\nThe sequence \\(w_1, w_2, \\ldots\\) is said to follow a stick-breaking process.\nThe distribution \\(F\\) is a random distribution from the Dirichlet process \\(\\mc{DP}(\\alpha, F_0)\\)."
   },
   {
     "objectID": "slides/12-dirichlet.html#stick-breaking-construction-1",
@@ -2713,7 +2762,7 @@
     "href": "slides/12-dirichlet.html#pólya-urn",
     "title": "Lecture 12: Dirichlet Process",
     "section": "Pólya Urn",
-    "text": "Pólya Urn\n\nConsider an urn containing balls of \\(k\\) different colors.\nInitially, there are \\(\\alpha_i\\) balls of color \\(i\\).\nAt each step, a ball is drawn from the urn and then put back together with another ball of the same color.\nRepeat indefinitely.\nLet \\((p_1(n), \\ldots, p_k(n))\\) be the proportion of balls of each color after \\(n\\) steps.\nResults:\n\n\\((p_1(n), \\ldots p_k(n))\\) converges to a random vector \\((p_1, \\ldots, p_k)\\).\n\\((p_1, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\).\nEquivalently, \\((p_1(n), \\ldots p_k(n)) \\cd \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\)."
+    "text": "Pólya Urn\n\nConsider an urn containing balls of \\(k\\) different colors.\nInitially, there are \\(\\alpha_i\\) balls of color \\(i\\).\nAt each step, a ball is drawn from the urn and then put back together with another ball of the same color.\nRepeat indefinitely.\nLet \\((p_1(n), \\ldots, p_k(n))\\) be the proportion of balls of each color after \\(n\\) steps.\nThen we have\n\n\\((p_1(n), \\ldots p_k(n))\\) converges to a random vector \\((p_1, \\ldots, p_k)\\).\n\\((p_1, \\ldots, p_k) \\sim \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\).\nEquivalently, \\((p_1(n), \\ldots p_k(n)) \\cd \\text{Dir}(\\alpha_1, \\ldots, \\alpha_k)\\)."
   },
   {
     "objectID": "slides/12-dirichlet.html#pólya-urn-scheme-general",
@@ -2728,6 +2777,13 @@
     "title": "Lecture 12: Dirichlet Process",
     "section": "Estimating a cdf",
     "text": "Estimating a cdf\n\nSuppose we have \\(X_1, \\ldots, X_n \\iid F\\) and we want to estimate \\(F\\).\nA Bayesian approach is to put a prior on \\(F\\) and find the posterior distribution of \\(F\\), i.e., \\[\\begin{align*}\nX_1, \\ldots, X_n \\iid F, \\quad\nF \\sim \\text{Dir}(\\alpha, F_0).\n\\end{align*}\\]\nThe posterior of \\(F\\) given \\(X_1,\\ldots, X_n\\) is \\[\nF \\mid X_1, \\ldots, X_n \\sim \\text{Dir}\\left(\\alpha + n, \\frac{\\alpha}{\\alpha + n}F_0 + \\frac{n}{\\alpha + n}\\hat{F}_n\\right),\n\\] where \\(\\hat{F}_n = \\frac{1}{n}\\sum_{i=1}^n \\delta_{X_i}\\) is the empirical cdf.\nHence the posterior mean is \\[\n\\E[F \\mid X_1, \\ldots, X_n] = \\frac{\\alpha}{\\alpha + n}F_0 + \\frac{n}{\\alpha + n}\\hat{F}_n.\n\\]"
+  },
+  {
+    "objectID": "slides/12-dirichlet.html#derivation",
+    "href": "slides/12-dirichlet.html#derivation",
+    "title": "Lecture 12: Dirichlet Process",
+    "section": "Derivation",
+    "text": "Derivation\n\nLet \\(B_1, \\ldots, B_m\\) be a finite measurable partition.\nLet \\(n_k=\\#\\left\\{i: X_i \\in A_k\\right\\}\\) be the number of observed values in \\(B_k\\).\nBy the conjugacy between the Dirichlet and the multinomial distributions, we have: \\[\\begin{multline*}\n\\left(F\\left(B_1\\right), \\ldots, F\\left(B_m\\right)\\right) \\mid X_1, \\ldots, X_n \\sim \\\\ \\text{Dir}\\left(\\alpha F_0(B_1)+n_1, \\ldots, \\alpha F_0(B_m)+n_m\\right).\n\\end{multline*}\\]"
   },
   {
     "objectID": "slides/12-dirichlet.html#example-1",
